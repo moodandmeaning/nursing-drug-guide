@@ -1,6 +1,6 @@
 /* Service worker for the Bilingual Nursing Drug Guide PWA.
    Bump CACHE_VERSION whenever the app shell or icons change so old caches clear. */
-const CACHE_VERSION = "ndg-2026-09-06-10";
+const CACHE_VERSION = "ndg-2026-09-06-11";
 const APP_CACHE = "app-" + CACHE_VERSION;
 const FONT_CACHE = "fonts-v1";
 
@@ -16,7 +16,11 @@ const APP_SHELL = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(APP_CACHE).then((cache) => cache.addAll(APP_SHELL)).then(() => self.skipWaiting())
+    caches.open(APP_CACHE)
+      // { cache: "reload" } forces each shell file to come from the network,
+      // never the browser's HTTP cache, so a new deploy is precached cleanly.
+      .then((cache) => cache.addAll(APP_SHELL.map((u) => new Request(u, { cache: "reload" }))))
+      .then(() => self.skipWaiting())
   );
 });
 
@@ -59,9 +63,11 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
 
   // Page navigations: network-first so updates land, fall back to cached shell offline.
+  // { cache: "reload" } skips the browser's own HTTP cache (GitHub Pages sends
+  // max-age=600), so every launch with a connection gets the freshest HTML.
   if (req.mode === "navigate") {
     event.respondWith(
-      fetch(req)
+      fetch(req, { cache: "reload" })
         .then((res) => {
           const copy = res.clone();
           caches.open(APP_CACHE).then((cache) => cache.put("./index.html", copy));
