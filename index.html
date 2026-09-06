@@ -7751,6 +7751,14 @@ CATS.forEach(([id,en,he]) => {
   o.textContent = he ? en + "  ·  " + he : en;
   catSelectEl.appendChild(o);
 });
+const starOptionEl = document.createElement("option");
+starOptionEl.value = "starred";
+catSelectEl.insertBefore(starOptionEl, catSelectEl.children[1] || null);
+function syncStarOption(){
+  const n = getStarred().length;
+  starOptionEl.textContent = "★ Starred (" + n + ")  ·  נבחרים";
+}
+syncStarOption();
 catSelectEl.value = "all";
 catSelectEl.addEventListener("change", () => { activeCat = catSelectEl.value; render(); });
 
@@ -7771,7 +7779,8 @@ window.addEventListener("scroll", () => {
 syncControls();
 
 function matches(m){
-  if (activeCat !== "all" && m.cat !== activeCat) return false;
+  if (activeCat === "starred"){ if (!isStarred(m.genericEn)) return false; }
+  else if (activeCat !== "all" && m.cat !== activeCat) return false;
   if (!query) return true;
   const hay = [m.genericEn,m.genericHe,m.brandEn,m.brandHe,m.classEn,m.classHe].join(" ").toLowerCase();
   return query.split(/\s+/).every(t => hay.includes(t));
@@ -7816,7 +7825,10 @@ function render(){
   countEl.innerHTML = "Showing " + rows.length + " of " + MEDS.length + " medications" +
     '<span class="he" dir="rtl">&nbsp; מציג ' + rows.length + " מתוך " + MEDS.length + " תרופות</span>";
   if (!rows.length){
-    listEl.innerHTML = '<p class="empty">No medications match your search.<span class="he" dir="rtl">לא נמצאו תרופות התואמות לחיפוש.</span></p>';
+    const msg = (activeCat === "starred" && !query)
+      ? 'No starred medications yet. Tap the ☆ on any card to add one.<span class="he" dir="rtl">עדיין אין תרופות נבחרות. הקש/י על ☆ בכרטיס כדי להוסיף.</span>'
+      : 'No medications match your search.<span class="he" dir="rtl">לא נמצאו תרופות התואמות לחיפוש.</span>';
+    listEl.innerHTML = '<p class="empty">' + msg + '</p>';
     return;
   }
   listEl.innerHTML = rows.map(cardHTML).join("");
@@ -7884,6 +7896,8 @@ listEl.addEventListener("click", function(e){
   btn.classList.toggle("on", on);
   btn.textContent = on ? "★" : "☆";
   btn.setAttribute("aria-pressed", on);
+  syncStarOption();
+  if (activeCat === "starred" && !on) render();
 });
 
 /* ============================================================

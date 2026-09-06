@@ -27,7 +27,8 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   of action, indications, contraindications, electrolyte changes, side effects, nursing
   monitoring, and — where one exists — the antidote / reversal agent.
 - Search bar (matches name, brand, or class in either language; press `/` to focus it).
-- Drug-class filter dropdown and a live result count.
+- Drug-class filter dropdown (including a **★ Starred** option that shows only the
+  drugs you've starred) and a live result count.
 - **Study mode** (toggle at the top): an auto-graded spaced-repetition quiz built
   from the drug data. Every prompt is **one question, four options, one correct
   answer** — covering drug class, route of administration, indications,
