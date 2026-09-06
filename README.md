@@ -29,6 +29,9 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
 - Search bar (matches name, brand, or class in either language; press `/` to focus it).
 - Drug-class filter dropdown (including a **★ Starred** option that shows only the
   drugs you've starred) and a live result count.
+- **Display-language switch** (Both / EN / עברית): show every field in just one
+  language while generic and brand names stay bilingual. The choice is saved on
+  the device.
 - **Study mode** (toggle at the top): an auto-graded spaced-repetition quiz built
   from the drug data. Every prompt is **one question, four options, one correct
   answer** — covering drug class, route of administration, indications,
@@ -42,7 +45,8 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   own starred set — star drugs from any Browse card) and how many new cards per
   day. Progress, stars, and a day streak are saved on the device (offline, per
   browser). Keyboard: 1–4 to answer, Enter for Next.
-- Light/dark theme toggle. Hebrew renders right-to-left throughout.
+- Light/dark theme toggle and the display-language switch. Hebrew renders
+  right-to-left throughout.
 - Fonts (Frank Ruhl Libre + Assistant) load from Google Fonts when online; everything
   else is embedded in the single file.
 
