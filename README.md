@@ -27,7 +27,15 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   contraindications, electrolyte changes, side effects, nursing monitoring, and —
   where one exists — the antidote / reversal agent.
 - Search bar (matches name, brand, or class in either language; press `/` to focus it).
-- Drug-class filter chips and a live result count.
+- Drug-class filter dropdown and a live result count.
+- **Study mode** (toggle at the top): spaced-repetition flashcards generated from
+  the drug data, as flip cards or multiple choice. Pick a deck (all, one drug
+  class, or your own starred set — star drugs from any Browse card), choose which
+  card types to drill (class & mechanism, contraindications, antidote, brand ↔
+  generic, English ↔ Hebrew, and more), and grade each card Again / Good / Easy.
+  A Leitner 5-box scheduler shows each card again just before you'd forget it.
+  Progress, stars, and a day streak are saved on the device (offline, per browser).
+  Keyboard: space to flip, 1/2/3 to grade.
 - Light/dark theme toggle. Hebrew renders right-to-left throughout.
 - Fonts (Frank Ruhl Libre + Assistant) load from Google Fonts when online; everything
   else is embedded in the single file.

@@ -273,6 +273,167 @@
   }
   footer .he{display:block;margin-top:4px}
 
+  /* ---- Browse/Study mode switch ---- */
+  .mode-switch{
+    display:flex;gap:4px;padding:3px;margin-bottom:11px;
+    background:var(--surface-2);border:1px solid var(--line);border-radius:999px;
+    width:max-content;
+  }
+  .mode-btn{
+    font:inherit;font-size:.82rem;font-weight:700;
+    border:none;background:none;color:var(--muted);cursor:pointer;
+    padding:6px 16px;border-radius:999px;line-height:1.1;
+    display:flex;flex-direction:column;align-items:center;gap:1px;
+  }
+  .mode-btn .he{font-size:.68rem;font-weight:600}
+  .mode-btn[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+  #controls.study-mode .search-row,
+  #controls.study-mode .cat-row{display:none}
+  #controls.study-mode.collapsed{box-shadow:none}
+
+  /* ---- Browse card star ---- */
+  .card-head{position:relative}
+  .star-btn{
+    position:absolute;top:14px;inset-inline-end:16px;
+    font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer;
+    color:var(--muted);padding:2px;
+  }
+  .star-btn.on{color:var(--caution)}
+  .card-head .card-class,.card-head .card-names,.card-head .brands{padding-inline-end:34px}
+
+  /* ---- Study mode ---- */
+  #study{padding-top:14px;padding-bottom:90px}
+  .study-setup h2{
+    font-family:"Frank Ruhl Libre",Georgia,serif;font-weight:700;
+    font-size:1.5rem;margin:4px 0 14px;
+  }
+  .study-setup h2 .he{font-weight:500;color:var(--muted);margin-inline-start:8px;font-size:.8em}
+  .study-field{display:block;margin:14px 0}
+  .study-field > span{
+    display:block;font-size:.74rem;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:6px;
+  }
+  .study-select,.study-num{
+    width:100%;font:inherit;font-size:.95rem;font-weight:600;color:var(--ink);
+    background:var(--surface);border:1.5px solid var(--line);border-radius:10px;
+    padding:10px 12px;
+  }
+  .study-num{width:5.5rem}
+  .seg{display:flex;flex-wrap:wrap;gap:6px}
+  .seg button{
+    flex:1 1 30%;font:inherit;font-size:.85rem;font-weight:600;
+    padding:9px 8px;border-radius:9px;border:1.5px solid var(--line);
+    background:var(--surface);color:var(--muted);cursor:pointer;line-height:1.15;
+  }
+  .seg button .he{display:block;font-size:.72rem;font-weight:500}
+  .seg button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--ink)}
+  .type-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px}
+  .type-grid label{
+    display:flex;align-items:flex-start;gap:7px;font-size:.86rem;
+    padding:5px 0;cursor:pointer;
+  }
+  .type-grid input{margin-top:2px;accent-color:var(--accent)}
+  .type-grid .he{color:var(--muted);font-size:.78rem}
+  .start-btn{
+    width:100%;font:inherit;font-size:1rem;font-weight:700;
+    background:var(--accent);color:var(--on-accent);border:none;border-radius:12px;
+    padding:15px;cursor:pointer;margin-top:16px;
+  }
+  .start-btn:disabled{opacity:.5;cursor:not-allowed}
+  .study-stats{
+    display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px;
+  }
+  .stat-pill{
+    background:var(--surface-2);border:1px solid var(--line);border-radius:10px;
+    padding:8px 12px;font-size:.8rem;color:var(--muted);flex:1 1 auto;text-align:center;
+  }
+  .stat-pill b{display:block;font-size:1.3rem;color:var(--ink);font-variant-numeric:tabular-nums;font-family:"Frank Ruhl Libre",serif}
+  .box-bars{display:flex;flex-direction:column;gap:6px;margin:12px 0}
+  .box-bar{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted)}
+  .box-bar .bb-label{width:3.2rem;flex:0 0 auto}
+  .box-bar .bb-track{flex:1;height:10px;background:var(--surface-2);border-radius:5px;overflow:hidden}
+  .box-bar .bb-fill{height:100%;background:var(--accent);border-radius:5px}
+  .box-bar .bb-n{width:2.5rem;text-align:right;flex:0 0 auto;font-variant-numeric:tabular-nums}
+  details.study-more{margin-top:18px;border-top:1px solid var(--line);padding-top:10px}
+  details.study-more summary{cursor:pointer;font-size:.85rem;font-weight:600;color:var(--muted)}
+  .reset-btn{
+    font:inherit;font-size:.8rem;font-weight:600;color:var(--danger);
+    background:none;border:1.5px solid color-mix(in srgb,var(--danger) 35%,transparent);
+    border-radius:8px;padding:7px 12px;cursor:pointer;margin:8px 8px 0 0;
+  }
+
+  .study-topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .link-btn{font:inherit;font-size:.85rem;font-weight:600;color:var(--accent);background:none;border:none;cursor:pointer;padding:4px 0;flex:0 0 auto}
+  .study-progress{flex:1;height:6px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+  .study-progress-bar{height:100%;background:var(--accent);border-radius:3px;transition:width .25s ease}
+  .study-counter{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums;flex:0 0 auto}
+
+  .study-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:16px;
+    box-shadow:var(--shadow);padding:22px;min-height:180px;
+  }
+  .sc-name{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin-bottom:6px}
+  .sc-name-en{font-family:"Frank Ruhl Libre",Georgia,serif;font-weight:700;font-size:1.5rem;line-height:1.15}
+  .sc-name-he{font-family:"Frank Ruhl Libre",Georgia,serif;font-weight:700;font-size:1.2rem;color:var(--muted);direction:rtl}
+  .sc-prompt{
+    display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;
+    font-size:.95rem;font-weight:600;color:var(--accent);margin-top:8px;
+  }
+  .sc-prompt .he{direction:rtl;font-weight:500}
+  .sc-q{text-align:center;padding:14px 0}
+  .sc-big{
+    font-family:"Frank Ruhl Libre",Georgia,serif;font-weight:700;font-size:1.8rem;
+    line-height:1.2;display:block;text-wrap:balance;
+  }
+  .sc-big.he{direction:rtl;font-size:1.5rem;color:var(--muted)}
+  .sc-sub{font-size:.85rem;color:var(--muted);margin-top:8px}
+  .sc-back{margin-top:16px;border-top:1px solid var(--line);padding-top:8px}
+  .sc-back .fields{padding:0}
+  .sc-back .field:first-child{border-top:none}
+  .sc-answer{text-align:center;padding:12px 0;display:flex;flex-direction:column;gap:4px}
+
+  .mc-options{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+  .mc-opt{
+    font:inherit;font-size:.92rem;text-align:start;
+    background:var(--surface-2);border:1.5px solid var(--line);border-radius:10px;
+    padding:12px 14px;cursor:pointer;color:var(--ink);
+  }
+  .mc-opt:hover{border-color:var(--accent)}
+  .mc-opt.correct{background:var(--monitor-soft);border-color:var(--monitor);color:var(--monitor)}
+  .mc-opt.wrong{background:var(--danger-soft);border-color:var(--danger);color:var(--danger)}
+  .mc-opt:disabled{cursor:default}
+
+  .study-actions{margin-top:16px}
+  .flip-btn,.continue-btn{
+    width:100%;font:inherit;font-size:.95rem;font-weight:700;
+    background:var(--accent);color:var(--on-accent);border:none;border-radius:12px;
+    padding:14px;cursor:pointer;
+  }
+  .grade-row{display:flex;gap:8px}
+  .grade-btn{
+    flex:1;font:inherit;font-size:.9rem;font-weight:700;
+    border:1.5px solid var(--line);border-radius:12px;padding:12px 6px;cursor:pointer;
+    background:var(--surface);color:var(--ink);
+    display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.1;
+  }
+  .grade-btn .gb-he{font-size:.72rem;font-weight:500;color:var(--muted)}
+  .grade-again{border-color:color-mix(in srgb,var(--danger) 45%,transparent)}
+  .grade-good{border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+  .grade-easy{border-color:color-mix(in srgb,var(--monitor) 45%,transparent)}
+  .grade-btn.is-default{box-shadow:0 0 0 3px var(--accent-soft)}
+
+  .study-done{text-align:center;padding:40px 10px}
+  .study-done h2{font-family:"Frank Ruhl Libre",serif;font-weight:700;font-size:1.6rem;margin:0 0 12px}
+  .study-done p{color:var(--muted);margin:6px 0}
+  .study-done .done-figure{font-size:1.1rem;color:var(--ink);font-weight:600}
+  .study-done .grade-row,.study-done .done-actions{margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .done-actions button{
+    font:inherit;font-size:.92rem;font-weight:700;padding:12px 18px;border-radius:12px;cursor:pointer;
+    border:1.5px solid var(--line);background:var(--surface);color:var(--ink);
+  }
+  .done-actions button.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+  .study-empty{text-align:center;color:var(--muted);padding:40px 10px}
+
   @media (max-width:640px){
     .field-body{grid-template-columns:1fr;gap:10px}
     .field-body .en{border-inline-end:none;padding-inline-end:0;border-bottom:1px solid var(--line);padding-bottom:10px}
@@ -296,6 +457,10 @@
 
 <div class="controls" id="controls">
   <div class="wrap">
+    <div class="mode-switch" id="modeSwitch">
+      <button class="mode-btn" type="button" data-mode="browse" aria-pressed="true">Browse<span class="he" dir="rtl">עיון</span></button>
+      <button class="mode-btn" type="button" data-mode="study" aria-pressed="false">Study<span class="he" dir="rtl">תרגול</span></button>
+    </div>
     <div class="search-row">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
       <input id="search" type="search" autocomplete="off" placeholder="Search any medication — name, brand, or class · חיפוש תרופה, שם מסחרי או קבוצה">
@@ -309,8 +474,9 @@
 </div>
 
 <main class="wrap" id="list"></main>
+<section class="wrap" id="study" hidden></section>
 
-<footer class="wrap">
+<footer class="wrap" id="siteFooter">
   Compiled for nursing students. Electrolyte and monitoring notes emphasize what a nurse checks at the bedside.
   <span class="he">רוכז עבור סטודנטים לסיעוד. הדגשים על אלקטרוליטים וניטור מתמקדים במה שאחות בודקת ליד מיטת המטופל.</span>
 </footer>
@@ -7209,8 +7375,10 @@ function cardHTML(m){
       "</div></div>";
   }).join("");
   const cl = catLabel(m.cat);
+  const starred = isStarred(m.genericEn);
   return '<article class="card">' +
     '<div class="card-head">' +
+      '<button class="star-btn' + (starred ? " on" : "") + '" type="button" data-star="' + escAttr(m.genericEn) + '" aria-label="Star this drug / הוסף לנבחרים" aria-pressed="' + starred + '">' + (starred ? "★" : "☆") + "</button>" +
       '<p class="card-class">' + esc(m.classEn) + " &nbsp;&middot;&nbsp; " + esc(m.classHe) + "</p>" +
       '<div class="card-names">' +
         '<h2 class="generic-en">' + esc(m.genericEn) + "</h2>" +
@@ -7247,7 +7415,522 @@ try {
   if (saved) document.documentElement.setAttribute("data-theme", saved);
 } catch(e){}
 
+/* ============================================================
+   Storage helpers
+   ============================================================ */
+function lsGet(key, fallback){
+  try { const v = localStorage.getItem(key); return v == null ? fallback : JSON.parse(v); }
+  catch(e){ return fallback; }
+}
+function lsSet(key, val){ try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){} }
+function lsGetRaw(key){ try { return localStorage.getItem(key); } catch(e){ return null; } }
+function lsSetRaw(key, val){ try { localStorage.setItem(key, val); } catch(e){} }
+const escAttr = s => esc(s).replace(/"/g, "&quot;");
+
+function shuffle(a){
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    const t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+function todayStr(){
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+}
+function addDaysStr(str, n){
+  const p = str.split("-").map(Number);
+  const d = new Date(p[0], p[1]-1, p[2] + n);
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+}
+
+/* ============================================================
+   Starred drugs (used by Browse cards and the Study "Starred" deck)
+   ============================================================ */
+function getStarred(){ return lsGet("ndg-starred", []); }
+function isStarred(gen){ return getStarred().indexOf(gen) !== -1; }
+function toggleStar(gen){
+  const s = getStarred();
+  const i = s.indexOf(gen);
+  if (i === -1) s.push(gen); else s.splice(i, 1);
+  lsSet("ndg-starred", s);
+}
+listEl.addEventListener("click", function(e){
+  const btn = e.target.closest(".star-btn");
+  if (!btn) return;
+  toggleStar(btn.dataset.star);
+  const on = isStarred(btn.dataset.star);
+  btn.classList.toggle("on", on);
+  btn.textContent = on ? "★" : "☆";
+  btn.setAttribute("aria-pressed", on);
+});
+
+/* ============================================================
+   Study mode
+   ============================================================ */
+const studyEl = document.getElementById("study");
+const modeSwitchEl = document.getElementById("modeSwitch");
+const footerEl = document.getElementById("siteFooter");
+
+const CARD_TYPES = [
+  ["class",    "Class &amp; mechanism",  "קבוצה ומנגנון"],
+  ["ind",      "Indications",            "התוויות"],
+  ["contra",   "Contraindications",      "התוויות נגד"],
+  ["lytes",    "Electrolyte changes",    "שינויים באלקטרוליטים"],
+  ["monitor",  "What to monitor",        "מה לנטר"],
+  ["antidote", "Antidote / reversal",    "נוגדן / היפוך"],
+  ["brand2gen","Brand → generic",   "מסחרי → גנרי"],
+  ["gen2brand","Generic → brand",   "גנרי → מסחרי"],
+  ["name_he",  "English → Hebrew",  "אנגלית → עברית"],
+  ["name_en",  "Hebrew → English",  "עברית → אנגלית"]
+];
+const DEFAULT_TYPES = ["class","contra","antidote","brand2gen","name_he"];
+const MC_TYPES = ["class","brand2gen","gen2brand","name_he","name_en","antidote"];
+const INTERVALS = [0, 1, 2, 4, 8, 15]; /* days, indexed by box 1..5 */
+const BRAND_BAD = /\b(many|often|various|e\.g\.|with )/i;
+
+function firstBrand(s){ return String(s).split(/[,(]/)[0].trim(); }
+function firstClause(s){ return String(s).split(/ - |; |\(|\. /)[0].trim(); }
+
+function typeApplies(t, m){
+  if (t === "antidote") return !!m.antidoteEn;
+  if (t === "brand2gen" || t === "gen2brand") return !!m.brandEn && !BRAND_BAD.test(m.brandEn);
+  return true;
+}
+function mcAble(t){ return MC_TYPES.indexOf(t) !== -1; }
+
+function getCfg(){
+  return lsGet("ndg-study-cfg", { deck:"all", format:"mixed", types:DEFAULT_TYPES.slice(), newPerDay:15 });
+}
+function setCfg(c){ lsSet("ndg-study-cfg", c); }
+function getSRS(){ return lsGet("ndg-srs", {}); }
+function setSRS(s){ lsSet("ndg-srs", s); }
+function getStreak(){ return lsGet("ndg-streak", { last:"", count:0 }); }
+function newDoneToday(){
+  const n = lsGet("ndg-new-today", { date:"", count:0 });
+  return n.date === todayStr() ? n.count : 0;
+}
+function bumpNewToday(){
+  const t = todayStr();
+  const n = lsGet("ndg-new-today", { date:"", count:0 });
+  lsSet("ndg-new-today", { date:t, count:(n.date === t ? n.count : 0) + 1 });
+}
+function markStudiedToday(){
+  const t = todayStr();
+  const s = getStreak();
+  if (s.last === t) return;
+  s.count = (s.last === addDaysStr(t, -1)) ? s.count + 1 : 1;
+  s.last = t;
+  lsSet("ndg-streak", s);
+}
+
+function deckMeds(deck){
+  if (deck === "starred"){ const s = getStarred(); return MEDS.filter(m => s.indexOf(m.genericEn) !== -1); }
+  if (deck.indexOf("cat:") === 0){ const c = deck.slice(4); return MEDS.filter(m => m.cat === c); }
+  return MEDS.slice();
+}
+function deckCards(deck, types){
+  const out = [];
+  deckMeds(deck).forEach(m => {
+    types.forEach(t => { if (typeApplies(t, m)) out.push({ med:m, type:t, key: m.genericEn + "::" + t }); });
+  });
+  return out;
+}
+
+let study = null; /* active session state */
+
+function schedule(prev, grade){
+  let box = prev ? prev.box : 1;
+  if (grade === "again") box = 1;
+  else if (grade === "good") box = Math.min(5, box + 1);
+  else box = Math.min(5, box + 2);
+  return {
+    box: box,
+    due: addDaysStr(todayStr(), INTERVALS[box]),
+    reps: (prev ? prev.reps : 0) + 1,
+    lapses: (prev ? prev.lapses : 0) + (grade === "again" ? 1 : 0)
+  };
+}
+
+/* ---- card content renderers ---- */
+function fieldBlock(labelEn, labelHe, en, he, mod){
+  const cls = mod ? " field--" + mod : "";
+  return '<div class="field' + cls + '">' +
+    '<div class="field-label"><span class="dot"></span><span>' + esc(labelEn) + "</span>" +
+    '<span class="he" dir="rtl">' + esc(labelHe) + "</span></div>" +
+    '<div class="field-body">' +
+      '<p class="en" lang="en">' + esc(en) + "</p>" +
+      '<p class="he" dir="rtl" lang="he">' + esc(he) + "</p>" +
+    "</div></div>";
+}
+const PROMPTS = {
+  class:   ["Class &amp; mechanism of action?", "קבוצה ומנגנון פעולה?"],
+  ind:     ["Indications?", "התוויות?"],
+  contra:  ["Contraindications?", "התוויות נגד?"],
+  lytes:   ["Electrolyte changes?", "שינויים באלקטרוליטים?"],
+  monitor: ["What to monitor?", "מה לנטר?"],
+  antidote:["Antidote / reversal?", "נוגדן / היפוך פעולה?"]
+};
+function frontHTML(card, fmt){
+  const m = card.med, t = card.type;
+  if (t === "brand2gen")
+    return '<div class="sc-q"><span class="sc-big">' + esc(firstBrand(m.brandEn)) + "</span>" +
+           '<div class="sc-sub">Generic name? &middot; שם גנרי?</div></div>';
+  if (t === "gen2brand")
+    return '<div class="sc-q"><span class="sc-big">' + esc(m.genericEn) + "</span>" +
+           '<div class="sc-sub">Brand name? &middot; שם מסחרי?</div></div>';
+  if (t === "name_he")
+    return '<div class="sc-q"><span class="sc-big">' + esc(m.genericEn) + "</span>" +
+           '<div class="sc-sub">In Hebrew? &middot; בעברית?</div></div>';
+  if (t === "name_en")
+    return '<div class="sc-q"><span class="sc-big he" dir="rtl">' + esc(m.genericHe) + "</span>" +
+           '<div class="sc-sub">In English? &middot; באנגלית?</div></div>';
+  let p = PROMPTS[t];
+  if (fmt === "mc" && t === "class") p = ["Drug class?", "קבוצה תרופתית?"];
+  return '<div class="sc-name"><span class="sc-name-en">' + esc(m.genericEn) + "</span>" +
+         '<span class="sc-name-he" dir="rtl">' + esc(m.genericHe) + "</span></div>" +
+         '<div class="sc-prompt"><span>' + p[0] + "</span>" +
+         '<span class="he" dir="rtl">' + p[1] + "</span></div>";
+}
+function backHTML(card){
+  const m = card.med, t = card.type;
+  if (t === "brand2gen" || t === "name_en")
+    return '<div class="sc-answer"><span class="sc-big">' + esc(m.genericEn) + "</span>" +
+           '<span class="sc-big he" dir="rtl">' + esc(m.genericHe) + "</span></div>";
+  if (t === "gen2brand")
+    return '<div class="sc-answer"><span class="sc-big">' + esc(m.brandEn) + "</span>" +
+           (m.brandHe ? '<span class="sc-big he" dir="rtl">' + esc(m.brandHe) + "</span>" : "") + "</div>";
+  if (t === "name_he")
+    return '<div class="sc-answer"><span class="sc-big he" dir="rtl">' + esc(m.genericHe) + "</span></div>";
+  if (t === "class")
+    return '<div class="fields">' +
+      fieldBlock("Drug class", "קבוצה תרופתית", m.classEn, m.classHe, "") +
+      fieldBlock("Mechanism of action", "מנגנון פעולה", m.moaEn, m.moaHe, "") + "</div>";
+  const M = {
+    ind:     ["Indications", "התוויות", m.indEn, m.indHe, ""],
+    contra:  ["Contraindications", "התוויות נגד", m.ciEn, m.ciHe, "danger"],
+    lytes:   ["Electrolyte changes", "שינויים באלקטרוליטים", m.lyteEn, m.lyteHe, "lyte"],
+    monitor: ["What to monitor", "מה לנטר", m.monEn, m.monHe, "monitor"],
+    antidote:["Antidote / reversal", "נוגדן / היפוך פעולה", m.antidoteEn, m.antidoteHe, "antidote"]
+  };
+  const a = M[t];
+  return '<div class="fields">' + fieldBlock(a[0], a[1], a[2], a[3], a[4]) + "</div>";
+}
+
+/* ---- multiple choice ---- */
+function mcValueOf(m, t){
+  switch (t){
+    case "class": return m.classEn;
+    case "brand2gen": case "name_en": return m.genericEn;
+    case "gen2brand": return m.brandEn ? firstBrand(m.brandEn) : null;
+    case "name_he": return m.genericHe;
+    case "antidote": return m.antidoteEn ? firstClause(m.antidoteEn) : null;
+  }
+  return null;
+}
+function mcOptions(card){
+  const correct = mcValueOf(card.med, card.type);
+  const same = [], other = [];
+  MEDS.forEach(m => {
+    if (m === card.med) return;
+    const v = mcValueOf(m, card.type);
+    if (!v || v === correct) return;
+    (m.cat === card.med.cat ? same : other).push(v);
+  });
+  const uniq = arr => Array.from(new Set(arr));
+  let pool = shuffle(uniq(same));
+  if (pool.length < 3) pool = pool.concat(shuffle(uniq(other)).filter(x => pool.indexOf(x) === -1));
+  const opts = pool.slice(0, 3).concat([correct]);
+  return { correct: correct, opts: shuffle(opts) };
+}
+
+/* ---- session engine ---- */
+function startSession(){
+  const cfg = getCfg();
+  const all = deckCards(cfg.deck, cfg.types);
+  const srs = getSRS();
+  const today = todayStr();
+  const due = all.filter(c => srs[c.key] && srs[c.key].due <= today);
+  due.sort((a, b) => srs[a.key].due.localeCompare(srs[b.key].due));
+  shuffle(due);
+  const cap = Math.max(0, (cfg.newPerDay | 0) - newDoneToday());
+  const fresh = shuffle(all.filter(c => !srs[c.key])).slice(0, cap);
+  const queue = due.slice();
+  if (fresh.length){
+    const gap = Math.max(1, Math.floor(queue.length / fresh.length));
+    let pos = gap;
+    fresh.forEach(c => { queue.splice(Math.min(pos, queue.length), 0, c); pos += gap + 1; });
+  }
+  study = { queue: queue, idx: 0, reviewed: 0, correct: 0, format: cfg.format, answered: false };
+  renderStudy();
+}
+
+function gradeCurrent(grade){
+  const card = study.queue[study.idx];
+  const srs = getSRS();
+  const isNew = !srs[card.key];
+  srs[card.key] = schedule(srs[card.key], grade);
+  setSRS(srs);
+  if (isNew) bumpNewToday();
+  if (study.reviewed === 0) markStudiedToday();
+  study.reviewed++;
+  if (grade !== "again") study.correct++;
+  else study.queue.push({ med: card.med, type: card.type, key: card.key });
+  study.idx++;
+  study.answered = false;
+  renderStudy();
+}
+
+/* ---- rendering ---- */
+function renderStudy(){
+  if (!study){ renderSetup(); return; }
+  if (study.idx >= study.queue.length){ renderDone(); return; }
+  renderSessionCard();
+}
+
+function renderSetup(){
+  const cfg = getCfg();
+  const srs = getSRS();
+  const today = todayStr();
+  const starN = getStarred().length;
+
+  const deckOpts = ['<option value="all"' + (cfg.deck === "all" ? " selected" : "") + ">All " + MEDS.length + " · הכל</option>",
+    '<option value="starred"' + (cfg.deck === "starred" ? " selected" : "") + ">★ Starred (" + starN + ")</option>",
+    '<optgroup label="By category / לפי קבוצה">'];
+  CATS.forEach(c => {
+    if (c[0] === "all") return;
+    const n = MEDS.filter(m => m.cat === c[0]).length;
+    if (!n) return;
+    const v = "cat:" + c[0];
+    deckOpts.push('<option value="' + v + '"' + (cfg.deck === v ? " selected" : "") + ">" + esc(c[1]) + " · " + esc(c[2]) + " (" + n + ")</option>");
+  });
+  deckOpts.push("</optgroup>");
+
+  const fmtBtn = (v, en, he) => '<button type="button" data-fmt="' + v + '" aria-pressed="' + (cfg.format === v) + '">' + en + '<span class="he" dir="rtl">' + he + "</span></button>";
+
+  const typeRows = CARD_TYPES.map(([id, en, he]) =>
+    '<label><input type="checkbox" data-type="' + id + '"' + (cfg.types.indexOf(id) !== -1 ? " checked" : "") + ">" +
+    "<span>" + en + ' <span class="he" dir="rtl">' + he + "</span></span></label>").join("");
+
+  /* live counts for the chosen deck+types */
+  const cards = deckCards(cfg.deck, cfg.types);
+  let dueN = 0, seenN = 0;
+  cards.forEach(c => { const s = srs[c.key]; if (s){ seenN++; if (s.due <= today) dueN++; } });
+  const newLeft = Math.max(0, (cfg.newPerDay | 0) - newDoneToday());
+  const newN = Math.min(newLeft, cards.filter(c => !srs[c.key]).length);
+  const streak = getStreak().count;
+
+  studyEl.innerHTML =
+    '<div class="study-setup">' +
+      "<h2>Study<span class=\"he\" dir=\"rtl\">תרגול</span></h2>" +
+      '<div class="study-stats">' +
+        '<div class="stat-pill"><b>' + dueN + "</b>due today · להיום</div>" +
+        '<div class="stat-pill"><b>' + newN + "</b>new · חדשות</div>" +
+        '<div class="stat-pill"><b>' + streak + "</b>day streak · רצף</div>" +
+      "</div>" +
+      '<label class="study-field"><span>Deck &middot; חפיסה</span>' +
+        '<select class="study-select" id="deckSelect">' + deckOpts.join("") + "</select></label>" +
+      '<div class="study-field"><span>Format &middot; פורמט</span>' +
+        '<div class="seg" id="fmtSeg">' +
+          fmtBtn("mixed", "Mixed", "מעורב") +
+          fmtBtn("flip", "Flip cards", "כרטיסים") +
+          fmtBtn("mc", "Multiple choice", "אמריכית") +
+        "</div></div>" +
+      '<div class="study-field"><span>Card types &middot; סוגי כרטיסים</span>' +
+        '<div class="type-grid" id="typeGrid">' + typeRows + "</div></div>" +
+      '<label class="study-field"><span>New cards per day &middot; כרטיסים חדשים ליום</span>' +
+        '<input class="study-num" type="number" id="newPerDay" min="0" max="200" value="' + (cfg.newPerDay | 0) + '"></label>' +
+      '<button class="start-btn" id="startBtn"' + (cards.length ? "" : " disabled") + ">Start &middot; התחלה</button>" +
+      '<details class="study-more"><summary>Progress &amp; reset &middot; התקדמות ואיפוס</summary>' +
+        renderBoxBars(cards, srs) +
+        '<button class="reset-btn" id="resetDeckBtn">Reset this deck</button>' +
+        '<button class="reset-btn" id="resetAllBtn">Reset everything</button>' +
+      "</details>" +
+    "</div>";
+
+  document.getElementById("deckSelect").addEventListener("change", saveSetup);
+  document.getElementById("newPerDay").addEventListener("change", saveSetup);
+  document.getElementById("fmtSeg").addEventListener("click", function(e){
+    const b = e.target.closest("button[data-fmt]");
+    if (!b) return;
+    const c = getCfg(); c.format = b.dataset.fmt; setCfg(c); renderSetup();
+  });
+  document.getElementById("typeGrid").addEventListener("change", function(e){
+    const cb = e.target.closest("input[data-type]");
+    if (!cb) return;
+    const c = getCfg();
+    const id = cb.dataset.type;
+    const i = c.types.indexOf(id);
+    if (cb.checked && i === -1) c.types.push(id);
+    if (!cb.checked && i !== -1) c.types.splice(i, 1);
+    if (!c.types.length){ c.types.push(id); cb.checked = true; }
+    setCfg(c); renderSetup();
+  });
+  document.getElementById("startBtn").addEventListener("click", function(){
+    saveSetup(); startSession();
+  });
+  document.getElementById("resetDeckBtn").addEventListener("click", function(){
+    if (!confirm("Reset progress for this deck?")) return;
+    const c = getCfg(); const keys = deckCards(c.deck, CARD_TYPES.map(x => x[0])).map(x => x.key);
+    const srs2 = getSRS(); keys.forEach(k => delete srs2[k]); setSRS(srs2); renderSetup();
+  });
+  document.getElementById("resetAllBtn").addEventListener("click", function(){
+    if (!confirm("Erase ALL study progress and stars?")) return;
+    setSRS({}); lsSet("ndg-starred", []); lsSet("ndg-streak", { last:"", count:0 });
+    lsSet("ndg-new-today", { date:"", count:0 }); renderSetup();
+  });
+}
+function saveSetup(){
+  const c = getCfg();
+  const d = document.getElementById("deckSelect");
+  const n = document.getElementById("newPerDay");
+  if (d) c.deck = d.value;
+  if (n) c.newPerDay = Math.max(0, Math.min(200, parseInt(n.value, 10) || 0));
+  setCfg(c);
+}
+function renderBoxBars(cards, srs){
+  const boxes = [0,0,0,0,0];
+  let seen = 0;
+  cards.forEach(c => { const s = srs[c.key]; if (s){ seen++; boxes[s.box - 1]++; } });
+  const max = Math.max(1, seen, cards.length);
+  const labels = ["New", "Box 1", "Box 2", "Box 3", "Box 4", "Box 5"];
+  const counts = [cards.length - seen].concat(boxes);
+  return '<div class="box-bars">' + counts.map((n, i) =>
+    '<div class="box-bar"><span class="bb-label">' + labels[i] + "</span>" +
+    '<span class="bb-track"><span class="bb-fill" style="width:' + Math.round(n / max * 100) + '%"></span></span>' +
+    '<span class="bb-n">' + n + "</span></div>").join("") + "</div>";
+}
+
+function renderSessionCard(){
+  const card = study.queue[study.idx];
+  const total = study.queue.length;
+  const pct = Math.round(study.idx / total * 100);
+  let fmt = study.format;
+  if (fmt === "mc" && !mcAble(card.type)) fmt = "flip";
+  if (fmt === "mixed") fmt = (mcAble(card.type) && Math.random() < 0.5) ? "mc" : "flip";
+  study.curFmt = fmt;
+
+  const top = '<div class="study-topbar">' +
+    '<button class="link-btn" id="endBtn" type="button">End &middot; סיום</button>' +
+    '<span class="study-progress"><span class="study-progress-bar" style="width:' + pct + '%"></span></span>' +
+    '<span class="study-counter">' + (study.idx + 1) + " / " + total + "</span></div>";
+
+  let inner;
+  if (fmt === "mc"){
+    const mc = mcOptions(card);
+    study.mc = mc;
+    inner = '<div class="study-card">' + frontHTML(card, "mc") +
+      '<div class="mc-options" id="mcOptions">' +
+        mc.opts.map(o => '<button class="mc-opt" type="button" data-val="' + escAttr(o) + '">' + esc(o) + "</button>").join("") +
+      "</div></div>" +
+      '<div class="study-actions" id="studyActions"></div>';
+  } else {
+    inner = '<div class="study-card">' +
+        '<div class="sc-front">' + frontHTML(card) + "</div>" +
+        '<div class="sc-back" id="scBack" hidden>' + backHTML(card) + "</div>" +
+      "</div>" +
+      '<div class="study-actions" id="studyActions">' +
+        '<button class="flip-btn" id="flipBtn" type="button">Show answer &middot; הצג תשובה</button>' +
+      "</div>";
+  }
+  studyEl.innerHTML = '<div class="study-session">' + top + inner + "</div>";
+
+  document.getElementById("endBtn").addEventListener("click", function(){
+    study.idx = study.queue.length; renderStudy();
+  });
+
+  if (fmt === "mc"){
+    document.getElementById("mcOptions").addEventListener("click", onMcPick);
+  } else {
+    document.getElementById("flipBtn").addEventListener("click", showAnswer);
+  }
+}
+function showAnswer(){
+  const back = document.getElementById("scBack");
+  if (back) back.hidden = false;
+  document.getElementById("studyActions").innerHTML = gradeRowHTML("good");
+  wireGrades();
+}
+function gradeRowHTML(dflt){
+  const b = (g, en, he) => '<button class="grade-btn grade-' + g + (g === dflt ? " is-default" : "") + '" type="button" data-grade="' + g + '">' + en + '<span class="gb-he" dir="rtl">' + he + "</span></button>";
+  return '<div class="grade-row">' + b("again", "Again", "שוב") + b("good", "Good", "טוב") + b("easy", "Easy", "קל") + "</div>";
+}
+function wireGrades(){
+  document.getElementById("studyActions").querySelectorAll("button[data-grade]").forEach(btn => {
+    btn.addEventListener("click", function(){ gradeCurrent(btn.dataset.grade); });
+  });
+}
+function onMcPick(e){
+  const btn = e.target.closest(".mc-opt");
+  if (!btn || study.answered) return;
+  study.answered = true;
+  const correct = study.mc.correct;
+  const right = btn.dataset.val === correct;
+  document.getElementById("mcOptions").querySelectorAll(".mc-opt").forEach(o => {
+    o.disabled = true;
+    if (o.dataset.val === correct) o.classList.add("correct");
+    else if (o === btn) o.classList.add("wrong");
+  });
+  document.getElementById("studyActions").innerHTML = gradeRowHTML(right ? "good" : "again");
+  wireGrades();
+}
+function renderDone(){
+  const total = study.reviewed;
+  const pct = total ? Math.round(study.correct / total * 100) : 0;
+  const srs = getSRS();
+  const cfg = getCfg();
+  const tomorrow = addDaysStr(todayStr(), 1);
+  const dueTom = deckCards(cfg.deck, cfg.types).filter(c => srs[c.key] && srs[c.key].due <= tomorrow && srs[c.key].due > todayStr()).length;
+  const streak = getStreak().count;
+  studyEl.innerHTML =
+    '<div class="study-done">' +
+      (total ? "<h2>Session complete 🎉</h2>" : "<h2>Nothing to review 👍</h2>") +
+      (total
+        ? '<p class="done-figure">' + total + " cards · " + pct + "% recalled</p>" +
+          "<p>" + dueTom + " due tomorrow · " + streak + "-day streak</p>"
+        : "<p>No cards are due in this deck right now. Add more new cards per day, pick another deck, or come back tomorrow.</p>") +
+      '<div class="done-actions">' +
+        (total ? '<button class="primary" id="againBtn">Study more</button>' : "") +
+        '<button id="backSetupBtn">Back to setup</button>' +
+      "</div>" +
+    "</div>";
+  const again = document.getElementById("againBtn");
+  if (again) again.addEventListener("click", function(){ startSession(); });
+  document.getElementById("backSetupBtn").addEventListener("click", function(){ study = null; renderStudy(); });
+}
+
+/* ---- mode switch ---- */
+function setMode(mode){
+  const studying = mode === "study";
+  lsSetRaw("ndg-mode", mode);
+  modeSwitchEl.querySelectorAll(".mode-btn").forEach(b => b.setAttribute("aria-pressed", b.dataset.mode === mode));
+  controlsEl.classList.toggle("study-mode", studying);
+  listEl.hidden = studying;
+  footerEl.hidden = studying;
+  studyEl.hidden = !studying;
+  if (studying){ study = null; renderStudy(); window.scrollTo(0, 0); }
+}
+modeSwitchEl.addEventListener("click", function(e){
+  const b = e.target.closest(".mode-btn");
+  if (b) setMode(b.dataset.mode);
+});
+
+/* keyboard shortcuts during a study session */
+document.addEventListener("keydown", function(e){
+  if (studyEl.hidden || !study) return;
+  const tag = document.activeElement && document.activeElement.tagName;
+  if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
+  const flip = document.getElementById("flipBtn");
+  if ((e.key === " " || e.key === "Enter") && flip){ e.preventDefault(); flip.click(); return; }
+  const grades = { "1": "again", "2": "good", "3": "easy" };
+  if (grades[e.key]){
+    const g = document.querySelector('#studyActions button[data-grade="' + grades[e.key] + '"]');
+    if (g){ e.preventDefault(); g.click(); }
+  }
+});
+
 render();
+if (lsGetRaw("ndg-mode") === "study") setMode("study");
 </script>
 
 <script>
