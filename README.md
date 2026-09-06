@@ -22,16 +22,17 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   system, psychiatric, antibiotics, antivirals/antifungals, immunosuppressants,
   chemotherapy, hematology, musculoskeletal, genitourinary, eye/skin/topical,
   antidotes, vitamins, anesthesia, fluids & electrolytes).
-- Each entry, in both languages: generic and brand names, drug class (insulins and
-  other diabetes drugs note their acting duration), mechanism of action, indications,
-  contraindications, electrolyte changes, side effects, nursing monitoring, and —
-  where one exists — the antidote / reversal agent.
+- Each entry, in both languages: generic and brand names, route(s) of administration,
+  drug class (insulins and other diabetes drugs note their acting duration), mechanism
+  of action, indications, contraindications, electrolyte changes, side effects, nursing
+  monitoring, and — where one exists — the antidote / reversal agent.
 - Search bar (matches name, brand, or class in either language; press `/` to focus it).
 - Drug-class filter dropdown and a live result count.
 - **Study mode** (toggle at the top): an auto-graded spaced-repetition quiz built
   from the drug data. Every prompt is **one question, four options, one correct
-  answer** — covering drug class, indications, contraindications, electrolyte
-  changes, monitoring, antidote, brand ↔ generic, and English ↔ Hebrew. For the
+  answer** — covering drug class, route of administration, indications,
+  contraindications, electrolyte changes, monitoring, antidote, brand ↔ generic,
+  and English ↔ Hebrew. For the
   longer topics the question asks for a single item ("Which is a contraindication
   to warfarin?") and the wrong options are real items from other drugs. Answer →
   see correct/wrong → Next; right answers are spaced out, wrong ones come back
