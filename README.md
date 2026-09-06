@@ -1,12 +1,21 @@
 # Bilingual Nursing Drug Guide
 
 A single-page, searchable medication reference for nursing students, with every entry
-in **English and Hebrew** side by side.
+in **English and Hebrew** side by side. Installable as an app on iOS and Android.
+
+**Live app:** https://moodandmeaning.github.io/nursing-drug-guide/
+
+## Install on your phone (works offline after the first open)
+
+- **iPhone / iPad (Safari):** open the live app link, tap the **Share** button, then
+  **Add to Home Screen**. It gets an app icon and opens full-screen with no browser bars.
+- **Android (Chrome):** open the link, then **Install app** from the menu (or the prompt).
 
 ## What's in it
 
 `index.html` is a self-contained web page (no build step, no server). Open it in any
-browser, or host it anywhere that serves static files.
+browser, or host it anywhere that serves static files. `manifest.webmanifest` and
+`sw.js` make it an installable, offline-capable Progressive Web App.
 
 - **251 medications** across 20 drug classes (cardiovascular, emergency/vasoactive,
   diuretics, anticoagulants, endocrine/diabetes, respiratory, GI, pain & nervous
