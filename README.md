@@ -28,17 +28,18 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   where one exists — the antidote / reversal agent.
 - Search bar (matches name, brand, or class in either language; press `/` to focus it).
 - Drug-class filter dropdown and a live result count.
-- **Study mode** (toggle at the top): spaced-repetition flashcards generated from
-  the drug data, in four formats — **flip cards**, **multiple choice**, **matching**
-  (drag-free tap-to-pair, 5 at a time), and **fill-in-the-blank** — or "Mixed".
-  Matching and fill-in work on the name cards (brand ↔ generic, English ↔ Hebrew).
-  Pick a deck (all, one drug class, or your own starred set — star drugs from any
-  Browse card), choose which card types to drill (class & mechanism, indications,
-  contraindications, electrolyte changes, monitoring, antidote, brand ↔ generic,
-  English ↔ Hebrew), and grade each card Again / Good / Easy. A Leitner 5-box
-  scheduler shows each card again just before you'd forget it. Progress, stars,
-  and a day streak are saved on the device (offline, per browser). Keyboard:
-  space to flip, 1/2/3 to grade, Enter to check a fill-in answer.
+- **Study mode** (toggle at the top): an auto-graded spaced-repetition quiz built
+  from the drug data. Every prompt is **one question, four options, one correct
+  answer** — covering drug class, indications, contraindications, electrolyte
+  changes, monitoring, antidote, brand ↔ generic, and English ↔ Hebrew. For the
+  longer topics the question asks for a single item ("Which is a contraindication
+  to warfarin?") and the wrong options are real items from other drugs. Answer →
+  see correct/wrong → Next; right answers are spaced out, wrong ones come back
+  sooner (Leitner 5-box scheduler). A **Matching** format (tap-to-pair, 5 name
+  cards at a time) is also available. Pick a deck (all, one drug class, or your
+  own starred set — star drugs from any Browse card) and how many new cards per
+  day. Progress, stars, and a day streak are saved on the device (offline, per
+  browser). Keyboard: 1–4 to answer, Enter for Next.
 - Light/dark theme toggle. Hebrew renders right-to-left throughout.
 - Fonts (Frank Ruhl Libre + Assistant) load from Google Fonts when online; everything
   else is embedded in the single file.

@@ -418,7 +418,18 @@
   .match-result{text-align:center;font-size:.9rem;color:var(--muted);margin-top:14px}
   .match-result b{color:var(--ink)}
 
+  .mc-question{
+    display:flex;flex-direction:column;gap:3px;
+    font-family:"Frank Ruhl Libre",Georgia,serif;font-weight:700;
+    font-size:1.15rem;line-height:1.3;text-wrap:balance;
+  }
+  .mc-question .he{direction:rtl;font-weight:500;font-size:.95rem;color:var(--muted)}
+  .mc-feedback{text-align:center;font-weight:700;font-size:.95rem;margin-bottom:12px}
+  .mc-feedback.ok{color:var(--monitor)}
+  .mc-feedback.no{color:var(--danger)}
+
   .mc-options{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+  .mc-opt.he{direction:rtl}
   .mc-opt{
     font:inherit;font-size:.92rem;text-align:start;
     background:var(--surface-2);border:1.5px solid var(--line);border-radius:10px;
@@ -7510,18 +7521,15 @@ const CARD_TYPES = [
   ["name_he",  "English → Hebrew",  "אנגלית → עברית"],
   ["name_en",  "Hebrew → English",  "עברית → אנגלית"]
 ];
-const DEFAULT_TYPES = ["class","contra","antidote","brand2gen","name_he"];
-const MC_TYPES = ["class","brand2gen","gen2brand","name_he","name_en","antidote"];
-/* matching only for types whose answers are unique per drug (name pairs) - class/antidote
-   text repeats across drugs, which would put identical tiles on the board */
+const DEFAULT_TYPES = ["class","contra","lytes","antidote","brand2gen","name_he"];
+/* matching only for types whose answers are unique per drug (name pairs) */
 const MATCH_TYPES = ["brand2gen","gen2brand","name_he","name_en"];
-const FILL_TYPES = ["brand2gen","gen2brand","name_he","name_en"];
+/* fragment types: the answer is one short item pulled from a longer field */
+const FRAG_TYPES = ["ind","contra","lytes","monitor"];
+const FRAG_FIELD = { ind:"indEn", contra:"ciEn", lytes:"lyteEn", monitor:"monEn" };
 const FORMATS = [
-  ["mixed",   "Mixed",           "מעורב"],
-  ["flip",    "Flip cards",      "כרטיסיות"],
-  ["mc",      "Multiple choice", "רב-ברירה"],
-  ["match",   "Matching",        "התאמה"],
-  ["fill",    "Fill in",         "השלמה"]
+  ["mc",    "Multiple choice", "רב-ברירה"],
+  ["match", "Matching (names)", "התאמה"]
 ];
 const INTERVALS = [0, 1, 2, 4, 8, 15]; /* days, indexed by box 1..5 */
 const BRAND_BAD = /\b(many|often|various|e\.g\.|with )/i;
@@ -7529,10 +7537,20 @@ const BRAND_BAD = /\b(many|often|various|e\.g\.|with )/i;
 function firstBrand(s){ return String(s).split(/[,(]/)[0].trim(); }
 function firstClause(s){ return String(s).split(/ - |; |\(|\. /)[0].trim(); }
 function fmtOk(fmt, t){
-  if (fmt === "mc") return MC_TYPES.indexOf(t) !== -1;
   if (fmt === "match") return MATCH_TYPES.indexOf(t) !== -1;
-  if (fmt === "fill") return FILL_TYPES.indexOf(t) !== -1;
-  return true;
+  return true; /* mc handles every card type */
+}
+function fragments(text){
+  return String(text)
+    .replace(/\([^)]*\)/g, " ")
+    .split(/[,;]| and (?=[a-z(])| including | such as /i)
+    .map(s => s.replace(/^\s*(and|or|also)\s+/i, "").replace(/[.\s]+$/, "").trim())
+    .filter(s => s.length >= 4 && s.length <= 52 && /[a-z]/i.test(s));
+}
+function fragCache(m, field){
+  m._frag = m._frag || {};
+  if (!m._frag[field]) m._frag[field] = fragments(m[field]);
+  return m._frag[field];
 }
 function normAns(s){
   return String(s).toLowerCase().normalize("NFKD")
@@ -7543,12 +7561,15 @@ function normAns(s){
 function typeApplies(t, m){
   if (t === "antidote") return !!m.antidoteEn;
   if (t === "brand2gen" || t === "gen2brand") return !!m.brandEn && !BRAND_BAD.test(m.brandEn);
+  if (FRAG_TYPES.indexOf(t) !== -1) return fragCache(m, FRAG_FIELD[t]).length >= 1;
   return true;
 }
-function mcAble(t){ return MC_TYPES.indexOf(t) !== -1; }
 
 function getCfg(){
-  return lsGet("ndg-study-cfg", { deck:"all", format:"mixed", types:DEFAULT_TYPES.slice(), newPerDay:15 });
+  const c = lsGet("ndg-study-cfg", null);
+  if (!c) return { deck:"all", format:"mc", types:DEFAULT_TYPES.slice(), newPerDay:15 };
+  if (c.format === "mixed" || c.format === "flip" || c.format === "fill") c.format = "mc";
+  return c;
 }
 function setCfg(c){ lsSet("ndg-study-cfg", c); }
 function getSRS(){ return lsGet("ndg-srs", {}); }
@@ -7611,35 +7632,6 @@ function fieldBlock(labelEn, labelHe, en, he, mod){
       '<p class="he" dir="rtl" lang="he">' + esc(he) + "</p>" +
     "</div></div>";
 }
-const PROMPTS = {
-  class:   ["Class &amp; mechanism of action?", "קבוצה ומנגנון פעולה?"],
-  ind:     ["Indications?", "התוויות?"],
-  contra:  ["Contraindications?", "התוויות נגד?"],
-  lytes:   ["Electrolyte changes?", "שינויים באלקטרוליטים?"],
-  monitor: ["What to monitor?", "מה לנטר?"],
-  antidote:["Antidote / reversal?", "נוגדן / היפוך פעולה?"]
-};
-function frontHTML(card, fmt){
-  const m = card.med, t = card.type;
-  if (t === "brand2gen")
-    return '<div class="sc-q"><span class="sc-big">' + esc(firstBrand(m.brandEn)) + "</span>" +
-           '<div class="sc-sub">Generic name? &middot; שם גנרי?</div></div>';
-  if (t === "gen2brand")
-    return '<div class="sc-q"><span class="sc-big">' + esc(m.genericEn) + "</span>" +
-           '<div class="sc-sub">Brand name? &middot; שם מסחרי?</div></div>';
-  if (t === "name_he")
-    return '<div class="sc-q"><span class="sc-big">' + esc(m.genericEn) + "</span>" +
-           '<div class="sc-sub">In Hebrew? &middot; בעברית?</div></div>';
-  if (t === "name_en")
-    return '<div class="sc-q"><span class="sc-big he" dir="rtl">' + esc(m.genericHe) + "</span>" +
-           '<div class="sc-sub">In English? &middot; באנגלית?</div></div>';
-  let p = PROMPTS[t];
-  if (fmt === "mc" && t === "class") p = ["Drug class?", "קבוצה תרופתית?"];
-  return '<div class="sc-name"><span class="sc-name-en">' + esc(m.genericEn) + "</span>" +
-         '<span class="sc-name-he" dir="rtl">' + esc(m.genericHe) + "</span></div>" +
-         '<div class="sc-prompt"><span>' + p[0] + "</span>" +
-         '<span class="he" dir="rtl">' + p[1] + "</span></div>";
-}
 function backHTML(card){
   const m = card.med, t = card.type;
   if (t === "brand2gen" || t === "name_en")
@@ -7665,8 +7657,9 @@ function backHTML(card){
   return '<div class="fields">' + fieldBlock(a[0], a[1], a[2], a[3], a[4]) + "</div>";
 }
 
-/* ---- multiple choice ---- */
-function mcValueOf(m, t){
+/* ---- multiple choice: works for every card type ---- */
+/* whole-answer types: correct answer + distractor pool come from one drug property */
+function mcWhole(m, t){
   switch (t){
     case "class": return m.classEn;
     case "brand2gen": case "name_en": return m.genericEn;
@@ -7676,27 +7669,68 @@ function mcValueOf(m, t){
   }
   return null;
 }
-function mcOptions(card){
-  const correct = mcValueOf(card.med, card.type);
-  const same = [], other = [];
-  MEDS.forEach(m => {
-    if (m === card.med) return;
-    const v = mcValueOf(m, card.type);
-    if (!v || v === correct) return;
-    (m.cat === card.med.cat ? same : other).push(v);
-  });
-  const uniq = arr => Array.from(new Set(arr));
-  let pool = shuffle(uniq(same));
-  if (pool.length < 3) pool = pool.concat(shuffle(uniq(other)).filter(x => pool.indexOf(x) === -1));
-  const opts = pool.slice(0, 3).concat([correct]);
-  return { correct: correct, opts: shuffle(opts) };
+function mcQ(card){
+  const m = card.med, en = esc(m.genericEn), he = esc(m.genericHe), br = esc(firstBrand(m.brandEn || ""));
+  switch (card.type){
+    case "class":     return ["Which class does " + en + " belong to?", "לאיזו קבוצה שייכת " + he + "?"];
+    case "antidote":  return ["What is the antidote / reversal for " + en + "?", "מהו הנוגדן של " + he + "?"];
+    case "brand2gen": return ["What is the generic name for " + br + "?", "מהו השם הגנרי של " + br + "?"];
+    case "gen2brand": return ["Which is a brand name for " + en + "?", "מהו שם מסחרי של " + he + "?"];
+    case "name_he":   return ["What is " + en + " in Hebrew?", "איך אומרים " + en + " בעברית?"];
+    case "name_en":   return ["What is " + he + " in English?", "מהו " + he + " באנגלית?"];
+    case "ind":       return ["Which is an approved use of " + en + "?", "מהו שימוש מאושר של " + he + "?"];
+    case "contra":    return ["Which is a contraindication to " + en + "?", "מהי התווית נגד ל" + he + "?"];
+    case "lytes":     return ["Which change is " + en + " most associated with?", "איזה שינוי קשור ל" + he + "?"];
+    case "monitor":   return ["Which should you monitor with " + en + "?", "מה יש לנטר עם " + he + "?"];
+  }
+  return ["", ""];
+}
+function capFirst(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+function mcBuild(card){
+  const q = mcQ(card);
+  let correct, pool = [];
+  if (FRAG_TYPES.indexOf(card.type) === -1){
+    correct = mcWhole(card.med, card.type);
+    const same = [], other = [];
+    MEDS.forEach(m => {
+      if (m === card.med) return;
+      const v = mcWhole(m, card.type);
+      if (!v || v === correct) return;
+      (m.cat === card.med.cat ? same : other).push(v);
+    });
+    pool = Array.from(new Set(shuffle(same).concat(shuffle(other))));
+  } else {
+    const field = FRAG_FIELD[card.type];
+    const mine = fragCache(card.med, field);
+    if (!mine.length) return null;
+    correct = capFirst(mine[Math.floor(Math.random() * mine.length)]);
+    const myText = normAns(card.med[field] + " " + card.med.seEn);
+    const seen = {};
+    seen[normAns(correct)] = 1;
+    const same = [], other = [];
+    MEDS.forEach(m => {
+      if (m === card.med) return;
+      fragCache(m, field).forEach(f => {
+        const n = normAns(f);
+        if (n.length < 4 || seen[n] || myText.indexOf(n) !== -1) return;
+        seen[n] = 1;
+        (m.cat === card.med.cat ? same : other).push(capFirst(f));
+      });
+    });
+    /* prefer cross-category distractors - same-class drugs often share these items */
+    pool = shuffle(other).concat(shuffle(same));
+  }
+  const opts = [correct];
+  for (let k = 0; k < pool.length && opts.length < 4; k++)
+    if (opts.indexOf(pool[k]) === -1) opts.push(pool[k]);
+  if (opts.length < 2) return null;
+  return { questionEn: q[0], questionHe: q[1], correct: correct, opts: shuffle(opts) };
 }
 
 /* ---- session engine ---- */
 function sessionCards(cfg){
   let all = deckCards(cfg.deck, cfg.types);
-  if (cfg.format === "match" || cfg.format === "fill")
-    all = all.filter(c => fmtOk(cfg.format, c.type));
+  if (cfg.format === "match") all = all.filter(c => fmtOk("match", c.type));
   return all;
 }
 function startSession(){
@@ -7778,9 +7812,8 @@ function renderSetup(){
 
   /* live counts for the chosen deck + types + format */
   const cards = sessionCards(cfg);
-  const fmtNote = (cfg.format === "match" || cfg.format === "fill")
-    ? '<p class="fmt-note">' + (cfg.format === "match" ? "Matching" : "Fill-in") +
-      " works on name cards only (brand ↔ generic, English ↔ Hebrew)." + "</p>"
+  const fmtNote = cfg.format === "match"
+    ? '<p class="fmt-note">Matching uses name cards only (brand ↔ generic, English ↔ Hebrew).</p>'
     : "";
   let dueN = 0, seenN = 0;
   cards.forEach(c => { const s = srs[c.key]; if (s){ seenN++; if (s.due <= today) dueN++; } });
@@ -7881,112 +7914,64 @@ function bindEnd(){
 
 function renderSessionCard(){
   const card = study.queue[study.idx];
-  let fmt = study.format;
 
-  if (fmt === "match"){
+  if (study.format === "match"){
     const batch = [card];
     for (let k = study.idx + 1; k < study.queue.length && batch.length < 5; k++){
       if (study.queue[k].type === card.type) batch.push(study.queue[k]); else break;
     }
     if (batch.length >= 2){ renderMatch(batch); return; }
-    fmt = "flip";
+    /* lone leftover name card -> just multiple-choice it */
   }
-  if (fmt === "fill" && !fmtOk("fill", card.type)) fmt = "flip";
-  if (fmt === "mixed"){
-    const cands = ["flip"];
-    if (mcAble(card.type)) cands.push("mc");
-    if (fmtOk("fill", card.type)) cands.push("fill");
-    fmt = cands[Math.floor(Math.random() * cands.length)];
-  }
-  if (fmt === "mc" && !mcAble(card.type)) fmt = "flip";
-
-  if (fmt === "fill"){ renderFill(card); return; }
-  if (fmt === "mc"){ renderMc(card); return; }
-  renderFlip(card);
+  renderMc(card);
 }
 
-function renderFlip(card){
-  studyEl.innerHTML = '<div class="study-session">' + studyTop() +
-    '<div class="study-card">' +
-      '<div class="sc-front">' + frontHTML(card) + "</div>" +
-      '<div class="sc-back" id="scBack" hidden>' + backHTML(card) + "</div>" +
-    "</div>" +
-    '<div class="study-actions" id="studyActions">' +
-      '<button class="flip-btn" id="flipBtn" type="button">Show answer &middot; הצג תשובה</button>' +
-    "</div></div>";
-  bindEnd();
-  document.getElementById("flipBtn").addEventListener("click", showAnswer);
-}
+/* ---- multiple choice card ---- */
 function renderMc(card){
-  const mc = mcOptions(card);
+  const mc = mcBuild(card);
+  if (!mc){ study.idx++; renderStudy(); return; }   /* card can't be built - skip it */
   study.mc = mc;
   study.answered = false;
+  const optHe = (card.type === "name_he");
   studyEl.innerHTML = '<div class="study-session">' + studyTop() +
-    '<div class="study-card">' + frontHTML(card, "mc") +
+    '<div class="study-card">' +
+      '<div class="mc-question"><span>' + mc.questionEn + "</span>" +
+        '<span class="he" dir="rtl">' + mc.questionHe + "</span></div>" +
       '<div class="mc-options" id="mcOptions">' +
-        mc.opts.map(o => '<button class="mc-opt" type="button" data-val="' + escAttr(o) + '">' + esc(o) + "</button>").join("") +
-      "</div></div>" +
+        mc.opts.map(o => '<button class="mc-opt' + (optHe ? " he" : "") +
+          '" type="button" data-val="' + escAttr(o) + '">' + esc(o) + "</button>").join("") +
+      "</div>" +
+    "</div>" +
     '<div class="study-actions" id="studyActions"></div></div>';
   bindEnd();
   document.getElementById("mcOptions").addEventListener("click", onMcPick);
 }
-
-/* ---- fill in the blank ---- */
-function fillAnswers(card){
-  const m = card.med;
-  if (card.type === "gen2brand") return m.brandEn.split(/[,/]/).map(x => x.trim()).filter(Boolean);
-  if (card.type === "name_he") return [m.genericHe];
-  return [m.genericEn]; /* brand2gen, name_en */
-}
-function renderFill(card){
-  study.answered = false;
-  const heInput = card.type === "name_he";
-  studyEl.innerHTML = '<div class="study-session">' + studyTop() +
-    '<div class="study-card">' + frontHTML(card, "fill") +
-      '<input class="fill-input" id="fillInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"' +
-        (heInput ? ' dir="rtl"' : "") + ' placeholder="Type the answer · הקלד תשובה">' +
-      '<div class="sc-back" id="scBack" hidden>' + backHTML(card) + "</div>" +
-    "</div>" +
-    '<div class="study-actions" id="studyActions">' +
-      '<button class="flip-btn" id="fillCheck" type="button">Check &middot; בדיקה</button>' +
-      '<button class="link-btn" id="fillSkip" type="button" style="display:block;margin:10px auto 0">Show answer &middot; הצג תשובה</button>' +
-    "</div></div>";
-  bindEnd();
-  const input = document.getElementById("fillInput");
-  input.focus();
-  document.getElementById("fillCheck").addEventListener("click", function(){ checkFill(card, input.value); });
-  document.getElementById("fillSkip").addEventListener("click", function(){ revealFill(card, false); });
-  input.addEventListener("keydown", function(e){
-    if (e.key === "Enter" && !study.answered){ e.preventDefault(); checkFill(card, input.value); }
+function onMcPick(e){
+  const btn = e.target.closest(".mc-opt");
+  if (!btn || study.answered) return;
+  study.answered = true;
+  const correct = study.mc.correct;
+  const right = btn.dataset.val === correct;
+  document.getElementById("mcOptions").querySelectorAll(".mc-opt").forEach(o => {
+    o.disabled = true;
+    if (o.dataset.val === correct) o.classList.add("correct");
+    else if (o === btn) o.classList.add("wrong");
+  });
+  document.getElementById("studyActions").innerHTML =
+    '<div class="mc-feedback ' + (right ? "ok" : "no") + '">' +
+      (right ? "Correct ✓ &middot; נכון" : "Not quite &middot; לא מדויק") + "</div>" +
+    '<button class="continue-btn" id="mcNext" type="button">Next &middot; הבא</button>';
+  document.getElementById("mcNext").addEventListener("click", function(){
+    gradeCurrent(right ? "good" : "again");
   });
 }
-function checkFill(card, typed){
-  if (study.answered) return;
-  const t = normAns(typed);
-  const ok = !!t && fillAnswers(card).map(normAns).some(a =>
-    a && (a === t || (a.length >= 4 && a.indexOf(t) === 0) || (t.length >= 4 && t.indexOf(a) === 0)));
-  const input = document.getElementById("fillInput");
-  if (input){ input.disabled = true; input.classList.add(ok ? "correct" : "wrong"); }
-  revealFill(card, ok);
-}
-function revealFill(card, ok){
-  study.answered = true;
-  const input = document.getElementById("fillInput");
-  if (input) input.disabled = true;
-  const back = document.getElementById("scBack");
-  if (back) back.hidden = false;
-  document.getElementById("studyActions").innerHTML = gradeRowHTML(ok ? "good" : "again");
-  wireGrades();
-}
 
-/* ---- matching ---- */
+/* ---- matching (name pairs) ---- */
 const MATCH_LABEL = {
-  class:     ["Match each drug to its class", "התאמת תרופה לקבוצה"],
   brand2gen: ["Match each brand to its generic", "התאמת שם מסחרי לגנרי"],
   gen2brand: ["Match each generic to its brand", "התאמת שם גנרי למסחרי"],
   name_he:   ["Match English to Hebrew", "התאמת אנגלית לעברית"],
-  name_en:   ["Match Hebrew to English", "התאמת עברית לאנגלית"],
-  antidote:  ["Match each drug to its antidote", "התאמת תרופה לנוגדן"]
+  name_en:   ["Match Hebrew to English", "התאמת עברית לאנגלית"]
 };
 function matchLeft(c){
   const m = c.med;
@@ -7996,11 +7981,9 @@ function matchLeft(c){
 }
 function matchRight(c){
   const m = c.med;
-  if (c.type === "class") return m.classEn;
   if (c.type === "gen2brand") return firstBrand(m.brandEn);
   if (c.type === "name_he") return m.genericHe;
-  if (c.type === "antidote") return firstClause(m.antidoteEn);
-  return m.genericEn;
+  return m.genericEn; /* brand2gen, name_en */
 }
 function renderMatch(batch){
   study.match = { cards: batch, solved: [], wrongs: batch.map(() => 0), sel: null };
@@ -8061,35 +8044,6 @@ function finishMatch(){
     gradeBatch(mm.cards, mm.wrongs.map(w => w === 0 ? "good" : "again"));
   });
 }
-function showAnswer(){
-  const back = document.getElementById("scBack");
-  if (back) back.hidden = false;
-  document.getElementById("studyActions").innerHTML = gradeRowHTML("good");
-  wireGrades();
-}
-function gradeRowHTML(dflt){
-  const b = (g, en, he) => '<button class="grade-btn grade-' + g + (g === dflt ? " is-default" : "") + '" type="button" data-grade="' + g + '">' + en + '<span class="gb-he" dir="rtl">' + he + "</span></button>";
-  return '<div class="grade-row">' + b("again", "Again", "שוב") + b("good", "Good", "טוב") + b("easy", "Easy", "קל") + "</div>";
-}
-function wireGrades(){
-  document.getElementById("studyActions").querySelectorAll("button[data-grade]").forEach(btn => {
-    btn.addEventListener("click", function(){ gradeCurrent(btn.dataset.grade); });
-  });
-}
-function onMcPick(e){
-  const btn = e.target.closest(".mc-opt");
-  if (!btn || study.answered) return;
-  study.answered = true;
-  const correct = study.mc.correct;
-  const right = btn.dataset.val === correct;
-  document.getElementById("mcOptions").querySelectorAll(".mc-opt").forEach(o => {
-    o.disabled = true;
-    if (o.dataset.val === correct) o.classList.add("correct");
-    else if (o === btn) o.classList.add("wrong");
-  });
-  document.getElementById("studyActions").innerHTML = gradeRowHTML(right ? "good" : "again");
-  wireGrades();
-}
 function renderDone(){
   const total = study.reviewed;
   const pct = total ? Math.round(study.correct / total * 100) : 0;
@@ -8136,12 +8090,12 @@ document.addEventListener("keydown", function(e){
   if (studyEl.hidden || !study) return;
   const tag = document.activeElement && document.activeElement.tagName;
   if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
-  const flip = document.getElementById("flipBtn");
-  if ((e.key === " " || e.key === "Enter") && flip){ e.preventDefault(); flip.click(); return; }
-  const grades = { "1": "again", "2": "good", "3": "easy" };
-  if (grades[e.key]){
-    const g = document.querySelector('#studyActions button[data-grade="' + grades[e.key] + '"]');
-    if (g){ e.preventDefault(); g.click(); }
+  const next = document.getElementById("mcNext") || document.getElementById("matchContinue");
+  if ((e.key === "Enter" || e.key === " ") && next){ e.preventDefault(); next.click(); return; }
+  if (/^[1-4]$/.test(e.key)){
+    const opts = document.querySelectorAll("#mcOptions .mc-opt:not(:disabled)");
+    const o = opts[parseInt(e.key, 10) - 1];
+    if (o){ e.preventDefault(); o.click(); }
   }
 });
 
