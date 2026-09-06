@@ -92,7 +92,11 @@
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+  .wrap{
+    max-width:1000px;margin:0 auto;
+    padding-left:max(20px,env(safe-area-inset-left));
+    padding-right:max(20px,env(safe-area-inset-right));
+  }
 
   /* ---- Masthead ---- */
   header.masthead{
@@ -135,8 +139,11 @@
     z-index:20;
     background:color-mix(in srgb,var(--bg) 88%,transparent);
     backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
     border-bottom:1px solid var(--line);
     padding:14px 0;
+    padding-top:max(14px,env(safe-area-inset-top));
+    transition:box-shadow .22s ease;
   }
   .search-row{position:relative;display:flex;align-items:center}
   .search-row svg{position:absolute;left:14px;width:18px;height:18px;color:var(--muted);pointer-events:none}
@@ -153,31 +160,32 @@
   }
   #search:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
   #search::placeholder{color:var(--muted)}
-  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
-  .chip{
-    font:inherit;
-    font-size:.82rem;
-    font-weight:600;
-    padding:6px 12px;
-    border-radius:999px;
-    border:1.5px solid var(--line);
-    background:var(--surface);
-    color:var(--muted);
-    cursor:pointer;
-    white-space:nowrap;
+  /* Category dropdown + meta: collapses away once you scroll, leaving just the search bar */
+  .cat-row{
+    display:flex;flex-wrap:wrap;align-items:center;gap:9px 12px;
+    margin-top:10px;max-height:240px;overflow:hidden;
+    transition:max-height .22s ease,opacity .18s ease,margin-top .22s ease;
   }
-  .chip:hover{border-color:var(--accent);color:var(--ink)}
-  .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
-  .meta-row{
-    display:flex;justify-content:space-between;align-items:center;gap:12px;
-    margin:20px 0 4px;flex-wrap:wrap;
+  .controls.collapsed{box-shadow:0 4px 14px rgba(20,28,38,.07)}
+  .controls.collapsed .cat-row{max-height:0;opacity:0;margin-top:0;pointer-events:none}
+  .cat-select{
+    flex:1 1 100%;
+    font:inherit;font-size:.9rem;font-weight:600;
+    color:var(--ink);background-color:var(--surface);
+    border:1.5px solid var(--line);border-radius:10px;
+    padding:10px 36px 10px 12px;cursor:pointer;
+    -webkit-appearance:none;appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%238a97a6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 13px center;
   }
-  .count{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+  .cat-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);outline:none}
+  .count{flex:1 1 auto;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
   .count .he{margin-inline-start:8px}
   .theme-toggle{
+    flex:0 0 auto;
     font:inherit;font-size:.8rem;font-weight:600;
     background:none;border:1.5px solid var(--line);color:var(--muted);
-    padding:5px 11px;border-radius:999px;cursor:pointer;
+    padding:6px 11px;border-radius:999px;cursor:pointer;
   }
   .theme-toggle:hover{border-color:var(--accent);color:var(--ink)}
 
@@ -277,20 +285,17 @@
   </div>
 </header>
 
-<div class="controls">
+<div class="controls" id="controls">
   <div class="wrap">
     <div class="search-row">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
       <input id="search" type="search" autocomplete="off" placeholder="Search any medication — name, brand, or class · חיפוש תרופה, שם מסחרי או קבוצה">
     </div>
-    <div class="chips" id="chips"></div>
-  </div>
-</div>
-
-<div class="wrap">
-  <div class="meta-row">
-    <span class="count" id="count"></span>
-    <button class="theme-toggle" id="themeToggle" type="button">Theme · ערכת צבע</button>
+    <div class="cat-row" id="catRow">
+      <select id="catSelect" class="cat-select" aria-label="Filter by drug category / סינון לפי קטגוריית תרופה"></select>
+      <span class="count" id="count"></span>
+      <button class="theme-toggle" id="themeToggle" type="button">Theme · ערכת צבע</button>
+    </div>
   </div>
 </div>
 
@@ -4864,28 +4869,34 @@ let query = "";
 
 const listEl = document.getElementById("list");
 const countEl = document.getElementById("count");
-const chipsEl = document.getElementById("chips");
+const catSelectEl = document.getElementById("catSelect");
 const searchEl = document.getElementById("search");
+const controlsEl = document.getElementById("controls");
 
 CATS.forEach(([id,en,he]) => {
-  const b = document.createElement("button");
-  b.className = "chip";
-  b.type = "button";
-  b.dataset.cat = id;
-  b.setAttribute("aria-pressed", id === "all" ? "true" : "false");
-  b.innerHTML = esc(en) + ' <span class="he" dir="rtl">' + esc(he) + "</span>";
-  b.addEventListener("click", () => {
-    activeCat = id;
-    [...chipsEl.children].forEach(c => c.setAttribute("aria-pressed", c.dataset.cat === id ? "true" : "false"));
-    render();
-  });
-  chipsEl.appendChild(b);
+  const o = document.createElement("option");
+  o.value = id;
+  o.textContent = he ? en + "  ·  " + he : en;
+  catSelectEl.appendChild(o);
 });
+catSelectEl.value = "all";
+catSelectEl.addEventListener("change", () => { activeCat = catSelectEl.value; render(); });
 
 searchEl.addEventListener("input", () => { query = searchEl.value.trim().toLowerCase(); render(); });
 document.addEventListener("keydown", e => {
   if (e.key === "/" && document.activeElement !== searchEl) { e.preventDefault(); searchEl.focus(); }
 });
+
+/* Collapse the category row (and meta) once the page is scrolled; keep only the search bar. */
+let collapseTicking = false;
+function syncControls(){
+  collapseTicking = false;
+  controlsEl.classList.toggle("collapsed", window.scrollY > 6);
+}
+window.addEventListener("scroll", () => {
+  if (!collapseTicking){ collapseTicking = true; window.requestAnimationFrame(syncControls); }
+}, {passive:true});
+syncControls();
 
 function matches(m){
   if (activeCat !== "all" && m.cat !== activeCat) return false;
