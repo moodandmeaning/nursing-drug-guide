@@ -17,14 +17,15 @@ in **English and Hebrew** side by side. Installable as an app on iOS and Android
 browser, or host it anywhere that serves static files. `manifest.webmanifest` and
 `sw.js` make it an installable, offline-capable Progressive Web App.
 
-- **251 medications** across 20 drug classes (cardiovascular, emergency/vasoactive,
+- **371 medications** across 21 drug classes (cardiovascular, emergency/vasoactive,
   diuretics, anticoagulants, endocrine/diabetes, respiratory, GI, pain & nervous
   system, psychiatric, antibiotics, antivirals/antifungals, immunosuppressants,
-  chemotherapy, hematology, musculoskeletal, genitourinary, antidotes, vitamins,
-  anesthesia, fluids & electrolytes).
-- Each entry, in both languages: generic and brand names, drug class, mechanism of
-  action, indications, contraindications, electrolyte changes, side effects, and
-  nursing monitoring.
+  chemotherapy, hematology, musculoskeletal, genitourinary, eye/skin/topical,
+  antidotes, vitamins, anesthesia, fluids & electrolytes).
+- Each entry, in both languages: generic and brand names, drug class (insulins and
+  other diabetes drugs note their acting duration), mechanism of action, indications,
+  contraindications, electrolyte changes, side effects, nursing monitoring, and —
+  where one exists — the antidote / reversal agent.
 - Search bar (matches name, brand, or class in either language; press `/` to focus it).
 - Drug-class filter chips and a live result count.
 - Light/dark theme toggle. Hebrew renders right-to-left throughout.
