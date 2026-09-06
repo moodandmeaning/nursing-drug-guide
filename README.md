@@ -1,0 +1,35 @@
+# Bilingual Nursing Drug Guide
+
+A single-page, searchable medication reference for nursing students, with every entry
+in **English and Hebrew** side by side.
+
+## What's in it
+
+`index.html` is a self-contained web page (no build step, no server). Open it in any
+browser, or host it anywhere that serves static files.
+
+- **251 medications** across 20 drug classes (cardiovascular, emergency/vasoactive,
+  diuretics, anticoagulants, endocrine/diabetes, respiratory, GI, pain & nervous
+  system, psychiatric, antibiotics, antivirals/antifungals, immunosuppressants,
+  chemotherapy, hematology, musculoskeletal, genitourinary, antidotes, vitamins,
+  anesthesia, fluids & electrolytes).
+- Each entry, in both languages: generic and brand names, drug class, mechanism of
+  action, indications, contraindications, electrolyte changes, side effects, and
+  nursing monitoring.
+- Search bar (matches name, brand, or class in either language; press `/` to focus it).
+- Drug-class filter chips and a live result count.
+- Light/dark theme toggle. Hebrew renders right-to-left throughout.
+- Fonts (Frank Ruhl Libre + Assistant) load from Google Fonts when online; everything
+  else is embedded in the single file.
+
+## Disclaimer
+
+This is a **study aid**, not a clinical reference. Brand names and dosing conventions
+vary by country. Always verify against a current drug reference and your facility's
+protocol before administering any medication.
+
+## Editing
+
+All medication data lives in the `MEDS` array inside the `<script>` block near the
+bottom of `index.html`. Each entry has matching `...En` / `...He` fields. The category
+list is the `CATS` array just above it.
