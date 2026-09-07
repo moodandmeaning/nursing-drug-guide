@@ -26,7 +26,8 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   they differ — e.g. furosemide is **Fusid**, not Lasix), route(s) of administration,
   drug class (insulins and other diabetes drugs note their acting duration), mechanism
   of action, indications, contraindications, electrolyte changes, side effects, nursing
-  monitoring, and — where one exists — the antidote / reversal agent.
+  monitoring, patient teaching (what to tell the patient), and — where one exists —
+  the antidote / reversal agent.
 - Search bar (matches name, brand, or class in either language; press `/` to focus it).
 - Drug-class filter dropdown (including a **★ Starred** option that shows only the
   drugs you've starred) and a live result count.
