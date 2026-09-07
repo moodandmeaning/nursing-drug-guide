@@ -22,7 +22,8 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   system, psychiatric, antibiotics, antivirals/antifungals, immunosuppressants,
   chemotherapy, hematology, musculoskeletal, genitourinary, eye/skin/topical,
   antidotes, vitamins, anesthesia, fluids & electrolytes).
-- Each entry, in both languages: generic and brand names, route(s) of administration,
+- Each entry, in both languages: generic and brand names (Israeli brand names where
+  they differ — e.g. furosemide is **Fusid**, not Lasix), route(s) of administration,
   drug class (insulins and other diabetes drugs note their acting duration), mechanism
   of action, indications, contraindications, electrolyte changes, side effects, nursing
   monitoring, and — where one exists — the antidote / reversal agent.

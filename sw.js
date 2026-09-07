@@ -1,6 +1,6 @@
 /* Service worker for the Bilingual Nursing Drug Guide PWA.
    Bump CACHE_VERSION whenever the app shell or icons change so old caches clear. */
-const CACHE_VERSION = "ndg-2026-09-07-12";
+const CACHE_VERSION = "ndg-2026-09-07-13";
 const APP_CACHE = "app-" + CACHE_VERSION;
 const FONT_CACHE = "fonts-v1";
 
