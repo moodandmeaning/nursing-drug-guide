@@ -17,7 +17,7 @@ in **English and Hebrew** side by side. Installable as an app on iOS and Android
 browser, or host it anywhere that serves static files. `manifest.webmanifest` and
 `sw.js` make it an installable, offline-capable Progressive Web App.
 
-- **371 medications** across 21 drug classes (cardiovascular, emergency/vasoactive,
+- **429 medications** across 21 drug classes (cardiovascular, emergency/vasoactive,
   diuretics, anticoagulants, endocrine/diabetes, respiratory, GI, pain & nervous
   system, psychiatric, antibiotics, antivirals/antifungals, immunosuppressants,
   chemotherapy, hematology, musculoskeletal, genitourinary, eye/skin/topical,
