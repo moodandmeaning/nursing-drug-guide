@@ -243,6 +243,12 @@
     border-radius:5px;padding:1px 6px;
   }
   .route-line .he{direction:rtl;color:var(--muted)}
+  .dose-line,.cardio-line{
+    margin-top:9px;font-size:.82rem;color:var(--muted);line-height:1.45;
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;
+  }
+  .dose-line .he,.cardio-line .he{direction:rtl;color:var(--muted)}
+  .cardio-line{color:var(--ink)}
   .brand{
     font-size:.8rem;font-weight:600;
     background:var(--surface-2);border:1px solid var(--line);
@@ -336,18 +342,28 @@
   [data-lang="en"] .card-class .mid,
   [data-lang="en"] .route-line .he,
   [data-lang="en"] .route-line .mid,
+  [data-lang="en"] .dose-line .he,
+  [data-lang="en"] .dose-line .mid,
+  [data-lang="en"] .cardio-line .he,
+  [data-lang="en"] .cardio-line .mid,
   [data-lang="he"] .field-body .en,
   [data-lang="he"] .field-label .en,
   [data-lang="he"] .card-class .en,
   [data-lang="he"] .card-class .mid,
   [data-lang="he"] .route-line .en,
-  [data-lang="he"] .route-line .mid{display:none}
+  [data-lang="he"] .route-line .mid,
+  [data-lang="he"] .dose-line .en,
+  [data-lang="he"] .dose-line .mid,
+  [data-lang="he"] .cardio-line .en,
+  [data-lang="he"] .cardio-line .mid{display:none}
   [data-lang="en"] .field-body,
   [data-lang="he"] .field-body{grid-template-columns:1fr}
   [data-lang="en"] .field-body .en{border:none;padding-inline-end:0;padding-bottom:0}
   .card-class .he{direction:rtl}
   .route-tag-he{color:var(--accent);display:none}
-  [data-lang="he"] .route-line .route-tag-he{display:inline}
+  [data-lang="he"] .route-line .route-tag-he,
+  [data-lang="he"] .dose-line .route-tag-he,
+  [data-lang="he"] .cardio-line .route-tag-he{display:inline}
 
   /* ---- Browse card star ---- */
   .card-head{position:relative}
@@ -614,6 +630,8 @@ const MEDS = [
   genericEn:"Digoxin", genericHe:"דיגוקסין",
   brandEn:"Digoxin", brandHe:"דיגוקסין",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
+  doseEn:"Adult: PO 0.125-0.25 mg once daily (0.0625-0.125 mg in older adults or renal impairment); IV load 0.25 mg every 6 h to a total of 0.75-1.5 mg. Reduce for low body weight, hypothyroidism, and amiodarone or verapamil co-use. Target level 0.5-0.9 ng/mL in heart failure.", doseHe:"מבוגר: פומי 0.125-0.25 מ\"ג פעם ביום (0.0625-0.125 מ\"ג בקשישים או באי-ספיקת כליות); העמסה תוך-ורידית 0.25 מ\"ג כל 6 שעות עד סך 0.75-1.5 מ\"ג. יש להפחית במשקל גוף נמוך, בתת-פעילות בלוטת התריס ובשילוב עם אמיודרון או ורפמיל. רמת מטרה 0.5-0.9 ננוגרם/מ\"ל באי-ספיקת לב.",
+  inoEn:"Positive inotrope - increases the force of contraction. Negative chronotrope and dromotrope - raises vagal tone, slowing the sinus rate and AV-node conduction.", inoHe:"אינוטרופ חיובי - מגביר את כוח הכיווץ. כרונוטרופ ודרומוטרופ שלילי - מעלה טונוס ואגלי, מאט את קצב הסינוס ואת ההולכה בצומת AV.",
   moaEn:"Inhibits the Na+/K+-ATPase pump, raising intracellular calcium for a stronger contraction (positive inotropy); increases vagal tone, slowing conduction through the SA and AV nodes.",
   moaHe:"מעכב את משאבת ה-Na+/K+-ATPase, מעלה סידן תוך-תאי ומחזק את כוח הכיווץ (אינוטרופיה חיובית); מגביר טונוס ואגלי ומאט הולכה בצמתי SA ו-AV.",
   indEn:"Heart failure with reduced ejection fraction; rate control in atrial fibrillation and atrial flutter.",
@@ -636,6 +654,8 @@ const MEDS = [
   genericEn:"Metoprolol", genericHe:"מטופרולול",
   brandEn:"Neobloc, Lopresor", brandHe:"ניאובלוק, לופרסור",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
+  doseEn:"Adult: tartrate 25-100 mg PO twice daily; succinate (ER) 25-200 mg PO once daily; IV 2.5-5 mg over 2 min, repeat every 5 min to 15 mg for rate control. Start low in heart failure (12.5-25 mg succinate daily) and titrate every 2 weeks. Reduce in severe hepatic impairment.", doseHe:"מבוגר: טרטרט 25-100 מ\"ג פומי פעמיים ביום; סוקצינאט (שחרור מושהה) 25-200 מ\"ג פומי פעם ביום; תוך-ורידי 2.5-5 מ\"ג על פני 2 דקות, לחזור כל 5 דקות עד 15 מ\"ג לשליטת קצב. באי-ספיקת לב מתחילים נמוך (12.5-25 מ\"ג סוקצינאט ליום) ומעלים כל שבועיים. יש להפחית באי-ספיקת כבד חמורה.",
+  inoEn:"Negative inotrope and negative chronotrope - beta-1 blockade lowers the heart rate, contractility, and AV conduction, reducing cardiac output and oxygen demand.", inoHe:"אינוטרופ וכרונוטרופ שלילי - חסימת בטא-1 מפחיתה קצב לב, כוח כיווץ והולכה ב-AV, ומפחיתה תפוקת לב וצריכת חמצן.",
   moaEn:"Selectively blocks beta-1 receptors in the heart, lowering heart rate, contractility, AV conduction, and renin release, which reduces cardiac workload and oxygen demand.",
   moaHe:"חוסם באופן סלקטיבי קולטני בטא-1 בלב, מפחית קצב לב, כוח כיווץ, הולכה ב-AV ושחרור רנין, ובכך מפחית עומס וצריכת חמצן של הלב.",
   indEn:"Hypertension, chronic stable angina, stable heart failure (succinate form), post-myocardial infarction, and rate control in tachyarrhythmias.",
@@ -658,6 +678,7 @@ const MEDS = [
   genericEn:"Lisinopril", genericHe:"ליזינופריל",
   brandEn:"Prinivil, Zestril", brandHe:"פריניוויל, זסטריל",
   routeEn:"PO", routeHe:"פומי",
+  doseEn:"Adult: 2.5-5 mg PO once daily to start, usual maintenance 10-40 mg once daily; max 80 mg/day. Start at 2.5 mg with heart failure, hyponatremia, volume depletion, or eGFR under 30, and monitor potassium and creatinine 1-2 weeks after each change.", doseHe:"מבוגר: 2.5-5 מ\"ג פומי פעם ביום להתחלה, אחזקה רגילה 10-40 מ\"ג פעם ביום; מקסימום 80 מ\"ג ליום. מתחילים ב-2.5 מ\"ג באי-ספיקת לב, היפונתרמיה, דלדול נפח, או eGFR מתחת ל-30, ובודקים אשלגן וקריאטינין 1-2 שבועות לאחר כל שינוי.",
   moaEn:"Blocks angiotensin-converting enzyme, lowering angiotensin II (vasodilation) and aldosterone (less sodium and water retention), and reducing breakdown of bradykinin.",
   moaHe:"חוסם את האנזים ההופך אנגיוטנסין, מפחית אנגיוטנסין II (הרחבת כלי דם) ואלדוסטרון (פחות אצירת נתרן ומים), ומפחית פירוק ברדיקינין.",
   indEn:"Hypertension, heart failure, after myocardial infarction, and diabetic or proteinuric kidney disease for renal protection.",
@@ -678,6 +699,7 @@ const MEDS = [
   genericEn:"Losartan", genericHe:"לוסארטן",
   brandEn:"Ocsaar, Cozaar", brandHe:"אוקסאר, קוזאר",
   routeEn:"PO", routeHe:"פומי",
+  doseEn:"Adult: 25-50 mg PO once daily to start, usual 50-100 mg/day (once daily or split); start 25 mg with volume depletion or hepatic impairment. Diabetic nephropathy target 100 mg/day. Monitor potassium and renal function.", doseHe:"מבוגר: 25-50 מ\"ג פומי פעם ביום להתחלה, רגיל 50-100 מ\"ג ליום (פעם ביום או מחולק); מתחילים ב-25 מ\"ג בדלדול נפח או באי-ספיקת כבד. יעד בנפרופתיה סוכרתית 100 מ\"ג ליום. יש לעקוב אחר אשלגן ותפקוד כליות.",
   moaEn:"Blocks the angiotensin II type-1 receptor, producing vasodilation and reduced aldosterone secretion without affecting bradykinin, so cough is uncommon.",
   moaHe:"חוסם את קולטן אנגיוטנסין II מסוג 1, גורם להרחבת כלי דם ולהפחתת הפרשת אלדוסטרון ללא השפעה על ברדיקינין, ולכן שיעול נדיר.",
   indEn:"Hypertension, heart failure, diabetic nephropathy, and stroke risk reduction in left ventricular hypertrophy; often used when an ACE inhibitor causes cough.",
@@ -698,6 +720,8 @@ const MEDS = [
   genericEn:"Amlodipine", genericHe:"אמלודיפין",
   brandEn:"Norvasc, Amlow", brandHe:"נורווסק",
   routeEn:"PO", routeHe:"פומי",
+  doseEn:"Adult: 2.5-5 mg PO once daily, max 10 mg/day; start 2.5 mg in older adults, small body size, or hepatic impairment and titrate no sooner than every 7-14 days. No renal adjustment.", doseHe:"מבוגר: 2.5-5 מ\"ג פומי פעם ביום, מקסימום 10 מ\"ג ליום; מתחילים ב-2.5 מ\"ג בקשישים, במבנה גוף קטן או באי-ספיקת כבד ומעלים לא לפני כל 7-14 ימים. אין התאמה כלייתית.",
+  inoEn:"Minimal direct cardiac effect (vascular-selective). Peripheral vasodilation can cause a mild reflex increase in heart rate; contractility is essentially unchanged at usual doses.", inoHe:"השפעה לבבית ישירה מזערית (סלקטיבי לכלי הדם). הרחבת כלי דם היקפית עלולה לגרום לעלייה רפלקסית קלה בקצב הלב; כוח הכיווץ כמעט ללא שינוי במינונים רגילים.",
   moaEn:"Blocks L-type calcium channels in vascular smooth muscle, causing peripheral arterial vasodilation that lowers systemic vascular resistance and afterload.",
   moaHe:"חוסם תעלות סידן מסוג L בשריר החלק של כלי הדם, גורם להרחבת עורקים היקפיים המורידה תנגודת כלי דם מערכתית ועומס לאחר (afterload).",
   indEn:"Hypertension and chronic stable or vasospastic (Prinzmetal) angina.",
@@ -720,6 +744,7 @@ const MEDS = [
   genericEn:"Atorvastatin", genericHe:"אטורבסטטין",
   brandEn:"Lipitor, Torvast", brandHe:"ליפיטור, טורבסט",
   routeEn:"PO", routeHe:"פומי",
+  doseEn:"Adult: 10-80 mg PO once daily at any time of day; start 40-80 mg for established atherosclerotic disease, 10-20 mg for primary prevention. No routine renal adjustment; use caution and lower doses with strong CYP3A4 inhibitors. Not for active liver disease.", doseHe:"מבוגר: 10-80 מ\"ג פומי פעם ביום בכל שעה; מתחילים 40-80 מ\"ג במחלה טרשתית מבוססת, 10-20 מ\"ג למניעה ראשונית. אין התאמה כלייתית שגרתית; זהירות ומינון נמוך עם מעכבי CYP3A4 חזקים. לא במחלת כבד פעילה.",
   moaEn:"Inhibits HMG-CoA reductase, the rate-limiting enzyme of hepatic cholesterol synthesis, which upregulates LDL receptors and lowers circulating LDL cholesterol.",
   moaHe:"מעכב את האנזים HMG-CoA רדוקטאז, האנזים המגביל בקצב ייצור הכולסטרול בכבד, מה שמגביר קולטני LDL ומוריד כולסטרול LDL בדם.",
   indEn:"Hyperlipidemia and primary and secondary prevention of atherosclerotic cardiovascular disease.",
@@ -740,6 +765,8 @@ const MEDS = [
   genericEn:"Nitroglycerin", genericHe:"ניטרוגליצרין",
   brandEn:"Nitroderm TTS, Nitrolingual", brandHe:"ניטרודרם TTS, ניטרולינגואל",
   routeEn:"SL / transdermal / topical / IV", routeHe:"תת-לשוני / מדבקה טרנסדרמלית / מקומי / תוך-ורידי",
+  doseEn:"Adult: SL tablet or spray 0.3-0.6 mg at onset of chest pain, repeat every 5 min up to 3 doses; IV infusion 5 mcg/min, titrate by 5-10 mcg/min every 3-5 min (usual 10-200 mcg/min). Transdermal patch 0.2-0.4 mg/h with a 10-12 h nitrate-free interval each day to avoid tolerance.", doseHe:"מבוגר: טבליה או תרסיס תת-לשוני 0.3-0.6 מ\"ג עם תחילת כאב בחזה, לחזור כל 5 דקות עד 3 מנות; עירוי תוך-ורידי 5 מק\"ג/דקה, לכייל ב-5-10 מק\"ג/דקה כל 3-5 דקות (רגיל 10-200 מק\"ג/דקה). מדבקה 0.2-0.4 מ\"ג/שעה עם מרווח נטול חנקות של 10-12 שעות ביום למניעת סבילות.",
+  inoEn:"No direct inotropic effect. Venodilation lowers preload and can trigger a reflex increase in heart rate (reflex tachycardia), especially with rapid blood-pressure fall.", inoHe:"אין השפעה אינוטרופית ישירה. הרחבת ורידים מפחיתה עומס מקדים ועלולה לגרום לעלייה רפלקסית בקצב הלב (טכיקרדיה רפלקסית), בעיקר בירידת לחץ דם מהירה.",
   moaEn:"Converted to nitric oxide, which relaxes vascular smooth muscle - mainly veins - reducing preload and myocardial oxygen demand, and dilates coronary arteries.",
   moaHe:"מומר לתחמוצת חנקן המרפה שריר חלק של כלי דם - בעיקר ורידים - מפחית עומס מקדים (preload) וצריכת חמצן של שריר הלב, ומרחיב עורקים כליליים.",
   indEn:"Acute angina, prophylaxis of predictable angina, acute heart failure with pulmonary edema, and hypertensive emergency (IV).",
@@ -760,6 +787,8 @@ const MEDS = [
   genericEn:"Amiodarone", genericHe:"אמיודרון",
   brandEn:"Procor, Cordarone", brandHe:"פרוקור, קורדרון",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
+  doseEn:"Adult: IV 150 mg over 10 min, then 1 mg/min for 6 h, then 0.5 mg/min; pulseless VT/VF 300 mg IV push, may repeat 150 mg. PO load 400 mg 2-3 times daily for 1-2 weeks, then taper to 200 mg once daily maintenance. No renal adjustment; reduce with hepatic impairment.", doseHe:"מבוגר: תוך-ורידי 150 מ\"ג על פני 10 דקות, אחר כך 1 מ\"ג/דקה למשך 6 שעות, אחר כך 0.5 מ\"ג/דקה; ב-VT/VF ללא דופק 300 מ\"ג בדחיפה, ניתן לחזור 150 מ\"ג. פומי העמסה 400 מ\"ג 2-3 פעמים ביום למשך 1-2 שבועות, אחר כך הפחתה ל-200 מ\"ג פעם ביום אחזקה. אין התאמה כלייתית; יש להפחית באי-ספיקת כבד.",
+  inoEn:"Mild negative inotrope and negative chronotrope - slows the sinus rate and AV conduction and prolongs refractoriness; well tolerated in heart failure compared with other antiarrhythmics.", inoHe:"אינוטרופ שלילי קל וכרונוטרופ שלילי - מאט את קצב הסינוס ואת ההולכה ב-AV ומאריך את התקופה הרפרקטורית; נסבל היטב באי-ספיקת לב בהשוואה לנוגדי הפרעות קצב אחרים.",
   moaEn:"Mainly blocks potassium channels to prolong repolarization and the refractory period, with added sodium- and calcium-channel blockade and beta-blocking effects that slow conduction.",
   moaHe:"בעיקר חוסם תעלות אשלגן ומאריך את הריפולריזציה ואת התקופה הרפרקטורית, עם חסימה נוספת של תעלות נתרן וסידן והשפעות חוסמות בטא המאטות הולכה.",
   indEn:"Life-threatening ventricular tachycardia or fibrillation, and conversion or rate control of atrial fibrillation and flutter.",
@@ -780,6 +809,8 @@ const MEDS = [
   genericEn:"Vernakalant", genericHe:"ורנקלנט",
   brandEn:"Brinavess", brandHe:"ברינאווס",
   routeEn:"IV", routeHe:"תוך-ורידי",
+  doseEn:"Adult: IV 3 mg/kg over 10 min; if AF has not converted after 15 min, a second infusion of 2 mg/kg over 10 min. Maximum cumulative 5 mg/kg in 24 h. Use actual body weight up to 113 kg. Give in a monitored setting with resuscitation equipment ready.", doseHe:"מבוגר: תוך-ורידי 3 מ\"ג/ק\"ג על פני 10 דקות; אם פרפור הפרוזדורים לא הומר לאחר 15 דקות, עירוי שני של 2 מ\"ג/ק\"ג על פני 10 דקות. מקסימום מצטבר 5 מ\"ג/ק\"ג ב-24 שעות. משתמשים במשקל גוף בפועל עד 113 ק\"ג. יש לתת תחת ניטור עם ציוד החייאה מוכן.",
+  inoEn:"Minimal negative inotropy at recommended doses. Can cause bradycardia and, rarely, transient AV block during or just after the infusion; little effect on contractility in a structurally normal heart.", inoHe:"אינוטרופיה שלילית מזערית במינונים מומלצים. עלול לגרום לברדיקרדיה ולעיתים נדירות לחסם AV חולף במהלך העירוי או מיד אחריו; השפעה מועטה על כוח הכיווץ בלב תקין מבנית.",
   moaEn:"Preferentially blocks potassium currents that are active mainly in atrial tissue (IKur, IKACh) and rate-dependent sodium channels, prolonging the atrial refractory period with little effect on the ventricles; this converts recent-onset atrial fibrillation to sinus rhythm.",
   moaHe:"חוסם באופן מועדף זרמי אשלגן הפעילים בעיקר ברקמת הפרוזדורים (IKur, IKACh) ותעלות נתרן תלויות-קצב, ומאריך את התקופה הרפרקטורית הפרוזדורית עם השפעה מועטה על החדרים; כך ממיר פרפור פרוזדורים שהתחיל לאחרונה לקצב סינוס.",
   indEn:"Rapid conversion of recent-onset atrial fibrillation to sinus rhythm - up to 7 days after onset in non-surgical patients, up to 3 days after cardiac surgery. Not for atrial flutter.",
@@ -1694,6 +1725,8 @@ const MEDS = [
   genericEn:"Atropine", genericHe:"אטרופין",
   brandEn:"AtroPen", brandHe:"אטרופין",
   routeEn:"IV / IM / SC / IO / endotracheal / ophthalmic", routeHe:"תוך-ורידי / תוך-שרירי / תת-עורי / תוך-עצמי / תוך-קנה / טיפות עיניים",
+  doseEn:"Adult: symptomatic bradycardia 0.5-1 mg IV every 3-5 min, max 3 mg. Organophosphate poisoning 1-3 mg IV, doubling every 5 min until secretions dry (large cumulative doses). Pre-op drying 0.4-0.6 mg IM/IV. Give bradycardia doses rapidly - a slow push can worsen the rate.", doseHe:"מבוגר: ברדיקרדיה תסמינית 0.5-1 מ\"ג תוך-ורידי כל 3-5 דקות, מקסימום 3 מ\"ג. הרעלת זרחנים אורגניים 1-3 מ\"ג תוך-ורידי, הכפלה כל 5 דקות עד ייבוש הפרשות (מנות מצטברות גדולות). ייבוש טרום-ניתוחי 0.4-0.6 מ\"ג תוך-שרירי/תוך-ורידי. מנות לברדיקרדיה יש לתת במהירות - הזרקה איטית עלולה להחמיר את הקצב.",
+  inoEn:"Positive chronotrope and positive dromotrope - blocks vagal muscarinic tone, speeding the sinus rate and AV conduction. No direct effect on contractility; very low doses can paradoxically slow the heart.", inoHe:"כרונוטרופ ודרומוטרופ חיובי - חוסם טונוס ואגלי מוסקריני, מאיץ את קצב הסינוס ואת ההולכה ב-AV. אין השפעה ישירה על כוח הכיווץ; מינונים נמוכים מאוד עלולים באופן פרדוקסלי להאט את הלב.",
   moaEn:"Competitively blocks acetylcholine at muscarinic receptors, increasing heart rate and AV conduction, drying secretions, and dilating pupils.",
   moaHe:"חוסם באופן תחרותי אצטילכולין בקולטנים מוסקריניים, מעלה קצב לב והולכה ב-AV, מייבש הפרשות ומרחיב אישונים.",
   indEn:"Symptomatic bradycardia and AV block, organophosphate or nerve-agent poisoning, preoperative drying of secretions, and reversal of muscarinic effects of anticholinesterases.",
@@ -1716,6 +1749,8 @@ const MEDS = [
   genericEn:"Epinephrine (adrenaline)", genericHe:"אפינפרין (אדרנלין)",
   brandEn:"Adrenalin, EpiPen", brandHe:"אפיפן",
   routeEn:"IM / IV / SC / inhaled / IO / endotracheal", routeHe:"תוך-שרירי / תוך-ורידי / תת-עורי / בשאיפה / תוך-עצמי / תוך-קנה",
+  doseEn:"Adult: anaphylaxis 0.3-0.5 mg IM (1 mg/mL) in the anterolateral thigh, repeat every 5-15 min. Cardiac arrest 1 mg IV/IO every 3-5 min. Refractory shock infusion 0.01-0.5 mcg/kg/min titrated. Auto-injector 0.3 mg adult, 0.15 mg for 15-30 kg.", doseHe:"מבוגר: אנפילקסיס 0.3-0.5 מ\"ג תוך-שרירי (1 מ\"ג/מ\"ל) בירך הקדמית-צדדית, לחזור כל 5-15 דקות. דום לב 1 מ\"ג תוך-ורידי/תוך-עצמי כל 3-5 דקות. הלם עמיד עירוי 0.01-0.5 מק\"ג/ק\"ג/דקה בכיול. מזרק אוטומטי 0.3 מ\"ג למבוגר, 0.15 מ\"ג ל-15-30 ק\"ג.",
+  inoEn:"Strong positive inotrope and positive chronotrope - beta-1 stimulation raises heart rate, contractility, and conduction velocity; alpha-1 adds vasoconstriction. High doses risk tachyarrhythmias and increased myocardial oxygen demand.", inoHe:"אינוטרופ וכרונוטרופ חיובי חזק - גירוי בטא-1 מעלה קצב לב, כוח כיווץ ומהירות הולכה; אלפא-1 מוסיף כיווץ כלי דם. מינונים גבוהים מסכנים בהפרעות קצב מהירות ובעלייה בצריכת חמצן של שריר הלב.",
   moaEn:"Stimulates alpha-1 (vasoconstriction), beta-1 (increased heart rate and contractility), and beta-2 (bronchodilation) receptors.",
   moaHe:"מגרה קולטני אלפא-1 (כיווץ כלי דם), בטא-1 (עלייה בקצב הלב ובכוח הכיווץ), ובטא-2 (הרחבת סמפונות).",
   indEn:"Anaphylaxis (first-line, IM), cardiac arrest, severe symptomatic bradycardia, and refractory hypotension or shock.",
@@ -1736,6 +1771,8 @@ const MEDS = [
   genericEn:"Norepinephrine", genericHe:"נוראפינפרין (נוראדרנלין)",
   brandEn:"Levophed", brandHe:"נוראדרנלין",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
+  doseEn:"Adult: IV infusion 0.05-0.1 mcg/kg/min (about 5-15 mcg/min) to start, titrate every few minutes to a mean arterial pressure of 65 mmHg; no absolute maximum but reassess volume status at high doses. Give through a central line where possible; phentolamine locally for extravasation.", doseHe:"מבוגר: עירוי תוך-ורידי 0.05-0.1 מק\"ג/ק\"ג/דקה (כ-5-15 מק\"ג/דקה) להתחלה, לכייל כל מספר דקות ללחץ עורקי ממוצע של 65 mmHg; אין מקסימום מוחלט אך יש להעריך מצב נפח במינון גבוה. לתת דרך קו מרכזי כשאפשר; פנטולמין מקומית בדליפה מהווריד.",
+  inoEn:"Potent alpha-1 vasoconstrictor with modest positive inotropy (beta-1). Heart rate is usually unchanged or falls slightly by reflex as blood pressure rises.", inoHe:"מכווץ כלי דם אלפא-1 חזק עם אינוטרופיה חיובית מתונה (בטא-1). קצב הלב בדרך כלל ללא שינוי או יורד מעט ברפלקס עם עליית לחץ הדם.",
   moaEn:"Potent alpha-1 vasoconstriction with modest beta-1 inotropy, raising systemic vascular resistance and mean arterial pressure.",
   moaHe:"כיווץ כלי דם חזק דרך אלפא-1 עם השפעה אינוטרופית מתונה דרך בטא-1, מעלה תנגודת כלי דם מערכתית ולחץ עורקי ממוצע.",
   indEn:"First-line vasopressor for septic shock and other vasodilatory or cardiogenic shock states.",
@@ -1756,6 +1793,8 @@ const MEDS = [
   genericEn:"Dopamine", genericHe:"דופמין",
   brandEn:"Intropin", brandHe:"דופמין",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
+  doseEn:"Adult IV infusion: 2-5 mcg/kg/min renal/dopaminergic (limited evidence), 5-10 mcg/kg/min mainly beta-1 (inotropy), 10-20 mcg/kg/min mainly alpha-1 (vasoconstriction). Titrate to effect; a second-line pressor because of arrhythmia risk. Give by pump, ideally centrally.", doseHe:"מבוגר עירוי תוך-ורידי: 2-5 מק\"ג/ק\"ג/דקה כלייתי/דופמינרגי (עדות מוגבלת), 5-10 מק\"ג/ק\"ג/דקה בעיקר בטא-1 (אינוטרופיה), 10-20 מק\"ג/ק\"ג/דקה בעיקר אלפא-1 (כיווץ כלי דם). לכייל לפי תגובה; מכווץ כלי דם קו שני בשל סיכון להפרעות קצב. לתת במשאבה, עדיף מרכזית.",
+  inoEn:"Dose-dependent positive inotrope and positive chronotrope through beta-1 at moderate doses; more arrhythmogenic and tachycardia-prone than norepinephrine. High doses add alpha-1 vasoconstriction.", inoHe:"אינוטרופ וכרונוטרופ חיובי תלוי מינון דרך בטא-1 במינון בינוני; מעורר הפרעות קצב וטכיקרדיה יותר מנוראפינפרין. מינונים גבוהים מוסיפים כיווץ כלי דם דרך אלפא-1.",
   moaEn:"Acts on dopaminergic receptors at low doses, beta-1 (inotropy) at moderate doses, and alpha-1 (vasoconstriction) at high doses.",
   moaHe:"פועל על קולטנים דופמינרגיים במינון נמוך, על בטא-1 (אינוטרופיה) במינון בינוני, ועל אלפא-1 (כיווץ כלי דם) במינון גבוה.",
   indEn:"Symptomatic bradycardia unresponsive to atropine, and hypotension or low cardiac output in shock (a second-line vasopressor).",
@@ -1776,6 +1815,8 @@ const MEDS = [
   genericEn:"Dobutamine", genericHe:"דובוטמין",
   brandEn:"Dobutrex", brandHe:"דובוטמין",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
+  doseEn:"Adult: IV infusion 2-5 mcg/kg/min to start, titrate by 1-2 mcg/kg/min to effect (usual 2-20 mcg/kg/min). Used for low-output heart failure and cardiogenic shock and for pharmacologic stress testing. Monitor continuous ECG, blood pressure, and potassium.", doseHe:"מבוגר: עירוי תוך-ורידי 2-5 מק\"ג/ק\"ג/דקה להתחלה, לכייל ב-1-2 מק\"ג/ק\"ג/דקה לפי תגובה (רגיל 2-20 מק\"ג/ק\"ג/דקה). לאי-ספיקת לב עם תפוקה נמוכה ולהלם קרדיוגני ולמבחן מאמץ תרופתי. יש לנטר ECG רציף, לחץ דם ואשלגן.",
+  inoEn:"Predominantly positive inotrope - beta-1 stimulation raises contractility and cardiac output. Mild positive chronotropy at usual doses, more marked at higher doses; increases myocardial oxygen demand.", inoHe:"בעיקר אינוטרופ חיובי - גירוי בטא-1 מעלה כוח כיווץ ותפוקת לב. כרונוטרופיה חיובית קלה במינון רגיל, בולטת יותר במינון גבוה; מעלה צריכת חמצן של שריר הלב.",
   moaEn:"Stimulates beta-1 receptors to increase myocardial contractility and cardiac output, with mild beta-2 vasodilation and little change in heart rate at usual doses.",
   moaHe:"מגרה קולטני בטא-1 להגברת כוח הכיווץ של שריר הלב ותפוקת הלב, עם הרחבת כלי דם קלה דרך בטא-2 ושינוי מועט בקצב הלב במינונים רגילים.",
   indEn:"Acute decompensated heart failure with low cardiac output and cardiogenic shock, and pharmacologic cardiac stress testing.",
@@ -1796,6 +1837,8 @@ const MEDS = [
   genericEn:"Phenylephrine", genericHe:"פנילאפרין",
   brandEn:"Neo-Synephrine", brandHe:"פנילאפרין",
   routeEn:"IV / intranasal / ophthalmic", routeHe:"תוך-ורידי / תוך-אפי / טיפות עיניים",
+  doseEn:"Adult: IV bolus 50-200 mcg for acute hypotension, repeat every 10-15 min; infusion 0.5-1.4 mcg/kg/min titrated (about 40-180 mcg/min). Nasal spray 1-2 sprays each nostril every 4 h for up to 3 days. Ophthalmic 2.5% for pupil dilation.", doseHe:"מבוגר: בולוס תוך-ורידי 50-200 מק\"ג לתת לחץ דם חריף, לחזור כל 10-15 דקות; עירוי 0.5-1.4 מק\"ג/ק\"ג/דקה בכיול (כ-40-180 מק\"ג/דקה). תרסיס אף 1-2 תרסיסים לכל נחיר כל 4 שעות עד 3 ימים. טיפות עיניים 2.5% להרחבת אישון.",
+  inoEn:"Pure alpha-1 agonist with no direct cardiac action. Rising blood pressure triggers a baroreceptor reflex that slows the heart rate (reflex bradycardia); contractility is unchanged.", inoHe:"אגוניסט אלפא-1 טהור ללא פעולה לבבית ישירה. עליית לחץ הדם מפעילה רפלקס ברורצפטורי המאט את קצב הלב (ברדיקרדיה רפלקסית); כוח הכיווץ ללא שינוי.",
   moaEn:"Pure alpha-1 agonist causing arterial and venous vasoconstriction that raises blood pressure, often with a reflex drop in heart rate.",
   moaHe:"אגוניסט אלפא-1 טהור הגורם לכיווץ עורקים וורידים המעלה לחץ דם, לרוב עם ירידה רפלקסית בקצב הלב.",
   indEn:"Hypotension, especially with tachycardia or during anesthesia, and as a nasal or ophthalmic decongestant.",
@@ -1816,6 +1859,8 @@ const MEDS = [
   genericEn:"Vasopressin", genericHe:"וזופרסין",
   brandEn:"Vasostrict, Pitressin", brandHe:"וזופרסין",
   routeEn:"IV infusion / IM / SC", routeHe:"עירוי תוך-ורידי / תוך-שרירי / תת-עורי",
+  doseEn:"Adult: septic shock fixed infusion 0.03 units/min added to norepinephrine (do not titrate as a sole agent). Cardiac arrest 40 units IV once (alternative to epinephrine in some protocols). Variceal bleeding 0.2-0.4 units/min. GI bleed and diabetes insipidus have separate regimens.", doseHe:"מבוגר: הלם ספטי עירוי קבוע 0.03 יחידות/דקה בתוספת לנוראפינפרין (אין לכייל כתרופה יחידה). דום לב 40 יחידות תוך-ורידי פעם אחת (חלופה לאפינפרין בחלק מהפרוטוקולים). דימום מדליות 0.2-0.4 יחידות/דקה. דימום במערכת העיכול וסוכרת תפלה - משטרים נפרדים.",
+  inoEn:"No direct inotropic or chronotropic action. V1-mediated vasoconstriction raises blood pressure, which can reflexively slow the heart; excessive doses reduce coronary and mesenteric perfusion.", inoHe:"אין פעולה אינוטרופית או כרונוטרופית ישירה. כיווץ כלי דם בתיווך V1 מעלה לחץ דם, מה שעלול להאט את הלב ברפלקס; מינונים מוגזמים מפחיתים זילוח כלילי ומזנטרי.",
   moaEn:"Activates V1 receptors on vascular smooth muscle to cause vasoconstriction independent of adrenergic receptors, and V2 renal receptors to retain water.",
   moaHe:"מפעיל קולטני V1 בשריר החלק של כלי הדם לכיווץ כלי דם ללא תלות בקולטנים אדרנרגיים, וקולטני V2 בכליה לאצירת מים.",
   indEn:"Add-on vasopressor in septic shock, cardiac arrest (alternative to epinephrine in some protocols), and bleeding esophageal varices.",
@@ -1836,6 +1881,8 @@ const MEDS = [
   genericEn:"Milrinone", genericHe:"מילרינון",
   brandEn:"Primacor", brandHe:"מילרינון",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
+  doseEn:"Adult: IV infusion 0.125-0.75 mcg/kg/min (commonly 0.25-0.5) with or without a 50 mcg/kg loading dose over 10 min (loading often omitted to limit hypotension). Reduce the infusion rate in renal impairment. Monitor continuous ECG, blood pressure, and potassium.", doseHe:"מבוגר: עירוי תוך-ורידי 0.125-0.75 מק\"ג/ק\"ג/דקה (בדרך כלל 0.25-0.5) עם או בלי מנת העמסה 50 מק\"ג/ק\"ג על פני 10 דקות (ההעמסה מושמטת לרוב להפחתת תת לחץ דם). יש להפחית את קצב העירוי באי-ספיקת כליות. יש לנטר ECG רציף, לחץ דם ואשלגן.",
+  inoEn:"Positive inotrope and vasodilator (inodilator) - PDE-3 inhibition raises cyclic AMP, increasing contractility and lowering preload and afterload; mild positive chronotropy and a real risk of atrial and ventricular arrhythmias.", inoHe:"אינוטרופ ומרחיב כלי דם (אינו-דילטור) - עיכוב PDE-3 מעלה cyclic AMP, מגביר כוח כיווץ ומפחית עומס מקדים ועומס אחורי; כרונוטרופיה חיובית קלה וסיכון ממשי להפרעות קצב פרוזדוריות וחדריות.",
   moaEn:"Inhibits phosphodiesterase-3, raising cyclic AMP to increase myocardial contractility and cause vasodilation, lowering both preload and afterload.",
   moaHe:"מעכב פוספודיאסטראז-3, מעלה cyclic AMP להגברת כוח הכיווץ של שריר הלב וגורם להרחבת כלי דם, ומפחית עומס מקדים ועומס לאחר.",
   indEn:"Short-term treatment of acute decompensated heart failure with low output, and as a bridge to transplant or device.",
@@ -1856,6 +1903,8 @@ const MEDS = [
   genericEn:"Adenosine", genericHe:"אדנוזין",
   brandEn:"Adenocard", brandHe:"אדנוקור",
   routeEn:"rapid IV push", routeHe:"דחיפה תוך-ורידית מהירה",
+  doseEn:"Adult: 6 mg rapid IV push into a proximal vein followed immediately by a 20 mL saline flush; if no conversion in 1-2 min, 12 mg, may repeat 12 mg once. Give via central line or with dose reduction if using a central line; higher doses if on theophylline or caffeine, lower (3 mg) if on dipyridamole or carbamazepine or via a central line.", doseHe:"מבוגר: 6 מ\"ג בדחיפה תוך-ורידית מהירה לווריד קרוב ומיד לאחריה שטיפת סליין 20 מ\"ל; אם אין המרה תוך 1-2 דקות, 12 מ\"ג, ניתן לחזור 12 מ\"ג פעם אחת. מינון גבוה יותר עם תאופילין או קפאין, נמוך יותר (3 מ\"ג) עם דיפירידמול או קרבמזפין או דרך קו מרכזי.",
+  inoEn:"Transient but powerful negative dromotrope and negative chronotrope - briefly blocks AV-node conduction and slows the sinus node for seconds, interrupting AV-nodal reentrant tachycardia. No lasting effect on contractility.", inoHe:"דרומוטרופ שלילי חזק אך חולף וכרונוטרופ שלילי - חוסם לזמן קצר את ההולכה בצומת AV ומאט את צומת הסינוס לשניות, וקוטע טכיקרדיה על-חדרית של כניסה חוזרת. אין השפעה מתמשכת על כוח הכיווץ.",
   moaEn:"Briefly slows conduction through the AV node by activating potassium channels and reducing calcium influx, interrupting AV-nodal reentry.",
   moaHe:"מאט לזמן קצר את ההולכה בצומת ה-AV על ידי הפעלת תעלות אשלגן והפחתת כניסת סידן, וקוטע מעגלי כניסה חוזרת בצומת.",
   indEn:"Conversion of stable paroxysmal supraventricular tachycardia to sinus rhythm, and diagnostic use in wide-complex tachycardia.",
@@ -1876,6 +1925,8 @@ const MEDS = [
   genericEn:"Lidocaine (systemic)", genericHe:"לידוקאין (סיסטמי)",
   brandEn:"Xylocaine, Esracaine", brandHe:"קסילוקאין, אסרקאין",
   routeEn:"IV", routeHe:"תוך-ורידי",
+  doseEn:"Adult: stable VT or post-arrest 1-1.5 mg/kg IV bolus, may repeat 0.5-0.75 mg/kg every 5-10 min to 3 mg/kg total; then infusion 1-4 mg/min. Reduce the infusion rate in heart failure, hepatic impairment, and older adults. Not for prophylaxis after MI.", doseHe:"מבוגר: VT יציב או לאחר דום לב 1-1.5 מ\"ג/ק\"ג בולוס תוך-ורידי, ניתן לחזור 0.5-0.75 מ\"ג/ק\"ג כל 5-10 דקות עד 3 מ\"ג/ק\"ג סה\"כ; אחר כך עירוי 1-4 מ\"ג/דקה. יש להפחית את קצב העירוי באי-ספיקת לב, באי-ספיקת כבד ובקשישים. לא למניעה לאחר אוטם.",
+  inoEn:"Minimal effect on rate or contractility at therapeutic levels - it suppresses ventricular ectopy by blocking sodium channels in ischemic tissue. Toxic levels cause bradycardia, hypotension, and myocardial depression.", inoHe:"השפעה מזערית על הקצב או על כוח הכיווץ ברמות טיפוליות - מדכא פעילות חוץ-רחמית חדרית על ידי חסימת תעלות נתרן ברקמה איסכמית. רמות רעילות גורמות לברדיקרדיה, לתת לחץ דם ולדיכוי שריר הלב.",
   moaEn:"Blocks fast sodium channels preferentially in ischemic and rapidly firing ventricular tissue, shortening the action potential and suppressing ventricular ectopy.",
   moaHe:"חוסם תעלות נתרן מהירות באופן מועדף ברקמת חדר איסכמית ובעלת ירי מהיר, מקצר את פוטנציאל הפעולה ומדכא פעילות חוץ-רחמית חדרית.",
   indEn:"Hemodynamically stable ventricular tachycardia and ventricular arrhythmias after cardiac arrest (alternative to amiodarone).",
@@ -1896,6 +1947,8 @@ const MEDS = [
   genericEn:"Sodium nitroprusside", genericHe:"נתרן ניטרופרוסיד",
   brandEn:"Nipride, Nitropress", brandHe:"ניפריד",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
+  doseEn:"Adult: IV infusion 0.3 mcg/kg/min to start, titrate every few minutes to blood-pressure goal (usual 0.5-3 mcg/kg/min, max 10 mcg/kg/min and only briefly). Limit dose and duration and monitor acid-base status and thiocyanate; protect the solution from light.", doseHe:"מבוגר: עירוי תוך-ורידי 0.3 מק\"ג/ק\"ג/דקה להתחלה, לכייל כל מספר דקות ליעד לחץ הדם (רגיל 0.5-3 מק\"ג/ק\"ג/דקה, מקסימום 10 מק\"ג/ק\"ג/דקה ולזמן קצר בלבד). יש להגביל מינון ומשך ולנטר מצב חומצה-בסיס ותיוציאנט; יש להגן על התמיסה מאור.",
+  inoEn:"No direct cardiac effect. Balanced arterial and venous dilation lowers preload and afterload; the fall in blood pressure can produce reflex tachycardia and increased contractility.", inoHe:"אין השפעה לבבית ישירה. הרחבה מאוזנת של עורקים וורידים מפחיתה עומס מקדים ואחורי; ירידת לחץ הדם עלולה לגרום לטכיקרדיה רפלקסית ולעלייה בכוח הכיווץ.",
   moaEn:"Releases nitric oxide, relaxing arterial and venous smooth muscle to rapidly lower preload and afterload; effect starts and stops within minutes.",
   moaHe:"משחרר תחמוצת חנקן, מרפה שריר חלק של עורקים וורידים להורדה מהירה של עומס מקדים ועומס לאחר; ההשפעה מתחילה ונפסקת תוך דקות.",
   indEn:"Hypertensive emergency and controlled hypotension, and afterload reduction in acute heart failure.",
@@ -1918,6 +1971,8 @@ const MEDS = [
   genericEn:"Procainamide", genericHe:"פרוקאינאמיד",
   brandEn:"Procan, Pronestyl", brandHe:"פרוקאינאמיד",
   routeEn:"IV / IM / PO", routeHe:"תוך-ורידי / תוך-שרירי / פומי",
+  doseEn:"Adult: IV load 10-17 mg/kg at 20-50 mg/min (or 100 mg every 5 min) until the arrhythmia stops, hypotension occurs, the QRS widens over 50%, or the max is reached; then infusion 1-4 mg/min. Reduce for renal impairment and heart failure; monitor procainamide and NAPA levels.", doseHe:"מבוגר: העמסה תוך-ורידית 10-17 מ\"ג/ק\"ג בקצב 20-50 מ\"ג/דקה (או 100 מ\"ג כל 5 דקות) עד שההפרעה נפסקת, מופיע תת לחץ דם, ה-QRS מתרחב מעל 50%, או מגיעים למקסימום; אחר כך עירוי 1-4 מ\"ג/דקה. יש להפחית באי-ספיקת כליות ובאי-ספיקת לב; יש לנטר רמות פרוקאינאמיד ו-NAPA.",
+  inoEn:"Negative inotrope and negative dromotrope - sodium-channel blockade slows conduction in atrial, ventricular, and accessory-pathway tissue and modestly depresses contractility; the infusion often causes hypotension.", inoHe:"אינוטרופ ודרומוטרופ שלילי - חסימת תעלות נתרן מאטה הולכה ברקמת פרוזדור, חדר ומסלול עוקף ומדכאת במידה מתונה את כוח הכיווץ; העירוי גורם לרוב לתת לחץ דם.",
   moaEn:"Blocks sodium channels and prolongs the action potential and refractory period, slowing conduction in atrial, ventricular, and accessory-pathway tissue.",
   moaHe:"חוסם תעלות נתרן ומאריך את פוטנציאל הפעולה ואת התקופה הרפרקטורית, מאט הולכה ברקמת פרוזדור, חדר ומסלול עוקף.",
   indEn:"Stable monomorphic ventricular tachycardia, and atrial fibrillation with Wolff-Parkinson-White.",
@@ -1938,6 +1993,8 @@ const MEDS = [
   genericEn:"Atenolol", genericHe:"אטנולול",
   brandEn:"Normiten, Tenormin", brandHe:"נורמיטן, טנורמין",
   routeEn:"PO", routeHe:"פומי",
+  doseEn:"Adult: 25-50 mg PO once daily, usual max 100 mg/day. Renal: reduce for CrCl 15-35 (max 50 mg/day) and CrCl under 15 (max 25 mg/day or 50 mg every other day); it is dialyzable. Do not stop abruptly.", doseHe:"מבוגר: 25-50 מ\"ג פומי פעם ביום, מקסימום רגיל 100 מ\"ג ליום. כליות: יש להפחית ב-CrCl 15-35 (מקסימום 50 מ\"ג ליום) וב-CrCl מתחת ל-15 (מקסימום 25 מ\"ג ליום או 50 מ\"ג כל יומיים); ניתן לסילוק בדיאליזה. אין להפסיק בפתאומיות.",
+  inoEn:"Negative inotrope and negative chronotrope - selective beta-1 blockade lowers heart rate, contractility, and AV conduction.", inoHe:"אינוטרופ וכרונוטרופ שלילי - חסימת בטא-1 סלקטיבית מפחיתה קצב לב, כוח כיווץ והולכה ב-AV.",
   moaEn:"Selectively blocks cardiac beta-1 receptors, lowering heart rate, contractility, and renin release; largely renally excreted.",
   moaHe:"חוסם באופן סלקטיבי קולטני בטא-1 בלב, מפחית קצב לב, כוח כיווץ ושחרור רנין; מופרש בעיקר דרך הכליה.",
   indEn:"Hypertension, chronic angina, and rate control after myocardial infarction.",
@@ -1960,6 +2017,8 @@ const MEDS = [
   genericEn:"Carvedilol", genericHe:"קרוודילול",
   brandEn:"Dimitone", brandHe:"דימיטון",
   routeEn:"PO", routeHe:"פומי",
+  doseEn:"Adult heart failure: 3.125 mg PO twice daily with food for 2 weeks, then double every 2 weeks as tolerated to a target of 25 mg twice daily (50 mg twice daily if over 85 kg). Hypertension: 6.25-25 mg twice daily. Avoid in severe hepatic impairment.", doseHe:"מבוגר באי-ספיקת לב: 3.125 מ\"ג פומי פעמיים ביום עם אוכל למשך שבועיים, אחר כך הכפלה כל שבועיים לפי סבילות ליעד 25 מ\"ג פעמיים ביום (50 מ\"ג פעמיים ביום מעל 85 ק\"ג). יתר לחץ דם: 6.25-25 מ\"ג פעמיים ביום. יש להימנע באי-ספיקת כבד חמורה.",
+  inoEn:"Negative inotrope and negative chronotrope from beta-1/beta-2 blockade, plus alpha-1 blockade that lowers afterload; long-term use improves ejection fraction and survival in heart failure.", inoHe:"אינוטרופ וכרונוטרופ שלילי מחסימת בטא-1/בטא-2, בתוספת חסימת אלפא-1 המפחיתה עומס אחורי; שימוש ממושך משפר מקטע פליטה והישרדות באי-ספיקת לב.",
   moaEn:"Blocks beta-1, beta-2, and alpha-1 receptors, reducing heart rate and afterload and providing antioxidant effects; improves survival in heart failure.",
   moaHe:"חוסם קולטני בטא-1, בטא-2 ואלפא-1, מפחית קצב לב ועומס לאחר ומספק השפעה נוגדת חמצון; משפר הישרדות באי-ספיקת לב.",
   indEn:"Heart failure with reduced ejection fraction, hypertension, and left ventricular dysfunction after myocardial infarction.",
@@ -1982,6 +2041,8 @@ const MEDS = [
   genericEn:"Propranolol", genericHe:"פרופרנולול",
   brandEn:"Deralin", brandHe:"דרלין",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
+  doseEn:"Adult: 40 mg PO twice daily to start; hypertension 120-240 mg/day, angina 80-320 mg/day, migraine prophylaxis 80-240 mg/day, essential tremor 40 mg twice daily to 120-320 mg/day; ER capsule once daily. Thyroid storm 60-80 mg PO every 4 h or 0.5-1 mg IV. Reduce in hepatic impairment.", doseHe:"מבוגר: 40 מ\"ג פומי פעמיים ביום להתחלה; יתר לחץ דם 120-240 מ\"ג ליום, תעוקת חזה 80-320 מ\"ג ליום, מניעת מיגרנה 80-240 מ\"ג ליום, רעד ראשוני 40 מ\"ג פעמיים ביום עד 120-320 מ\"ג ליום; קפסולת שחרור מושהה פעם ביום. סערה תירואידית 60-80 מ\"ג פומי כל 4 שעות או 0.5-1 מ\"ג תוך-ורידי. יש להפחית באי-ספיקת כבד.",
+  inoEn:"Negative inotrope and negative chronotrope - non-selective beta blockade reduces heart rate, contractility, and AV conduction.", inoHe:"אינוטרופ וכרונוטרופ שלילי - חסימת בטא לא סלקטיבית מפחיתה קצב לב, כוח כיווץ והולכה ב-AV.",
   moaEn:"Blocks beta-1 and beta-2 receptors and crosses into the CNS; reduces heart rate, contractility, tremor, and portal pressure.",
   moaHe:"חוסם קולטני בטא-1 ובטא-2 וחודר למערכת העצבים המרכזית; מפחית קצב לב, כוח כיווץ, רעד ולחץ בווריד השער.",
   indEn:"Hypertension, angina, arrhythmias, essential tremor, migraine prophylaxis, performance anxiety, thyroid storm, and variceal bleeding prophylaxis.",
@@ -2004,6 +2065,7 @@ const MEDS = [
   genericEn:"Ramipril", genericHe:"רמיפריל",
   brandEn:"Tritace", brandHe:"טריטייס",
   routeEn:"PO", routeHe:"פומי",
+  doseEn:"Adult: 2.5 mg PO once daily to start (1.25 mg with heart failure or volume depletion), usual 5-10 mg/day (once daily or split); cardiovascular risk reduction target 10 mg/day. Reduce dose when CrCl is under 40. Monitor potassium and creatinine.", doseHe:"מבוגר: 2.5 מ\"ג פומי פעם ביום להתחלה (1.25 מ\"ג באי-ספיקת לב או דלדול נפח), רגיל 5-10 מ\"ג ליום (פעם ביום או מחולק); יעד להפחתת סיכון קרדיווסקולרי 10 מ\"ג ליום. יש להפחית מינון כאשר CrCl מתחת ל-40. יש לעקוב אחר אשלגן וקריאטינין.",
   moaEn:"Blocks angiotensin-converting enzyme, reducing angiotensin II and aldosterone; shown to lower cardiovascular events in high-risk patients.",
   moaHe:"חוסם את האנזים ההופך אנגיוטנסין, מפחית אנגיוטנסין II ואלדוסטרון; הוכח כמפחית אירועים קרדיווסקולריים בחולים בסיכון גבוה.",
   indEn:"Hypertension, heart failure, after myocardial infarction, and prevention of cardiovascular events in high-risk patients.",
@@ -2024,6 +2086,7 @@ const MEDS = [
   genericEn:"Captopril", genericHe:"קפטופריל",
   brandEn:"Capoten, Acepril", brandHe:"קפוטן, אספריל",
   routeEn:"PO", routeHe:"פומי",
+  doseEn:"Adult: 12.5-25 mg PO 2-3 times daily 1 h before meals, titrate to 50 mg 3 times daily (max 150 mg/day); heart failure start 6.25 mg. Reduce dose or lengthen the interval when CrCl is under 30. Hypertensive urgency 12.5-25 mg PO or SL.", doseHe:"מבוגר: 12.5-25 מ\"ג פומי 2-3 פעמים ביום שעה לפני הארוחות, לכייל ל-50 מ\"ג 3 פעמים ביום (מקסימום 150 מ\"ג ליום); באי-ספיקת לב מתחילים 6.25 מ\"ג. יש להפחית מינון או להאריך מרווח כאשר CrCl מתחת ל-30. מצב דחוף של יתר לחץ דם 12.5-25 מ\"ג פומי או תת-לשוני.",
   moaEn:"The first oral ACE inhibitor; short half-life makes it useful for initial titration and hypertensive urgency.",
   moaHe:"מעכב ה-ACE הפומי הראשון; זמן מחצית חיים קצר הופך אותו שימושי לכיול ראשוני ולמצב דחוף של יתר לחץ דם.",
   indEn:"Hypertension, heart failure, diabetic nephropathy, and left ventricular dysfunction after myocardial infarction.",
@@ -2044,6 +2107,7 @@ const MEDS = [
   genericEn:"Valsartan", genericHe:"ולסרטן",
   brandEn:"Diovan", brandHe:"דיובן",
   routeEn:"PO", routeHe:"פומי",
+  doseEn:"Adult: hypertension 80-160 mg PO once daily, max 320 mg/day; heart failure 40 mg twice daily titrated to 160 mg twice daily; post-MI 20 mg twice daily up to 160 mg twice daily. No adjustment for CrCl over 30. Monitor potassium and renal function.", doseHe:"מבוגר: יתר לחץ דם 80-160 מ\"ג פומי פעם ביום, מקסימום 320 מ\"ג ליום; אי-ספיקת לב 40 מ\"ג פעמיים ביום עד 160 מ\"ג פעמיים ביום; לאחר אוטם 20 מ\"ג פעמיים ביום עד 160 מ\"ג פעמיים ביום. אין התאמה ל-CrCl מעל 30. יש לעקוב אחר אשלגן ותפקוד כליות.",
   moaEn:"Blocks the angiotensin II type-1 receptor, causing vasodilation and reduced aldosterone without affecting bradykinin.",
   moaHe:"חוסם את קולטן אנגיוטנסין II מסוג 1, גורם להרחבת כלי דם ולהפחתת אלדוסטרון ללא השפעה על ברדיקינין.",
   indEn:"Hypertension, heart failure, and after myocardial infarction; also a component of sacubitril/valsartan.",
@@ -2064,6 +2128,7 @@ const MEDS = [
   genericEn:"Sacubitril / valsartan", genericHe:"סקוביטריל / ולסרטן",
   brandEn:"Entresto", brandHe:"אנטרסטו",
   routeEn:"PO", routeHe:"פומי",
+  doseEn:"Adult: start 49/51 mg PO twice daily; use 24/26 mg twice daily if not on an ACE inhibitor or ARB, on a low prior dose, moderate hepatic impairment, or eGFR under 30. Double every 2-4 weeks to a target of 97/103 mg twice daily. Wait 36 h after stopping an ACE inhibitor.", doseHe:"מבוגר: מתחילים 49/51 מ\"ג פומי פעמיים ביום; משתמשים ב-24/26 מ\"ג פעמיים ביום אם אין טיפול קודם במעכב ACE או ARB, מינון קודם נמוך, אי-ספיקת כבד בינונית, או eGFR מתחת ל-30. מכפילים כל 2-4 שבועות ליעד 97/103 מ\"ג פעמיים ביום. יש להמתין 36 שעות לאחר הפסקת מעכב ACE.",
   moaEn:"Sacubitril raises natriuretic peptides (promoting vasodilation and natriuresis) while valsartan blocks the angiotensin II receptor; reduces heart-failure mortality.",
   moaHe:"סקוביטריל מעלה פפטידים נטריאורטיים (מקדם הרחבת כלי דם והפרשת נתרן) בעוד ולסרטן חוסם את קולטן אנגיוטנסין II; מפחית תמותה באי-ספיקת לב.",
   indEn:"Chronic heart failure with reduced (and some with preserved) ejection fraction.",
@@ -2084,6 +2149,8 @@ const MEDS = [
   genericEn:"Diltiazem", genericHe:"דילטיאזם",
   brandEn:"Dilatam SR, Cardizem", brandHe:"דילתם",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
+  doseEn:"Adult: AF rate control IV 0.25 mg/kg (about 20 mg) over 2 min, may repeat 0.35 mg/kg after 15 min, then infusion 5-15 mg/h. PO ER 120-360 mg once daily for hypertension or angina. Reduce in hepatic impairment; no renal adjustment.", doseHe:"מבוגר: שליטת קצב בפרפור פרוזדורים תוך-ורידי 0.25 מ\"ג/ק\"ג (כ-20 מ\"ג) על פני 2 דקות, ניתן לחזור 0.35 מ\"ג/ק\"ג לאחר 15 דקות, אחר כך עירוי 5-15 מ\"ג/שעה. פומי שחרור מושהה 120-360 מ\"ג פעם ביום ליתר לחץ דם או תעוקת חזה. יש להפחית באי-ספיקת כבד; אין התאמה כלייתית.",
+  inoEn:"Negative inotrope, negative chronotrope, and negative dromotrope - blocks AV-node and myocardial calcium channels, slowing the heart rate and conduction and modestly reducing contractility.", inoHe:"אינוטרופ, כרונוטרופ ודרומוטרופ שלילי - חוסם תעלות סידן בצומת AV ובשריר הלב, מאט את קצב הלב ואת ההולכה ומפחית במידה מתונה את כוח הכיווץ.",
   moaEn:"Blocks L-type calcium channels in the AV node and vascular smooth muscle, slowing AV conduction and causing coronary and peripheral vasodilation.",
   moaHe:"חוסם תעלות סידן מסוג L בצומת ה-AV ובשריר החלק של כלי הדם, מאט הולכה ב-AV וגורם להרחבת כלי דם כליליים והיקפיים.",
   indEn:"Rate control in atrial fibrillation and flutter, paroxysmal SVT, angina, and hypertension.",
@@ -2106,6 +2173,8 @@ const MEDS = [
   genericEn:"Verapamil", genericHe:"ורפמיל",
   brandEn:"Isoptin", brandHe:"איזופטין",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
+  doseEn:"Adult: SVT IV 2.5-5 mg over 2 min, may repeat 5-10 mg after 15-30 min. PO IR 80-120 mg 3 times daily; ER 180-480 mg/day. Reduce dose by about 50-75% in hepatic impairment; give with food. Highly constipating - start a bowel regimen.", doseHe:"מבוגר: SVT תוך-ורידי 2.5-5 מ\"ג על פני 2 דקות, ניתן לחזור 5-10 מ\"ג לאחר 15-30 דקות. פומי שחרור מיידי 80-120 מ\"ג 3 פעמים ביום; שחרור מושהה 180-480 מ\"ג ליום. יש להפחית מינון בכ-50-75% באי-ספיקת כבד; לתת עם אוכל. גורם לעצירות ניכרת - יש להתחיל משטר מעיים.",
+  inoEn:"Strong negative inotrope, negative chronotrope, and negative dromotrope - the most cardiodepressant calcium channel blocker; markedly slows the sinus and AV nodes and reduces contractility.", inoHe:"אינוטרופ שלילי חזק, כרונוטרופ ודרומוטרופ שלילי - חוסם תעלות הסידן המדכא ביותר את הלב; מאט משמעותית את צומת הסינוס ואת צומת ה-AV ומפחית כוח כיווץ.",
   moaEn:"Blocks L-type calcium channels with strong effects on the AV node and myocardium and less peripheral vasodilation than diltiazem.",
   moaHe:"חוסם תעלות סידן מסוג L עם השפעה חזקה על צומת ה-AV ועל שריר הלב ופחות הרחבת כלי דם היקפית מאשר דילטיאזם.",
   indEn:"Rate control in atrial fibrillation, paroxysmal SVT, angina, hypertension, and cluster headache prophylaxis.",
@@ -2128,6 +2197,8 @@ const MEDS = [
   genericEn:"Clonidine", genericHe:"קלונידין",
   brandEn:"Catapres, Kapvay", brandHe:"נורמופרסן",
   routeEn:"PO / transdermal / epidural", routeHe:"פומי / מדבקה טרנסדרמלית / אפידורלי",
+  doseEn:"Adult: PO 0.1 mg twice daily to start, titrate weekly (usual 0.2-0.6 mg/day, max 2.4 mg/day); transdermal 0.1-0.3 mg/24 h patch weekly. Opioid or alcohol withdrawal 0.1-0.2 mg every 4-6 h as needed. Taper over 2-4 days to stop; reduce in renal impairment.", doseHe:"מבוגר: פומי 0.1 מ\"ג פעמיים ביום להתחלה, לכייל שבועית (רגיל 0.2-0.6 מ\"ג ליום, מקסימום 2.4 מ\"ג ליום); מדבקה 0.1-0.3 מ\"ג/24 שעות שבועית. גמילה מאופיואידים או מאלכוהול 0.1-0.2 מ\"ג כל 4-6 שעות לפי צורך. יש להפחית על פני 2-4 ימים בהפסקה; יש להפחית באי-ספיקת כליות.",
+  inoEn:"Indirect negative chronotrope - central alpha-2 stimulation reduces sympathetic outflow, slowing the heart rate; little direct effect on contractility. Rebound tachycardia and hypertension occur with abrupt withdrawal.", inoHe:"כרונוטרופ שלילי עקיף - גירוי אלפא-2 מרכזי מפחית פעילות סימפתטית ומאט את קצב הלב; השפעה ישירה מועטה על כוח הכיווץ. טכיקרדיה ויתר לחץ דם ריבאונד בהפסקה פתאומית.",
   moaEn:"Stimulates central alpha-2 receptors to reduce sympathetic outflow, lowering heart rate and blood pressure.",
   moaHe:"מגרה קולטני אלפא-2 מרכזיים להפחתת פעילות סימפתטית, ומוריד קצב לב ולחץ דם.",
   indEn:"Resistant hypertension, hypertensive urgency, ADHD, opioid and alcohol withdrawal, and adjunct for cancer or neuropathic pain.",
@@ -2148,6 +2219,8 @@ const MEDS = [
   genericEn:"Hydralazine", genericHe:"הידרלזין",
   brandEn:"Apresoline", brandHe:"אפרסולין",
   routeEn:"PO / IV / IM", routeHe:"פומי / תוך-ורידי / תוך-שרירי",
+  doseEn:"Adult: PO 10 mg 4 times daily for 2-4 days, then 25 mg 4 times daily, up to 50 mg 4 times daily (max 300 mg/day); with isosorbide dinitrate for heart failure. Hypertensive emergency or pre-eclampsia IV/IM 5-10 mg every 20-30 min. Slow acetylators need lower doses.", doseHe:"מבוגר: פומי 10 מ\"ג 4 פעמים ביום למשך 2-4 ימים, אחר כך 25 מ\"ג 4 פעמים ביום, עד 50 מ\"ג 4 פעמים ביום (מקסימום 300 מ\"ג ליום); עם איזוסורביד דיניטראט באי-ספיקת לב. מצב חירום של יתר לחץ דם או רעלת הריון תוך-ורידי/תוך-שרירי 5-10 מ\"ג כל 20-30 דקות. מאצטלים איטיים זקוקים למינון נמוך יותר.",
+  inoEn:"No direct cardiac effect. Arteriolar vasodilation lowers afterload and commonly triggers reflex tachycardia and increased contractility through baroreceptor-driven sympathetic activation.", inoHe:"אין השפעה לבבית ישירה. הרחבת עורקיקים מפחיתה עומס אחורי וגורמת לרוב לטכיקרדיה רפלקסית ולעלייה בכוח הכיווץ דרך הפעלה סימפתטית בתיווך ברורצפטורים.",
   moaEn:"Directly relaxes arteriolar smooth muscle, reducing systemic vascular resistance and afterload.",
   moaHe:"מרפה ישירות שריר חלק של עורקיקים, מפחית תנגודת כלי דם מערכתית ועומס לאחר.",
   indEn:"Hypertension (including in pregnancy), hypertensive emergency, and heart failure in combination with a nitrate, especially in Black patients.",
@@ -7634,6 +7707,8 @@ const MEDS = [
   genericEn:"Esmolol", genericHe:"אסמולול",
   brandEn:"Brevibloc", brandHe:"ברביבלוק",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
+  doseEn:"Adult: IV load 500 mcg/kg over 1 min, then infusion 50 mcg/kg/min; if inadequate after 4 min, repeat the load and increase by 50 mcg/kg/min every 4 min to a max of 200-300 mcg/kg/min. Ultra-short half-life (about 9 min) allows rapid titration and reversal.", doseHe:"מבוגר: העמסה תוך-ורידית 500 מק\"ג/ק\"ג על פני דקה, אחר כך עירוי 50 מק\"ג/ק\"ג/דקה; אם לא מספק לאחר 4 דקות, לחזור על ההעמסה ולהעלות ב-50 מק\"ג/ק\"ג/דקה כל 4 דקות עד מקסימום 200-300 מק\"ג/ק\"ג/דקה. זמן מחצית חיים קצר במיוחד (כ-9 דקות) מאפשר כיול והיפוך מהירים.",
+  inoEn:"Negative inotrope and negative chronotrope - rapid, titratable beta-1 blockade lowers heart rate, contractility, and AV conduction; effect resolves within minutes of stopping.", inoHe:"אינוטרופ וכרונוטרופ שלילי - חסימת בטא-1 מהירה וניתנת לכיול מפחיתה קצב לב, כוח כיווץ והולכה ב-AV; ההשפעה חולפת תוך דקות מהפסקה.",
   moaEn:"A cardioselective beta-1 blocker with an elimination half-life of about 9 minutes (broken down by red-cell esterases), so its effect can be titrated and stopped quickly.",
   moaHe:"חוסם בטא-1 קרדיו-סלקטיבי עם זמן מחצית חיים של כ-9 דקות (מפורק על ידי אסטראזות של כדוריות הדם), ולכן ניתן לכייל ולהפסיק את השפעתו במהירות.",
   indEn:"Rapid control of supraventricular tachycardia and atrial fibrillation rate, intraoperative and perioperative tachycardia and hypertension, and hypertensive emergencies (especially aortic dissection with a vasodilator).",
@@ -7654,6 +7729,8 @@ const MEDS = [
   genericEn:"Nicardipine", genericHe:"ניקרדיפין",
   brandEn:"Cardene", brandHe:"קרדן",
   routeEn:"IV infusion / PO", routeHe:"עירוי תוך-ורידי / פומי",
+  doseEn:"Adult: IV infusion 5 mg/h to start, increase by 2.5 mg/h every 5-15 min to a max of 15 mg/h; reduce to 3 mg/h once the target is reached. Change the peripheral IV site every 12 h to limit phlebitis. Reduce in hepatic impairment.", doseHe:"מבוגר: עירוי תוך-ורידי 5 מ\"ג/שעה להתחלה, להעלות ב-2.5 מ\"ג/שעה כל 5-15 דקות עד מקסימום 15 מ\"ג/שעה; להפחית ל-3 מ\"ג/שעה עם ההגעה ליעד. יש להחליף אתר עירוי היקפי כל 12 שעות להפחתת דלקת ורידים. יש להפחית באי-ספיקת כבד.",
+  inoEn:"Vascular-selective calcium channel blocker with little direct effect on rate, contractility, or conduction. Rapid afterload reduction may cause a mild reflex tachycardia.", inoHe:"חוסם תעלות סידן סלקטיבי לכלי הדם עם השפעה ישירה מועטה על קצב, כוח כיווץ או הולכה. הפחתת עומס אחורי מהירה עלולה לגרום לטכיקרדיה רפלקסית קלה.",
   moaEn:"Blocks vascular L-type calcium channels to produce arterial (including cerebral and coronary) vasodilation; given as a continuous IV infusion for smooth, titratable blood-pressure control.",
   moaHe:"חוסם תעלות סידן מסוג L בכלי הדם ליצירת הרחבת עורקים (כולל מוחיים וכליליים); ניתן כעירוי תוך-ורידי רציף לשליטה חלקה וניתנת לכיול בלחץ הדם.",
   indEn:"Hypertensive emergency and urgency, perioperative hypertension, and blood-pressure management in acute stroke or subarachnoid hemorrhage.",
@@ -9457,6 +9534,16 @@ function cardHTML(m){
         '<span class="en">' + esc(m.routeEn) + '</span>' +
         '<span class="mid">·</span>' +
         '<span class="he" dir="rtl">' + esc(m.routeHe) + "</span></div>" : "") +
+      (m.doseEn ? '<div class="dose-line">' +
+        '<span class="route-tag en">Common dose</span><span class="route-tag route-tag-he" dir="rtl">מינון מקובל</span> ' +
+        '<span class="en">' + esc(m.doseEn) + '</span>' +
+        '<span class="mid">·</span>' +
+        '<span class="he" dir="rtl">' + esc(m.doseHe) + "</span></div>" : "") +
+      (m.inoEn ? '<div class="cardio-line">' +
+        '<span class="route-tag en">Ino / chrono</span><span class="route-tag route-tag-he" dir="rtl">אינו / כרונו</span> ' +
+        '<span class="en">' + esc(m.inoEn) + '</span>' +
+        '<span class="mid">·</span>' +
+        '<span class="he" dir="rtl">' + esc(m.inoHe) + "</span></div>" : "") +
     "</div>" +
     '<div class="fields">' + fields + "</div>" +
   "</article>";
