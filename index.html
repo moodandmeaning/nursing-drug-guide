@@ -42,6 +42,7 @@
     --teach:#0f7d86;
     --teach-soft:#e0f0f1;
     --shadow:0 1px 2px rgba(24,33,46,.06), 0 8px 24px rgba(24,33,46,.06);
+    --card-sticky-top:132px; /* set from JS to the live height of the controls bar */
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
@@ -214,8 +215,17 @@
     box-shadow:var(--shadow);
     margin-bottom:18px;
     overflow:hidden;
+    overflow:clip; /* clips to the radius without trapping the sticky name header (falls back to hidden) */
   }
-  .card-head{padding:20px 22px 16px;border-bottom:1px solid var(--line)}
+  .card-sticky{
+    position:sticky;
+    top:var(--card-sticky-top,132px);
+    z-index:5;
+    background:var(--surface);
+    padding:16px 22px 12px;
+    border-bottom:1px solid var(--line);
+  }
+  .card-head{padding:16px 22px 16px;border-bottom:1px solid var(--line)}
   .card-class{
     font-family:"IBM Plex Mono",ui-monospace,monospace;
     font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
@@ -376,14 +386,13 @@
   [data-lang="he"] .cardio-line .route-tag-he{display:inline}
 
   /* ---- Browse card star ---- */
-  .card-head{position:relative}
   .star-btn{
     position:absolute;top:14px;inset-inline-end:16px;
     font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer;
-    color:var(--muted);padding:2px;
+    color:var(--muted);padding:2px;z-index:1;
   }
   .star-btn.on{color:var(--caution)}
-  .card-head .card-class,.card-head .card-names,.card-head .brands{padding-inline-end:34px}
+  .card-sticky .card-class,.card-sticky .card-names{padding-inline-end:34px}
 
   /* ---- Study mode ---- */
   #study{padding-top:14px;padding-bottom:90px}
@@ -10051,14 +10060,27 @@ document.addEventListener("keydown", e => {
 
 /* Collapse the category row (and meta) once the page is scrolled; keep only the search bar. */
 let collapseTicking = false;
+let lastCollapsed = null;
+function measureControls(){
+  /* Pin each card's name just below the live height of the sticky controls bar. */
+  document.documentElement.style.setProperty("--card-sticky-top", controlsEl.offsetHeight + "px");
+}
 function syncControls(){
   collapseTicking = false;
-  controlsEl.classList.toggle("collapsed", window.scrollY > 6);
+  const c = window.scrollY > 6;
+  controlsEl.classList.toggle("collapsed", c);
+  if (c !== lastCollapsed){
+    lastCollapsed = c;
+    measureControls();
+    setTimeout(measureControls, 260); /* re-measure once the collapse transition settles */
+  }
 }
 window.addEventListener("scroll", () => {
   if (!collapseTicking){ collapseTicking = true; window.requestAnimationFrame(syncControls); }
 }, {passive:true});
+window.addEventListener("resize", measureControls);
 syncControls();
+measureControls();
 
 function matches(m){
   if (activeCat === "starred"){ if (!isStarred(m.genericEn)) return false; }
@@ -10100,16 +10122,7 @@ function cardHTML(m){
   }).join("");
   const cl = catLabel(m.cat);
   const starred = isStarred(m.genericEn);
-  return '<article class="card">' +
-    '<div class="card-head">' +
-      '<button class="star-btn' + (starred ? " on" : "") + '" type="button" data-star="' + escAttr(m.genericEn) + '" aria-label="Star this drug / הוסף לנבחרים" aria-pressed="' + starred + '">' + (starred ? "★" : "☆") + "</button>" +
-      '<p class="card-class"><span class="en">' + esc(m.classEn) + '</span>' +
-        '<span class="mid">&nbsp;&middot;&nbsp;</span>' +
-        '<span class="he" dir="rtl">' + esc(m.classHe) + "</span></p>" +
-      '<div class="card-names">' +
-        '<h2 class="generic-en">' + esc(m.genericEn) + "</h2>" +
-        '<span class="generic-he" dir="rtl">' + esc(m.genericHe) + "</span>" +
-      "</div>" +
+  const meta =
       (brands ? '<div class="brands">' + brands + "</div>" : "") +
       (m.routeEn ? '<div class="route-line">' +
         '<span class="route-tag en">Route</span><span class="route-tag route-tag-he" dir="rtl">מתן</span> ' +
@@ -10126,8 +10139,19 @@ function cardHTML(m){
         inoDirHTML(m.inoDir) +
         '<span class="en">' + esc(m.inoEn) + '</span>' +
         '<span class="mid">·</span>' +
-        '<span class="he" dir="rtl">' + esc(m.inoHe) + "</span></div>" : "") +
+        '<span class="he" dir="rtl">' + esc(m.inoHe) + "</span></div>" : "");
+  return '<article class="card">' +
+    '<div class="card-sticky">' +
+      '<button class="star-btn' + (starred ? " on" : "") + '" type="button" data-star="' + escAttr(m.genericEn) + '" aria-label="Star this drug / הוסף לנבחרים" aria-pressed="' + starred + '">' + (starred ? "★" : "☆") + "</button>" +
+      '<p class="card-class"><span class="en">' + esc(m.classEn) + '</span>' +
+        '<span class="mid">&nbsp;&middot;&nbsp;</span>' +
+        '<span class="he" dir="rtl">' + esc(m.classHe) + "</span></p>" +
+      '<div class="card-names">' +
+        '<h2 class="generic-en">' + esc(m.genericEn) + "</h2>" +
+        '<span class="generic-he" dir="rtl">' + esc(m.genericHe) + "</span>" +
+      "</div>" +
     "</div>" +
+    (meta ? '<div class="card-head">' + meta + "</div>" : "") +
     '<div class="fields">' + fields + "</div>" +
   "</article>";
 }
@@ -10813,6 +10837,7 @@ function setMode(mode){
   footerEl.hidden = studying;
   studyEl.hidden = !studying;
   if (studying){ study = null; renderStudy(); window.scrollTo(0, 0); }
+  if (typeof measureControls === "function") measureControls();
 }
 modeSwitchEl.addEventListener("click", function(e){
   const b = e.target.closest(".mode-btn");
