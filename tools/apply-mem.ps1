@@ -24,8 +24,7 @@ foreach ($name in $data.Keys) {
   $m = [regex]::Match($text, $pat)
   if (-not $m.Success) { $missing += $name; continue }
   $insertAt = $m.Groups[1].Index + $m.Groups[1].Length
-  $ahead = $text.Substring($insertAt, [Math]::Min(80, $text.Length - $insertAt))
-  if ($ahead -match 'memHookEn:') { $skipped += $name; continue }
+  if ($m.Groups[1].Value -match 'memHookEn:') { $skipped += $name; continue }
   $ind = $m.Groups['indent'].Value
   $ins = $ind + 'memHookEn:"' + (Esc $v.hk) + '", memHookHe:"' + (Esc $v.hkh) + '",' + "`r`n" +
          $ind + 'memEn:"' + (Esc $v.m) + '", memHe:"' + (Esc $v.mh) + '",' + "`r`n"
