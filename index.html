@@ -10072,7 +10072,7 @@ function inoDirHTML(dir){
   if (!dir) return "";
   const parts = String(dir).split("/");
   if (parts.length !== 2) return "";
-  const glyph = { up:"↑", down:"↓", neutral:"–", mixed:"↕" };
+  const glyph = { up:"↑", down:"↓", neutral:"↔", mixed:"↕" };
   const word  = { up:"increases", down:"decreases", neutral:"little direct change", mixed:"variable / dose-dependent" };
   const seg = p => glyph[p] ? '<span class="id-' + p + '">' + glyph[p] + "</span>" : "";
   if (!glyph[parts[0]] || !glyph[parts[1]]) return "";
