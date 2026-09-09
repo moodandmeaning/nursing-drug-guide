@@ -26,11 +26,12 @@ foreach ($name in $data.Keys) {
   $pat = '(genericEn:"' + $ne + '",[\s\S]*?routeHe:"(?:[^"\\]|\\.)*",)'
   $m = [regex]::Match($text, $pat)
   if (-not $m.Success) { $missing += $name; continue }
-  if ($m.Value -match 'doseEn:') { $skipped += $name; continue }
+  $after = $text.Substring($m.Index + $m.Length, [Math]::Min(30, $text.Length - ($m.Index + $m.Length)))
+  if ($after -match '^\s*doseEn:') { $skipped += $name; continue }
 
-  $ins = "`n  doseEn:`"" + (Esc $v.d) + "`", doseHe:`"" + (Esc $v.dh) + "`","
+  $ins = "`r`n  doseEn:`"" + (Esc $v.d) + "`", doseHe:`"" + (Esc $v.dh) + "`","
   if ($v.PSObject.Properties.Name -contains 'i' -and $v.i) {
-    $ins += "`n  inoEn:`"" + (Esc $v.i) + "`", inoHe:`"" + (Esc $v.ih) + "`","
+    $ins += "`r`n  inoEn:`"" + (Esc $v.i) + "`", inoHe:`"" + (Esc $v.ih) + "`","
   }
   $text = $text.Substring(0, $m.Index + $m.Length) + $ins + $text.Substring($m.Index + $m.Length)
   $applied++
