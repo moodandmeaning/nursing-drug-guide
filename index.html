@@ -41,6 +41,8 @@
     --antidote-soft:#e7eef8;
     --teach:#0f7d86;
     --teach-soft:#e0f0f1;
+    --mem:#a83f6f;
+    --mem-soft:#f7e7ef;
     --shadow:0 1px 2px rgba(24,33,46,.06), 0 8px 24px rgba(24,33,46,.06);
     --card-sticky-top:132px; /* set from JS to the live height of the controls bar */
   }
@@ -67,6 +69,8 @@
       --antidote-soft:#17222f;
       --teach:#5fc2cb;
       --teach-soft:#122a2c;
+      --mem:#e58ab0;
+      --mem-soft:#301f28;
       --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
     }
   }
@@ -92,6 +96,8 @@
     --antidote-soft:#17222f;
     --teach:#5fc2cb;
     --teach-soft:#122a2c;
+    --mem:#e58ab0;
+    --mem-soft:#301f28;
     --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
   }
 
@@ -253,12 +259,14 @@
     border-radius:5px;padding:1px 6px;
   }
   .route-line .he{direction:rtl;color:var(--muted)}
-  .dose-line,.cardio-line{
+  .dose-line,.cardio-line,.mem-line{
     margin-top:9px;font-size:.82rem;color:var(--muted);line-height:1.45;
     display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;
   }
-  .dose-line .he,.cardio-line .he{direction:rtl;color:var(--muted)}
+  .dose-line .he,.cardio-line .he,.mem-line .he{direction:rtl;color:var(--muted)}
   .cardio-line{color:var(--ink)}
+  .mem-line{color:var(--mem)}
+  .mem-line .route-tag{color:var(--mem);border-color:color-mix(in srgb,var(--mem) 35%,transparent)}
   .ino-dir{
     font-weight:700;font-size:1rem;line-height:1;
     display:inline-flex;align-items:center;gap:1px;white-space:nowrap;
@@ -309,6 +317,9 @@
   .field--teach{background:var(--teach-soft)}
   .field--teach .field-label{color:var(--teach)}
   .field--teach .field-label .dot{background:var(--teach)}
+  .field--mem{background:var(--mem-soft)}
+  .field--mem .field-label{color:var(--mem)}
+  .field--mem .field-label .dot{background:var(--mem)}
 
   .empty{
     text-align:center;color:var(--muted);padding:60px 20px;
@@ -366,6 +377,8 @@
   [data-lang="en"] .dose-line .mid,
   [data-lang="en"] .cardio-line .he,
   [data-lang="en"] .cardio-line .mid,
+  [data-lang="en"] .mem-line .he,
+  [data-lang="en"] .mem-line .mid,
   [data-lang="he"] .field-body .en,
   [data-lang="he"] .field-label .en,
   [data-lang="he"] .card-class .en,
@@ -375,7 +388,9 @@
   [data-lang="he"] .dose-line .en,
   [data-lang="he"] .dose-line .mid,
   [data-lang="he"] .cardio-line .en,
-  [data-lang="he"] .cardio-line .mid{display:none}
+  [data-lang="he"] .cardio-line .mid,
+  [data-lang="he"] .mem-line .en,
+  [data-lang="he"] .mem-line .mid{display:none}
   [data-lang="en"] .field-body,
   [data-lang="he"] .field-body{grid-template-columns:1fr}
   [data-lang="en"] .field-body .en{border:none;padding-inline-end:0;padding-bottom:0}
@@ -383,7 +398,8 @@
   .route-tag-he{color:var(--accent);display:none}
   [data-lang="he"] .route-line .route-tag-he,
   [data-lang="he"] .dose-line .route-tag-he,
-  [data-lang="he"] .cardio-line .route-tag-he{display:inline}
+  [data-lang="he"] .cardio-line .route-tag-he,
+  [data-lang="he"] .mem-line .route-tag-he{display:inline}
 
   /* ---- Browse card star ---- */
   .star-btn{
@@ -652,6 +668,8 @@ const MEDS = [
   doseEn:"Adult: PO 0.125-0.25 mg once daily (0.0625-0.125 mg in older adults or renal impairment); IV load 0.25 mg every 6 h to a total of 0.75-1.5 mg. Reduce for low body weight, hypothyroidism, and amiodarone or verapamil co-use. Target level 0.5-0.9 ng/mL in heart failure.", doseHe:"מבוגר: פומי 0.125-0.25 מ\"ג פעם ביום (0.0625-0.125 מ\"ג בקשישים או באי-ספיקת כליות); העמסה תוך-ורידית 0.25 מ\"ג כל 6 שעות עד סך 0.75-1.5 מ\"ג. יש להפחית במשקל גוף נמוך, בתת-פעילות בלוטת התריס ובשילוב עם אמיודרון או ורפמיל. רמת מטרה 0.5-0.9 ננוגרם/מ\"ל באי-ספיקת לב.",
   inoDir:"up/down",
   inoEn:"Positive inotrope - increases the force of contraction. Negative chronotrope and dromotrope - raises vagal tone, slowing the sinus rate and AV-node conduction.", inoHe:"אינוטרופ חיובי - מגביר את כוח הכיווץ. כרונוטרופ ודרומוטרופ שלילי - מעלה טונוס ואגלי, מאט את קצב הסינוס ואת ההולכה בצומת AV.",
+  memHookEn:"Cardiac glycoside — narrow window", memHookHe:"גליקוזיד לבבי — חלון טיפולי צר",
+  memEn:"Class: cardiac glycoside — the 'slow and strong' drug (slows the rate, strengthens the squeeze). Toxicity picture: anorexia, nausea and vomiting, yellow-green vision with halos, confusion, and bradycardia or arrhythmia — low potassium and low magnesium make it worse.", memHe:"קבוצה: גליקוזיד לבבי — תרופת ה\"איטי וחזק\" (מאט את הקצב, מחזק את הכיווץ). תמונת רעילות: אובדן תיאבון, בחילות והקאות, ראייה צהובה-ירוקה עם הילות, בלבול, וברדיקרדיה או הפרעת קצב — אשלגן נמוך ומגנזיום נמוך מחמירים.",
   moaEn:"Inhibits the Na+/K+-ATPase pump, raising intracellular calcium for a stronger contraction (positive inotropy); increases vagal tone, slowing conduction through the SA and AV nodes.",
   moaHe:"מעכב את משאבת ה-Na+/K+-ATPase, מעלה סידן תוך-תאי ומחזק את כוח הכיווץ (אינוטרופיה חיובית); מגביר טונוס ואגלי ומאט הולכה בצמתי SA ו-AV.",
   indEn:"Heart failure with reduced ejection fraction; rate control in atrial fibrillation and atrial flutter.",
@@ -677,6 +695,8 @@ const MEDS = [
   doseEn:"Adult: tartrate 25-100 mg PO twice daily; succinate (ER) 25-200 mg PO once daily; IV 2.5-5 mg over 2 min, repeat every 5 min to 15 mg for rate control. Start low in heart failure (12.5-25 mg succinate daily) and titrate every 2 weeks. Reduce in severe hepatic impairment.", doseHe:"מבוגר: טרטרט 25-100 מ\"ג פומי פעמיים ביום; סוקצינאט (שחרור מושהה) 25-200 מ\"ג פומי פעם ביום; תוך-ורידי 2.5-5 מ\"ג על פני 2 דקות, לחזור כל 5 דקות עד 15 מ\"ג לשליטת קצב. באי-ספיקת לב מתחילים נמוך (12.5-25 מ\"ג סוקצינאט ליום) ומעלים כל שבועיים. יש להפחית באי-ספיקת כבד חמורה.",
   inoDir:"down/down",
   inoEn:"Negative inotrope and negative chronotrope - beta-1 blockade lowers the heart rate, contractility, and AV conduction, reducing cardiac output and oxygen demand.", inoHe:"אינוטרופ וכרונוטרופ שלילי - חסימת בטא-1 מפחיתה קצב לב, כוח כיווץ והולכה ב-AV, ומפחיתה תפוקת לב וצריכת חמצן.",
+  memHookEn:"'-olol' = beta-blocker", memHookHe:"סיומת olol- = חוסם בטא",
+  memEn:"Class: the '-olol' ending marks a beta-blocker. Side effects follow from slowing the heart: bradycardia, hypotension, fatigue, cold hands and feet, vivid dreams or low mood, and it masks the shakes and racing pulse that warn of hypoglycemia. Never stop abruptly (rebound angina and tachycardia).", memHe:"קבוצה: הסיומת olol- מסמנת חוסם בטא. תופעות הלוואי נובעות מהאטת הלב: ברדיקרדיה, יתר לחץ דם נמוך, עייפות, כפות ידיים ורגליים קרות, חלומות חיים או מצב רוח ירוד, והתרופה מסווה את הרעד והדופק המהיר שמזהירים מפני היפוגליקמיה. אין להפסיק בפתאומיות (ריבאונד של תעוקה וטכיקרדיה).",
   moaEn:"Selectively blocks beta-1 receptors in the heart, lowering heart rate, contractility, AV conduction, and renin release, which reduces cardiac workload and oxygen demand.",
   moaHe:"חוסם באופן סלקטיבי קולטני בטא-1 בלב, מפחית קצב לב, כוח כיווץ, הולכה ב-AV ושחרור רנין, ובכך מפחית עומס וצריכת חמצן של הלב.",
   indEn:"Hypertension, chronic stable angina, stable heart failure (succinate form), post-myocardial infarction, and rate control in tachyarrhythmias.",
@@ -700,6 +720,8 @@ const MEDS = [
   brandEn:"Prinivil, Zestril", brandHe:"פריניוויל, זסטריל",
   routeEn:"PO", routeHe:"פומי",
   doseEn:"Adult: 2.5-5 mg PO once daily to start, usual maintenance 10-40 mg once daily; max 80 mg/day. Start at 2.5 mg with heart failure, hyponatremia, volume depletion, or eGFR under 30, and monitor potassium and creatinine 1-2 weeks after each change.", doseHe:"מבוגר: 2.5-5 מ\"ג פומי פעם ביום להתחלה, אחזקה רגילה 10-40 מ\"ג פעם ביום; מקסימום 80 מ\"ג ליום. מתחילים ב-2.5 מ\"ג באי-ספיקת לב, היפונתרמיה, דלדול נפח, או eGFR מתחת ל-30, ובודקים אשלגן וקריאטינין 1-2 שבועות לאחר כל שינוי.",
+  memHookEn:"'-pril' = ACE inhibitor", memHookHe:"סיומת pril- = מעכב ACE",
+  memEn:"Class: the '-pril' ending marks an ACE inhibitor. Remember the problems by C-A-P-P: dry Cough, Angioedema, high Potassium, and Pregnancy is contraindicated — plus first-dose hypotension and a rise in creatinine.", memHe:"קבוצה: הסיומת pril- מסמנת מעכב ACE. הבעיות: שיעול יבש, אנגיואדמה, עלייה באשלגן, והתווית נגד בהריון — בנוסף ליתר לחץ דם נמוך במנה הראשונה ולעלייה בקריאטינין.",
   moaEn:"Blocks angiotensin-converting enzyme, lowering angiotensin II (vasodilation) and aldosterone (less sodium and water retention), and reducing breakdown of bradykinin.",
   moaHe:"חוסם את האנזים ההופך אנגיוטנסין, מפחית אנגיוטנסין II (הרחבת כלי דם) ואלדוסטרון (פחות אצירת נתרן ומים), ומפחית פירוק ברדיקינין.",
   indEn:"Hypertension, heart failure, after myocardial infarction, and diabetic or proteinuric kidney disease for renal protection.",
@@ -721,6 +743,8 @@ const MEDS = [
   brandEn:"Ocsaar, Cozaar", brandHe:"אוקסאר, קוזאר",
   routeEn:"PO", routeHe:"פומי",
   doseEn:"Adult: 25-50 mg PO once daily to start, usual 50-100 mg/day (once daily or split); start 25 mg with volume depletion or hepatic impairment. Diabetic nephropathy target 100 mg/day. Monitor potassium and renal function.", doseHe:"מבוגר: 25-50 מ\"ג פומי פעם ביום להתחלה, רגיל 50-100 מ\"ג ליום (פעם ביום או מחולק); מתחילים ב-25 מ\"ג בדלדול נפח או באי-ספיקת כבד. יעד בנפרופתיה סוכרתית 100 מ\"ג ליום. יש לעקוב אחר אשלגן ותפקוד כליות.",
+  memHookEn:"'-sartan' = ARB (ACE inhibitor without the cough)", memHookHe:"סיומת sartan- = ARB (מעכב ACE בלי השיעול)",
+  memEn:"Class: the '-sartan' ending marks an angiotensin receptor blocker. Same side-effect list as the '-prils' — high potassium, hypotension, rising creatinine, contraindicated in pregnancy — but it does NOT cause the dry cough, and angioedema is rare.", memHe:"קבוצה: הסיומת sartan- מסמנת חוסם קולטן אנגיוטנסין. אותה רשימת תופעות לוואי כמו ה-prils - עלייה באשלגן, יתר לחץ דם נמוך, עלייה בקריאטינין, התווית נגד בהריון - אך אינו גורם לשיעול היבש, ואנגיואדמה נדירה.",
   moaEn:"Blocks the angiotensin II type-1 receptor, producing vasodilation and reduced aldosterone secretion without affecting bradykinin, so cough is uncommon.",
   moaHe:"חוסם את קולטן אנגיוטנסין II מסוג 1, גורם להרחבת כלי דם ולהפחתת הפרשת אלדוסטרון ללא השפעה על ברדיקינין, ולכן שיעול נדיר.",
   indEn:"Hypertension, heart failure, diabetic nephropathy, and stroke risk reduction in left ventricular hypertrophy; often used when an ACE inhibitor causes cough.",
@@ -744,6 +768,8 @@ const MEDS = [
   doseEn:"Adult: 2.5-5 mg PO once daily, max 10 mg/day; start 2.5 mg in older adults, small body size, or hepatic impairment and titrate no sooner than every 7-14 days. No renal adjustment.", doseHe:"מבוגר: 2.5-5 מ\"ג פומי פעם ביום, מקסימום 10 מ\"ג ליום; מתחילים ב-2.5 מ\"ג בקשישים, במבנה גוף קטן או באי-ספיקת כבד ומעלים לא לפני כל 7-14 ימים. אין התאמה כלייתית.",
   inoDir:"neutral/up",
   inoEn:"Minimal direct cardiac effect (vascular-selective). Peripheral vasodilation can cause a mild reflex increase in heart rate; contractility is essentially unchanged at usual doses.", inoHe:"השפעה לבבית ישירה מזערית (סלקטיבי לכלי הדם). הרחבת כלי דם היקפית עלולה לגרום לעלייה רפלקסית קלה בקצב הלב; כוח הכיווץ כמעט ללא שינוי במינונים רגילים.",
+  memHookEn:"'-dipine' = dihydropyridine calcium channel blocker", memHookHe:"סיומת dipine- = חוסם תעלות סידן דיהידרופירידיני",
+  memEn:"Class: the '-dipine' ending marks a dihydropyridine calcium channel blocker — a pure vasodilator. Side effects are vasodilation effects: ankle and foot swelling (does not respond to diuretics), flushing, headache, dizziness, reflex tachycardia, and gum overgrowth.", memHe:"קבוצה: הסיומת dipine- מסמנת חוסם תעלות סידן דיהידרופירידיני — מרחיב כלי דם טהור. תופעות הלוואי הן תופעות של הרחבת כלי דם: נפיחות בקרסוליים ובכפות הרגליים (אינה מגיבה למשתנים), סומק, כאב ראש, סחרחורת, טכיקרדיה רפלקסית, ושגשוג חניכיים.",
   moaEn:"Blocks L-type calcium channels in vascular smooth muscle, causing peripheral arterial vasodilation that lowers systemic vascular resistance and afterload.",
   moaHe:"חוסם תעלות סידן מסוג L בשריר החלק של כלי הדם, גורם להרחבת עורקים היקפיים המורידה תנגודת כלי דם מערכתית ועומס לאחר (afterload).",
   indEn:"Hypertension and chronic stable or vasospastic (Prinzmetal) angina.",
@@ -767,6 +793,8 @@ const MEDS = [
   brandEn:"Lipitor, Torvast", brandHe:"ליפיטור, טורבסט",
   routeEn:"PO", routeHe:"פומי",
   doseEn:"Adult: 10-80 mg PO once daily at any time of day; start 40-80 mg for established atherosclerotic disease, 10-20 mg for primary prevention. No routine renal adjustment; use caution and lower doses with strong CYP3A4 inhibitors. Not for active liver disease.", doseHe:"מבוגר: 10-80 מ\"ג פומי פעם ביום בכל שעה; מתחילים 40-80 מ\"ג במחלה טרשתית מבוססת, 10-20 מ\"ג למניעה ראשונית. אין התאמה כלייתית שגרתית; זהירות ומינון נמוך עם מעכבי CYP3A4 חזקים. לא במחלת כבד פעילה.",
+  memHookEn:"'-statin' = HMG-CoA reductase inhibitor", memHookHe:"סיומת statin- = מעכב HMG-CoA רדוקטאז",
+  memEn:"Class: the '-statin' ending marks a cholesterol-synthesis blocker. Two things to watch: muscles (aches, and rarely rhabdomyolysis — severe pain with dark urine, check CK) and liver (raised enzymes). Also a small rise in blood sugar. Avoid grapefruit.", memHe:"קבוצה: הסיומת statin- מסמנת חוסם ייצור כולסטרול. שני דברים לעקוב אחריהם: שרירים (כאבים, ולעיתים נדירות רבדומיוליזה — כאב חמור עם שתן כהה, לבדוק CK) וכבד (עלייה באנזימים). גם עלייה קטנה ברמת הסוכר בדם. יש להימנע מאשכוליות.",
   moaEn:"Inhibits HMG-CoA reductase, the rate-limiting enzyme of hepatic cholesterol synthesis, which upregulates LDL receptors and lowers circulating LDL cholesterol.",
   moaHe:"מעכב את האנזים HMG-CoA רדוקטאז, האנזים המגביל בקצב ייצור הכולסטרול בכבד, מה שמגביר קולטני LDL ומוריד כולסטרול LDL בדם.",
   indEn:"Hyperlipidemia and primary and secondary prevention of atherosclerotic cardiovascular disease.",
@@ -790,6 +818,8 @@ const MEDS = [
   doseEn:"Adult: SL tablet or spray 0.3-0.6 mg at onset of chest pain, repeat every 5 min up to 3 doses; IV infusion 5 mcg/min, titrate by 5-10 mcg/min every 3-5 min (usual 10-200 mcg/min). Transdermal patch 0.2-0.4 mg/h with a 10-12 h nitrate-free interval each day to avoid tolerance.", doseHe:"מבוגר: טבליה או תרסיס תת-לשוני 0.3-0.6 מ\"ג עם תחילת כאב בחזה, לחזור כל 5 דקות עד 3 מנות; עירוי תוך-ורידי 5 מק\"ג/דקה, לכייל ב-5-10 מק\"ג/דקה כל 3-5 דקות (רגיל 10-200 מק\"ג/דקה). מדבקה 0.2-0.4 מ\"ג/שעה עם מרווח נטול חנקות של 10-12 שעות ביום למניעת סבילות.",
   inoDir:"neutral/up",
   inoEn:"No direct inotropic effect. Venodilation lowers preload and can trigger a reflex increase in heart rate (reflex tachycardia), especially with rapid blood-pressure fall.", inoHe:"אין השפעה אינוטרופית ישירה. הרחבת ורידים מפחיתה עומס מקדים ועלולה לגרום לעלייה רפלקסית בקצב הלב (טכיקרדיה רפלקסית), בעיקר בירידת לחץ דם מהירה.",
+  memHookEn:"Nitrate vasodilator — 'nitro' relaxes veins", memHookHe:"מרחיב כלי דם מסוג ניטרט — \"ניטרו\" מרפה ורידים",
+  memEn:"Class: an organic nitrate — becomes nitric oxide and dilates veins, dropping preload. Side effects are all vasodilation: a pounding headache (almost universal), hypotension and dizziness, flushing, and reflex tachycardia. Tolerance develops without a nitrate-free interval.", memHe:"קבוצה: ניטרט אורגני — הופך לתחמוצת חנקן ומרחיב ורידים, מוריד עומס מקדים. תופעות הלוואי הן כולן הרחבת כלי דם: כאב ראש הולם (כמעט אצל כולם), יתר לחץ דם נמוך וסחרחורת, סומק, וטכיקרדיה רפלקסית. מתפתחת סבילות ללא פרק זמן נקי מניטרטים.",
   moaEn:"Converted to nitric oxide, which relaxes vascular smooth muscle - mainly veins - reducing preload and myocardial oxygen demand, and dilates coronary arteries.",
   moaHe:"מומר לתחמוצת חנקן המרפה שריר חלק של כלי דם - בעיקר ורידים - מפחית עומס מקדים (preload) וצריכת חמצן של שריר הלב, ומרחיב עורקים כליליים.",
   indEn:"Acute angina, prophylaxis of predictable angina, acute heart failure with pulmonary edema, and hypertensive emergency (IV).",
@@ -813,6 +843,8 @@ const MEDS = [
   doseEn:"Adult: IV 150 mg over 10 min, then 1 mg/min for 6 h, then 0.5 mg/min; pulseless VT/VF 300 mg IV push, may repeat 150 mg. PO load 400 mg 2-3 times daily for 1-2 weeks, then taper to 200 mg once daily maintenance. No renal adjustment; reduce with hepatic impairment.", doseHe:"מבוגר: תוך-ורידי 150 מ\"ג על פני 10 דקות, אחר כך 1 מ\"ג/דקה למשך 6 שעות, אחר כך 0.5 מ\"ג/דקה; ב-VT/VF ללא דופק 300 מ\"ג בדחיפה, ניתן לחזור 150 מ\"ג. פומי העמסה 400 מ\"ג 2-3 פעמים ביום למשך 1-2 שבועות, אחר כך הפחתה ל-200 מ\"ג פעם ביום אחזקה. אין התאמה כלייתית; יש להפחית באי-ספיקת כבד.",
   inoDir:"down/down",
   inoEn:"Mild negative inotrope and negative chronotrope - slows the sinus rate and AV conduction and prolongs refractoriness; well tolerated in heart failure compared with other antiarrhythmics.", inoHe:"אינוטרופ שלילי קל וכרונוטרופ שלילי - מאט את קצב הסינוס ואת ההולכה ב-AV ומאריך את התקופה הרפרקטורית; נסבל היטב באי-ספיקת לב בהשוואה לנוגדי הפרעות קצב אחרים.",
+  memHookEn:"Class III antiarrhythmic — toxic to lung, liver, thyroid, eye, skin", memHookHe:"נוגד הפרעות קצב מקבוצה III — רעיל לריאה, לכבד, לבלוטת התריס, לעין ולעור",
+  memEn:"Class: a potassium-channel-blocking (class III) antiarrhythmic that is loaded with iodine. Memorize the organs it damages: lungs (pulmonary fibrosis), thyroid (both hyper- and hypo-), liver, eyes (corneal deposits), and skin (blue-gray colour, photosensitivity) — plus bradycardia and QT prolongation. Long half-life, so effects linger for weeks.", memHe:"קבוצה: נוגד הפרעות קצב חוסם תעלות אשלגן (קבוצה III) עמוס ביוד. יש לזכור את האיברים שהוא פוגע בהם: ריאות (פיברוזיס), בלוטת התריס (גם יתר וגם תת), כבד, עיניים (משקעים בקרנית), ועור (צבע כחול-אפור, רגישות לאור) — בנוסף לברדיקרדיה ולהארכת QT. זמן מחצית חיים ארוך, ולכן ההשפעות נמשכות שבועות.",
   moaEn:"Mainly blocks potassium channels to prolong repolarization and the refractory period, with added sodium- and calcium-channel blockade and beta-blocking effects that slow conduction.",
   moaHe:"בעיקר חוסם תעלות אשלגן ומאריך את הריפולריזציה ואת התקופה הרפרקטורית, עם חסימה נוספת של תעלות נתרן וסידן והשפעות חוסמות בטא המאטות הולכה.",
   indEn:"Life-threatening ventricular tachycardia or fibrillation, and conversion or rate control of atrial fibrillation and flutter.",
@@ -836,6 +868,8 @@ const MEDS = [
   doseEn:"Adult: IV 3 mg/kg over 10 min; if AF has not converted after 15 min, a second infusion of 2 mg/kg over 10 min. Maximum cumulative 5 mg/kg in 24 h. Use actual body weight up to 113 kg. Give in a monitored setting with resuscitation equipment ready.", doseHe:"מבוגר: תוך-ורידי 3 מ\"ג/ק\"ג על פני 10 דקות; אם פרפור הפרוזדורים לא הומר לאחר 15 דקות, עירוי שני של 2 מ\"ג/ק\"ג על פני 10 דקות. מקסימום מצטבר 5 מ\"ג/ק\"ג ב-24 שעות. משתמשים במשקל גוף בפועל עד 113 ק\"ג. יש לתת תחת ניטור עם ציוד החייאה מוכן.",
   inoDir:"down/down",
   inoEn:"Minimal negative inotropy at recommended doses. Can cause bradycardia and, rarely, transient AV block during or just after the infusion; little effect on contractility in a structurally normal heart.", inoHe:"אינוטרופיה שלילית מזערית במינונים מומלצים. עלול לגרום לברדיקרדיה ולעיתים נדירות לחסם AV חולף במהלך העירוי או מיד אחריו; השפעה מועטה על כוח הכיווץ בלב תקין מבנית.",
+  memHookEn:"Atrial-selective cardioversion drug — watch BP and rhythm", memHookHe:"תרופת היפוך קצב סלקטיבית לפרוזדורים — יש לעקוב אחר לחץ דם וקצב",
+  memEn:"Class: a multi-channel antiarrhythmic that acts mainly on atrial tissue to convert recent-onset atrial fibrillation. Key effects during the short infusion: hypotension and bradycardia (dangerous in heart failure), a metallic or altered taste, sneezing, and tingling; rarely a new arrhythmia or complete heart block.", memHe:"קבוצה: נוגד הפרעות קצב רב-תעלתי הפועל בעיקר על רקמת הפרוזדורים להמרת פרפור פרוזדורים שהתחיל לאחרונה. השפעות עיקריות במהלך העירוי הקצר: יתר לחץ דם נמוך וברדיקרדיה (מסוכן באי-ספיקת לב), טעם מתכתי או משתנה, התעטשות, ועקצוץ; נדיר — הפרעת קצב חדשה או חסם לב מלא.",
   moaEn:"Preferentially blocks potassium currents that are active mainly in atrial tissue (IKur, IKACh) and rate-dependent sodium channels, prolonging the atrial refractory period with little effect on the ventricles; this converts recent-onset atrial fibrillation to sinus rhythm.",
   moaHe:"חוסם באופן מועדף זרמי אשלגן הפעילים בעיקר ברקמת הפרוזדורים (IKur, IKACh) ותעלות נתרן תלויות-קצב, ומאריך את התקופה הרפרקטורית הפרוזדורית עם השפעה מועטה על החדרים; כך ממיר פרפור פרוזדורים שהתחיל לאחרונה לקצב סינוס.",
   indEn:"Rapid conversion of recent-onset atrial fibrillation to sinus rhythm - up to 7 days after onset in non-surgical patients, up to 3 days after cardiac surgery. Not for atrial flutter.",
@@ -859,6 +893,8 @@ const MEDS = [
   brandEn:"Fusid, Lasix", brandHe:"פוסיד, לזיקס",
   routeEn:"PO / IV / IM", routeHe:"פומי / תוך-ורידי / תוך-שרירי",
   doseEn:"Adult: PO 20-80 mg once or twice daily, titrate by 20-40 mg; IV 20-40 mg, up to 1:1 or 1:2 of the total oral dose. Acute pulmonary edema 40 mg IV, repeat or double in 1 h. Continuous infusion 5-20 mg/h in resistant edema. Give IV no faster than 4 mg/min; larger doses are needed as renal function falls.", doseHe:"מבוגר: פומי 20-80 מ\"ג פעם או פעמיים ביום, לכייל ב-20-40 מ\"ג; תוך-ורידי 20-40 מ\"ג, עד 1:1 או 1:2 מהמינון הפומי הכולל. בצקת ריאות חריפה 40 מ\"ג תוך-ורידי, לחזור או להכפיל תוך שעה. עירוי רציף 5-20 מ\"ג/שעה בבצקת עמידה. מתן תוך-ורידי לא מהר מ-4 מ\"ג/דקה; נדרשים מינונים גדולים יותר ככל שתפקוד הכליות יורד.",
+  memHookEn:"Loop diuretic — 'loses' fluid and potassium fast", memHookHe:"משתן לולאה — מאבד נוזלים ואשלגן במהירות",
+  memEn:"Class: a loop diuretic (acts on the loop of Henle) — the most powerful class. Side effects follow big fluid and electrolyte loss: dehydration, orthostatic hypotension, low potassium / sodium / magnesium / calcium, gout flares, and ototoxicity (ringing, hearing loss) with rapid IV push or high doses.", memHe:"קבוצה: משתן לולאה (פועל על לולאת הנלה) — הקבוצה החזקה ביותר. תופעות הלוואי נובעות מאיבוד נוזלים ואלקטרוליטים גדול: התייבשות, יתר לחץ דם נמוך תנוחתי, אשלגן / נתרן / מגנזיום / סידן נמוכים, התקפי גאוט, ורעילות לאוזן (צפצופים, אובדן שמיעה) במתן תוך-ורידי מהיר או במינון גבוה.",
   moaEn:"Blocks the Na-K-2Cl cotransporter in the thick ascending loop of Henle, producing a large loss of sodium, chloride, water, potassium, calcium, and magnesium.",
   moaHe:"חוסם את הנשא Na-K-2Cl בזרוע העולה העבה של לולאת הנלה, וגורם לאיבוד ניכר של נתרן, כלוריד, מים, אשלגן, סידן ומגנזיום.",
   indEn:"Edema from heart failure, renal disease, or cirrhosis; acute pulmonary edema; and hypertension not controlled by other agents.",
@@ -880,6 +916,8 @@ const MEDS = [
   brandEn:"Disothiazide", brandHe:"דיסותיאזיד",
   routeEn:"PO", routeHe:"פומי",
   doseEn:"Adult: 12.5-25 mg PO once daily for hypertension (little added effect above 25-50 mg); 25-100 mg/day for edema. Largely ineffective when eGFR is under 30. Check electrolytes 1-2 weeks after starting and periodically.", doseHe:"מבוגר: 12.5-25 מ\"ג פומי פעם ביום ליתר לחץ דם (תוספת מועטה מעל 25-50 מ\"ג); 25-100 מ\"ג ליום לבצקת. חסר יעילות ברובו כאשר eGFR מתחת ל-30. יש לבדוק אלקטרוליטים 1-2 שבועות לאחר ההתחלה ומדי פעם.",
+  memHookEn:"Thiazide diuretic — the 'hyper-GLUC' side effects", memHookHe:"משתן תיאזידי — תופעות הלוואי \"hyper-GLUC\"",
+  memEn:"Class: a thiazide diuretic. Remember hyperGLUC for what goes up: hyperGlycemia, hyperLipidemia, hyperUricemia (gout), hyperCalcemia — while potassium, sodium, and magnesium go down. Also photosensitivity and erectile dysfunction; contains a sulfonamide group.", memHe:"קבוצה: משתן תיאזידי. יש לזכור hyperGLUC למה שעולה: סוכר, שומני דם, חומצה אורית (גאוט), וסידן — בעוד שאשלגן, נתרן ומגנזיום יורדים. גם רגישות לאור והפרעה בזקפה; מכיל קבוצת סולפונאמיד.",
   moaEn:"Inhibits sodium and chloride reabsorption in the distal convoluted tubule, increasing excretion of sodium, chloride, water, and potassium while decreasing calcium excretion.",
   moaHe:"מעכב ספיגה חוזרת של נתרן וכלוריד באבובית המפותלת המרוחקת, מגביר הפרשת נתרן, כלוריד, מים ואשלגן, ומפחית הפרשת סידן.",
   indEn:"First-line therapy for hypertension, mild edema, calcium-based kidney stones, and nephrogenic diabetes insipidus.",
@@ -901,6 +939,8 @@ const MEDS = [
   brandEn:"Aldactone, Spirono", brandHe:"אלדקטון, ספירונו",
   routeEn:"PO", routeHe:"פומי",
   doseEn:"Adult: heart failure 12.5-25 mg PO once daily (max 50 mg); resistant hypertension 25-50 mg/day; ascites 100 mg/day titrated to 400 mg; primary hyperaldosteronism 100-400 mg/day. Check potassium and creatinine at 3 and 7 days, then monthly. Avoid if eGFR is under 30 or potassium is above 5.", doseHe:"מבוגר: אי-ספיקת לב 12.5-25 מ\"ג פומי פעם ביום (מקסימום 50 מ\"ג); יתר לחץ דם עמיד 25-50 מ\"ג ליום; מיימת 100 מ\"ג ליום עד 400 מ\"ג; עודף אלדוסטרון ראשוני 100-400 מ\"ג ליום. יש לבדוק אשלגן וקריאטינין בימים 3 ו-7, אחר כך חודשי. יש להימנע אם eGFR מתחת ל-30 או אשלגן מעל 5.",
+  memHookEn:"Potassium-SPARING diuretic — aldosterone blocker", memHookHe:"משתן חוסך אשלגן — חוסם אלדוסטרון",
+  memEn:"Class: an aldosterone antagonist — potassium-sparing, so the danger is HIGH potassium (opposite of loops and thiazides). Its anti-androgen effect causes gynecomastia, breast tenderness, and menstrual changes. Watch potassium closely, especially with an ACE inhibitor or ARB.", memHe:"קבוצה: אנטגוניסט אלדוסטרון — חוסך אשלגן, ולכן הסכנה היא אשלגן גבוה (הפוך ממשתני לולאה ותיאזידים). ההשפעה האנטי-אנדרוגנית גורמת לגינקומסטיה, רגישות בשדיים, ושינויים במחזור. יש לעקוב אחר אשלגן מקרוב, במיוחד עם מעכב ACE או ARB.",
   moaEn:"Competitively blocks aldosterone receptors in the distal tubule, promoting sodium and water excretion while retaining potassium.",
   moaHe:"חוסם באופן תחרותי קולטני אלדוסטרון באבובית המרוחקת, מקדם הפרשת נתרן ומים תוך שמירה על אשלגן.",
   indEn:"Heart failure (reduces mortality), primary hyperaldosteronism, resistant hypertension, ascites from cirrhosis, and hirsutism or acne in women.",
@@ -924,6 +964,8 @@ const MEDS = [
   brandEn:"Coumadin", brandHe:"קומדין",
   routeEn:"PO", routeHe:"פומי",
   doseEn:"Adult: 2-5 mg PO once daily to start (2.5 mg or less if elderly, malnourished, on interacting drugs, or with hepatic impairment); adjust every few days by INR. Usual maintenance 2-10 mg/day. Target INR 2-3 for most indications, 2.5-3.5 for a mechanical mitral valve.", doseHe:"מבוגר: 2-5 מ\"ג פומי פעם ביום להתחלה (2.5 מ\"ג או פחות בקשישים, תת-תזונה, תרופות מתקשרות, או אי-ספיקת כבד); לכוונן כל מספר ימים לפי INR. אחזקה רגילה 2-10 מ\"ג ליום. יעד INR 2-3 לרוב ההתוויות, 2.5-3.5 למסתם מיטרלי מכני.",
+  memHookEn:"Vitamin K antagonist — bleeding, many interactions, INR", memHookHe:"אנטגוניסט ויטמין K — דימום, אינטראקציות רבות, INR",
+  memEn:"Class: a vitamin K antagonist anticoagulant. The main side effect is bleeding; rare ones are skin necrosis and 'purple toe' early in treatment. Its effect swings with diet (green leafy vegetables = vitamin K), alcohol, illness, and dozens of drugs — so the INR is checked often. Antidote: vitamin K.", memHe:"קבוצה: נוגד קרישה אנטגוניסט ויטמין K. תופעת הלוואי העיקרית היא דימום; נדירות הן נמק עור ו\"בוהן סגולה\" בתחילת הטיפול. ההשפעה משתנה עם התזונה (ירקות עלים ירוקים = ויטמין K), אלכוהול, מחלה, ועשרות תרופות — ולכן בודקים INR לעיתים קרובות. נוגדן: ויטמין K.",
   moaEn:"Inhibits vitamin K epoxide reductase, reducing synthesis of clotting factors II, VII, IX, and X and of proteins C and S; full effect takes several days.",
   moaHe:"מעכב את האנזים ויטמין K אפוקסיד רדוקטאז, מפחית ייצור של גורמי קרישה II, VII, IX ו-X ושל חלבונים C ו-S; ההשפעה המלאה מגיעה תוך מספר ימים.",
   indEn:"Stroke prevention in atrial fibrillation, treatment and prevention of venous thromboembolism, and mechanical heart valves.",
@@ -947,6 +989,8 @@ const MEDS = [
   brandEn:"Heparin sodium", brandHe:"הפרין נתרן",
   routeEn:"IV / SC", routeHe:"תוך-ורידי / תת-עורי",
   doseEn:"Adult: VTE treatment 80 units/kg IV bolus then 18 units/kg/h infusion, adjusted by aPTT or anti-Xa on a nomogram. ACS 60 units/kg bolus (max 4000) then 12 units/kg/h. VTE prophylaxis 5000 units SC every 8-12 h. No routine renal adjustment; monitor platelets for HIT around days 5-10.", doseHe:"מבוגר: טיפול בתסחיף ורידי 80 יחידות/ק\"ג בולוס תוך-ורידי אחר כך עירוי 18 יחידות/ק\"ג/שעה, מכוונן לפי aPTT או anti-Xa בנומוגרמה. תסמונת כלילית חריפה 60 יחידות/ק\"ג בולוס (מקסימום 4000) אחר כך 12 יחידות/ק\"ג/שעה. מניעת תסחיף ורידי 5000 יחידות תת-עורית כל 8-12 שעות. אין התאמה כלייתית שגרתית; יש לנטר טסיות ל-HIT סביב ימים 5-10.",
+  memHookEn:"IV anticoagulant — bleeding + HIT (platelets drop day 5-10)", memHookHe:"נוגד קרישה תוך-ורידי — דימום + HIT (ירידת טסיות ביום 5-10)",
+  memEn:"Class: unfractionated heparin — boosts antithrombin. Side effects: bleeding, and the classic trap of heparin-induced thrombocytopenia — a paradoxical clotting disorder from a platelet drop around days 5-10. Long-term use thins bone. Monitored by aPTT; antidote is protamine.", memHe:"קבוצה: הפרין לא מפורק — מגביר אנטיתרומבין. תופעות לוואי: דימום, והמלכודת הקלאסית של תרומבוציטופניה מושרית הפרין — הפרעת קרישיות פרדוקסלית מירידת טסיות בסביבות יום 5-10. שימוש ממושך מדלל עצם. מנוטר לפי aPTT; נוגדן הוא פרוטמין.",
   moaEn:"Binds antithrombin III and accelerates its inactivation of thrombin (factor IIa) and factor Xa, preventing fibrin clot formation; acts immediately.",
   moaHe:"נקשר לאנטיתרומבין III ומאיץ את נטרול התרומבין (גורם IIa) וגורם Xa, מונע היווצרות קריש פיברין; פועל מיידית.",
   indEn:"Treatment and prevention of venous thromboembolism, acute coronary syndrome, and anticoagulation during dialysis or cardiac surgery.",
@@ -970,6 +1014,8 @@ const MEDS = [
   brandEn:"Clexane, Crusia", brandHe:"קלקסן, קרוזיה",
   routeEn:"SC", routeHe:"תת-עורי",
   doseEn:"Adult: treatment 1 mg/kg SC every 12 h or 1.5 mg/kg once daily; VTE prophylaxis 40 mg SC once daily (30 mg twice daily after major orthopedic surgery). CrCl under 30: treatment 1 mg/kg once daily, prophylaxis 30 mg once daily. Do not expel the syringe air bubble.", doseHe:"מבוגר: טיפול 1 מ\"ג/ק\"ג תת-עורית כל 12 שעות או 1.5 מ\"ג/ק\"ג פעם ביום; מניעת תסחיף ורידי 40 מ\"ג תת-עורית פעם ביום (30 מ\"ג פעמיים ביום לאחר ניתוח אורתופדי גדול). CrCl מתחת ל-30: טיפול 1 מ\"ג/ק\"ג פעם ביום, מניעה 30 מ\"ג פעם ביום. אין להוציא את בועת האוויר מהמזרק.",
+  memHookEn:"Low-molecular-weight heparin — subcutaneous, less HIT", memHookHe:"הפרין במשקל מולקולרי נמוך — תת-עורי, פחות HIT",
+  memEn:"Class: a low-molecular-weight heparin given subcutaneously in the abdomen. Same theme as heparin — bleeding and injection-site bruising — but a lower risk of heparin-induced thrombocytopenia and usually no routine monitoring. Accumulates in renal impairment.", memHe:"קבוצה: הפרין במשקל מולקולרי נמוך הניתן תת-עורית בבטן. אותו נושא כמו הפרין — דימום וחבורות באתר ההזרקה — אך סיכון נמוך יותר לתרומבוציטופניה מושרית הפרין ובדרך כלל אין ניטור שגרתי. מצטבר באי-ספיקת כליות.",
   moaEn:"Potentiates antithrombin, inhibiting factor Xa much more than thrombin; given subcutaneously with a predictable response that usually needs no routine monitoring.",
   moaHe:"מגביר את פעילות האנטיתרומבין, מעכב גורם Xa הרבה יותר מתרומבין; ניתן תת-עורית עם תגובה צפויה שאינה מצריכה בדרך כלל ניטור שגרתי.",
   indEn:"Prophylaxis and treatment of deep vein thrombosis and pulmonary embolism, and acute coronary syndrome.",
@@ -993,6 +1039,8 @@ const MEDS = [
   brandEn:"Eliquis", brandHe:"אליקוויס",
   routeEn:"PO", routeHe:"פומי",
   doseEn:"Adult: nonvalvular AF 5 mg PO twice daily (2.5 mg twice daily if two of: age 80+, weight 60 kg or less, creatinine 1.5 mg/dL or more). VTE treatment 10 mg twice daily for 7 days then 5 mg twice daily; extended prophylaxis 2.5 mg twice daily after 6 months. No dietary restriction.", doseHe:"מבוגר: פרפור פרוזדורים לא מסתמי 5 מ\"ג פומי פעמיים ביום (2.5 מ\"ג פעמיים ביום אם שניים מ: גיל 80+, משקל 60 ק\"ג או פחות, קריאטינין 1.5 מ\"ג/ד\"ל או יותר). טיפול בתסחיף ורידי 10 מ\"ג פעמיים ביום 7 ימים אחר כך 5 מ\"ג פעמיים ביום; מניעה מוארכת 2.5 מ\"ג פעמיים ביום לאחר 6 חודשים. אין הגבלת תזונה.",
+  memHookEn:"'-xaban' = direct factor Xa inhibitor (DOAC)", memHookHe:"סיומת xaban- = מעכב פקטור Xa ישיר (DOAC)",
+  memEn:"Class: the '-xaban' ending marks a direct factor Xa inhibitor. The main side effect is bleeding (with anemia and bruising), but less intracranial bleeding than warfarin, no INR checks, and few food interactions. Specific antidote: andexanet alfa.", memHe:"קבוצה: הסיומת xaban- מסמנת מעכב פקטור Xa ישיר. תופעת הלוואי העיקרית היא דימום (עם אנמיה וחבורות), אך פחות דימום תוך-גולגולתי מוורפרין, אין בדיקות INR, ומעט אינטראקציות עם מזון. נוגדן ייעודי: אנדקסנט אלפא.",
   moaEn:"Directly and reversibly inhibits factor Xa, blocking thrombin generation and clot formation; rapid onset and offset with no routine coagulation monitoring.",
   moaHe:"מעכב ישירות והפיך את גורם Xa, חוסם יצירת תרומבין והיווצרות קריש; תחילת והפסקת פעולה מהירות ללא ניטור קרישה שגרתי.",
   indEn:"Stroke prevention in nonvalvular atrial fibrillation, and treatment and prevention of venous thromboembolism.",
@@ -1016,6 +1064,8 @@ const MEDS = [
   brandEn:"Plavix", brandHe:"פלביקס",
   routeEn:"PO", routeHe:"פומי",
   doseEn:"Adult: 300-600 mg PO loading dose then 75 mg once daily; 75 mg once daily without a load for stable disease or stroke prevention. No renal or hepatic adjustment. Hold about 5 days before elective surgery; avoid omeprazole and esomeprazole (CYP2C19).", doseHe:"מבוגר: 300-600 מ\"ג פומי מנת העמסה אחר כך 75 מ\"ג פעם ביום; 75 מ\"ג פעם ביום ללא העמסה במחלה יציבה או למניעת שבץ. אין התאמה כלייתית או כבדית. יש להפסיק כ-5 ימים לפני ניתוח אלקטיבי; להימנע מאומפרזול ואזומפרזול (CYP2C19).",
+  memHookEn:"P2Y12 antiplatelet — bleeding; needs CYP2C19 to work", memHookHe:"נוגד טסיות P2Y12 — דימום; זקוק ל-CYP2C19 כדי לפעול",
+  memEn:"Class: a P2Y12 receptor antiplatelet — blocks ADP-driven platelet activation. Side effects: bleeding and bruising, rash, diarrhea, and rarely thrombotic thrombocytopenic purpura. It is a prodrug, so poor CYP2C19 metabolizers and omeprazole reduce its effect.", memHe:"קבוצה: נוגד טסיות של קולטן P2Y12 — חוסם הפעלת טסיות המונעת על ידי ADP. תופעות לוואי: דימום וחבורות, פריחה, שלשול, ולעיתים נדירות פורפורה תרומבוציטופנית תרומבוטית. זוהי קדם-תרופה, ולכן ממטבוליזרים איטיים של CYP2C19 ואומפרזול מפחיתים את השפעתה.",
   moaEn:"Irreversibly blocks the platelet P2Y12 ADP receptor, preventing platelet activation and aggregation for the lifespan of the platelet (about 7-10 days).",
   moaHe:"חוסם באופן בלתי הפיך את קולטן ה-ADP מסוג P2Y12 בטסית, מונע הפעלה והצטברות טסיות למשך חיי הטסית (כ-7-10 ימים).",
   indEn:"Acute coronary syndrome, recent myocardial infarction or ischemic stroke, peripheral arterial disease, and after coronary stent placement (with aspirin).",
@@ -1039,6 +1089,8 @@ const MEDS = [
   brandEn:"Actrapid, Humulin R", brandHe:"אקטרפיד",
   routeEn:"SC / IV", routeHe:"תת-עורי / תוך-ורידי",
   doseEn:"Adult: SC 30 min before meals as part of a basal-bolus plan (total daily dose about 0.4-0.6 units/kg, roughly half basal and half divided at meals). DKA: 0.1 unit/kg IV bolus then 0.1 unit/kg/h infusion (or 0.14 unit/kg/h with no bolus), adjusted to lower glucose by 50-75 mg/dL/h. Hyperkalemia: 10 units IV with 25 g dextrose.", doseHe:"מבוגר: תת-עורי 30 דקות לפני הארוחות כחלק ממשטר בזאלי-בולוס (מינון יומי כולל כ-0.4-0.6 יחידות/ק\"ג, כמחצית בזאלי ומחצית מחולק לארוחות). DKA: 0.1 יחידה/ק\"ג בולוס תוך-ורידי אחר כך עירוי 0.1 יחידה/ק\"ג/שעה (או 0.14 יחידה/ק\"ג/שעה ללא בולוס), מכוונן להורדת סוכר ב-50-75 מ\"ג/ד\"ל/שעה. היפרקלמיה: 10 יחידות תוך-ורידי עם 25 גרם דקסטרוז.",
+  memHookEn:"Short-acting insulin — the only insulin for IV use", memHookHe:"אינסולין קצר-טווח — האינסולין היחיד למתן תוך-ורידי",
+  memEn:"Class: short-acting human insulin. Every insulin's main risks are the same: hypoglycemia (shakiness, sweating, confusion), weight gain, and lumpy skin (lipohypertrophy) from injecting the same spot. Regular insulin is the one that can be given IV, for DKA and hyperkalemia.", memHe:"קבוצה: אינסולין אנושי קצר-טווח. הסיכונים העיקריים של כל אינסולין זהים: היפוגליקמיה (רעד, הזעה, בלבול), עלייה במשקל, ועור גבשושי (ליפוהיפרטרופיה) מהזרקה לאותו מקום. אינסולין רגיל הוא זה שניתן לתת תוך-ורידית, ל-DKA ולהיפרקלמיה.",
   moaEn:"Binds the insulin receptor to drive glucose into muscle and fat, promote glycogen and protein synthesis, suppress hepatic glucose production, and shift potassium into cells.",
   moaHe:"נקשר לקולטן האינסולין, מכניס גלוקוז לשריר ולשומן, מקדם ייצור גליקוגן וחלבון, מדכא ייצור גלוקוז בכבד, ומעביר אשלגן אל תוך התאים.",
   indEn:"Type 1 and type 2 diabetes, diabetic ketoacidosis and hyperosmolar hyperglycemic state (IV), and hyperkalemia (with dextrose).",
@@ -1062,6 +1114,8 @@ const MEDS = [
   brandEn:"Lantus, Toujeo", brandHe:"לנטוס",
   routeEn:"SC", routeHe:"תת-עורי",
   doseEn:"Adult: start 0.1-0.2 units/kg (or 10 units) SC once daily at the same time each day; titrate by 2-4 units every 3 days to a fasting glucose target. When switching from twice-daily NPH, reduce the total basal dose by about 20%. Do not mix with other insulins or give IV.", doseHe:"מבוגר: להתחיל 0.1-0.2 יחידות/ק\"ג (או 10 יחידות) תת-עורי פעם ביום באותה שעה מדי יום; לכייל ב-2-4 יחידות כל 3 ימים ליעד סוכר בצום. במעבר מ-NPH פעמיים ביום, יש להפחית את המינון הבזאלי הכולל בכ-20%. אין לערבב עם אינסולינים אחרים או לתת תוך-ורידי.",
+  memHookEn:"Long-acting basal insulin — flat, once daily, do not mix", memHookHe:"אינסולין בזאלי ארוך-טווח — קו שטוח, פעם ביום, אין לערבב",
+  memEn:"Class: a long-acting basal insulin giving a flat 24-hour level with less nocturnal hypoglycemia. Risks are the insulin class effects — hypoglycemia and weight gain. It is clear but must NOT be mixed in a syringe with other insulins.", memHe:"קבוצה: אינסולין בזאלי ארוך-טווח הנותן רמה שטוחה למשך 24 שעות עם פחות היפוגליקמיה לילית. הסיכונים הם השפעות קבוצת האינסולין — היפוגליקמיה ועלייה במשקל. הוא צלול אך אין לערבב אותו במזרק עם אינסולינים אחרים.",
   moaEn:"Same receptor action as all insulins; forms microprecipitates in subcutaneous tissue that release slowly, giving roughly 24 hours of relatively peakless basal coverage.",
   moaHe:"פעולה על הקולטן זהה לכל האינסולינים; יוצר משקעים זעירים ברקמה התת-עורית המשתחררים לאט, ומספק כיסוי בזאלי של כ-24 שעות ללא שיא בולט.",
   indEn:"Basal insulin coverage in type 1 and type 2 diabetes.",
@@ -1085,6 +1139,8 @@ const MEDS = [
   brandEn:"NovoRapid", brandHe:"נובורפיד",
   routeEn:"SC", routeHe:"תת-עורי",
   doseEn:"Adult: SC within 5-15 min before a meal (or just after), dosed to carbohydrate intake and correction scale (about 1 unit per 10-15 g carbohydrate). Also used in insulin pumps. Give as the mealtime component of a basal-bolus regimen.", doseHe:"מבוגר: תת-עורי תוך 5-15 דקות לפני ארוחה (או מיד אחריה), במינון לפי צריכת פחמימות וסולם תיקון (כ-1 יחידה לכל 10-15 גרם פחמימה). משמש גם במשאבות אינסולין. ניתן כרכיב הארוחתי של משטר בזאלי-בולוס.",
+  memHookEn:"Rapid-acting insulin — give with the meal", memHookHe:"אינסולין מהיר-פעולה — לתת עם הארוחה",
+  memEn:"Class: a rapid-acting analog insulin — onset in about 15 minutes, so it is dosed right before (or just after) eating. Risks are the insulin class effects: hypoglycemia (fast in onset here), weight gain, and injection-site reactions. Make sure food is available.", memHe:"קבוצה: אינסולין אנלוגי מהיר-פעולה — התחלת פעולה תוך כ-15 דקות, ולכן ניתן ממש לפני האכילה (או מיד אחריה). הסיכונים הם השפעות קבוצת האינסולין: היפוגליקמיה (מהירה בהתחלתה כאן), עלייה במשקל, ותגובות באתר ההזרקה. יש לוודא שיש אוכל זמין.",
   moaEn:"Same receptor mechanism as regular insulin but with faster absorption, so it covers the glucose rise from a meal.",
   moaHe:"מנגנון קולטן זהה לאינסולין רגולר אך עם ספיגה מהירה יותר, ולכן מכסה את עליית הסוכר לאחר ארוחה.",
   indEn:"Mealtime (bolus) coverage in type 1 and type 2 diabetes, and use in insulin pumps.",
@@ -1108,6 +1164,8 @@ const MEDS = [
   brandEn:"Glucophage, Glucomin", brandHe:"גלוקופאז'",
   routeEn:"PO", routeHe:"פומי",
   doseEn:"Adult: 500 mg PO once or twice daily with meals, increase by 500 mg weekly to a usual 1000 mg twice daily (max 2000-2550 mg/day; ER max 2000 mg once daily). eGFR 30-45: do not start, and use no more than 1000 mg/day if continued. Stop if eGFR falls below 30; hold for iodinated contrast and for 48 h after.", doseHe:"מבוגר: 500 מ\"ג פומי פעם או פעמיים ביום עם הארוחות, להעלות ב-500 מ\"ג שבועית לרגיל 1000 מ\"ג פעמיים ביום (מקסימום 2000-2550 מ\"ג ליום; שחרור מושהה מקסימום 2000 מ\"ג פעם ביום). eGFR 30-45: לא להתחיל, ולא יותר מ-1000 מ\"ג ליום אם ממשיכים. יש להפסיק אם eGFR יורד מתחת ל-30; להפסיק לחומר ניגוד יודי ו-48 שעות אחריו.",
+  memHookEn:"Biguanide — GI upset, B12 drop, rare lactic acidosis", memHookHe:"ביגואניד — אי-נוחות במערכת העיכול, ירידת B12, חמצת לקטית נדירה",
+  memEn:"Class: a biguanide oral antihyperglycemic — first-line for type 2 diabetes and does NOT cause hypoglycemia on its own. Side effects: GI upset and metallic taste (take with food), low vitamin B12 over time, and the rare but feared lactic acidosis — hold before contrast and in renal impairment.", memHe:"קבוצה: ביגואניד פומי להורדת סוכר — קו ראשון בסוכרת סוג 2 ואינו גורם להיפוגליקמיה בפני עצמו. תופעות לוואי: אי-נוחות במערכת העיכול וטעם מתכתי (ליטול עם אוכל), ירידה בוויטמין B12 עם הזמן, וחמצת לקטית נדירה אך מסוכנת — יש לעכב לפני חומר ניגוד ובאי-ספיקת כליות.",
   moaEn:"Decreases hepatic gluconeogenesis, reduces intestinal glucose absorption, and increases peripheral insulin sensitivity; it does not itself cause hypoglycemia.",
   moaHe:"מפחית ייצור גלוקוז בכבד, מפחית ספיגת גלוקוז במעי, ומגביר רגישות היקפית לאינסולין; אינו גורם בעצמו להיפוגליקמיה.",
   indEn:"First-line therapy for type 2 diabetes; also prediabetes and polycystic ovary syndrome.",
@@ -1131,6 +1189,8 @@ const MEDS = [
   doseEn:"Adult: full replacement about 1.6 mcg/kg PO once daily on an empty stomach 30-60 min before breakfast. Start 25-50 mcg/day in older adults or cardiac disease and increase by 12.5-25 mcg every 6-8 weeks by TSH. Myxedema coma 200-400 mcg IV load then 50-100 mcg IV daily. Separate from calcium, iron, and antacids by 4 h.", doseHe:"מבוגר: החלפה מלאה כ-1.6 מק\"ג/ק\"ג פומי פעם ביום על קיבה ריקה 30-60 דקות לפני ארוחת הבוקר. מתחילים 25-50 מק\"ג ליום בקשישים או במחלת לב ומעלים ב-12.5-25 מק\"ג כל 6-8 שבועות לפי TSH. תרדמת מיקסדמה 200-400 מק\"ג העמסה תוך-ורידית אחר כך 50-100 מק\"ג תוך-ורידי ליום. יש להפריד מסידן, ברזל וסותרי חומצה ב-4 שעות.",
   inoDir:"up/up",
   inoEn:"Positive inotrope and positive chronotrope - thyroid hormone increases the number and sensitivity of cardiac beta-receptors, raising heart rate and contractility; over-replacement can precipitate angina, atrial fibrillation, or heart failure.", inoHe:"אינוטרופ וכרונוטרופ חיובי - הורמון התריס מגביר את מספר קולטני בטא בלב ואת רגישותם, ומעלה קצב לב וכוח כיווץ; עודף מינון עלול לגרום לתעוקת חזה, לפרפור פרוזדורים או לאי-ספיקת לב.",
+  memHookEn:"Synthetic T4 — too much looks like hyperthyroidism", memHookHe:"T4 סינתטי — עודף נראה כמו יתר פעילות בלוטת התריס",
+  memEn:"Class: synthetic thyroid hormone (T4). It has almost no side effects at the right dose — problems mean over-replacement and look like hyperthyroidism: palpitations, tachycardia, tremor, weight loss, heat intolerance, insomnia, anxiety, and, in older adults, angina. Take on an empty stomach, same time daily.", memHe:"קבוצה: הורמון בלוטת התריס סינתטי (T4). כמעט אין לו תופעות לוואי במינון הנכון — בעיות מעידות על עודף מינון ונראות כמו יתר פעילות בלוטת התריס: דפיקות לב, טכיקרדיה, רעד, ירידה במשקל, אי-סבילות לחום, נדודי שינה, חרדה, ובקשישים תעוקת חזה. יש ליטול על קיבה ריקה, באותה שעה בכל יום.",
   moaEn:"Synthetic thyroxine (T4) that is converted to active T3, restoring normal metabolic rate, growth, and development.",
   moaHe:"תירוקסין סינתטי (T4) המומר ל-T3 פעיל, ומשיב לקדמותו את קצב חילוף החומרים, הגדילה וההתפתחות.",
   indEn:"Hypothyroidism, myxedema coma, and TSH suppression in some thyroid cancers and goiter.",
@@ -1152,6 +1212,8 @@ const MEDS = [
   brandEn:"Prednisone, Deltacortril", brandHe:"פרדניזון",
   routeEn:"PO", routeHe:"פומי",
   doseEn:"Adult: 5-60 mg PO once daily depending on the condition; acute flares often 40-60 mg/day tapered over days to weeks. Give in the morning with food. Any course over about 2-3 weeks needs a taper; consider stress dosing during illness or surgery. No renal adjustment.", doseHe:"מבוגר: 5-60 מ\"ג פומי פעם ביום בהתאם למצב; התלקחויות חריפות לרוב 40-60 מ\"ג ליום בהפחתה על פני ימים עד שבועות. יש לתת בבוקר עם אוכל. כל טיפול מעל כ-2-3 שבועות מצריך הפחתה הדרגתית; יש לשקול מינון עקה במחלה או בניתוח. אין התאמה כלייתית.",
+  memHookEn:"Oral corticosteroid — the Cushingoid side-effect list", memHookHe:"קורטיקוסטרואיד פומי — רשימת תופעות הלוואי הקושינגואידית",
+  memEn:"Class: a systemic glucocorticoid. Side effects with any meaningful course: high blood sugar, weight gain and moon face, infection risk, mood swings or psychosis, insomnia, and with longer use osteoporosis, cataracts, thin skin, ulcers, and adrenal suppression — never stop abruptly, always taper.", memHe:"קבוצה: גלוקוקורטיקואיד מערכתי. תופעות לוואי בכל טיפול משמעותי: סוכר גבוה בדם, עלייה במשקל ופני ירח, סיכון לזיהום, תנודות במצב הרוח או פסיכוזה, נדודי שינה, ובשימוש ממושך אוסטאופורוזיס, קטרקט, עור דק, כיבים, ודיכוי אדרנל — אין להפסיק בפתאומיות, תמיד להפחית בהדרגה.",
   moaEn:"Binds glucocorticoid receptors to broadly suppress inflammation and immune function - inhibiting cytokines, prostaglandins, and leukotrienes and stabilizing cell membranes.",
   moaHe:"נקשר לקולטני גלוקוקורטיקואיד ומדכא באופן רחב דלקת ותפקוד חיסוני - מעכב ציטוקינים, פרוסטגלנדינים ולויקוטריאנים ומייצב ממברנות תאים.",
   indEn:"Inflammatory and autoimmune conditions, asthma or COPD exacerbations, severe allergic reactions, organ transplant immunosuppression, and adrenal insufficiency replacement.",
@@ -1173,6 +1235,8 @@ const MEDS = [
   brandEn:"Solu-Cortef, Cortef", brandHe:"סולו-קורטף",
   routeEn:"PO / IV / IM", routeHe:"פומי / תוך-ורידי / תוך-שרירי",
   doseEn:"Adult: adrenal crisis 100 mg IV bolus then 50 mg IV every 6 h (or 200 mg/24 h infusion), tapering over days. Physiologic replacement 15-25 mg/day PO in 2-3 divided doses (largest in the morning). Septic shock 200 mg/day. Stress dosing for surgery or acute illness in adrenal insufficiency.", doseHe:"מבוגר: משבר אדיסוני 100 מ\"ג בולוס תוך-ורידי אחר כך 50 מ\"ג תוך-ורידי כל 6 שעות (או עירוי 200 מ\"ג/24 שעות), בהפחתה על פני ימים. החלפה פיזיולוגית 15-25 מ\"ג ליום פומי ב-2-3 מנות (הגדולה בבוקר). הלם ספטי 200 מ\"ג ליום. מינון עקה לניתוח או למחלה חריפה באי-ספיקת יותרת הכליה.",
+  memHookEn:"Corticosteroid with mineralocorticoid effect — fluid and sodium", memHookHe:"קורטיקוסטרואיד עם השפעה מינרלוקורטיקואידית — נוזלים ונתרן",
+  memEn:"Class: a corticosteroid with both glucocorticoid and mineralocorticoid activity, so on top of the usual steroid effects (high sugar, mood change, infection risk) it retains sodium and water — expect fluid overload and higher blood pressure. It is the steroid used for adrenal crisis.", memHe:"קבוצה: קורטיקוסטרואיד בעל פעילות גלוקוקורטיקואידית וגם מינרלוקורטיקואידית, ולכן בנוסף להשפעות הסטרואידיות הרגילות (סוכר גבוה, שינוי במצב הרוח, סיכון לזיהום) הוא אוגר נתרן ומים — יש לצפות לעומס נוזלים וללחץ דם גבוה יותר. זהו הסטרואיד שמשמש למשבר אדרנל.",
   moaEn:"Replaces endogenous cortisol and, at stress doses, provides anti-inflammatory and immunosuppressive effects along with notable mineralocorticoid (salt-retaining) activity.",
   moaHe:"מחליף קורטיזול פנימי, ובמינוני עקה מספק השפעה נוגדת דלקת ומדכאת חיסון לצד פעילות מינרלוקורטיקואידית משמעותית (אצירת מלח).",
   indEn:"Acute adrenal insufficiency (Addisonian crisis), septic shock with adrenal insufficiency, and severe inflammatory or allergic reactions.",
@@ -1196,6 +1260,8 @@ const MEDS = [
   doseEn:"Adult: MDI 2 puffs (90 mcg each) every 4-6 h as needed and 15-30 min before exercise; acute exacerbation 4-8 puffs or nebulized 2.5-5 mg every 20 min for 3 doses, then every 1-4 h. Continuous nebulization 10-15 mg/h for severe attacks. Rising rescue use signals poor control.", doseHe:"מבוגר: משאף 2 שאיפות (90 מק\"ג כל אחת) כל 4-6 שעות לפי צורך ו-15-30 דקות לפני מאמץ; החמרה חריפה 4-8 שאיפות או בנבולייזר 2.5-5 מ\"ג כל 20 דקות ל-3 מנות, אחר כך כל 1-4 שעות. נבולייזר רציף 10-15 מ\"ג/שעה בהתקפים חמורים. עלייה בשימוש כמשאף הצלה מעידה על שליטה ירודה.",
   inoDir:"up/up",
   inoEn:"Positive chronotrope and mild positive inotrope - beta-2 selectivity is incomplete, so higher or frequent doses stimulate cardiac beta-1 receptors causing tachycardia, palpitations, and tremor.", inoHe:"כרונוטרופ חיובי ואינוטרופ חיובי קל - הסלקטיביות לבטא-2 אינה מלאה, ולכן מינונים גבוהים או תכופים מגרים קולטני בטא-1 בלב וגורמים לטכיקרדיה, דפיקות לב ורעד.",
+  memHookEn:"SABA ('-terol') = short-acting beta-2 agonist — rescue inhaler", memHookHe:"SABA (סיומת terol-) = אגוניסט בטא-2 קצר-טווח — משאף הצלה",
+  memEn:"Class: a short-acting beta-2 agonist ('-terol' ending) — the quick-relief bronchodilator. Beta spillover to the heart causes the side effects: tachycardia and palpitations, fine tremor, nervousness, and headache; heavy use can drop potassium.", memHe:"קבוצה: אגוניסט בטא-2 קצר-טווח (סיומת terol-) — מרחיב הסמפונות להקלה מהירה. גלישת בטא ללב גורמת לתופעות הלוואי: טכיקרדיה ודפיקות לב, רעד עדין, עצבנות, וכאב ראש; שימוש מרובה עלול להוריד אשלגן.",
   moaEn:"Stimulates beta-2 receptors on bronchial smooth muscle to cause rapid bronchodilation; it also drives potassium into cells.",
   moaHe:"מגרה קולטני בטא-2 בשריר החלק של הסמפונות וגורם להרחבת סמפונות מהירה; גם מעביר אשלגן אל תוך התאים.",
   indEn:"Acute bronchospasm in asthma or COPD, exercise-induced bronchospasm, and as an adjunct in hyperkalemia.",
@@ -1219,6 +1285,8 @@ const MEDS = [
   doseEn:"Adult: MDI 2 puffs (17 mcg each) 4 times daily, up to 12 puffs/day; nebulized 500 mcg every 6-8 h; acute exacerbation 500 mcg nebulized with albuterol every 20 min for 3 doses. Nasal spray 2 sprays per nostril 2-3 times daily for rhinorrhea.", doseHe:"מבוגר: משאף 2 שאיפות (17 מק\"ג כל אחת) 4 פעמים ביום, עד 12 שאיפות ליום; בנבולייזר 500 מק\"ג כל 6-8 שעות; החמרה חריפה 500 מק\"ג בנבולייזר עם סלבוטמול כל 20 דקות ל-3 מנות. תרסיס אף 2 תרסיסים לכל נחיר 2-3 פעמים ביום לנזלת.",
   inoDir:"neutral/up",
   inoEn:"Minimal systemic absorption, so little direct cardiac effect. Anticholinergic action can cause a slight increase in heart rate at higher nebulized doses.", inoHe:"ספיגה מערכתית מזערית, ולכן השפעה לבבית ישירה מועטה. פעולה אנטיכולינרגית עלולה לגרום לעלייה קלה בקצב הלב במינוני נבולייזר גבוהים.",
+  memHookEn:"Inhaled anticholinergic — dry mouth; keep out of the eyes", memHookHe:"אנטיכולינרגי בשאיפה — יובש בפה; להרחיק מהעיניים",
+  memEn:"Class: a short-acting inhaled antimuscarinic bronchodilator. Barely absorbed, so side effects are local anticholinergic ones: dry mouth, cough, and — if the mist reaches the eyes — blurred vision or a glaucoma flare. Caution in prostate enlargement (urinary retention).", memHe:"קבוצה: מרחיב סמפונות אנטי-מוסקריני בשאיפה קצר-טווח. כמעט אינו נספג, ולכן תופעות הלוואי הן אנטיכולינרגיות מקומיות: יובש בפה, שיעול, ואם הערפל מגיע לעיניים — טשטוש ראייה או החמרת גלאוקומה. זהירות בהגדלת ערמונית (אצירת שתן).",
   moaEn:"Blocks muscarinic (M3) receptors in bronchial smooth muscle, producing bronchodilation and reducing airway secretions.",
   moaHe:"חוסם קולטנים מוסקריניים (M3) בשריר החלק של הסמפונות, גורם להרחבת סמפונות ומפחית הפרשות בדרכי הנשימה.",
   indEn:"Maintenance treatment of COPD, acute bronchospasm together with a SABA, and rhinorrhea (nasal spray).",
@@ -1240,6 +1308,8 @@ const MEDS = [
   brandEn:"Flixotide", brandHe:"פליקסוטייד",
   routeEn:"inhaled / intranasal", routeHe:"בשאיפה / תוך-אפי",
   doseEn:"Adult: inhaled asthma 88-880 mcg twice daily by potency of the product (start low-moderate and step down when controlled); nasal spray 1-2 sprays per nostril once daily for allergic rhinitis. Use a spacer with the MDI and rinse and spit after each use.", doseHe:"מבוגר: אסתמה בשאיפה 88-880 מק\"ג פעמיים ביום לפי עוצמת התכשיר (להתחיל נמוך-בינוני ולהפחית כשמאוזן); תרסיס אף 1-2 תרסיסים לכל נחיר פעם ביום לנזלת אלרגית. יש להשתמש במרווח עם המשאף ולשטוף ולירוק לאחר כל שימוש.",
+  memHookEn:"Inhaled corticosteroid (ICS) — thrush; rinse and spit", memHookHe:"קורטיקוסטרואיד בשאיפה (ICS) — פטרת בפה; לשטוף ולירוק",
+  memEn:"Class: an inhaled corticosteroid — the daily controller, not a rescue drug. Local side effects: oral thrush, hoarseness, and sore throat — prevent them by rinsing the mouth and using a spacer. High doses can cause systemic steroid effects and slow a child's growth.", memHe:"קבוצה: קורטיקוסטרואיד בשאיפה — תרופת האחזקה היומית, לא תרופת הצלה. תופעות לוואי מקומיות: פטרת בפה, צרידות, וכאב גרון — למנוע על ידי שטיפת הפה ושימוש במרווח. מינונים גבוהים עלולים לגרום להשפעות סטרואידיות מערכתיות ולהאט את גדילת הילד.",
   moaEn:"Provides local anti-inflammatory action in the airway, reducing mucosal edema, mucus production, and bronchial hyperresponsiveness over days to weeks.",
   moaHe:"מספק פעולה נוגדת דלקת מקומית בדרכי הנשימה, מפחית בצקת רירית, ייצור ריר ותגובתיות יתר של הסמפונות במהלך ימים עד שבועות.",
   indEn:"Maintenance (controller) therapy for persistent asthma and, in combination products, COPD; the nasal form treats allergic rhinitis.",
@@ -1261,6 +1331,8 @@ const MEDS = [
   brandEn:"Singulair", brandHe:"סינגולייר",
   routeEn:"PO", routeHe:"פומי",
   doseEn:"Adult: 10 mg PO once daily in the evening for asthma; same dose 2 h before exercise for exercise-induced bronchospasm (not more than one dose per day); 10 mg any time for allergic rhinitis. No renal or hepatic adjustment. Not for an acute attack.", doseHe:"מבוגר: 10 מ\"ג פומי פעם ביום בערב לאסתמה; אותו מינון שעתיים לפני מאמץ לכיווץ סמפונות מאמץ (לא יותר ממנה אחת ביום); 10 מ\"ג בכל שעה לנזלת אלרגית. אין התאמה כלייתית או כבדית. לא להתקף חריף.",
+  memHookEn:"Leukotriene blocker — boxed warning for mood and behavior", memHookHe:"חוסם לויקוטריאנים — אזהרת מסגרת למצב רוח והתנהגות",
+  memEn:"Class: a leukotriene receptor antagonist — an oral add-on for asthma and allergic rhinitis, not for an acute attack. Usually mild (headache, GI upset), but carries a boxed warning for neuropsychiatric effects: agitation, mood changes, depression, sleep disturbance, and suicidal thinking.", memHe:"קבוצה: אנטגוניסט לקולטן לויקוטריאן — תוספת פומית לאסתמה ולנזלת אלרגית, לא להתקף חריף. בדרך כלל קל (כאב ראש, אי-נוחות במערכת העיכול), אך נושא אזהרת מסגרת לתופעות נוירופסיכיאטריות: אי-שקט, שינויים במצב הרוח, דיכאון, הפרעות שינה, ומחשבות אובדניות.",
   moaEn:"Blocks the CysLT1 leukotriene receptor, reducing leukotriene-mediated bronchoconstriction, airway inflammation, edema, and mucus secretion.",
   moaHe:"חוסם את קולטן הלויקוטריאן CysLT1, מפחית כיווץ סמפונות, דלקת בדרכי הנשימה, בצקת והפרשת ריר בתיווך לויקוטריאנים.",
   indEn:"Maintenance treatment of asthma, prevention of exercise-induced bronchospasm, and allergic rhinitis.",
@@ -1282,6 +1354,8 @@ const MEDS = [
   brandEn:"Losec, Omepradex", brandHe:"לוסק, אומפרדקס",
   routeEn:"PO", routeHe:"פומי",
   doseEn:"Adult: GERD 20 mg PO once daily 30-60 min before breakfast for 4-8 weeks; erosive esophagitis 20-40 mg/day; peptic ulcer 20-40 mg/day for 4-8 weeks; H. pylori 20 mg twice daily with two antibiotics for 14 days; Zollinger-Ellison 60 mg/day titrated. No renal adjustment; consider 10-20 mg/day in severe hepatic impairment.", doseHe:"מבוגר: רפלוקס 20 מ\"ג פומי פעם ביום 30-60 דקות לפני ארוחת הבוקר למשך 4-8 שבועות; דלקת ושט שוחקת 20-40 מ\"ג ליום; כיב פפטי 20-40 מ\"ג ליום למשך 4-8 שבועות; H. pylori 20 מ\"ג פעמיים ביום עם שתי אנטיביוטיקות למשך 14 יום; זולינגר-אליסון 60 מ\"ג ליום בכיול. אין התאמה כלייתית; יש לשקול 10-20 מ\"ג ליום באי-ספיקת כבד חמורה.",
+  memHookEn:"'-prazole' = proton pump inhibitor", memHookHe:"סיומת prazole- = מעכב משאבת פרוטונים",
+  memEn:"Class: the '-prazole' ending marks a proton pump inhibitor. Short-term it is well tolerated (headache, bowel changes). Long-term, low acid means poor absorption and risk: fractures, low magnesium, low B12, C. difficile infection, and interstitial nephritis. Take 30-60 minutes before food.", memHe:"קבוצה: הסיומת prazole- מסמנת מעכב משאבת פרוטונים. לטווח קצר נסבל היטב (כאב ראש, שינויים ביציאות). לטווח ארוך, חומציות נמוכה משמעה ספיגה ירודה וסיכון: שברים, מגנזיום נמוך, B12 נמוך, זיהום C. difficile, ודלקת אינטרסטיציאלית של הכליה. יש ליטול 30-60 דקות לפני האוכל.",
   moaEn:"Irreversibly inhibits the H+/K+-ATPase (proton pump) of gastric parietal cells, strongly suppressing gastric acid secretion.",
   moaHe:"מעכב באופן בלתי הפיך את משאבת הפרוטונים (H+/K+-ATPase) בתאי הדופן של הקיבה, ומדכא באופן חזק הפרשת חומצה קיבתית.",
   indEn:"GERD, peptic ulcer disease, H. pylori eradication (with antibiotics), Zollinger-Ellison syndrome, and prevention of NSAID-related ulcers.",
@@ -1303,6 +1377,8 @@ const MEDS = [
   brandEn:"Pepcid", brandHe:"פמוטידין / גסטרו",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
   doseEn:"Adult: GERD 20 mg PO twice daily; peptic ulcer 40 mg at bedtime or 20 mg twice daily for 4-8 weeks; heartburn (OTC) 10-20 mg as needed; stress ulcer prophylaxis 20 mg IV every 12 h. Reduce to 20 mg at bedtime (or extend the interval) when CrCl is under 30.", doseHe:"מבוגר: רפלוקס 20 מ\"ג פומי פעמיים ביום; כיב פפטי 40 מ\"ג לפני השינה או 20 מ\"ג פעמיים ביום למשך 4-8 שבועות; צרבת (ללא מרשם) 10-20 מ\"ג לפי צורך; מניעת כיב עקה 20 מ\"ג תוך-ורידי כל 12 שעות. יש להפחית ל-20 מ\"ג לפני השינה (או להאריך מרווח) כאשר CrCl מתחת ל-30.",
+  memHookEn:"'-tidine' = H2 blocker — milder than a PPI", memHookHe:"סיומת tidine- = חוסם H2 — עדין ממעכב משאבת פרוטונים",
+  memEn:"Class: the '-tidine' ending marks a histamine H2 receptor blocker — less potent acid suppression than a PPI and generally very safe. Side effects are few: headache, dizziness, and bowel changes; confusion can occur in older adults or with renal impairment.", memHe:"קבוצה: הסיומת tidine- מסמנת חוסם קולטן היסטמין H2 — דיכוי חומצה חלש יותר ממעכב משאבת פרוטונים ובדרך כלל בטוח מאוד. תופעות הלוואי מעטות: כאב ראש, סחרחורת, ושינויים ביציאות; בלבול עלול להופיע בקשישים או באי-ספיקת כליות.",
   moaEn:"Blocks histamine H2 receptors on gastric parietal cells, decreasing the volume and acidity of gastric secretions.",
   moaHe:"חוסם קולטני היסטמין H2 בתאי הדופן של הקיבה, ומפחית את נפח וחומציות ההפרשה הקיבתית.",
   indEn:"GERD, peptic ulcer disease, dyspepsia, and stress ulcer prophylaxis.",
@@ -10020,7 +10096,8 @@ const FIELDS = [
   ["se","Side effects","תופעות לוואי","caution"],
   ["mon","What to monitor","מה לנטר","monitor"],
   ["antidote","Antidote / reversal","נוגדן / היפוך פעולה","antidote"],
-  ["teach","Patient teaching","הדרכת מטופל","teach"]
+  ["teach","Patient teaching","הדרכת מטופל","teach"],
+  ["mem","Memory aid","עזר זיכרון","mem"]
 ];
 
 const catLabel = c => (CATS.find(x => x[0] === c) || [c,c,c]);
@@ -10139,7 +10216,12 @@ function cardHTML(m){
         inoDirHTML(m.inoDir) +
         '<span class="en">' + esc(m.inoEn) + '</span>' +
         '<span class="mid">·</span>' +
-        '<span class="he" dir="rtl">' + esc(m.inoHe) + "</span></div>" : "");
+        '<span class="he" dir="rtl">' + esc(m.inoHe) + "</span></div>" : "") +
+      (m.memHookEn ? '<div class="mem-line">' +
+        '<span class="route-tag en">Memory aid</span><span class="route-tag route-tag-he" dir="rtl">עזר זיכרון</span> ' +
+        '<span class="en">' + esc(m.memHookEn) + '</span>' +
+        '<span class="mid">·</span>' +
+        '<span class="he" dir="rtl">' + esc(m.memHookHe) + "</span></div>" : "");
   return '<article class="card">' +
     '<div class="card-sticky">' +
       '<button class="star-btn' + (starred ? " on" : "") + '" type="button" data-star="' + escAttr(m.genericEn) + '" aria-label="Star this drug / הוסף לנבחרים" aria-pressed="' + starred + '">' + (starred ? "★" : "☆") + "</button>" +
