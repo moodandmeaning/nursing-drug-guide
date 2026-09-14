@@ -17,7 +17,7 @@ in **English and Hebrew** side by side. Installable as an app on iOS and Android
 browser, or host it anywhere that serves static files. `manifest.webmanifest` and
 `sw.js` make it an installable, offline-capable Progressive Web App.
 
-- **429 medications** across 21 drug classes (cardiovascular, emergency/vasoactive,
+- **431 medications** across 21 drug classes (cardiovascular, emergency/vasoactive,
   diuretics, anticoagulants, endocrine/diabetes, respiratory, GI, pain & nervous
   system, psychiatric, antibiotics, antivirals/antifungals, immunosuppressants,
   chemotherapy, hematology, musculoskeletal, genitourinary, eye/skin/topical,
@@ -26,7 +26,8 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   they differ — e.g. furosemide is **Fusid**, not Lasix), route(s) of administration,
   drug class (insulins and other diabetes drugs note their acting duration), mechanism
   of action, indications, contraindications, electrolyte changes, side effects, nursing
-  monitoring, patient teaching (what to tell the patient), and — where one exists —
+  monitoring, patient teaching (what to tell the patient), a memory aid (a short class
+  "tell" plus a fuller class/side-effect recap, for every drug), and — where one exists —
   the antidote / reversal agent.
 - Search bar (matches name, brand, or class in either language; press `/` to focus it).
 - Drug-class filter dropdown (including a **★ Starred** option that shows only the
