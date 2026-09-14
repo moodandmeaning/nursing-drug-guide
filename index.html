@@ -349,8 +349,11 @@
   .mode-btn .he{font-size:.68rem;font-weight:600}
   .mode-btn[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
   #controls.study-mode .search-row,
-  #controls.study-mode .cat-row{display:none}
-  #controls.study-mode.collapsed{box-shadow:none}
+  #controls.study-mode .cat-row,
+  #controls.patients-mode .search-row,
+  #controls.patients-mode .cat-row{display:none}
+  #controls.study-mode.collapsed,
+  #controls.patients-mode.collapsed{box-shadow:none}
 
   /* ---- Language filter (Browse) ---- */
   .lang-switch{
@@ -408,7 +411,17 @@
     color:var(--muted);padding:2px;z-index:1;
   }
   .star-btn.on{color:var(--caution)}
-  .card-sticky .card-class,.card-sticky .card-names{padding-inline-end:34px}
+  .add-to-patient-btn{
+    position:absolute;top:13px;inset-inline-end:46px;
+    font-size:1.25rem;line-height:1;font-weight:600;background:none;border:none;cursor:pointer;
+    color:var(--muted);padding:2px 4px;z-index:1;
+  }
+  .add-to-patient-btn:hover,.add-to-patient-btn.open{color:var(--accent)}
+  .card-sticky .card-class,.card-sticky .card-names{padding-inline-end:64px}
+  .card-sticky .patient-picker-menu{
+    position:absolute;top:44px;inset-inline-end:16px;width:min(240px,calc(100% - 32px));
+    z-index:6;box-shadow:var(--shadow);
+  }
 
   /* ---- Study mode ---- */
   #study{padding-top:14px;padding-bottom:90px}
@@ -580,6 +593,118 @@
   .done-actions button.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
   .study-empty{text-align:center;color:var(--muted);padding:40px 10px}
 
+  /* ---- Patients mode ---- */
+  #patients{padding-top:14px;padding-bottom:90px}
+  .patients-topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+  .patient-tabs{display:flex;gap:6px;overflow-x:auto;flex:1;padding-bottom:2px}
+  .patient-tab{
+    flex:0 0 auto;display:flex;align-items:center;gap:6px;
+    font:inherit;font-size:.85rem;font-weight:600;
+    background:var(--surface-2);border:1.5px solid var(--line);color:var(--muted);
+    border-radius:999px;padding:7px 8px 7px 14px;cursor:pointer;white-space:nowrap;
+  }
+  .patient-tab[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+  .patient-tab .pt-del{
+    font-size:.95rem;line-height:1;color:inherit;opacity:.6;
+    background:none;border:none;cursor:pointer;padding:2px 4px;border-radius:999px;
+  }
+  .patient-tab .pt-del:hover{opacity:1;color:var(--danger)}
+  .add-patient-btn{
+    flex:0 0 auto;font:inherit;font-size:.82rem;font-weight:700;line-height:1.15;
+    background:none;border:1.5px solid var(--line);color:var(--muted);
+    border-radius:14px;padding:6px 14px;cursor:pointer;white-space:nowrap;
+    display:flex;flex-direction:column;align-items:center;gap:1px;
+  }
+  .add-patient-btn .he{font-size:.68rem;font-weight:600}
+  .add-patient-btn:hover{border-color:var(--accent);color:var(--ink)}
+  .patient-head{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+  .patient-label-input{
+    flex:1 1 220px;font:inherit;font-size:1.1rem;font-weight:700;color:var(--ink);
+    background:var(--surface);border:1.5px solid var(--line);border-radius:10px;
+    padding:10px 12px;
+  }
+  .patient-label-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);outline:none}
+  .share-patient-btn{
+    flex:0 0 auto;font:inherit;font-size:.82rem;font-weight:600;color:var(--accent);
+    background:var(--accent-soft);border:1.5px solid transparent;border-radius:999px;
+    padding:8px 14px;cursor:pointer;
+  }
+  .patient-section{margin-bottom:26px}
+  .patient-section h3{
+    font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 10px;display:flex;gap:8px;align-items:baseline;
+  }
+  .patient-section h3 .he{font-weight:600;text-transform:none}
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .diag-chip{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:.85rem;font-weight:600;background:var(--surface-2);
+    border:1px solid var(--line);color:var(--ink);padding:6px 8px 6px 12px;border-radius:999px;
+  }
+  .diag-chip .he{direction:rtl}
+  .diag-chip-remove{
+    font-size:.9rem;line-height:1;color:var(--muted);background:none;border:none;
+    cursor:pointer;padding:2px 4px;border-radius:999px;
+  }
+  .diag-chip-remove:hover{color:var(--danger)}
+  .med-list{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+  .med-row{
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    overflow:clip;
+  }
+  .med-row-head{
+    display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;
+  }
+  .med-row-head:hover{background:var(--surface-2)}
+  .med-row-name{flex:1;display:flex;gap:8px;align-items:baseline;font-size:.92rem;font-weight:600}
+  .med-row-name .he{direction:rtl;color:var(--muted);font-weight:500}
+  .med-row-chevron{color:var(--muted);font-size:.8rem;transition:transform .15s ease}
+  .med-row.expanded .med-row-chevron{transform:rotate(90deg)}
+  .med-row-remove{
+    font-size:.95rem;line-height:1;color:var(--muted);background:none;border:none;
+    cursor:pointer;padding:2px 6px;border-radius:999px;
+  }
+  .med-row-remove:hover{color:var(--danger)}
+  .med-row-card{border-top:1px solid var(--line)}
+  .nested-card .card-sticky{position:relative;top:auto}
+  .nested-card .card{margin-bottom:0;border:none;box-shadow:none;border-radius:0}
+  .add-row{display:flex;gap:8px;position:relative}
+  .add-row input{
+    flex:1;font:inherit;font-size:.92rem;color:var(--ink);
+    background:var(--surface);border:1.5px solid var(--line);border-radius:10px;
+    padding:10px 12px;
+  }
+  .add-row input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);outline:none}
+  .add-row button{
+    flex:0 0 auto;font:inherit;font-size:.85rem;font-weight:700;
+    background:var(--accent);color:var(--on-accent);border:none;border-radius:10px;
+    padding:10px 16px;cursor:pointer;
+  }
+  .med-picker-results,.diag-picker-results,.patient-picker-menu{
+    margin-top:6px;border:1.5px solid var(--line);border-radius:10px;
+    background:var(--surface);overflow:hidden;
+  }
+  .picker-item{
+    display:flex;align-items:center;gap:8px;padding:9px 12px;cursor:pointer;
+    font-size:.88rem;border-top:1px solid var(--line);
+  }
+  .picker-item:first-child{border-top:none}
+  .picker-item:hover{background:var(--surface-2)}
+  .picker-item .he{direction:rtl;color:var(--muted);margin-inline-start:auto}
+  .picker-item.picker-custom{color:var(--muted);font-style:italic}
+  .patient-picker-menu{padding:6px 0}
+  .patient-picker-menu label{
+    display:flex;align-items:center;gap:9px;padding:9px 12px;cursor:pointer;
+    font-size:.88rem;border-top:1px solid var(--line);
+  }
+  .patient-picker-menu label:first-child{border-top:none}
+  .patient-picker-menu label:hover{background:var(--surface-2)}
+  .patient-picker-menu input[type="checkbox"]{accent-color:var(--accent)}
+  .patient-picker-new{display:flex;gap:6px;padding:8px 10px}
+  .patient-picker-new input{
+    flex:1;font:inherit;font-size:.85rem;color:var(--ink);
+    background:var(--surface-2);border:1.5px solid var(--line);border-radius:8px;padding:7px 9px;
+  }
   @media (max-width:640px){
     .field-body{grid-template-columns:1fr;gap:10px}
     .field-body .en{border-inline-end:none;padding-inline-end:0;border-bottom:1px solid var(--line);padding-bottom:10px}
@@ -606,6 +731,7 @@
     <div class="mode-switch" id="modeSwitch">
       <button class="mode-btn" type="button" data-mode="browse" aria-pressed="true">Browse<span class="he" dir="rtl">עיון</span></button>
       <button class="mode-btn" type="button" data-mode="study" aria-pressed="false">Study<span class="he" dir="rtl">תרגול</span></button>
+      <button class="mode-btn" type="button" data-mode="patients" aria-pressed="false">Patients<span class="he" dir="rtl">מטופלים</span></button>
     </div>
     <div class="search-row">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
@@ -627,6 +753,13 @@
 
 <main class="wrap" id="list"></main>
 <section class="wrap" id="study" hidden></section>
+<section class="wrap" id="patients" hidden>
+  <div class="patients-topbar">
+    <div class="patient-tabs" id="patientTabs"></div>
+    <button class="add-patient-btn" id="addPatientBtn" type="button">+ Patient<span class="he" dir="rtl">+ מטופל</span></button>
+  </div>
+  <div id="patientPanel"></div>
+</section>
 
 <footer class="wrap" id="siteFooter">
   Compiled for nursing students. Electrolyte and monitoring notes emphasize what a nurse checks at the bedside.
@@ -657,6 +790,141 @@ const CATS = [
   ["vitamins","Vitamins & Supplements","ויטמינים ותוספים"],
   ["anesthesia","Anesthesia & Sedation","הרדמה וטשטוש"],
   ["electrolytes","Fluids & Electrolytes","נוזלים ואלקטרוליטים"]
+];
+
+/* Curated bilingual diagnosis list for Patients mode's diagnosis picker.
+   [id, English, Hebrew] - flat, no categories (search-as-you-type). */
+const DIAGNOSES = [
+  ["chf","Congestive heart failure","אי-ספיקת לב"],
+  ["mi","Acute myocardial infarction","אוטם שריר הלב חריף"],
+  ["afib","Atrial fibrillation","פרפור פרוזדורים"],
+  ["htn","Hypertension","יתר לחץ דם"],
+  ["htncrisis","Hypertensive crisis","משבר יתר לחץ דם"],
+  ["angina","Angina pectoris","תעוקת חזה"],
+  ["cardshock","Cardiogenic shock","הלם קרדיוגני"],
+  ["dvt","Deep vein thrombosis","פקקת ורידים עמוקה"],
+  ["pe","Pulmonary embolism","תסחיף ריאתי"],
+  ["pad","Peripheral arterial disease","מחלת עורקים היקפית"],
+  ["cad","Coronary artery disease","מחלת עורקים כליליים"],
+  ["vtach","Ventricular tachycardia","טכיקרדיה חדרית"],
+  ["brady","Bradycardia","ברדיקרדיה"],
+  ["valvular","Valvular heart disease","מחלת מסתמי לב"],
+  ["arrest","Cardiac arrest","דום לב"],
+  ["copd","Chronic obstructive pulmonary disease (COPD)","מחלת ריאות חסימתית כרונית"],
+  ["asthma","Asthma exacerbation","החמרת אסתמה"],
+  ["pneumonia","Pneumonia","דלקת ריאות"],
+  ["ards","Acute respiratory distress syndrome (ARDS)","תסמונת מצוקה נשימתית חריפה"],
+  ["respfail","Respiratory failure","אי-ספיקה נשימתית"],
+  ["pleural","Pleural effusion","תפליט פלאורלי"],
+  ["pneumothorax","Pneumothorax","פנאומותורקס"],
+  ["tb","Tuberculosis","שחפת"],
+  ["bronchitis","Chronic bronchitis","ברונכיטיס כרונית"],
+  ["osa","Obstructive sleep apnea","דום נשימה חסימתי בשינה"],
+  ["pulmedema","Pulmonary edema","בצקת ריאות"],
+  ["flu","Influenza","שפעת"],
+  ["t1dm","Type 1 diabetes mellitus","סוכרת סוג 1"],
+  ["t2dm","Type 2 diabetes mellitus","סוכרת סוג 2"],
+  ["dka","Diabetic ketoacidosis","חמצת קטוטית סוכרתית"],
+  ["hhs","Hyperosmolar hyperglycemic state","מצב היפראוסמולרי היפרגליקמי"],
+  ["hypoglycemia","Hypoglycemia","היפוגליקמיה"],
+  ["hypothyroid","Hypothyroidism","תת-פעילות בלוטת התריס"],
+  ["hyperthyroid","Hyperthyroidism","יתר-פעילות בלוטת התריס"],
+  ["thyroidstorm","Thyroid storm","סערה תירואידית"],
+  ["adrenalinsuff","Adrenal insufficiency","אי-ספיקת יותרת הכליה"],
+  ["metsyn","Metabolic syndrome","תסמונת מטבולית"],
+  ["obesity","Obesity","השמנה"],
+  ["dyslipidemia","Dyslipidemia","דיסליפידמיה"],
+  ["aki","Acute kidney injury","פגיעה כלייתית חריפה"],
+  ["ckd","Chronic kidney disease","מחלת כליות כרונית"],
+  ["esrd","End-stage renal disease","מחלת כליות בשלב סופי"],
+  ["uti","Urinary tract infection","זיהום בדרכי השתן"],
+  ["pyelo","Pyelonephritis","דלקת אגן הכליה"],
+  ["kidneystones","Nephrolithiasis (kidney stones)","אבנים בכליה"],
+  ["fluidoverload","Fluid volume overload","עומס נוזלים"],
+  ["dehydration","Dehydration","התייבשות"],
+  ["hyperkalemia","Hyperkalemia","היפרקלמיה"],
+  ["hyponatremia","Hyponatremia","היפונתרמיה"],
+  ["gastroenteritis","Gastroenteritis","דלקת קיבה ומעיים"],
+  ["pud","Peptic ulcer disease","מחלת כיב פפטי"],
+  ["gerd","GERD (gastroesophageal reflux disease)","רפלוקס קיבה-ושט"],
+  ["pancreatitis","Acute pancreatitis","דלקת לבלב חריפה"],
+  ["cirrhosis","Cirrhosis","שחמת הכבד"],
+  ["hepatitis","Hepatitis","דלקת כבד"],
+  ["cholecystitis","Cholecystitis","דלקת כיס מרה"],
+  ["bowelobstruction","Bowel obstruction","חסימת מעיים"],
+  ["ibd","Inflammatory bowel disease (Crohn's / ulcerative colitis)","מחלת מעי דלקתית"],
+  ["gibleed","GI bleeding","דימום במערכת העיכול"],
+  ["appendicitis","Appendicitis","דלקת התוספתן"],
+  ["diverticulitis","Diverticulitis","דלקת דיברטיקולים"],
+  ["ischstroke","Ischemic stroke (CVA)","שבץ מוחי איסכמי"],
+  ["hemstroke","Hemorrhagic stroke","שבץ מוחי דימומי"],
+  ["tia","Transient ischemic attack (TIA)","התקף איסכמי חולף"],
+  ["seizure","Seizure disorder / epilepsy","הפרעת פרכוסים / אפילפסיה"],
+  ["tbi","Traumatic brain injury","פגיעת ראש טראומטית"],
+  ["parkinsons","Parkinson's disease","מחלת פרקינסון"],
+  ["dementia","Alzheimer's disease / dementia","מחלת אלצהיימר / דמנציה"],
+  ["ms","Multiple sclerosis","טרשת נפוצה"],
+  ["migraine","Migraine","מיגרנה"],
+  ["meningitis","Meningitis","דלקת קרום המוח"],
+  ["gbs","Guillain-Barré syndrome","תסמונת גיאן-בארה"],
+  ["delirium","Delirium","דליריום"],
+  ["mdd","Major depressive disorder","דיכאון מג'ורי"],
+  ["gad","Generalized anxiety disorder","הפרעת חרדה כללית"],
+  ["bipolar","Bipolar disorder","הפרעה דו-קוטבית"],
+  ["schizophrenia","Schizophrenia","סכיזופרניה"],
+  ["etohwithdrawal","Alcohol withdrawal","גמילה מאלכוהול"],
+  ["substanceuse","Substance use disorder","הפרעת שימוש בחומרים"],
+  ["suicidal","Suicidal ideation","מחשבות אובדניות"],
+  ["ptsd","Post-traumatic stress disorder (PTSD)","הפרעת דחק פוסט-טראומטית"],
+  ["panic","Panic disorder","הפרעת פאניקה"],
+  ["insomnia","Insomnia","נדודי שינה"],
+  ["sepsis","Sepsis","אלח דם (ספסיס)"],
+  ["septicshock","Septic shock","הלם ספטי"],
+  ["cellulitis","Cellulitis","דלקת רקמה תאית"],
+  ["covid","COVID-19","קוביד-19"],
+  ["cdiff","Clostridioides difficile infection","זיהום Clostridioides difficile"],
+  ["hiv","HIV / AIDS","HIV / איידס"],
+  ["osteomyelitis","Osteomyelitis","דלקת עצם ומוח העצם"],
+  ["endocarditis","Endocarditis","אנדוקרדיטיס"],
+  ["oa","Osteoarthritis","אוסטאוארתריטיס"],
+  ["ra","Rheumatoid arthritis","דלקת מפרקים שגרונית"],
+  ["osteoporosis","Osteoporosis","אוסטאופורוזיס"],
+  ["hipfracture","Hip fracture","שבר בירך"],
+  ["gout","Gout","גאוט (שיגדון)"],
+  ["compartment","Compartment syndrome","תסמונת מדור"],
+  ["lowbackpain","Low back pain","כאבי גב תחתון"],
+  ["bph","Benign prostatic hyperplasia (BPH)","היפרפלזיה שפירה של הערמונית"],
+  ["urinaryretention","Acute urinary retention","אצירת שתן חריפה"],
+  ["preeclampsia","Preeclampsia","רעלת הריון"],
+  ["pph","Postpartum hemorrhage","דימום לאחר לידה"],
+  ["ectopic","Ectopic pregnancy","הריון חוץ-רחמי"],
+  ["pelvicpain","Chronic pelvic pain","כאב פרקי כרוני"],
+  ["ed","Erectile dysfunction","הפרעה בזיקפה"],
+  ["anemia","Anemia","אנמיה"],
+  ["scd","Sickle cell crisis","התקף תאית חרמש"],
+  ["thrombocytopenia","Thrombocytopenia","תרומבוציטופניה"],
+  ["leukemia","Leukemia","לוקמיה"],
+  ["lymphoma","Lymphoma","לימפומה"],
+  ["breastcancer","Breast cancer","סרטן השד"],
+  ["lungcancer","Lung cancer","סרטן הריאה"],
+  ["colorectalcancer","Colorectal cancer","סרטן המעי הגס"],
+  ["postoppain","Postoperative pain","כאב לאחר ניתוח"],
+  ["ileus","Postoperative ileus","שיתוק מעי לאחר ניתוח"],
+  ["ssi","Surgical site infection","זיהום באתר הניתוח"],
+  ["pressureinjury","Pressure injury (pressure ulcer)","פגיעת לחץ (פצע לחץ)"],
+  ["failuretothrive","Failure to thrive","כשל בשגשוג"],
+  ["fallsrisk","Falls risk","סיכון לנפילות"],
+  ["malnutrition","Malnutrition","תת-תזונה"],
+  ["anaphylaxis","Anaphylaxis","אנפילקסיס"],
+  ["burns","Burns","כוויות"],
+  ["hipreplacement","Hip replacement (post-op)","החלפת ירך (לאחר ניתוח)"],
+  ["multitrauma","Multiple trauma","טראומה מרובה"],
+  ["chronicpain","Chronic pain syndrome","תסמונת כאב כרוני"],
+  ["glaucoma","Glaucoma","גלאוקומה"],
+  ["cataracts","Cataracts","קטרקט"],
+  ["psoriasis","Psoriasis","פסוריאזיס"],
+  ["retinopathy","Diabetic retinopathy","רטינופתיה סוכרתית"],
+  ["eczema","Eczema / atopic dermatitis","אקזמה / דרמטיטיס אטופית"]
 ];
 
 const MEDS = [
@@ -10927,6 +11195,7 @@ function cardHTML(m){
   return '<article class="card">' +
     '<div class="card-sticky">' +
       '<button class="star-btn' + (starred ? " on" : "") + '" type="button" data-star="' + escAttr(m.genericEn) + '" aria-label="Star this drug / הוסף לנבחרים" aria-pressed="' + starred + '">' + (starred ? "★" : "☆") + "</button>" +
+      '<button class="add-to-patient-btn" type="button" data-add-patient="' + escAttr(m.genericEn) + '" aria-label="Add to a patient / הוסף למטופל" title="Add to a patient / הוסף למטופל">+</button>' +
       '<p class="card-class"><span class="en">' + esc(m.classEn) + '</span>' +
         '<span class="mid">&nbsp;&middot;&nbsp;</span>' +
         '<span class="he" dir="rtl">' + esc(m.classHe) + "</span></p>" +
@@ -11023,7 +11292,7 @@ function toggleStar(gen){
   if (i === -1) s.push(gen); else s.splice(i, 1);
   lsSet("ndg-starred", s);
 }
-listEl.addEventListener("click", function(e){
+document.body.addEventListener("click", function(e){
   const btn = e.target.closest(".star-btn");
   if (!btn) return;
   toggleStar(btn.dataset.star);
@@ -11034,6 +11303,379 @@ listEl.addEventListener("click", function(e){
   syncStarOption();
   if (activeCat === "starred" && !on) render();
 });
+
+/* ============================================================
+   Patients mode (local-only: localStorage + shareable links)
+   ============================================================ */
+const patientsEl = document.getElementById("patients");
+const patientTabsEl = document.getElementById("patientTabs");
+const patientPanelEl = document.getElementById("patientPanel");
+
+function newPatientId(){ return "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+function getPatients(){ return lsGet("ndg-patients", []); }
+function savePatients(list){ lsSet("ndg-patients", list); }
+function getPatient(id){ return getPatients().find(p => p.id === id) || null; }
+function getActivePatientId(){ return lsGetRaw("ndg-active-patient"); }
+function setActivePatientId(id){ lsSetRaw("ndg-active-patient", id || ""); }
+
+function addPatient(){
+  const list = getPatients();
+  const p = { id: newPatientId(), label: "", diagnoses: [], meds: [] };
+  list.push(p);
+  savePatients(list);
+  setActivePatientId(p.id);
+  renderPatients();
+}
+function createPatientWithMed(genericEn, label){
+  const list = getPatients();
+  const p = { id: newPatientId(), label: label || "", diagnoses: [], meds: [genericEn] };
+  list.push(p);
+  savePatients(list);
+  setActivePatientId(p.id);
+  return p;
+}
+function deletePatient(id){
+  let list = getPatients();
+  list = list.filter(p => p.id !== id);
+  savePatients(list);
+  if (getActivePatientId() === id) setActivePatientId(list.length ? list[0].id : null);
+  renderPatients();
+}
+function renamePatient(id, label){
+  const list = getPatients();
+  const p = list.find(x => x.id === id);
+  if (!p) return;
+  p.label = label;
+  savePatients(list);
+  renderPatientTabs();
+}
+function addDiagnosis(id, entry){
+  if (!entry || (!entry.textEn && !entry.textHe)) return;
+  const list = getPatients();
+  const p = list.find(x => x.id === id);
+  if (!p) return;
+  p.diagnoses.push({ textEn: entry.textEn || "", textHe: entry.textHe || "" });
+  savePatients(list);
+  renderActivePatient(id);
+}
+function removeDiagnosis(id, index){
+  const list = getPatients();
+  const p = list.find(x => x.id === id);
+  if (!p) return;
+  p.diagnoses.splice(index, 1);
+  savePatients(list);
+  renderActivePatient(id);
+}
+function addMedToPatient(id, genericEn){
+  const list = getPatients();
+  const p = list.find(x => x.id === id);
+  if (!p) return;
+  if (p.meds.indexOf(genericEn) === -1) p.meds.push(genericEn);
+  savePatients(list);
+  if (id === getActivePatientId()) renderActivePatient(id);
+}
+function removeMedFromPatient(id, genericEn){
+  const list = getPatients();
+  const p = list.find(x => x.id === id);
+  if (!p) return;
+  const i = p.meds.indexOf(genericEn);
+  if (i !== -1) p.meds.splice(i, 1);
+  savePatients(list);
+  if (id === getActivePatientId()) renderActivePatient(id);
+}
+function importPatientFromShare(data){
+  const list = getPatients();
+  const p = {
+    id: newPatientId(),
+    label: (data && data.label) || "",
+    diagnoses: (data && Array.isArray(data.diagnoses)) ? data.diagnoses : [],
+    meds: (data && Array.isArray(data.meds)) ? data.meds : []
+  };
+  list.push(p);
+  savePatients(list);
+  setActivePatientId(p.id);
+  return p;
+}
+
+function searchMedsForPicker(q){
+  const needle = q.toLowerCase();
+  return MEDS.filter(m =>
+    m.genericEn.toLowerCase().includes(needle) || m.genericHe.includes(q) ||
+    (m.brandEn && m.brandEn.toLowerCase().includes(needle)) || (m.brandHe && m.brandHe.includes(q))
+  ).slice(0, 8);
+}
+function searchDiagnosesForPicker(q){
+  const needle = q.toLowerCase();
+  return DIAGNOSES.filter(([id, en, he]) => en.toLowerCase().includes(needle) || he.includes(q)).slice(0, 8);
+}
+
+function renderPatients(){
+  const patients = getPatients();
+  if (!patients.length){
+    patientTabsEl.innerHTML = "";
+    patientPanelEl.innerHTML = '<p class="empty">No patients yet — tap "+ Patient" to add one.' +
+      '<span class="he" dir="rtl">אין עדיין מטופלים — הקישו על "+ מטופל" כדי להתחיל.</span></p>';
+    return;
+  }
+  let activeId = getActivePatientId();
+  if (!patients.some(p => p.id === activeId)){
+    activeId = patients[0].id;
+    setActivePatientId(activeId);
+  }
+  renderPatientTabs();
+  renderActivePatient(activeId);
+}
+
+function renderPatientTabs(){
+  const patients = getPatients();
+  const activeId = getActivePatientId();
+  patientTabsEl.innerHTML = patients.map(p => {
+    const label = p.label && p.label.trim() ? esc(p.label) : "Untitled";
+    return '<button class="patient-tab" type="button" data-patient-tab="' + escAttr(p.id) + '" aria-pressed="' + (p.id === activeId) + '">' +
+      "<span>" + label + "</span>" +
+      '<span class="pt-del" data-patient-del="' + escAttr(p.id) + '" title="Delete patient · מחיקת מטופל">×</span>' +
+    "</button>";
+  }).join("");
+}
+
+function renderActivePatient(id){
+  const p = getPatient(id);
+  if (!p) return;
+  const diagChips = p.diagnoses.length
+    ? '<div class="chip-row">' + p.diagnoses.map((d, i) =>
+        '<span class="diag-chip"><span class="en">' + esc(d.textEn) + '</span>' +
+        '<span class="he" dir="rtl">' + esc(d.textHe) + '</span>' +
+        '<button type="button" class="diag-chip-remove" data-remove-diag="' + i + '" aria-label="Remove">×</button></span>'
+      ).join("") + "</div>"
+    : '<p class="empty">No diagnoses yet.<span class="he" dir="rtl">אין עדיין אבחנות.</span></p>';
+
+  const medRows = p.meds.length
+    ? '<div class="med-list">' + p.meds.map(gen => {
+        const m = MEDS.find(x => x.genericEn === gen);
+        if (!m) return "";
+        return '<div class="med-row" data-med-row="' + escAttr(gen) + '">' +
+          '<div class="med-row-head" data-toggle-med="' + escAttr(gen) + '">' +
+            '<span class="med-row-chevron">›</span>' +
+            '<span class="med-row-name"><span class="en">' + esc(m.genericEn) + '</span>' +
+            '<span class="he" dir="rtl">' + esc(m.genericHe) + "</span></span>" +
+            '<button type="button" class="med-row-remove" data-remove-med="' + escAttr(gen) + '" aria-label="Remove">×</button>' +
+          "</div>" +
+          '<div class="med-row-card" hidden></div>' +
+        "</div>";
+      }).join("") + "</div>"
+    : '<p class="empty">No medications yet.<span class="he" dir="rtl">אין עדיין תרופות.</span></p>';
+
+  patientPanelEl.innerHTML =
+    '<div class="patient-panel">' +
+      '<div class="patient-head">' +
+        '<input class="patient-label-input" dir="auto" id="patientLabelInput" ' +
+          'placeholder="Patient label, room, or initials..." value="' + escAttr(p.label) + '">' +
+        '<button class="share-patient-btn" type="button" id="sharePatientBtn">Share<span class="he" dir="rtl"> · שיתוף</span></button>' +
+      "</div>" +
+      '<div class="patient-section">' +
+        '<h3><span class="en">Diagnoses</span><span class="he" dir="rtl">אבחנות</span></h3>' +
+        diagChips +
+        '<div class="add-row"><input type="text" id="diagAddInput" dir="auto" autocomplete="off" ' +
+          'placeholder="Add a diagnosis... / הוסף אבחנה..."></div>' +
+        '<div class="diag-picker-results" id="diagPickerResults" hidden></div>' +
+      "</div>" +
+      '<div class="patient-section">' +
+        '<h3><span class="en">Medications</span><span class="he" dir="rtl">תרופות</span></h3>' +
+        medRows +
+        '<div class="add-row"><input type="text" id="medAddInput" dir="auto" autocomplete="off" ' +
+          'placeholder="Search a medication to add... / חיפוש תרופה להוספה..."></div>' +
+        '<div class="med-picker-results" id="medPickerResults" hidden></div>' +
+      "</div>" +
+    "</div>";
+
+  document.getElementById("patientLabelInput").addEventListener("change", function(){ renamePatient(id, this.value); });
+  document.getElementById("sharePatientBtn").addEventListener("click", function(){ sharePatient(id, this); });
+  const diagInput = document.getElementById("diagAddInput");
+  diagInput.addEventListener("input", function(){ renderDiagnosisPicker(id, this.value); });
+  diagInput.addEventListener("keydown", function(e){
+    if (e.key === "Enter"){
+      e.preventDefault();
+      const q = this.value.trim();
+      if (q) addDiagnosis(id, { textEn: q, textHe: q });
+    }
+  });
+  const medInput = document.getElementById("medAddInput");
+  medInput.addEventListener("input", function(){ renderMedPicker(id, this.value); });
+}
+
+function renderDiagnosisPicker(patientId, query){
+  const box = document.getElementById("diagPickerResults");
+  if (!box) return;
+  const q = query.trim();
+  if (!q){ box.hidden = true; box.innerHTML = ""; return; }
+  const matches = searchDiagnosesForPicker(q);
+  let html = matches.map(([dxId, en, he]) =>
+    '<div class="picker-item" data-pick-diag-en="' + escAttr(en) + '" data-pick-diag-he="' + escAttr(he) + '">' +
+      '<span class="en">' + esc(en) + '</span><span class="he" dir="rtl">' + esc(he) + "</span></div>"
+  ).join("");
+  html += '<div class="picker-item picker-custom" data-pick-diag-en="' + escAttr(q) + '" data-pick-diag-he="' + escAttr(q) + '">' +
+    'Use my own text: "' + esc(q) + '"<span class="he" dir="rtl">השתמש בטקסט שלי: "' + esc(q) + '"</span></div>';
+  box.innerHTML = html;
+  box.hidden = false;
+}
+
+function renderMedPicker(patientId, query){
+  const box = document.getElementById("medPickerResults");
+  if (!box) return;
+  const q = query.trim();
+  if (!q){ box.hidden = true; box.innerHTML = ""; return; }
+  const matches = searchMedsForPicker(q);
+  if (!matches.length){
+    box.innerHTML = '<div class="picker-item picker-custom">No matches<span class="he" dir="rtl">אין תוצאות</span></div>';
+    box.hidden = false;
+    return;
+  }
+  box.innerHTML = matches.map(m =>
+    '<div class="picker-item" data-pick-med="' + escAttr(m.genericEn) + '">' +
+      '<span class="en">' + esc(m.genericEn) + '</span><span class="he" dir="rtl">' + esc(m.genericHe) + "</span></div>"
+  ).join("");
+  box.hidden = false;
+}
+
+patientsEl.addEventListener("click", function(e){
+  if (e.target.closest("#addPatientBtn")){ addPatient(); return; }
+  const delBtn = e.target.closest("[data-patient-del]");
+  if (delBtn){
+    e.stopPropagation();
+    if (confirm("Delete this patient and all their diagnoses and medications? · למחוק את המטופל וכל האבחנות והתרופות שלו?")){
+      deletePatient(delBtn.dataset.patientDel);
+    }
+    return;
+  }
+  const tabBtn = e.target.closest("[data-patient-tab]");
+  if (tabBtn){ setActivePatientId(tabBtn.dataset.patientTab); renderPatients(); return; }
+  const rmDiag = e.target.closest("[data-remove-diag]");
+  if (rmDiag){ removeDiagnosis(getActivePatientId(), parseInt(rmDiag.dataset.removeDiag, 10)); return; }
+  const rmMed = e.target.closest("[data-remove-med]");
+  if (rmMed){ removeMedFromPatient(getActivePatientId(), rmMed.dataset.removeMed); return; }
+  const pickDiag = e.target.closest("[data-pick-diag-en]");
+  if (pickDiag){
+    addDiagnosis(getActivePatientId(), { textEn: pickDiag.dataset.pickDiagEn, textHe: pickDiag.dataset.pickDiagHe });
+    return;
+  }
+  const pickMed = e.target.closest("[data-pick-med]");
+  if (pickMed){ addMedToPatient(getActivePatientId(), pickMed.dataset.pickMed); return; }
+  const toggleMed = e.target.closest("[data-toggle-med]");
+  if (toggleMed){
+    const row = toggleMed.closest(".med-row");
+    const slot = row.querySelector(".med-row-card");
+    const expanded = row.classList.toggle("expanded");
+    if (expanded && !slot.dataset.built){
+      const m = MEDS.find(x => x.genericEn === toggleMed.dataset.toggleMed);
+      slot.innerHTML = m ? '<div class="nested-card">' + cardHTML(m) + "</div>" : "";
+      slot.dataset.built = "1";
+    }
+    slot.hidden = !expanded;
+  }
+});
+
+/* ---- Quick "+ Patient" button on every drug card ---- */
+let openPatientPickerBtn = null;
+let openPatientPickerMenu = null;
+function closeOpenPatientPicker(){
+  if (openPatientPickerMenu) openPatientPickerMenu.remove();
+  if (openPatientPickerBtn) openPatientPickerBtn.classList.remove("open");
+  openPatientPickerMenu = null;
+  openPatientPickerBtn = null;
+}
+function togglePatientPickerMenu(btn){
+  if (openPatientPickerBtn === btn){ closeOpenPatientPicker(); return; }
+  closeOpenPatientPicker();
+  const gen = btn.dataset.addPatient;
+  const patients = getPatients();
+  const menu = document.createElement("div");
+  menu.className = "patient-picker-menu";
+  menu.dataset.generic = gen;
+  if (!patients.length){
+    menu.innerHTML = '<div class="patient-picker-new">' +
+      '<input type="text" placeholder="New patient label... / תווית מטופל חדש..." dir="auto">' +
+      '<button type="button" data-picker-newpatient="1">Add</button></div>';
+  } else {
+    menu.innerHTML = patients.map(p => {
+      const label = p.label && p.label.trim() ? esc(p.label) : "Untitled";
+      const checked = p.meds.indexOf(gen) !== -1;
+      return '<label><input type="checkbox" data-picker-patient="' + escAttr(p.id) + '"' + (checked ? " checked" : "") + ">" +
+        "<span>" + label + "</span></label>";
+    }).join("");
+  }
+  btn.classList.add("open");
+  const stickyHead = btn.closest(".card-sticky") || btn.parentElement;
+  stickyHead.appendChild(menu);
+  openPatientPickerBtn = btn;
+  openPatientPickerMenu = menu;
+  const newBtn = menu.querySelector("[data-picker-newpatient]");
+  if (newBtn){
+    newBtn.addEventListener("click", function(){
+      const input = menu.querySelector('input[type="text"]');
+      createPatientWithMed(gen, input ? input.value.trim() : "");
+      closeOpenPatientPicker();
+      if (!patientsEl.hidden) renderPatients();
+    });
+  }
+}
+document.body.addEventListener("click", function(e){
+  const addBtn = e.target.closest(".add-to-patient-btn");
+  if (addBtn){ e.stopPropagation(); togglePatientPickerMenu(addBtn); return; }
+  if (openPatientPickerMenu && !e.target.closest(".patient-picker-menu")) closeOpenPatientPicker();
+});
+document.body.addEventListener("change", function(e){
+  const cb = e.target.closest("input[data-picker-patient]");
+  if (!cb) return;
+  const menu = cb.closest(".patient-picker-menu");
+  const gen = menu ? menu.dataset.generic : null;
+  if (!gen) return;
+  if (cb.checked) addMedToPatient(cb.dataset.pickerPatient, gen);
+  else removeMedFromPatient(cb.dataset.pickerPatient, gen);
+});
+
+/* ---- Sharing (link-based, no accounts) ---- */
+function sharePatient(id, btn){
+  const p = getPatient(id);
+  if (!p) return;
+  const url = location.origin + location.pathname + "#import=" +
+    encodeURIComponent(JSON.stringify({ label: p.label, diagnoses: p.diagnoses, meds: p.meds }));
+  const flash = function(text){
+    if (!btn) return;
+    const orig = btn.innerHTML;
+    btn.textContent = text;
+    setTimeout(function(){ btn.innerHTML = orig; }, 1600);
+  };
+  try {
+    if (navigator.share){ navigator.share({ title: "Patient" + (p.label ? " - " + p.label : ""), url: url }).catch(function(){}); return; }
+  } catch(e){}
+  try {
+    navigator.clipboard.writeText(url).then(function(){ flash("Copied! · הועתק!"); }).catch(function(){ showShareFallback(url); });
+  } catch(e){ showShareFallback(url); }
+}
+function showShareFallback(url){
+  const row = document.createElement("div");
+  row.className = "add-row";
+  row.innerHTML = '<input type="text" readonly value="' + escAttr(url) + '">';
+  patientPanelEl.prepend(row);
+  const input = row.querySelector("input");
+  input.focus();
+  input.select();
+}
+function handleShareImport(){
+  if (!location.hash || location.hash.indexOf("#import=") !== 0) return;
+  let data = null;
+  try { data = JSON.parse(decodeURIComponent(location.hash.slice(8))); } catch(e){}
+  history.replaceState(null, "", location.pathname + location.search);
+  if (!data) return;
+  const label = data.label ? data.label : "Untitled patient";
+  const diagCount = Array.isArray(data.diagnoses) ? data.diagnoses.length : 0;
+  const medCount = Array.isArray(data.meds) ? data.meds.length : 0;
+  const msg = 'Import patient "' + label + '" with ' + diagCount + " diagnoses and " + medCount + " medications?";
+  if (confirm(msg)){
+    importPatientFromShare(data);
+    setMode("patients");
+  }
+}
 
 /* ============================================================
    Study mode
@@ -11614,13 +12256,17 @@ function renderDone(){
 /* ---- mode switch ---- */
 function setMode(mode){
   const studying = mode === "study";
+  const patientsMode = mode === "patients";
   lsSetRaw("ndg-mode", mode);
   modeSwitchEl.querySelectorAll(".mode-btn").forEach(b => b.setAttribute("aria-pressed", b.dataset.mode === mode));
   controlsEl.classList.toggle("study-mode", studying);
-  listEl.hidden = studying;
-  footerEl.hidden = studying;
+  controlsEl.classList.toggle("patients-mode", patientsMode);
+  listEl.hidden = studying || patientsMode;
+  footerEl.hidden = studying || patientsMode;
   studyEl.hidden = !studying;
+  patientsEl.hidden = !patientsMode;
   if (studying){ study = null; renderStudy(); window.scrollTo(0, 0); }
+  if (patientsMode){ renderPatients(); window.scrollTo(0, 0); }
   if (typeof measureControls === "function") measureControls();
 }
 modeSwitchEl.addEventListener("click", function(e){
@@ -11643,7 +12289,12 @@ document.addEventListener("keydown", function(e){
 });
 
 render();
-if (lsGetRaw("ndg-mode") === "study") setMode("study");
+{
+  const savedMode = lsGetRaw("ndg-mode");
+  if (savedMode === "study" || savedMode === "patients") setMode(savedMode);
+}
+handleShareImport();
+
 </script>
 
 <script>

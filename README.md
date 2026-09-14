@@ -53,6 +53,16 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   own starred set — star drugs from any Browse card) and how many new cards per
   day. Progress, stars, and a day streak are saved on the device (offline, per
   browser). Keyboard: 1–4 to answer, Enter for Next.
+- **Patients mode** (toggle at the top, for clinicals): open a tab per patient,
+  any number of them, and track each one's diagnoses and medications
+  independently — the same medication can be added to several patients at
+  once. Diagnoses are picked from a curated bilingual list of ~130 common
+  clinical diagnoses (search-as-you-type) or typed freely if not on it. Every
+  drug card also gets a quick **"+"** button to add it straight to a patient
+  without leaving Browse mode. Everything is saved on the device only (no
+  accounts, no server) — a **Share** button per patient generates a link that
+  imports that patient's data into the app on any other device, for handing
+  off to a classmate or moving between your own devices.
 - Light/dark theme toggle and the display-language switch. Hebrew renders
   right-to-left throughout.
 - Fonts (Frank Ruhl Libre + Assistant) load from Google Fonts when online; everything
