@@ -26,9 +26,10 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   they differ — e.g. furosemide is **Fusid**, not Lasix), route(s) of administration,
   drug class (insulins and other diabetes drugs note their acting duration), mechanism
   of action, indications, contraindications, electrolyte changes, side effects, nursing
-  monitoring, patient teaching (what to tell the patient), a memory aid (a short class
-  "tell" plus a fuller class/side-effect recap, for every drug), and — where one exists —
-  the antidote / reversal agent.
+  monitoring, patient teaching (what to tell the patient), and — where one exists —
+  the antidote / reversal agent. About a third of drugs also carry a memory trick
+  (wordplay, an acronym, a nickname) shown right under the brand names — added only
+  where a genuinely memorable one exists, not forced onto every entry.
 - Search bar (matches name, brand, or class in either language; press `/` to focus it).
 - Drug-class filter dropdown (including a **★ Starred** option that shows only the
   drugs you've starred) and a live result count.
