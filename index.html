@@ -192,7 +192,7 @@
   .controls.collapsed .cat-row{margin-top:8px;row-gap:0}
   .controls.collapsed .cat-row .theme-toggle{max-height:0;opacity:0;margin-top:0;pointer-events:none}
   .cat-select{
-    flex:1 1 100%;
+    flex:1 1 220px;min-width:0;
     font:inherit;font-size:.9rem;font-weight:600;
     color:var(--ink);background-color:var(--surface);
     border:1.5px solid var(--line);border-radius:10px;
@@ -618,6 +618,7 @@
         <button class="lang-btn" type="button" data-lang="he" aria-pressed="false">עברית</button>
       </div>
       <select id="catSelect" class="cat-select" aria-label="Filter by drug category / סינון לפי קטגוריית תרופה"></select>
+      <select id="classSelect" class="cat-select" aria-label="Filter by pharmacological class / סינון לפי קבוצה פרמקולוגית"></select>
       <span class="count" id="count"></span>
       <button class="theme-toggle" id="themeToggle" type="button">Theme · ערכת צבע</button>
     </div>
@@ -662,6 +663,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Cardiac glycoside / antiarrhythmic", classHe:"גליקוזיד לבבי / נוגד הפרעות קצב",
+  classFamilyEn:"Cardiac glycoside", classFamilyHe:"גליקוזיד לבבי",
   genericEn:"Digoxin", genericHe:"דיגוקסין",
   brandEn:"Digoxin", brandHe:"דיגוקסין",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -688,6 +690,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Beta-1 selective adrenergic blocker", classHe:"חוסם בטא-1 סלקטיבי",
+  classFamilyEn:"Beta blocker", classFamilyHe:"חוסם בטא",
   genericEn:"Metoprolol", genericHe:"מטופרולול",
   brandEn:"Neobloc, Lopresor", brandHe:"ניאובלוק, לופרסור",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -714,6 +717,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"ACE inhibitor", classHe:"מעכב ACE",
+  classFamilyEn:"ACE inhibitor", classFamilyHe:"מעכב ACE",
   genericEn:"Lisinopril", genericHe:"ליזינופריל",
   brandEn:"Prinivil, Zestril", brandHe:"פריניוויל, זסטריל",
   routeEn:"PO", routeHe:"פומי",
@@ -736,6 +740,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Angiotensin II receptor blocker (ARB)", classHe:"חוסם קולטן אנגיוטנסין II",
+  classFamilyEn:"ARB (angiotensin receptor blocker)", classFamilyHe:"חוסם קולטן אנגיוטנסין (ARB)",
   genericEn:"Losartan", genericHe:"לוסארטן",
   brandEn:"Ocsaar, Cozaar", brandHe:"אוקסאר, קוזאר",
   routeEn:"PO", routeHe:"פומי",
@@ -757,6 +762,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Dihydropyridine calcium channel blocker", classHe:"חוסם תעלות סידן מסוג דיהידרופירידין",
+  classFamilyEn:"Dihydropyridine calcium channel blocker", classFamilyHe:"חוסם תעלות סידן דיהידרופירידיני",
   genericEn:"Amlodipine", genericHe:"אמלודיפין",
   brandEn:"Norvasc, Amlow", brandHe:"נורווסק",
   routeEn:"PO", routeHe:"פומי",
@@ -783,6 +789,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"HMG-CoA reductase inhibitor (statin)", classHe:"מעכב HMG-CoA רדוקטאז (סטטין)",
+  classFamilyEn:"Statin", classFamilyHe:"סטטין",
   genericEn:"Atorvastatin", genericHe:"אטורבסטטין",
   brandEn:"Lipitor, Torvast", brandHe:"ליפיטור, טורבסט",
   routeEn:"PO", routeHe:"פומי",
@@ -805,6 +812,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Organic nitrate vasodilator", classHe:"מרחיב כלי דם מסוג ניטרט אורגני",
+  classFamilyEn:"Nitrate", classFamilyHe:"ניטרט",
   genericEn:"Nitroglycerin", genericHe:"ניטרוגליצרין",
   brandEn:"Nitroderm TTS, Nitrolingual", brandHe:"ניטרודרם TTS, ניטרולינגואל",
   routeEn:"SL / transdermal / topical / IV", routeHe:"תת-לשוני / מדבקה טרנסדרמלית / מקומי / תוך-ורידי",
@@ -828,6 +836,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Class III antiarrhythmic", classHe:"נוגד הפרעות קצב מקבוצה III",
+  classFamilyEn:"Antiarrhythmic", classFamilyHe:"נוגד הפרעות קצב",
   genericEn:"Amiodarone", genericHe:"אמיודרון",
   brandEn:"Procor, Cordarone", brandHe:"פרוקור, קורדרון",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -852,6 +861,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Antiarrhythmic for acute cardioversion (atrial-selective, multi-channel)", classHe:"נוגד הפרעות קצב להמרה חריפה (סלקטיבי לפרוזדורים, רב-תעלתי)",
+  classFamilyEn:"Antiarrhythmic", classFamilyHe:"נוגד הפרעות קצב",
   genericEn:"Vernakalant", genericHe:"ורנקלנט",
   brandEn:"Brinavess", brandHe:"ברינאווס",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -877,6 +887,7 @@ const MEDS = [
 {
   cat:"diuretics",
   classEn:"Loop diuretic", classHe:"משתן לולאה",
+  classFamilyEn:"Loop diuretic", classFamilyHe:"משתן לולאה",
   genericEn:"Furosemide", genericHe:"פורוסמיד",
   brandEn:"Fusid, Lasix", brandHe:"פוסיד, לזיקס",
   routeEn:"PO / IV / IM", routeHe:"פומי / תוך-ורידי / תוך-שרירי",
@@ -899,6 +910,7 @@ const MEDS = [
 {
   cat:"diuretics",
   classEn:"Thiazide diuretic", classHe:"משתן תיאזידי",
+  classFamilyEn:"Thiazide / thiazide-like diuretic", classFamilyHe:"משתן תיאזידי / דמוי-תיאזיד",
   genericEn:"Hydrochlorothiazide", genericHe:"הידרוכלורותיאזיד",
   brandEn:"Disothiazide", brandHe:"דיסותיאזיד",
   routeEn:"PO", routeHe:"פומי",
@@ -920,6 +932,7 @@ const MEDS = [
 {
   cat:"diuretics",
   classEn:"Potassium-sparing diuretic / aldosterone antagonist", classHe:"משתן חוסך אשלגן / אנטגוניסט לאלדוסטרון",
+  classFamilyEn:"Potassium-sparing diuretic", classFamilyHe:"משתן חוסך אשלגן",
   genericEn:"Spironolactone", genericHe:"ספירונולקטון",
   brandEn:"Aldactone, Spirono", brandHe:"אלדקטון, ספירונו",
   routeEn:"PO", routeHe:"פומי",
@@ -944,6 +957,7 @@ const MEDS = [
 {
   cat:"anticoag",
   classEn:"Vitamin K antagonist anticoagulant", classHe:"נוגד קרישה - אנטגוניסט לויטמין K",
+  classFamilyEn:"Vitamin K antagonist", classFamilyHe:"אנטגוניסט לויטמין K",
   genericEn:"Warfarin", genericHe:"וורפרין",
   brandEn:"Coumadin", brandHe:"קומדין",
   routeEn:"PO", routeHe:"פומי",
@@ -967,6 +981,7 @@ const MEDS = [
 {
   cat:"anticoag",
   classEn:"Unfractionated heparin anticoagulant", classHe:"הפרין לא מפורק - נוגד קרישה",
+  classFamilyEn:"Injectable anticoagulant (heparin / related)", classFamilyHe:"נוגד קרישה בזריקה (הפרין וקרובים)",
   genericEn:"Heparin", genericHe:"הפרין",
   brandEn:"Heparin sodium", brandHe:"הפרין נתרן",
   routeEn:"IV / SC", routeHe:"תוך-ורידי / תת-עורי",
@@ -991,6 +1006,7 @@ const MEDS = [
 {
   cat:"anticoag",
   classEn:"Low-molecular-weight heparin", classHe:"הפרין במשקל מולקולרי נמוך",
+  classFamilyEn:"Injectable anticoagulant (heparin / related)", classFamilyHe:"נוגד קרישה בזריקה (הפרין וקרובים)",
   genericEn:"Enoxaparin", genericHe:"אנוקספרין",
   brandEn:"Clexane, Crusia", brandHe:"קלקסן, קרוזיה",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -1014,6 +1030,7 @@ const MEDS = [
 {
   cat:"anticoag",
   classEn:"Direct factor Xa inhibitor (DOAC)", classHe:"מעכב ישיר של גורם Xa (DOAC)",
+  classFamilyEn:"Direct oral anticoagulant (DOAC)", classFamilyHe:"נוגד קרישה פומי ישיר (DOAC)",
   genericEn:"Apixaban", genericHe:"אפיקסבן",
   brandEn:"Eliquis", brandHe:"אליקוויס",
   routeEn:"PO", routeHe:"פומי",
@@ -1038,6 +1055,7 @@ const MEDS = [
 {
   cat:"anticoag",
   classEn:"P2Y12 platelet inhibitor (antiplatelet)", classHe:"מעכב טסיות P2Y12",
+  classFamilyEn:"Antiplatelet", classFamilyHe:"נוגד טסיות",
   genericEn:"Clopidogrel", genericHe:"קלופידוגרל",
   brandEn:"Plavix", brandHe:"פלביקס",
   routeEn:"PO", routeHe:"פומי",
@@ -1061,6 +1079,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Short-acting insulin", classHe:"אינסולין קצר טווח",
+  classFamilyEn:"Insulin", classFamilyHe:"אינסולין",
   genericEn:"Insulin regular", genericHe:"אינסולין רגולר (קצר טווח)",
   brandEn:"Actrapid, Humulin R", brandHe:"אקטרפיד",
   routeEn:"SC / IV", routeHe:"תת-עורי / תוך-ורידי",
@@ -1084,6 +1103,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Long-acting basal insulin", classHe:"אינסולין בזאלי ארוך טווח",
+  classFamilyEn:"Insulin", classFamilyHe:"אינסולין",
   genericEn:"Insulin glargine", genericHe:"אינסולין גלרגין",
   brandEn:"Lantus, Toujeo", brandHe:"לנטוס",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -1107,6 +1127,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Rapid-acting insulin", classHe:"אינסולין מהיר טווח",
+  classFamilyEn:"Insulin", classFamilyHe:"אינסולין",
   genericEn:"Insulin aspart", genericHe:"אינסולין אספרט",
   brandEn:"NovoRapid", brandHe:"נובורפיד",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -1130,6 +1151,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Biguanide oral antihyperglycemic", classHe:"נוגד היפרגליקמיה פומי מקבוצת ביגואנידים",
+  classFamilyEn:"Biguanide", classFamilyHe:"ביגואניד",
   genericEn:"Metformin", genericHe:"מטפורמין",
   brandEn:"Glucophage, Glucomin", brandHe:"גלוקופאז'",
   routeEn:"PO", routeHe:"פומי",
@@ -1151,6 +1173,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Thyroid hormone (synthetic T4)", classHe:"הורמון בלוטת התריס (T4 סינתטי)",
+  classFamilyEn:"Thyroid hormone", classFamilyHe:"הורמון בלוטת התריס",
   genericEn:"Levothyroxine", genericHe:"לבותירוקסין",
   brandEn:"Eltroxin, Euthyrox", brandHe:"אלטרוקסין, אוטירוקס",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -1175,6 +1198,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Systemic corticosteroid (glucocorticoid)", classHe:"קורטיקוסטרואיד סיסטמי (גלוקוקורטיקואיד)",
+  classFamilyEn:"Systemic corticosteroid", classFamilyHe:"קורטיקוסטרואיד סיסטמי",
   genericEn:"Prednisone", genericHe:"פרדניזון",
   brandEn:"Prednisone, Deltacortril", brandHe:"פרדניזון",
   routeEn:"PO", routeHe:"פומי",
@@ -1197,6 +1221,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Corticosteroid (gluco- and mineralocorticoid)", classHe:"קורטיקוסטרואיד (גלוקו- ומינרלוקורטיקואיד)",
+  classFamilyEn:"Systemic corticosteroid", classFamilyHe:"קורטיקוסטרואיד סיסטמי",
   genericEn:"Hydrocortisone", genericHe:"הידרוקורטיזון",
   brandEn:"Solu-Cortef, Cortef", brandHe:"סולו-קורטף",
   routeEn:"PO / IV / IM", routeHe:"פומי / תוך-ורידי / תוך-שרירי",
@@ -1219,6 +1244,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Short-acting beta-2 agonist (SABA)", classHe:"אגוניסט בטא-2 קצר טווח (SABA)",
+  classFamilyEn:"Beta-2 agonist", classFamilyHe:"אגוניסט בטא-2",
   genericEn:"Albuterol", genericHe:"סלבוטמול (אלבוטרול)",
   brandEn:"Ventolin", brandHe:"ונטולין",
   routeEn:"inhaled / nebulized", routeHe:"בשאיפה / בנבולייזר",
@@ -1243,6 +1269,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Short-acting muscarinic antagonist (SAMA)", classHe:"אנטגוניסט מוסקריני קצר טווח (SAMA)",
+  classFamilyEn:"Inhaled muscarinic antagonist", classFamilyHe:"אנטגוניסט מוסקריני בשאיפה",
   genericEn:"Ipratropium", genericHe:"איפרטרופיום",
   brandEn:"Aerovent, Atrovent", brandHe:"אירוונט, אטרובנט",
   routeEn:"inhaled / nebulized", routeHe:"בשאיפה / בנבולייזר",
@@ -1266,6 +1293,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Inhaled corticosteroid (ICS)", classHe:"קורטיקוסטרואיד באינהלציה (ICS)",
+  classFamilyEn:"Inhaled corticosteroid", classFamilyHe:"קורטיקוסטרואיד בשאיפה",
   genericEn:"Fluticasone", genericHe:"פלוטיקזון",
   brandEn:"Flixotide", brandHe:"פליקסוטייד",
   routeEn:"inhaled / intranasal", routeHe:"בשאיפה / תוך-אפי",
@@ -1288,6 +1316,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Leukotriene receptor antagonist", classHe:"אנטגוניסט לקולטן לויקוטריאן",
+  classFamilyEn:"Leukotriene receptor antagonist", classFamilyHe:"אנטגוניסט לקולטן לויקוטריאן",
   genericEn:"Montelukast", genericHe:"מונטלוקאסט",
   brandEn:"Singulair", brandHe:"סינגולייר",
   routeEn:"PO", routeHe:"פומי",
@@ -1309,6 +1338,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Proton pump inhibitor", classHe:"מעכב משאבת פרוטונים",
+  classFamilyEn:"Proton pump inhibitor", classFamilyHe:"מעכב משאבת פרוטונים",
   genericEn:"Omeprazole", genericHe:"אומפרזול",
   brandEn:"Losec, Omepradex", brandHe:"לוסק, אומפרדקס",
   routeEn:"PO", routeHe:"פומי",
@@ -1330,6 +1360,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Histamine H2 receptor antagonist", classHe:"אנטגוניסט לקולטן היסטמין H2",
+  classFamilyEn:"H2 receptor antagonist", classFamilyHe:"אנטגוניסט לקולטן H2",
   genericEn:"Famotidine", genericHe:"פמוטידין",
   brandEn:"Pepcid", brandHe:"פמוטידין / גסטרו",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -1351,6 +1382,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"5-HT3 receptor antagonist antiemetic", classHe:"נוגד הקאה - אנטגוניסט לקולטן 5-HT3",
+  classFamilyEn:"Antiemetic (5-HT3 antagonist)", classFamilyHe:"נוגד הקאה (אנטגוניסט 5-HT3)",
   genericEn:"Ondansetron", genericHe:"אונדנסטרון",
   brandEn:"Zofran, Setronon", brandHe:"זופרן, סטרונון",
   routeEn:"PO / IV / IM", routeHe:"פומי / תוך-ורידי / תוך-שרירי",
@@ -1372,6 +1404,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Emollient laxative (stool softener)", classHe:"משלשל מרכך (מרכך צואה)",
+  classFamilyEn:"Laxative", classFamilyHe:"משלשל",
   genericEn:"Docusate sodium", genericHe:"דוקוסאט נתרן",
   brandEn:"Colace", brandHe:"קולקסן / לקסדין",
   routeEn:"PO / rectal", routeHe:"פומי / רקטלי",
@@ -1393,6 +1426,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Non-opioid analgesic / antipyretic", classHe:"משכך כאב לא אופיואידי / מוריד חום",
+  classFamilyEn:"Non-opioid analgesic / antipyretic", classFamilyHe:"משכך כאב לא-אופיואידי / מוריד חום",
   genericEn:"Acetaminophen", genericHe:"פרצטמול (אצטמינופן)",
   brandEn:"Acamol, Dexamol", brandHe:"אקמול, דקסמול",
   routeEn:"PO / IV / rectal", routeHe:"פומי / תוך-ורידי / רקטלי",
@@ -1417,6 +1451,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"NSAID (nonselective COX inhibitor)", classHe:"NSAID (מעכב COX לא סלקטיבי)",
+  classFamilyEn:"NSAID", classFamilyHe:"NSAID",
   genericEn:"Ibuprofen", genericHe:"איבופרופן",
   brandEn:"Nurofen, Advil, Adex", brandHe:"נורופן, אדוויל, אדקס",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -1439,6 +1474,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Parenteral NSAID (potent analgesic)", classHe:"NSAID פרנטרלי (משכך כאב חזק)",
+  classFamilyEn:"NSAID", classFamilyHe:"NSAID",
   genericEn:"Ketorolac", genericHe:"קטורולק",
   brandEn:"Toradol", brandHe:"טורדול",
   routeEn:"IV / IM / PO / intranasal", routeHe:"תוך-ורידי / תוך-שרירי / פומי / תוך-אפי",
@@ -1461,6 +1497,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Opioid agonist analgesic", classHe:"משכך כאב אופיואידי (אגוניסט)",
+  classFamilyEn:"Opioid agonist", classFamilyHe:"אגוניסט אופיואידי",
   genericEn:"Morphine", genericHe:"מורפין",
   brandEn:"MCR, MIR, Oramorph", brandHe:"אם.סי.אר, אורמורף",
   routeEn:"PO / IV / IM / SC / epidural / intrathecal / rectal", routeHe:"פומי / תוך-ורידי / תוך-שרירי / תת-עורי / אפידורלי / תוך-שדרתי / רקטלי",
@@ -1487,6 +1524,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Opioid antagonist", classHe:"אנטגוניסט לאופיואידים",
+  classFamilyEn:"Opioid antagonist", classFamilyHe:"אנטגוניסט אופיואידי",
   genericEn:"Naloxone", genericHe:"נלוקסון",
   brandEn:"Narcan", brandHe:"נרקאן",
   routeEn:"IV / IM / SC / intranasal", routeHe:"תוך-ורידי / תוך-שרירי / תת-עורי / תוך-אפי",
@@ -1509,6 +1547,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Anticonvulsant / neuropathic pain agent (gabapentinoid)", classHe:"נוגד פרכוסים / תרופה לכאב נוירופתי (גבפנטינואיד)",
+  classFamilyEn:"Gabapentinoid", classFamilyHe:"גבפנטינואיד",
   genericEn:"Gabapentin", genericHe:"גבפנטין",
   brandEn:"Neurontin", brandHe:"נוירונטין",
   routeEn:"PO", routeHe:"פומי",
@@ -1530,6 +1569,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Hydantoin anticonvulsant", classHe:"נוגד פרכוסים מקבוצת הידנטואין",
+  classFamilyEn:"Anticonvulsant", classFamilyHe:"נוגד פרכוסים",
   genericEn:"Phenytoin", genericHe:"פניטואין",
   brandEn:"Epanutin", brandHe:"אפנוטין",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -1556,6 +1596,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Selective serotonin reuptake inhibitor (SSRI)", classHe:"מעכב ספיגה חוזרת של סרוטונין (SSRI)",
+  classFamilyEn:"SSRI", classFamilyHe:"SSRI",
   genericEn:"Sertraline", genericHe:"סרטרלין",
   brandEn:"Lustral, Serenada", brandHe:"לוסטרל, סרנדה",
   routeEn:"PO", routeHe:"פומי",
@@ -1577,6 +1618,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Benzodiazepine", classHe:"בנזודיאזפין",
+  classFamilyEn:"Benzodiazepine", classFamilyHe:"בנזודיאזפין",
   genericEn:"Lorazepam", genericHe:"לורזפאם",
   brandEn:"Lorivan", brandHe:"לוריון",
   routeEn:"PO / IV / IM / SL", routeHe:"פומי / תוך-ורידי / תוך-שרירי / תת-לשוני",
@@ -1601,6 +1643,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"First-generation (typical) antipsychotic", classHe:"אנטיפסיכוטי מהדור הראשון (טיפוסי)",
+  classFamilyEn:"Typical antipsychotic", classFamilyHe:"אנטיפסיכוטי טיפוסי",
   genericEn:"Haloperidol", genericHe:"הלופרידול",
   brandEn:"Haldol", brandHe:"הלדול",
   routeEn:"PO / IM / IV", routeHe:"פומי / תוך-שרירי / תוך-ורידי",
@@ -1624,6 +1667,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Mood stabilizer", classHe:"מייצב מצב רוח",
+  classFamilyEn:"Mood stabilizer", classFamilyHe:"מייצב מצב רוח",
   genericEn:"Lithium carbonate", genericHe:"ליתיום קרבונט",
   brandEn:"Lithium", brandHe:"ליתיום",
   routeEn:"PO", routeHe:"פומי",
@@ -1647,6 +1691,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Glycopeptide antibiotic", classHe:"אנטיביוטיקה מקבוצת גליקופפטידים",
+  classFamilyEn:"Glycopeptide / lipopeptide antibiotic", classFamilyHe:"גליקופפטיד / ליפופפטיד",
   genericEn:"Vancomycin", genericHe:"ונקומיצין",
   brandEn:"Vancocin, Voncon", brandHe:"ונקוצין",
   routeEn:"IV / PO", routeHe:"תוך-ורידי / פומי",
@@ -1669,6 +1714,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Third-generation cephalosporin", classHe:"צפלוספורין מהדור השלישי",
+  classFamilyEn:"Cephalosporin", classFamilyHe:"צפלוספורין",
   genericEn:"Ceftriaxone", genericHe:"צפטריאקסון",
   brandEn:"Rocephin", brandHe:"רוצפין",
   routeEn:"IV / IM", routeHe:"תוך-ורידי / תוך-שרירי",
@@ -1690,6 +1736,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Macrolide antibiotic", classHe:"אנטיביוטיקה מקבוצת מקרולידים",
+  classFamilyEn:"Macrolide", classFamilyHe:"מקרוליד",
   genericEn:"Azithromycin", genericHe:"אזיתרומיצין",
   brandEn:"Azenil, Zeto, Zithromax", brandHe:"אזניל, זתו",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -1711,6 +1758,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Fluoroquinolone antibiotic", classHe:"אנטיביוטיקה מקבוצת פלואורוקינולונים",
+  classFamilyEn:"Fluoroquinolone", classFamilyHe:"פלואורוקינולון",
   genericEn:"Ciprofloxacin", genericHe:"ציפרופלוקסצין",
   brandEn:"Ciproxin, Ciprogis", brandHe:"ציפרוקסין",
   routeEn:"PO / IV / ophthalmic / otic", routeHe:"פומי / תוך-ורידי / טיפות עיניים / טיפות אוזניים",
@@ -1733,6 +1781,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Aminoglycoside antibiotic", classHe:"אנטיביוטיקה מקבוצת אמינוגליקוזידים",
+  classFamilyEn:"Aminoglycoside", classFamilyHe:"אמינוגליקוזיד",
   genericEn:"Gentamicin", genericHe:"גנטמיצין",
   brandEn:"Garamycin", brandHe:"גנטמיצין",
   routeEn:"IV / IM / ophthalmic", routeHe:"תוך-ורידי / תוך-שרירי / טיפות עיניים",
@@ -1755,6 +1804,7 @@ const MEDS = [
 {
   cat:"electrolytes",
   classEn:"Electrolyte replacement (potassium)", classHe:"תחליף אלקטרוליט (אשלגן)",
+  classFamilyEn:"Electrolyte replacement", classFamilyHe:"תחליף אלקטרוליט",
   genericEn:"Potassium chloride", genericHe:"אשלגן כלורי",
   brandEn:"K-Dur, Klor-Con, Slow-K", brandHe:"סלואו-K, KCl",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -1776,6 +1826,7 @@ const MEDS = [
 {
   cat:"electrolytes",
   classEn:"Electrolyte / anticonvulsant / tocolytic (magnesium)", classHe:"אלקטרוליט / נוגד פרכוסים / מעכב צירים (מגנזיום)",
+  classFamilyEn:"Electrolyte replacement", classFamilyHe:"תחליף אלקטרוליט",
   genericEn:"Magnesium sulfate", genericHe:"מגנזיום סולפט",
   brandEn:"Magnesium sulfate", brandHe:"מגנזיום גופרתי",
   routeEn:"IV / IM", routeHe:"תוך-ורידי / תוך-שרירי",
@@ -1801,6 +1852,7 @@ const MEDS = [
 {
   cat:"electrolytes",
   classEn:"Electrolyte replacement (calcium)", classHe:"תחליף אלקטרוליט (סידן)",
+  classFamilyEn:"Electrolyte replacement", classFamilyHe:"תחליף אלקטרוליט",
   genericEn:"Calcium gluconate", genericHe:"סידן גלוקונט",
   brandEn:"Cal-Glu", brandHe:"סידן גלוקונט",
   routeEn:"IV / PO", routeHe:"תוך-ורידי / פומי",
@@ -1824,6 +1876,7 @@ const MEDS = [
 {
   cat:"electrolytes",
   classEn:"Potassium-binding resin", classHe:"שרף קושר אשלגן",
+  classFamilyEn:"Potassium binder", classFamilyHe:"קושר אשלגן",
   genericEn:"Sodium polystyrene sulfonate", genericHe:"סודיום פוליסטירן סולפונט",
   brandEn:"Kayexalate, SPS", brandHe:"קייאקסלייט",
   routeEn:"PO / rectal", routeHe:"פומי / רקטלי",
@@ -1845,6 +1898,7 @@ const MEDS = [
 {
   cat:"vasoactive",
   classEn:"Antimuscarinic (anticholinergic)", classHe:"אנטי-מוסקריני (אנטיכולינרגי)",
+  classFamilyEn:"Anticholinergic", classFamilyHe:"אנטיכולינרגי",
   genericEn:"Atropine", genericHe:"אטרופין",
   brandEn:"AtroPen", brandHe:"אטרופין",
   routeEn:"IV / IM / SC / IO / endotracheal / ophthalmic", routeHe:"תוך-ורידי / תוך-שרירי / תת-עורי / תוך-עצמי / תוך-קנה / טיפות עיניים",
@@ -1871,6 +1925,7 @@ const MEDS = [
 {
   cat:"vasoactive",
   classEn:"Endogenous catecholamine (alpha and beta agonist)", classHe:"קטכולאמין אנדוגני (אגוניסט אלפא ובטא)",
+  classFamilyEn:"Vasopressor / inotrope", classFamilyHe:"מכווץ כלי דם / אינוטרופ",
   genericEn:"Epinephrine (adrenaline)", genericHe:"אפינפרין (אדרנלין)",
   brandEn:"Adrenalin, EpiPen", brandHe:"אפיפן",
   routeEn:"IM / IV / SC / inhaled / IO / endotracheal", routeHe:"תוך-שרירי / תוך-ורידי / תת-עורי / בשאיפה / תוך-עצמי / תוך-קנה",
@@ -1894,6 +1949,7 @@ const MEDS = [
 {
   cat:"vasoactive",
   classEn:"Vasopressor (alpha-1 greater than beta-1 agonist)", classHe:"מכווץ כלי דם (אגוניסט אלפא-1 יותר מבטא-1)",
+  classFamilyEn:"Vasopressor / inotrope", classFamilyHe:"מכווץ כלי דם / אינוטרופ",
   genericEn:"Norepinephrine", genericHe:"נוראפינפרין (נוראדרנלין)",
   brandEn:"Levophed", brandHe:"נוראדרנלין",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
@@ -1918,6 +1974,7 @@ const MEDS = [
 {
   cat:"vasoactive",
   classEn:"Inotrope / vasopressor (dose-dependent)", classHe:"אינוטרופ / מכווץ כלי דם (תלוי מינון)",
+  classFamilyEn:"Vasopressor / inotrope", classFamilyHe:"מכווץ כלי דם / אינוטרופ",
   genericEn:"Dopamine", genericHe:"דופמין",
   brandEn:"Intropin", brandHe:"דופמין",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
@@ -1941,6 +1998,7 @@ const MEDS = [
 {
   cat:"vasoactive",
   classEn:"Beta-1 selective inotrope", classHe:"אינוטרופ סלקטיבי לבטא-1",
+  classFamilyEn:"Vasopressor / inotrope", classFamilyHe:"מכווץ כלי דם / אינוטרופ",
   genericEn:"Dobutamine", genericHe:"דובוטמין",
   brandEn:"Dobutrex", brandHe:"דובוטמין",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
@@ -1964,6 +2022,7 @@ const MEDS = [
 {
   cat:"vasoactive",
   classEn:"Selective alpha-1 agonist vasopressor", classHe:"מכווץ כלי דם אגוניסט אלפא-1 סלקטיבי",
+  classFamilyEn:"Vasopressor / inotrope", classFamilyHe:"מכווץ כלי דם / אינוטרופ",
   genericEn:"Phenylephrine", genericHe:"פנילאפרין",
   brandEn:"Neo-Synephrine", brandHe:"פנילאפרין",
   routeEn:"IV / intranasal / ophthalmic", routeHe:"תוך-ורידי / תוך-אפי / טיפות עיניים",
@@ -1987,6 +2046,7 @@ const MEDS = [
 {
   cat:"vasoactive",
   classEn:"Antidiuretic hormone analog / vasopressor", classHe:"אנלוג להורמון אנטי-דיורטי / מכווץ כלי דם",
+  classFamilyEn:"Vasopressor / inotrope", classFamilyHe:"מכווץ כלי דם / אינוטרופ",
   genericEn:"Vasopressin", genericHe:"וזופרסין",
   brandEn:"Vasostrict, Pitressin", brandHe:"וזופרסין",
   routeEn:"IV infusion / IM / SC", routeHe:"עירוי תוך-ורידי / תוך-שרירי / תת-עורי",
@@ -2010,6 +2070,7 @@ const MEDS = [
 {
   cat:"vasoactive",
   classEn:"Phosphodiesterase-3 inhibitor (inodilator)", classHe:"מעכב פוספודיאסטראז-3 (אינו-דילטור)",
+  classFamilyEn:"Vasopressor / inotrope", classFamilyHe:"מכווץ כלי דם / אינוטרופ",
   genericEn:"Milrinone", genericHe:"מילרינון",
   brandEn:"Primacor", brandHe:"מילרינון",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
@@ -2033,6 +2094,7 @@ const MEDS = [
 {
   cat:"vasoactive",
   classEn:"Endogenous nucleoside antiarrhythmic", classHe:"נוגד הפרעות קצב - נוקלאוזיד אנדוגני",
+  classFamilyEn:"Antiarrhythmic", classFamilyHe:"נוגד הפרעות קצב",
   genericEn:"Adenosine", genericHe:"אדנוזין",
   brandEn:"Adenocard", brandHe:"אדנוקור",
   routeEn:"rapid IV push", routeHe:"דחיפה תוך-ורידית מהירה",
@@ -2056,6 +2118,7 @@ const MEDS = [
 {
   cat:"vasoactive",
   classEn:"Class Ib antiarrhythmic / local anesthetic", classHe:"נוגד הפרעות קצב מקבוצה Ib / מרדים מקומי",
+  classFamilyEn:"Antiarrhythmic", classFamilyHe:"נוגד הפרעות קצב",
   genericEn:"Lidocaine (systemic)", genericHe:"לידוקאין (סיסטמי)",
   brandEn:"Xylocaine, Esracaine", brandHe:"קסילוקאין, אסרקאין",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -2080,6 +2143,7 @@ const MEDS = [
 {
   cat:"vasoactive",
   classEn:"Direct arterial and venous vasodilator", classHe:"מרחיב עורקים וורידים ישיר",
+  classFamilyEn:"Direct vasodilator", classFamilyHe:"מרחיב כלי דם ישיר",
   genericEn:"Sodium nitroprusside", genericHe:"נתרן ניטרופרוסיד",
   brandEn:"Nipride, Nitropress", brandHe:"ניפריד",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
@@ -2106,6 +2170,7 @@ const MEDS = [
 {
   cat:"vasoactive",
   classEn:"Class Ia antiarrhythmic", classHe:"נוגד הפרעות קצב מקבוצה Ia",
+  classFamilyEn:"Antiarrhythmic", classFamilyHe:"נוגד הפרעות קצב",
   genericEn:"Procainamide", genericHe:"פרוקאינאמיד",
   brandEn:"Procan, Pronestyl", brandHe:"פרוקאינאמיד",
   routeEn:"IV / IM / PO", routeHe:"תוך-ורידי / תוך-שרירי / פומי",
@@ -2129,6 +2194,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Beta-1 selective adrenergic blocker", classHe:"חוסם בטא-1 סלקטיבי",
+  classFamilyEn:"Beta blocker", classFamilyHe:"חוסם בטא",
   genericEn:"Atenolol", genericHe:"אטנולול",
   brandEn:"Normiten, Tenormin", brandHe:"נורמיטן, טנורמין",
   routeEn:"PO", routeHe:"פומי",
@@ -2155,6 +2221,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Nonselective beta-blocker with alpha-1 blockade", classHe:"חוסם בטא לא סלקטיבי עם חסימת אלפא-1",
+  classFamilyEn:"Beta blocker", classFamilyHe:"חוסם בטא",
   genericEn:"Carvedilol", genericHe:"קרוודילול",
   brandEn:"Dimitone", brandHe:"דימיטון",
   routeEn:"PO", routeHe:"פומי",
@@ -2181,6 +2248,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Nonselective beta-blocker", classHe:"חוסם בטא לא סלקטיבי",
+  classFamilyEn:"Beta blocker", classFamilyHe:"חוסם בטא",
   genericEn:"Propranolol", genericHe:"פרופרנולול",
   brandEn:"Deralin", brandHe:"דרלין",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -2207,6 +2275,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"ACE inhibitor", classHe:"מעכב ACE",
+  classFamilyEn:"ACE inhibitor", classFamilyHe:"מעכב ACE",
   genericEn:"Ramipril", genericHe:"רמיפריל",
   brandEn:"Tritace", brandHe:"טריטייס",
   routeEn:"PO", routeHe:"פומי",
@@ -2229,6 +2298,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"ACE inhibitor (short-acting)", classHe:"מעכב ACE (קצר טווח)",
+  classFamilyEn:"ACE inhibitor", classFamilyHe:"מעכב ACE",
   genericEn:"Captopril", genericHe:"קפטופריל",
   brandEn:"Capoten, Acepril", brandHe:"קפוטן, אספריל",
   routeEn:"PO", routeHe:"פומי",
@@ -2251,6 +2321,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Angiotensin II receptor blocker (ARB)", classHe:"חוסם קולטן אנגיוטנסין II",
+  classFamilyEn:"ARB (angiotensin receptor blocker)", classFamilyHe:"חוסם קולטן אנגיוטנסין (ARB)",
   genericEn:"Valsartan", genericHe:"ולסרטן",
   brandEn:"Diovan", brandHe:"דיובן",
   routeEn:"PO", routeHe:"פומי",
@@ -2272,6 +2343,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"ARB + neprilysin inhibitor (ARNI)", classHe:"חוסם קולטן אנגיוטנסין + מעכב נפריליזין",
+  classFamilyEn:"ARNI", classFamilyHe:"ARNI (משולב ARB ומעכב נפריליזין)",
   genericEn:"Sacubitril / valsartan", genericHe:"סקוביטריל / ולסרטן",
   brandEn:"Entresto", brandHe:"אנטרסטו",
   routeEn:"PO", routeHe:"פומי",
@@ -2293,6 +2365,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Non-dihydropyridine calcium channel blocker", classHe:"חוסם תעלות סידן שאינו דיהידרופירידין",
+  classFamilyEn:"Non-dihydropyridine calcium channel blocker", classFamilyHe:"חוסם תעלות סידן שאינו דיהידרופירידיני",
   genericEn:"Diltiazem", genericHe:"דילטיאזם",
   brandEn:"Dilatam SR, Cardizem", brandHe:"דילתם",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -2318,6 +2391,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Non-dihydropyridine calcium channel blocker", classHe:"חוסם תעלות סידן שאינו דיהידרופירידין",
+  classFamilyEn:"Non-dihydropyridine calcium channel blocker", classFamilyHe:"חוסם תעלות סידן שאינו דיהידרופירידיני",
   genericEn:"Verapamil", genericHe:"ורפמיל",
   brandEn:"Isoptin", brandHe:"איזופטין",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -2343,6 +2417,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Central alpha-2 agonist antihypertensive", classHe:"תרופה להורדת לחץ דם - אגוניסט אלפא-2 מרכזי",
+  classFamilyEn:"Central alpha-2 agonist", classFamilyHe:"אגוניסט אלפא-2 מרכזי",
   genericEn:"Clonidine", genericHe:"קלונידין",
   brandEn:"Catapres, Kapvay", brandHe:"נורמופרסן",
   routeEn:"PO / transdermal / epidural", routeHe:"פומי / מדבקה טרנסדרמלית / אפידורלי",
@@ -2366,6 +2441,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Direct arterial vasodilator", classHe:"מרחיב עורקים ישיר",
+  classFamilyEn:"Direct vasodilator", classFamilyHe:"מרחיב כלי דם ישיר",
   genericEn:"Hydralazine", genericHe:"הידרלזין",
   brandEn:"Apresoline", brandHe:"אפרסולין",
   routeEn:"PO / IV / IM", routeHe:"פומי / תוך-ורידי / תוך-שרירי",
@@ -2389,6 +2465,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"HMG-CoA reductase inhibitor (high-intensity statin)", classHe:"מעכב HMG-CoA רדוקטאז (סטטין עצמתי)",
+  classFamilyEn:"Statin", classFamilyHe:"סטטין",
   genericEn:"Rosuvastatin", genericHe:"רוזובסטטין",
   brandEn:"Crestor", brandHe:"קרסטור",
   routeEn:"PO", routeHe:"פומי",
@@ -2411,6 +2488,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Cholesterol absorption inhibitor", classHe:"מעכב ספיגת כולסטרול",
+  classFamilyEn:"Other lipid-lowering agent", classFamilyHe:"תרופה נוספת להורדת שומנים בדם",
   genericEn:"Ezetimibe", genericHe:"אזטימיב",
   brandEn:"Ezetrol", brandHe:"אזטרול",
   routeEn:"PO", routeHe:"פומי",
@@ -2432,6 +2510,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"PCSK9 inhibitor monoclonal antibody", classHe:"נוגדן חד-שבטי מעכב PCSK9",
+  classFamilyEn:"Other lipid-lowering agent", classFamilyHe:"תרופה נוספת להורדת שומנים בדם",
   genericEn:"Evolocumab", genericHe:"אבולוקומאב",
   brandEn:"Repatha", brandHe:"רפאתה",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -2454,6 +2533,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Fibrate (PPAR-alpha agonist)", classHe:"פיברט (אגוניסט PPAR-אלפא)",
+  classFamilyEn:"Other lipid-lowering agent", classFamilyHe:"תרופה נוספת להורדת שומנים בדם",
   genericEn:"Fenofibrate", genericHe:"פנופיברט",
   brandEn:"Lipanthyl, Tri-Lipha", brandHe:"ליפנטיל",
   routeEn:"PO", routeHe:"פומי",
@@ -2475,6 +2555,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Class Ic antiarrhythmic", classHe:"נוגד הפרעות קצב מקבוצה Ic",
+  classFamilyEn:"Antiarrhythmic", classFamilyHe:"נוגד הפרעות קצב",
   genericEn:"Flecainide", genericHe:"פלקאיניד",
   brandEn:"Tambocor", brandHe:"פלקאיניד",
   routeEn:"PO", routeHe:"פומי",
@@ -2498,6 +2579,7 @@ const MEDS = [
 {
   cat:"diuretics",
   classEn:"Loop diuretic", classHe:"משתן לולאה",
+  classFamilyEn:"Loop diuretic", classFamilyHe:"משתן לולאה",
   genericEn:"Bumetanide", genericHe:"בומטניד",
   brandEn:"Burinex", brandHe:"בורינקס",
   routeEn:"PO / IV / IM", routeHe:"פומי / תוך-ורידי / תוך-שרירי",
@@ -2519,6 +2601,7 @@ const MEDS = [
 {
   cat:"diuretics",
   classEn:"Loop diuretic", classHe:"משתן לולאה",
+  classFamilyEn:"Loop diuretic", classFamilyHe:"משתן לולאה",
   genericEn:"Torsemide", genericHe:"טורסמיד",
   brandEn:"Demadex, Soaanz", brandHe:"טורסמיד",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -2540,6 +2623,7 @@ const MEDS = [
 {
   cat:"diuretics",
   classEn:"Thiazide-like diuretic", classHe:"משתן דמוי-תיאזיד",
+  classFamilyEn:"Thiazide / thiazide-like diuretic", classFamilyHe:"משתן תיאזידי / דמוי-תיאזיד",
   genericEn:"Metolazone", genericHe:"מטולזון",
   brandEn:"Zaroxolyn", brandHe:"זרוקסולין",
   routeEn:"PO", routeHe:"פומי",
@@ -2561,6 +2645,7 @@ const MEDS = [
 {
   cat:"diuretics",
   classEn:"Osmotic diuretic", classHe:"משתן אוסמוטי",
+  classFamilyEn:"Osmotic diuretic", classFamilyHe:"משתן אוסמוטי",
   genericEn:"Mannitol", genericHe:"מניטול",
   brandEn:"Osmitrol", brandHe:"מניטול",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
@@ -2582,6 +2667,7 @@ const MEDS = [
 {
   cat:"diuretics",
   classEn:"Carbonic anhydrase inhibitor", classHe:"מעכב קרבונית אנהידראז",
+  classFamilyEn:"Carbonic anhydrase inhibitor", classFamilyHe:"מעכב פחמן אנהידראז",
   genericEn:"Acetazolamide", genericHe:"אצטזולאמיד",
   brandEn:"Diamox", brandHe:"אקמוקס",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -2603,6 +2689,7 @@ const MEDS = [
 {
   cat:"diuretics",
   classEn:"Potassium-sparing diuretic (aldosterone antagonist)", classHe:"משתן חוסך אשלגן (אנטגוניסט לאלדוסטרון)",
+  classFamilyEn:"Potassium-sparing diuretic", classFamilyHe:"משתן חוסך אשלגן",
   genericEn:"Eplerenone", genericHe:"אפלרנון",
   brandEn:"Inspra", brandHe:"אינספרה",
   routeEn:"PO", routeHe:"פומי",
@@ -2624,6 +2711,7 @@ const MEDS = [
 {
   cat:"anticoag",
   classEn:"Antiplatelet (irreversible COX-1 inhibitor)", classHe:"נוגד טסיות (מעכב COX-1 בלתי הפיך)",
+  classFamilyEn:"Antiplatelet", classFamilyHe:"נוגד טסיות",
   genericEn:"Aspirin (low dose)", genericHe:"אספירין (מינון נמוך)",
   brandEn:"Micropirin, Aspirin Cardio, Godamed", brandHe:"מיקרופירין, אספירין קרדיו",
   routeEn:"PO / rectal", routeHe:"פומי / רקטלי",
@@ -2647,6 +2735,7 @@ const MEDS = [
 {
   cat:"anticoag",
   classEn:"Direct factor Xa inhibitor (DOAC)", classHe:"מעכב ישיר של גורם Xa (DOAC)",
+  classFamilyEn:"Direct oral anticoagulant (DOAC)", classFamilyHe:"נוגד קרישה פומי ישיר (DOAC)",
   genericEn:"Rivaroxaban", genericHe:"ריברוקסבן",
   brandEn:"Xarelto", brandHe:"קסרלטו",
   routeEn:"PO", routeHe:"פומי",
@@ -2671,6 +2760,7 @@ const MEDS = [
 {
   cat:"anticoag",
   classEn:"Direct thrombin inhibitor (DOAC)", classHe:"מעכב תרומבין ישיר (DOAC)",
+  classFamilyEn:"Direct oral anticoagulant (DOAC)", classFamilyHe:"נוגד קרישה פומי ישיר (DOAC)",
   genericEn:"Dabigatran", genericHe:"דביגטרן",
   brandEn:"Pradaxa", brandHe:"פרדקסה",
   routeEn:"PO", routeHe:"פומי",
@@ -2694,6 +2784,7 @@ const MEDS = [
 {
   cat:"anticoag",
   classEn:"P2Y12 platelet inhibitor (reversible)", classHe:"מעכב טסיות P2Y12 (הפיך)",
+  classFamilyEn:"Antiplatelet", classFamilyHe:"נוגד טסיות",
   genericEn:"Ticagrelor", genericHe:"טיקגרלור",
   brandEn:"Brilinta", brandHe:"ברילינטה",
   routeEn:"PO", routeHe:"פומי",
@@ -2715,6 +2806,7 @@ const MEDS = [
 {
   cat:"anticoag",
   classEn:"P2Y12 platelet inhibitor (irreversible)", classHe:"מעכב טסיות P2Y12 (בלתי הפיך)",
+  classFamilyEn:"Antiplatelet", classFamilyHe:"נוגד טסיות",
   genericEn:"Prasugrel", genericHe:"פרסוגרל",
   brandEn:"Effient", brandHe:"אפיינט",
   routeEn:"PO", routeHe:"פומי",
@@ -2736,6 +2828,7 @@ const MEDS = [
 {
   cat:"anticoag",
   classEn:"Tissue plasminogen activator (thrombolytic)", classHe:"מפעיל פלסמינוגן רקמתי (ממס קרישים)",
+  classFamilyEn:"Thrombolytic", classFamilyHe:"תרופה פקקתית (תרומבוליטית)",
   genericEn:"Alteplase (tPA)", genericHe:"אלטפלאז (tPA)",
   brandEn:"Activase, Cathflo", brandHe:"אקטיליזה",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -2759,6 +2852,7 @@ const MEDS = [
 {
   cat:"anticoag",
   classEn:"Selective indirect factor Xa inhibitor", classHe:"מעכב עקיף סלקטיבי של גורם Xa",
+  classFamilyEn:"Injectable anticoagulant (heparin / related)", classFamilyHe:"נוגד קרישה בזריקה (הפרין וקרובים)",
   genericEn:"Fondaparinux", genericHe:"פונדפרינוקס",
   brandEn:"Arixtra", brandHe:"אריקסטרה",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -2780,6 +2874,7 @@ const MEDS = [
 {
   cat:"anticoag",
   classEn:"Phosphodiesterase inhibitor / antiplatelet vasodilator", classHe:"מעכב פוספודיאסטראז / נוגד טסיות מרחיב כלי דם",
+  classFamilyEn:"Antiplatelet", classFamilyHe:"נוגד טסיות",
   genericEn:"Cilostazol", genericHe:"סילוסטזול",
   brandEn:"Pletal", brandHe:"פלטל",
   routeEn:"PO", routeHe:"פומי",
@@ -2801,6 +2896,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Intermediate-acting insulin", classHe:"אינסולין בינוני טווח",
+  classFamilyEn:"Insulin", classFamilyHe:"אינסולין",
   genericEn:"Insulin NPH (isophane)", genericHe:"אינסולין NPH",
   brandEn:"Insulatard, Humulin N", brandHe:"אינסולטרד",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -2824,6 +2920,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Rapid-acting insulin", classHe:"אינסולין מהיר טווח",
+  classFamilyEn:"Insulin", classFamilyHe:"אינסולין",
   genericEn:"Insulin lispro", genericHe:"אינסולין ליספרו",
   brandEn:"Humalog", brandHe:"הומלוג",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -2847,6 +2944,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Long-acting basal insulin (ultra-long)", classHe:"אינסולין בזאלי ארוך טווח (ארוך במיוחד)",
+  classFamilyEn:"Insulin", classFamilyHe:"אינסולין",
   genericEn:"Insulin degludec", genericHe:"אינסולין דגלודק",
   brandEn:"Tresiba", brandHe:"טרסיבה",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -2870,6 +2968,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Sulfonylurea (second generation)", classHe:"סולפונילאוריאה (דור שני)",
+  classFamilyEn:"Sulfonylurea / meglitinide", classFamilyHe:"סולפונילאוריאה / מגליטיניד",
   genericEn:"Glipizide", genericHe:"גליפיזיד",
   brandEn:"Glucotrol", brandHe:"גלוקוטרול",
   routeEn:"PO", routeHe:"פומי",
@@ -2893,6 +2992,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"DPP-4 inhibitor (gliptin)", classHe:"מעכב DPP-4 (גליפטין)",
+  classFamilyEn:"DPP-4 inhibitor", classFamilyHe:"מעכב DPP-4",
   genericEn:"Sitagliptin", genericHe:"סיטגליפטין",
   brandEn:"Januvia", brandHe:"ג'נוביה",
   routeEn:"PO", routeHe:"פומי",
@@ -2914,6 +3014,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"SGLT2 inhibitor (gliflozin)", classHe:"מעכב SGLT2 (גליפלוזין)",
+  classFamilyEn:"SGLT2 inhibitor", classFamilyHe:"מעכב SGLT2",
   genericEn:"Empagliflozin", genericHe:"אמפגליפלוזין",
   brandEn:"Jardiance", brandHe:"ג'רדיאנס",
   routeEn:"PO", routeHe:"פומי",
@@ -2936,6 +3037,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"GLP-1 receptor agonist", classHe:"אגוניסט לקולטן GLP-1",
+  classFamilyEn:"GLP-1 / GIP agonist", classFamilyHe:"אגוניסט GLP-1 / GIP",
   genericEn:"Semaglutide", genericHe:"סמגלוטיד",
   brandEn:"Ozempic, Rybelsus", brandHe:"אוזמפיק",
   routeEn:"SC / PO", routeHe:"תת-עורי / פומי",
@@ -2958,6 +3060,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Thiazolidinedione (glitazone)", classHe:"תיאזולידינדיון (גליטזון)",
+  classFamilyEn:"Thiazolidinedione", classFamilyHe:"תיאזולידינדיון",
   genericEn:"Pioglitazone", genericHe:"פיוגליטזון",
   brandEn:"Actos", brandHe:"אקטוס",
   routeEn:"PO", routeHe:"פומי",
@@ -2979,6 +3082,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Counter-regulatory hormone (hyperglycemic)", classHe:"הורמון נגדי-ויסותי (מעלה סוכר)",
+  classFamilyEn:"Antidote / reversal agent", classFamilyHe:"נוגדן / חומר היפוך",
   genericEn:"Glucagon", genericHe:"גלוקגון",
   brandEn:"GlucaGen, Gvoke, Baqsimi", brandHe:"גלוקגן",
   routeEn:"IM / SC / IV / intranasal", routeHe:"תוך-שרירי / תת-עורי / תוך-ורידי / תוך-אפי",
@@ -3002,6 +3106,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Antithyroid agent (thionamide)", classHe:"תרופה אנטי-תירואידית (תיונאמיד)",
+  classFamilyEn:"Antithyroid agent", classFamilyHe:"תרופה נגד בלוטת התריס",
   genericEn:"Methimazole", genericHe:"מתימזול",
   brandEn:"Mercazole", brandHe:"מרקזול",
   routeEn:"PO", routeHe:"פומי",
@@ -3023,6 +3128,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Antithyroid agent (thionamide)", classHe:"תרופה אנטי-תירואידית (תיונאמיד)",
+  classFamilyEn:"Antithyroid agent", classFamilyHe:"תרופה נגד בלוטת התריס",
   genericEn:"Propylthiouracil (PTU)", genericHe:"פרופילתיאורציל (PTU)",
   brandEn:"PTU", brandHe:"פרופילתיאורציל",
   routeEn:"PO", routeHe:"פומי",
@@ -3044,6 +3150,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Antidiuretic hormone analog (vasopressin V2 agonist)", classHe:"אנלוג להורמון אנטי-דיורטי (אגוניסט V2 של וזופרסין)",
+  classFamilyEn:"Antidiuretic hormone analog", classFamilyHe:"אנלוג הורמון אנטי-דיורטי",
   genericEn:"Desmopressin (DDAVP)", genericHe:"דסמופרסין (DDAVP)",
   brandEn:"DDAVP, Stimate, Nocdurna", brandHe:"מינירין",
   routeEn:"PO / intranasal / IV / SC", routeHe:"פומי / תוך-אפי / תוך-ורידי / תת-עורי",
@@ -3065,6 +3172,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Somatostatin analog", classHe:"אנלוג לסומטוסטטין",
+  classFamilyEn:"Somatostatin analog", classFamilyHe:"אנלוג סומטוסטטין",
   genericEn:"Octreotide", genericHe:"אוקטראוטיד",
   brandEn:"Sandostatin", brandHe:"סנדוסטטין",
   routeEn:"SC / IV / IM depot", routeHe:"תת-עורי / תוך-ורידי / דפו תוך-שרירי",
@@ -3086,6 +3194,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Systemic corticosteroid (long-acting glucocorticoid)", classHe:"קורטיקוסטרואיד סיסטמי (גלוקוקורטיקואיד ארוך טווח)",
+  classFamilyEn:"Systemic corticosteroid", classFamilyHe:"קורטיקוסטרואיד סיסטמי",
   genericEn:"Dexamethasone", genericHe:"דקסמתזון",
   brandEn:"Dexacort", brandHe:"דקסקורט",
   routeEn:"PO / IV / IM / ophthalmic", routeHe:"פומי / תוך-ורידי / תוך-שרירי / טיפות עיניים",
@@ -3108,6 +3217,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Systemic corticosteroid (IV/IM glucocorticoid)", classHe:"קורטיקוסטרואיד סיסטמי (גלוקוקורטיקואיד תוך-ורידי/שרירי)",
+  classFamilyEn:"Systemic corticosteroid", classFamilyHe:"קורטיקוסטרואיד סיסטמי",
   genericEn:"Methylprednisolone", genericHe:"מתילפרדניזולון",
   brandEn:"Medrol, Solu-Medrol", brandHe:"מדרול, סולו-מדרול",
   routeEn:"IV / IM / PO / intra-articular", routeHe:"תוך-ורידי / תוך-שרירי / פומי / תוך-מפרקי",
@@ -3130,6 +3240,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Mineralocorticoid", classHe:"מינרלוקורטיקואיד",
+  classFamilyEn:"Mineralocorticoid", classFamilyHe:"מינרלוקורטיקואיד",
   genericEn:"Fludrocortisone", genericHe:"פלודרוקורטיזון",
   brandEn:"Florinef", brandHe:"פלורינף",
   routeEn:"PO", routeHe:"פומי",
@@ -3151,6 +3262,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Bisphosphonate (bone resorption inhibitor)", classHe:"ביספוספונט (מעכב ספיגת עצם)",
+  classFamilyEn:"Bisphosphonate", classFamilyHe:"ביספוספונט",
   genericEn:"Alendronate", genericHe:"אלנדרונט",
   brandEn:"Fosalan, Fosamax", brandHe:"פוסלן, פוסמקס",
   routeEn:"PO", routeHe:"פומי",
@@ -3173,6 +3285,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Selective estrogen receptor modulator (SERM)", classHe:"מווסת סלקטיבי של קולטן אסטרוגן (SERM)",
+  classFamilyEn:"SERM", classFamilyHe:"SERM (מאזן קולטן אסטרוגן סלקטיבי)",
   genericEn:"Raloxifene", genericHe:"רלוקסיפן",
   brandEn:"Evista", brandHe:"אויסטה",
   routeEn:"PO", routeHe:"פומי",
@@ -3194,6 +3307,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Long-acting beta-2 agonist (LABA)", classHe:"אגוניסט בטא-2 ארוך טווח (LABA)",
+  classFamilyEn:"Beta-2 agonist", classFamilyHe:"אגוניסט בטא-2",
   genericEn:"Salmeterol", genericHe:"סלמטרול",
   brandEn:"Serevent", brandHe:"סרוונט",
   routeEn:"inhaled", routeHe:"בשאיפה",
@@ -3218,6 +3332,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Long-acting muscarinic antagonist (LAMA)", classHe:"אנטגוניסט מוסקריני ארוך טווח (LAMA)",
+  classFamilyEn:"Inhaled muscarinic antagonist", classFamilyHe:"אנטגוניסט מוסקריני בשאיפה",
   genericEn:"Tiotropium", genericHe:"טיוטרופיום",
   brandEn:"Spiriva", brandHe:"ספיריבה",
   routeEn:"inhaled", routeHe:"בשאיפה",
@@ -3239,6 +3354,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Inhaled corticosteroid (ICS)", classHe:"קורטיקוסטרואיד באינהלציה (ICS)",
+  classFamilyEn:"Inhaled corticosteroid", classFamilyHe:"קורטיקוסטרואיד בשאיפה",
   genericEn:"Budesonide", genericHe:"בודזוניד",
   brandEn:"Budicort, Pulmicort", brandHe:"בודיקורט, פולמיקורט",
   routeEn:"inhaled / nebulized / intranasal / PO", routeHe:"בשאיפה / בנבולייזר / תוך-אפי / פומי",
@@ -3261,6 +3377,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Methylxanthine bronchodilator", classHe:"מרחיב סמפונות מקבוצת מתילקסנתין",
+  classFamilyEn:"Methylxanthine", classFamilyHe:"מתילקסנטין",
   genericEn:"Theophylline", genericHe:"תאופילין",
   brandEn:"Theo-24, Uniphyl", brandHe:"תאופילין",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -3284,6 +3401,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Expectorant", classHe:"מכייח",
+  classFamilyEn:"Expectorant / antitussive", classFamilyHe:"מרחיב כיח / נוגד שיעול",
   genericEn:"Guaifenesin", genericHe:"גואיפנסין",
   brandEn:"Mucinex, Robitussin", brandHe:"מוקוליט, גואיאקורי",
   routeEn:"PO", routeHe:"פומי",
@@ -3305,6 +3423,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Antitussive (central NMDA antagonist)", classHe:"נוגד שיעול (אנטגוניסט NMDA מרכזי)",
+  classFamilyEn:"Expectorant / antitussive", classFamilyHe:"מרחיב כיח / נוגד שיעול",
   genericEn:"Dextromethorphan", genericHe:"דקסטרומתורפן",
   brandEn:"Delsym, Robitussin DM", brandHe:"דקסטרוקוף",
   routeEn:"PO", routeHe:"פומי",
@@ -3326,6 +3445,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Second-generation antihistamine (H1 antagonist)", classHe:"אנטיהיסטמין דור שני (אנטגוניסט H1)",
+  classFamilyEn:"Antihistamine", classFamilyHe:"אנטיהיסטמין",
   genericEn:"Cetirizine", genericHe:"צטיריזין",
   brandEn:"Zyrtec, Histazine", brandHe:"זירטק, היסטזין",
   routeEn:"PO", routeHe:"פומי",
@@ -3347,6 +3467,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"First-generation antihistamine (H1 antagonist)", classHe:"אנטיהיסטמין דור ראשון (אנטגוניסט H1)",
+  classFamilyEn:"Antihistamine", classFamilyHe:"אנטיהיסטמין",
   genericEn:"Diphenhydramine", genericHe:"דיפנהידרמין",
   brandEn:"Benadryl", brandHe:"בנדריל, אלרגין",
   routeEn:"PO / IV / IM / topical", routeHe:"פומי / תוך-ורידי / תוך-שרירי / מקומי",
@@ -3372,6 +3493,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Alpha-adrenergic decongestant", classHe:"מכווץ כלי דם אדרנרגי-אלפא (נגד גודש)",
+  classFamilyEn:"Decongestant", classFamilyHe:"מפחית גודש",
   genericEn:"Pseudoephedrine", genericHe:"פסאודואפדרין",
   brandEn:"Sudafed", brandHe:"סודהפד",
   routeEn:"PO", routeHe:"פומי",
@@ -3395,6 +3517,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Anti-IgE monoclonal antibody", classHe:"נוגדן חד-שבטי נגד IgE",
+  classFamilyEn:"Anti-IgE biologic", classFamilyHe:"ביולוגי אנטי-IgE",
   genericEn:"Omalizumab", genericHe:"אומליזומאב",
   brandEn:"Xolair", brandHe:"קסולייר",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -3417,6 +3540,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Partial nicotinic receptor agonist (smoking cessation)", classHe:"אגוניסט חלקי לקולטן ניקוטיני (גמילה מעישון)",
+  classFamilyEn:"Smoking-cessation agent", classFamilyHe:"תרופה לגמילה מעישון",
   genericEn:"Varenicline", genericHe:"וארניקלין",
   brandEn:"Chantix, Champix", brandHe:"צ'מפיקס",
   routeEn:"PO", routeHe:"פומי",
@@ -3438,6 +3562,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Mucolytic / acetaminophen antidote", classHe:"מרכך ליחה / נוגדן לפרצטמול",
+  classFamilyEn:"Mucolytic", classFamilyHe:"ממס כיח",
   genericEn:"Acetylcysteine", genericHe:"אצטילציסטאין",
   brandEn:"Mucomyst, Acetadote, Parvolex", brandHe:"מוקומיסט",
   routeEn:"PO / IV / nebulized", routeHe:"פומי / תוך-ורידי / בנבולייזר",
@@ -3459,6 +3584,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Prostacyclin analog (pulmonary vasodilator)", classHe:"אנלוג לפרוסטציקלין (מרחיב כלי דם ריאתי)",
+  classFamilyEn:"Prostacyclin analog", classFamilyHe:"אנלוג פרוסטציקלין",
   genericEn:"Epoprostenol", genericHe:"אפופרוסטנול",
   brandEn:"Flolan, Veletri", brandHe:"פלולן",
   routeEn:"IV infusion / inhaled", routeHe:"עירוי תוך-ורידי / בשאיפה",
@@ -3480,6 +3606,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Proton pump inhibitor", classHe:"מעכב משאבת פרוטונים",
+  classFamilyEn:"Proton pump inhibitor", classFamilyHe:"מעכב משאבת פרוטונים",
   genericEn:"Pantoprazole", genericHe:"פנטופרזול",
   brandEn:"Controloc, Zox, Pantor", brandHe:"קונטרולוק, זוקס",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -3501,6 +3628,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Mucosal protectant (barrier agent)", classHe:"מגן על הרירית (חומר חוצץ)",
+  classFamilyEn:"GI protectant / antisecretory", classFamilyHe:"מגן / נוגד הפרשה במערכת העיכול",
   genericEn:"Sucralfate", genericHe:"סוכרלפט",
   brandEn:"Ulsanic", brandHe:"אולסניק",
   routeEn:"PO", routeHe:"פומי",
@@ -3522,6 +3650,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Prokinetic / antiemetic (dopamine D2 antagonist)", classHe:"מזרז תנועתיות / נוגד הקאה (אנטגוניסט דופמין D2)",
+  classFamilyEn:"Antiemetic (dopamine antagonist)", classFamilyHe:"נוגד הקאה (אנטגוניסט דופמין)",
   genericEn:"Metoclopramide", genericHe:"מטוקלופרמיד",
   brandEn:"Pramin", brandHe:"פרמין",
   routeEn:"PO / IV / IM", routeHe:"פומי / תוך-ורידי / תוך-שרירי",
@@ -3543,6 +3672,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Phenothiazine antiemetic (D2 antagonist)", classHe:"נוגד הקאה מקבוצת פנותיאזין (אנטגוניסט D2)",
+  classFamilyEn:"Antiemetic (dopamine antagonist)", classFamilyHe:"נוגד הקאה (אנטגוניסט דופמין)",
   genericEn:"Promethazine", genericHe:"פרומתזין",
   brandEn:"Phenergan", brandHe:"פנרגן",
   routeEn:"PO / IV / IM / rectal", routeHe:"פומי / תוך-ורידי / תוך-שרירי / רקטלי",
@@ -3564,6 +3694,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Anticholinergic antiemetic (transdermal)", classHe:"נוגד הקאה אנטיכולינרגי (דרך העור)",
+  classFamilyEn:"Antiemetic (anticholinergic / antihistamine)", classFamilyHe:"נוגד הקאה (אנטיכולינרגי / אנטיהיסטמין)",
   genericEn:"Scopolamine", genericHe:"סקופולאמין",
   brandEn:"Transderm Scop", brandHe:"סקופודרם",
   routeEn:"transdermal / IV / IM / SC / ophthalmic", routeHe:"מדבקה טרנסדרמלית / תוך-ורידי / תוך-שרירי / תת-עורי / טיפות עיניים",
@@ -3588,6 +3719,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Substance P / neurokinin-1 receptor antagonist", classHe:"אנטגוניסט לקולטן נוירוקינין-1 / חומר P",
+  classFamilyEn:"Antiemetic (NK1 antagonist)", classFamilyHe:"נוגד הקאה (אנטגוניסט NK1)",
   genericEn:"Aprepitant", genericHe:"אפרפיטנט",
   brandEn:"Emend", brandHe:"אמנד",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -3609,6 +3741,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Antimotility opioid agonist (peripheral)", classHe:"אגוניסט אופיואידי נוגד תנועתיות (היקפי)",
+  classFamilyEn:"Antidiarrheal", classFamilyHe:"נוגד שלשול",
   genericEn:"Loperamide", genericHe:"לופרמיד",
   brandEn:"Stopit, Imodium", brandHe:"סטופיט, אימודיום",
   routeEn:"PO", routeHe:"פומי",
@@ -3630,6 +3763,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Stimulant laxative", classHe:"משלשל ממריץ",
+  classFamilyEn:"Laxative", classFamilyHe:"משלשל",
   genericEn:"Bisacodyl", genericHe:"ביסקודיל",
   brandEn:"Dulcolax, Laxadin", brandHe:"דולקולקס, לקסדין",
   routeEn:"PO / rectal", routeHe:"פומי / רקטלי",
@@ -3651,6 +3785,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Osmotic laxative", classHe:"משלשל אוסמוטי",
+  classFamilyEn:"Laxative", classFamilyHe:"משלשל",
   genericEn:"Polyethylene glycol 3350", genericHe:"פוליאתילן גליקול 3350",
   brandEn:"MiraLAX, GoLYTELY", brandHe:"מיראלקס, מוביקול",
   routeEn:"PO", routeHe:"פומי",
@@ -3672,6 +3807,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Osmotic laxative / ammonia-lowering agent", classHe:"משלשל אוסמוטי / מפחית אמוניה",
+  classFamilyEn:"Laxative", classFamilyHe:"משלשל",
   genericEn:"Lactulose", genericHe:"לקטולוז",
   brandEn:"Avilac, Laevolac", brandHe:"אבילק",
   routeEn:"PO / rectal", routeHe:"פומי / רקטלי",
@@ -3693,6 +3829,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Aminosalicylate (anti-inflammatory bowel agent)", classHe:"אמינוסליצילט (תרופה נוגדת דלקת למעי)",
+  classFamilyEn:"Aminosalicylate", classFamilyHe:"אמינוסליצילט",
   genericEn:"Mesalamine (5-ASA)", genericHe:"מסלזין (5-ASA)",
   brandEn:"Rafassal, Pentasa", brandHe:"רפאסל, פנטסה",
   routeEn:"PO / rectal", routeHe:"פומי / רקטלי",
@@ -3714,6 +3851,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Pancreatic enzyme replacement", classHe:"תחליף אנזימי לבלב",
+  classFamilyEn:"Pancreatic enzyme", classFamilyHe:"אנזים לבלב",
   genericEn:"Pancrelipase", genericHe:"פנקרליפאז",
   brandEn:"Creon, Zenpep, Pancreaze", brandHe:"קריאון",
   routeEn:"PO", routeHe:"פומי",
@@ -3735,6 +3873,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Non-absorbed antibiotic (gut-selective)", classHe:"אנטיביוטיקה בלתי נספגת (סלקטיבית למעי)",
+  classFamilyEn:"Urinary tract antibiotic", classFamilyHe:"אנטיביוטיקה לדרכי השתן",
   genericEn:"Rifaximin", genericHe:"ריפקסימין",
   brandEn:"Normix, Xifaxan", brandHe:"נורמיקס",
   routeEn:"PO", routeHe:"פומי",
@@ -3756,6 +3895,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Bile acid (cholelitholytic)", classHe:"חומצת מרה (ממיסת אבני מרה)",
+  classFamilyEn:"Bile acid agent", classFamilyHe:"חומר חומצת מרה",
   genericEn:"Ursodiol (ursodeoxycholic acid)", genericHe:"אורסודיאול",
   brandEn:"Ursolite, Ursofalk", brandHe:"אורסוליט, אורסופלק",
   routeEn:"PO", routeHe:"פומי",
@@ -3777,6 +3917,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"NSAID (propionic acid)", classHe:"NSAID (חומצה פרופיונית)",
+  classFamilyEn:"NSAID", classFamilyHe:"NSAID",
   genericEn:"Naproxen", genericHe:"נפרוקסן",
   brandEn:"Naxyn, Point", brandHe:"נקסין, פוינט",
   routeEn:"PO", routeHe:"פומי",
@@ -3799,6 +3940,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"COX-2 selective NSAID", classHe:"NSAID סלקטיבי ל-COX-2",
+  classFamilyEn:"NSAID", classFamilyHe:"NSAID",
   genericEn:"Celecoxib", genericHe:"סלקוקסיב",
   brandEn:"Celebra", brandHe:"סלברה",
   routeEn:"PO", routeHe:"פומי",
@@ -3821,6 +3963,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Opioid agonist / SNRI (dual mechanism)", classHe:"אגוניסט אופיואידי / SNRI (מנגנון כפול)",
+  classFamilyEn:"Opioid agonist", classFamilyHe:"אגוניסט אופיואידי",
   genericEn:"Tramadol", genericHe:"טרמדול",
   brandEn:"Tramadex, Tramal", brandHe:"טרמדקס, טרמל",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -3845,6 +3988,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Opioid agonist analgesic", classHe:"משכך כאב אופיואידי (אגוניסט)",
+  classFamilyEn:"Opioid agonist", classFamilyHe:"אגוניסט אופיואידי",
   genericEn:"Oxycodone", genericHe:"אוקסיקודון",
   brandEn:"Oxycontin, Targin, Percocet", brandHe:"אוקסיקונטין, טרגין",
   routeEn:"PO", routeHe:"פומי",
@@ -3871,6 +4015,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Opioid agonist analgesic (potent)", classHe:"משכך כאב אופיואידי חזק",
+  classFamilyEn:"Opioid agonist", classFamilyHe:"אגוניסט אופיואידי",
   genericEn:"Hydromorphone", genericHe:"הידרומורפון",
   brandEn:"Jurnista", brandHe:"ג'ורניסטה",
   routeEn:"PO / IV / IM / SC / rectal", routeHe:"פומי / תוך-ורידי / תוך-שרירי / תת-עורי / רקטלי",
@@ -3895,6 +4040,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Opioid agonist analgesic (synthetic)", classHe:"משכך כאב אופיואידי סינתטי",
+  classFamilyEn:"Opioid agonist", classFamilyHe:"אגוניסט אופיואידי",
   genericEn:"Fentanyl", genericHe:"פנטניל",
   brandEn:"Durogesic", brandHe:"דורוג'סיק",
   routeEn:"IV / transdermal / buccal / SL / intranasal / epidural / intrathecal", routeHe:"תוך-ורידי / מדבקה טרנסדרמלית / בוקאלי / תת-לשוני / תוך-אפי / אפידורלי / תוך-שדרתי",
@@ -3921,6 +4067,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Partial opioid agonist (buprenorphine) + antagonist (naloxone)", classHe:"אגוניסט אופיואידי חלקי (בופרנורפין) + אנטגוניסט (נלוקסון)",
+  classFamilyEn:"Opioid agonist", classFamilyHe:"אגוניסט אופיואידי",
   genericEn:"Buprenorphine / naloxone", genericHe:"בופרנורפין / נלוקסון",
   brandEn:"Suboxone, Zubsolv", brandHe:"סובוקסון",
   routeEn:"SL / buccal", routeHe:"תת-לשוני / בוקאלי",
@@ -3943,6 +4090,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Serotonin 5-HT1B/1D receptor agonist (triptan)", classHe:"אגוניסט לקולטן סרוטונין 5-HT1B/1D (טריפטן)",
+  classFamilyEn:"Triptan (migraine agent)", classFamilyHe:"טריפטן (תרופה למיגרנה)",
   genericEn:"Sumatriptan", genericHe:"סומטריפטן",
   brandEn:"Imigran", brandHe:"אימיגרן",
   routeEn:"PO / SC / intranasal", routeHe:"פומי / תת-עורי / תוך-אפי",
@@ -3965,6 +4113,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Broad-spectrum antiepileptic / mood stabilizer", classHe:"נוגד פרכוסים רחב טווח / מייצב מצב רוח",
+  classFamilyEn:"Anticonvulsant", classFamilyHe:"נוגד פרכוסים",
   genericEn:"Valproic acid / divalproex", genericHe:"חומצה ולפרואית / דיוולפרואקס",
   brandEn:"Depalept, Depalept Chrono", brandHe:"דפלפט, דפלפט כרונו",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -3986,6 +4135,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Antiepileptic (sodium channel blocker)", classHe:"נוגד פרכוסים (חוסם תעלות נתרן)",
+  classFamilyEn:"Anticonvulsant", classFamilyHe:"נוגד פרכוסים",
   genericEn:"Carbamazepine", genericHe:"קרבמזפין",
   brandEn:"Tegretol, Teril", brandHe:"טגרטול, טריל",
   routeEn:"PO", routeHe:"פומי",
@@ -4007,6 +4157,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Antiepileptic (sodium channel blocker, mood stabilizer)", classHe:"נוגד פרכוסים (חוסם תעלות נתרן, מייצב מצב רוח)",
+  classFamilyEn:"Anticonvulsant", classFamilyHe:"נוגד פרכוסים",
   genericEn:"Lamotrigine", genericHe:"למוטריג'ין",
   brandEn:"Lamictal, Lamodex", brandHe:"למיקטל, למודקס",
   routeEn:"PO", routeHe:"פומי",
@@ -4029,6 +4180,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Antiepileptic (SV2A modulator)", classHe:"נוגד פרכוסים (מווסת SV2A)",
+  classFamilyEn:"Anticonvulsant", classFamilyHe:"נוגד פרכוסים",
   genericEn:"Levetiracetam", genericHe:"לבטירצטם",
   brandEn:"Keppra", brandHe:"קפרה",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -4050,6 +4202,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Barbiturate antiepileptic", classHe:"נוגד פרכוסים מקבוצת ברביטורטים",
+  classFamilyEn:"Anticonvulsant", classFamilyHe:"נוגד פרכוסים",
   genericEn:"Phenobarbital", genericHe:"פנוברביטל",
   brandEn:"Luminal", brandHe:"לומינל",
   routeEn:"PO / IV / IM", routeHe:"פומי / תוך-ורידי / תוך-שרירי",
@@ -4071,6 +4224,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Gabapentinoid (alpha-2-delta ligand)", classHe:"גבפנטינואיד (ליגנד אלפא-2-דלתא)",
+  classFamilyEn:"Gabapentinoid", classFamilyHe:"גבפנטינואיד",
   genericEn:"Pregabalin", genericHe:"פרגבלין",
   brandEn:"Lyrica", brandHe:"ליריקה",
   routeEn:"PO", routeHe:"פומי",
@@ -4092,6 +4246,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Central skeletal muscle relaxant", classHe:"מרפה שרירי שלד מרכזי",
+  classFamilyEn:"Skeletal muscle relaxant", classFamilyHe:"מרפה שריר",
   genericEn:"Cyclobenzaprine", genericHe:"ציקלובנזפרין",
   brandEn:"Flexeril, Amrix", brandHe:"פלקסינול",
   routeEn:"PO", routeHe:"פומי",
@@ -4115,6 +4270,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Dopamine precursor + decarboxylase inhibitor", classHe:"מקדים לדופמין + מעכב דקרבוקסילאז",
+  classFamilyEn:"Antiparkinsonian", classFamilyHe:"תרופה נגד פרקינסון",
   genericEn:"Levodopa / carbidopa", genericHe:"לבודופה / קרבידופה",
   brandEn:"Dopicar, Sinemet", brandHe:"דופיקר, סינמט",
   routeEn:"PO", routeHe:"פומי",
@@ -4136,6 +4292,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Acetylcholinesterase inhibitor (cognitive)", classHe:"מעכב אצטילכולין-אסטראז (קוגניטיבי)",
+  classFamilyEn:"Dementia agent", classFamilyHe:"תרופה לדמנציה",
   genericEn:"Donepezil", genericHe:"דונפזיל",
   brandEn:"Aricept", brandHe:"אריספט",
   routeEn:"PO", routeHe:"פומי",
@@ -4160,6 +4317,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"CNS stimulant (ADHD)", classHe:"ממריץ מערכת העצבים המרכזית (ADHD)",
+  classFamilyEn:"ADHD agent (stimulant / non-stimulant)", classFamilyHe:"תרופה ל-ADHD (ממריצה / לא ממריצה)",
   genericEn:"Methylphenidate", genericHe:"מתילפנידט",
   brandEn:"Ritalin, Concerta", brandHe:"ריטלין, קונצרטה",
   routeEn:"PO / transdermal", routeHe:"פומי / מדבקה טרנסדרמלית",
@@ -4183,6 +4341,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"SSRI", classHe:"SSRI (מעכב ספיגה חוזרת של סרוטונין)",
+  classFamilyEn:"SSRI", classFamilyHe:"SSRI",
   genericEn:"Fluoxetine", genericHe:"פלואוקסטין",
   brandEn:"Prozac, Prizma, Affectine", brandHe:"פרוזק, פריזמה",
   routeEn:"PO", routeHe:"פומי",
@@ -4204,6 +4363,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"SSRI", classHe:"SSRI (מעכב ספיגה חוזרת של סרוטונין)",
+  classFamilyEn:"SSRI", classFamilyHe:"SSRI",
   genericEn:"Escitalopram", genericHe:"אסציטלופרם",
   brandEn:"Cipralex", brandHe:"ציפרלקס",
   routeEn:"PO", routeHe:"פומי",
@@ -4225,6 +4385,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Serotonin-norepinephrine reuptake inhibitor (SNRI)", classHe:"מעכב ספיגה חוזרת של סרוטונין ונוראדרנלין (SNRI)",
+  classFamilyEn:"SNRI", classFamilyHe:"SNRI",
   genericEn:"Venlafaxine", genericHe:"ונלפקסין",
   brandEn:"Effexor, Viepax, Venla", brandHe:"אפקסור, ויאפקס",
   routeEn:"PO", routeHe:"פומי",
@@ -4246,6 +4407,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"SNRI", classHe:"SNRI",
+  classFamilyEn:"SNRI", classFamilyHe:"SNRI",
   genericEn:"Duloxetine", genericHe:"דולוקסטין",
   brandEn:"Cymbalta", brandHe:"סימבלטה",
   routeEn:"PO", routeHe:"פומי",
@@ -4267,6 +4429,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Norepinephrine-dopamine reuptake inhibitor (NDRI)", classHe:"מעכב ספיגה חוזרת של נוראדרנלין ודופמין (NDRI)",
+  classFamilyEn:"Other antidepressant", classFamilyHe:"נוגד דיכאון אחר",
   genericEn:"Bupropion", genericHe:"בופרופיון",
   brandEn:"Wellbutrin, Zyban", brandHe:"וולבוטרין, זייבן",
   routeEn:"PO", routeHe:"פומי",
@@ -4288,6 +4451,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Tetracyclic antidepressant (alpha-2 antagonist)", classHe:"נוגד דיכאון טטרהציקלי (אנטגוניסט אלפא-2)",
+  classFamilyEn:"Other antidepressant", classFamilyHe:"נוגד דיכאון אחר",
   genericEn:"Mirtazapine", genericHe:"מירטזפין",
   brandEn:"Remeron, Miro", brandHe:"רמרון, מירו",
   routeEn:"PO", routeHe:"פומי",
@@ -4309,6 +4473,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Serotonin antagonist and reuptake inhibitor (SARI)", classHe:"אנטגוניסט סרוטונין ומעכב ספיגה (SARI)",
+  classFamilyEn:"Other antidepressant", classFamilyHe:"נוגד דיכאון אחר",
   genericEn:"Trazodone", genericHe:"טרזודון",
   brandEn:"Desyrel, Oleptro", brandHe:"טרזודיל",
   routeEn:"PO", routeHe:"פומי",
@@ -4330,6 +4495,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Tricyclic antidepressant (TCA)", classHe:"נוגד דיכאון טריציקלי (TCA)",
+  classFamilyEn:"TCA", classFamilyHe:"TCA (תלת-טציקלי)",
   genericEn:"Amitriptyline", genericHe:"אמיטריפטילין",
   brandEn:"Elatrol, Elatrolet", brandHe:"אלטרול, אלטרולט",
   routeEn:"PO", routeHe:"פומי",
@@ -4355,6 +4521,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Atypical (second-generation) antipsychotic", classHe:"אנטיפסיכוטי אטיפי (דור שני)",
+  classFamilyEn:"Atypical antipsychotic", classFamilyHe:"אנטיפסיכוטי אטיפי",
   genericEn:"Risperidone", genericHe:"ריספרידון",
   brandEn:"Risperdal", brandHe:"ריספרדל",
   routeEn:"PO / IM / SC", routeHe:"פומי / תוך-שרירי / תת-עורי",
@@ -4376,6 +4543,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Atypical antipsychotic", classHe:"אנטיפסיכוטי אטיפי",
+  classFamilyEn:"Atypical antipsychotic", classFamilyHe:"אנטיפסיכוטי אטיפי",
   genericEn:"Olanzapine", genericHe:"אולנזפין",
   brandEn:"Zyprexa", brandHe:"זיפרקסה",
   routeEn:"PO / IM", routeHe:"פומי / תוך-שרירי",
@@ -4397,6 +4565,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Atypical antipsychotic", classHe:"אנטיפסיכוטי אטיפי",
+  classFamilyEn:"Atypical antipsychotic", classFamilyHe:"אנטיפסיכוטי אטיפי",
   genericEn:"Quetiapine", genericHe:"קווטיאפין",
   brandEn:"Seroquel", brandHe:"סרוקוול",
   routeEn:"PO", routeHe:"פומי",
@@ -4418,6 +4587,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Atypical antipsychotic (partial D2 agonist)", classHe:"אנטיפסיכוטי אטיפי (אגוניסט חלקי D2)",
+  classFamilyEn:"Atypical antipsychotic", classFamilyHe:"אנטיפסיכוטי אטיפי",
   genericEn:"Aripiprazole", genericHe:"אריפיפרזול",
   brandEn:"Abilify", brandHe:"אביליפיי",
   routeEn:"PO / IM", routeHe:"פומי / תוך-שרירי",
@@ -4439,6 +4609,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Atypical antipsychotic (treatment-resistant)", classHe:"אנטיפסיכוטי אטיפי (עמיד לטיפול)",
+  classFamilyEn:"Atypical antipsychotic", classFamilyHe:"אנטיפסיכוטי אטיפי",
   genericEn:"Clozapine", genericHe:"קלוזפין",
   brandEn:"Leponex", brandHe:"לפונקס",
   routeEn:"PO", routeHe:"פומי",
@@ -4462,6 +4633,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Azapirone anxiolytic (5-HT1A partial agonist)", classHe:"נוגד חרדה מקבוצת אזפירון (אגוניסט חלקי 5-HT1A)",
+  classFamilyEn:"Anxiolytic", classFamilyHe:"נוגד חרדה",
   genericEn:"Buspirone", genericHe:"בוספירון",
   brandEn:"BuSpar", brandHe:"בוספר, סורין",
   routeEn:"PO", routeHe:"פומי",
@@ -4483,6 +4655,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Non-benzodiazepine hypnotic (\"Z-drug\")", classHe:"היפנוטי שאינו בנזודיאזפין (\"תרופת Z\")",
+  classFamilyEn:"Non-benzodiazepine hypnotic", classFamilyHe:"כדור שינה שאינו בנזודיאזפין",
   genericEn:"Zolpidem", genericHe:"זולפידם",
   brandEn:"Stilnox, Zodorm", brandHe:"סטילנוקס, זודורם",
   routeEn:"PO / SL", routeHe:"פומי / תת-לשוני",
@@ -4504,6 +4677,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Aminopenicillin", classHe:"אמינופניצילין",
+  classFamilyEn:"Penicillin", classFamilyHe:"פניצילין",
   genericEn:"Amoxicillin", genericHe:"אמוקסיצילין",
   brandEn:"Moxypen, Amoxi", brandHe:"מוקסיפן",
   routeEn:"PO", routeHe:"פומי",
@@ -4526,6 +4700,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Aminopenicillin + beta-lactamase inhibitor", classHe:"אמינופניצילין + מעכב בטא-לקטמאז",
+  classFamilyEn:"Penicillin", classFamilyHe:"פניצילין",
   genericEn:"Amoxicillin / clavulanate", genericHe:"אמוקסיצילין / קלאבולנט",
   brandEn:"Augmentin", brandHe:"אוגמנטין",
   routeEn:"PO", routeHe:"פומי",
@@ -4548,6 +4723,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Extended-spectrum penicillin + beta-lactamase inhibitor", classHe:"פניצילין רחב טווח + מעכב בטא-לקטמאז",
+  classFamilyEn:"Penicillin", classFamilyHe:"פניצילין",
   genericEn:"Piperacillin / tazobactam", genericHe:"פיפרצילין / טזובקטם",
   brandEn:"Tazocin", brandHe:"טזוצין",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -4570,6 +4746,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"First-generation cephalosporin", classHe:"צפלוספורין מהדור הראשון",
+  classFamilyEn:"Cephalosporin", classFamilyHe:"צפלוספורין",
   genericEn:"Cefazolin", genericHe:"צפזולין",
   brandEn:"Cefamezin", brandHe:"ספאמזין",
   routeEn:"IV / IM", routeHe:"תוך-ורידי / תוך-שרירי",
@@ -4591,6 +4768,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"First-generation cephalosporin (oral)", classHe:"צפלוספורין מהדור הראשון (פומי)",
+  classFamilyEn:"Cephalosporin", classFamilyHe:"צפלוספורין",
   genericEn:"Cephalexin", genericHe:"צפלקסין",
   brandEn:"Ceporex, Keflex", brandHe:"ספורקס",
   routeEn:"PO", routeHe:"פומי",
@@ -4612,6 +4790,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Fourth-generation (anti-pseudomonal) cephalosporin", classHe:"צפלוספורין מהדור הרביעי (אנטי-פסאודומונלי)",
+  classFamilyEn:"Cephalosporin", classFamilyHe:"צפלוספורין",
   genericEn:"Cefepime", genericHe:"צפפים",
   brandEn:"Maxipime", brandHe:"מקסיפים",
   routeEn:"IV / IM", routeHe:"תוך-ורידי / תוך-שרירי",
@@ -4633,6 +4812,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Carbapenem (broad-spectrum beta-lactam)", classHe:"קרבפנם (בטא-לקטם רחב טווח)",
+  classFamilyEn:"Carbapenem / monobactam", classFamilyHe:"קרבפנם / מונובקטם",
   genericEn:"Meropenem", genericHe:"מרופנם",
   brandEn:"Meronem", brandHe:"מרונם",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -4654,6 +4834,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Tetracycline antibiotic", classHe:"אנטיביוטיקה מקבוצת טטרהציקלינים",
+  classFamilyEn:"Tetracycline", classFamilyHe:"טטרציקלין",
   genericEn:"Doxycycline", genericHe:"דוקסיציקלין",
   brandEn:"Doxylin", brandHe:"דוקסילין",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -4676,6 +4857,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Lincosamide antibiotic", classHe:"אנטיביוטיקה מקבוצת לינקוזאמידים",
+  classFamilyEn:"Lincosamide", classFamilyHe:"לינקוסאמיד",
   genericEn:"Clindamycin", genericHe:"קלינדמיצין",
   brandEn:"Dalacin", brandHe:"דלאצין",
   routeEn:"PO / IV / IM / topical / vaginal", routeHe:"פומי / תוך-ורידי / תוך-שרירי / מקומי / נרתיקי",
@@ -4698,6 +4880,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Nitroimidazole antibiotic / antiprotozoal", classHe:"אנטיביוטיקה מקבוצת ניטרואימידזול / נגד טפילים",
+  classFamilyEn:"Nitroimidazole", classFamilyHe:"ניטרואימידזול",
   genericEn:"Metronidazole", genericHe:"מטרונידזול",
   brandEn:"Flagyl", brandHe:"פלג'יל",
   routeEn:"PO / IV / topical / vaginal", routeHe:"פומי / תוך-ורידי / מקומי / נרתיקי",
@@ -4720,6 +4903,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Folate synthesis inhibitor combination", classHe:"שילוב מעכבי ייצור פולאט",
+  classFamilyEn:"Sulfonamide combination", classFamilyHe:"שילוב סולפונאמיד",
   genericEn:"Trimethoprim / sulfamethoxazole", genericHe:"טרימתופרים / סולפמתוקסזול",
   brandEn:"Resprim, Diseptyl", brandHe:"רספרים, דיספטיל",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -4741,6 +4925,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Nitrofuran urinary antibiotic", classHe:"אנטיביוטיקה למערכת השתן מקבוצת ניטרופורן",
+  classFamilyEn:"Urinary tract antibiotic", classFamilyHe:"אנטיביוטיקה לדרכי השתן",
   genericEn:"Nitrofurantoin", genericHe:"ניטרופורנטואין",
   brandEn:"Uvamin Retard, Macrodantin", brandHe:"אובמין רטרד",
   routeEn:"PO", routeHe:"פומי",
@@ -4762,6 +4947,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Fluoroquinolone antibiotic (respiratory)", classHe:"אנטיביוטיקה מקבוצת פלואורוקינולונים (נשימתית)",
+  classFamilyEn:"Fluoroquinolone", classFamilyHe:"פלואורוקינולון",
   genericEn:"Levofloxacin", genericHe:"לבופלוקסצין",
   brandEn:"Tavanic", brandHe:"טבניק",
   routeEn:"PO / IV / ophthalmic", routeHe:"פומי / תוך-ורידי / טיפות עיניים",
@@ -4784,6 +4970,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Oxazolidinone antibiotic", classHe:"אנטיביוטיקה מקבוצת אוקסזולידינונים",
+  classFamilyEn:"Oxazolidinone", classFamilyHe:"אוקסזולידינון",
   genericEn:"Linezolid", genericHe:"לינזוליד",
   brandEn:"Zyvoxid", brandHe:"זייווקסיד",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -4806,6 +4993,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Cyclic lipopeptide antibiotic", classHe:"אנטיביוטיקה מקבוצת ליפופפטידים מחזוריים",
+  classFamilyEn:"Glycopeptide / lipopeptide antibiotic", classFamilyHe:"גליקופפטיד / ליפופפטיד",
   genericEn:"Daptomycin", genericHe:"דפטומיצין",
   brandEn:"Cubicin", brandHe:"קוביצין",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -4827,6 +5015,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Aminoglycoside antibiotic", classHe:"אנטיביוטיקה מקבוצת אמינוגליקוזידים",
+  classFamilyEn:"Aminoglycoside", classFamilyHe:"אמינוגליקוזיד",
   genericEn:"Tobramycin", genericHe:"טוברמיצין",
   brandEn:"Tobrex, Bethkis, Tobi", brandHe:"טוברקס",
   routeEn:"IV / IM / nebulized / ophthalmic", routeHe:"תוך-ורידי / תוך-שרירי / בנבולייזר / טיפות עיניים",
@@ -4849,6 +5038,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Rifamycin antimycobacterial", classHe:"אנטי-מיקובקטריאלי מקבוצת ריפמיצינים",
+  classFamilyEn:"Antitubercular", classFamilyHe:"תרופה נגד שחפת",
   genericEn:"Rifampin (rifampicin)", genericHe:"ריפמפין (ריפמפיצין)",
   brandEn:"Rifadin, Rimactane", brandHe:"ריפדין",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -4871,6 +5061,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Antimycobacterial (isonicotinic acid hydrazide)", classHe:"אנטי-מיקובקטריאלי (הידרזיד של חומצה איזוניקוטינית)",
+  classFamilyEn:"Antitubercular", classFamilyHe:"תרופה נגד שחפת",
   genericEn:"Isoniazid (INH)", genericHe:"איזוניאזיד (INH)",
   brandEn:"INH, Nydrazid", brandHe:"איזוניאזיד",
   routeEn:"PO / IM", routeHe:"פומי / תוך-שרירי",
@@ -4895,6 +5086,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Nucleoside analog antiviral (anti-herpes)", classHe:"אנטי-ויראלי אנלוג נוקלאוזיד (נגד הרפס)",
+  classFamilyEn:"Antiviral (nucleoside/nucleotide analog)", classFamilyHe:"אנטיוויראלי (אנלוג נוקלאוזיד/נוקלאוטיד)",
   genericEn:"Acyclovir", genericHe:"אציקלוביר",
   brandEn:"Zovirax", brandHe:"זובירקס",
   routeEn:"PO / IV / topical", routeHe:"פומי / תוך-ורידי / מקומי",
@@ -4916,6 +5108,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Neuraminidase inhibitor antiviral (anti-influenza)", classHe:"אנטי-ויראלי מעכב נויראמינידאז (נגד שפעת)",
+  classFamilyEn:"Antiviral (other mechanism)", classFamilyHe:"אנטיוויראלי (מנגנון אחר)",
   genericEn:"Oseltamivir", genericHe:"אוסלטמיביר",
   brandEn:"Tamiflu", brandHe:"טמיפלו",
   routeEn:"PO", routeHe:"פומי",
@@ -4937,6 +5130,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Antiviral protease inhibitor combination (COVID-19)", classHe:"שילוב מעכבי פרוטאז אנטי-ויראלי (קוביד-19)",
+  classFamilyEn:"Antiviral (other mechanism)", classFamilyHe:"אנטיוויראלי (מנגנון אחר)",
   genericEn:"Nirmatrelvir / ritonavir", genericHe:"נירמטרלביר / ריטונביר",
   brandEn:"Paxlovid", brandHe:"פקסלוביד",
   routeEn:"PO", routeHe:"פומי",
@@ -4958,6 +5152,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Integrase strand transfer inhibitor (HIV)", classHe:"מעכב העברת גדיל אינטגראז (HIV)",
+  classFamilyEn:"Antiviral (other mechanism)", classFamilyHe:"אנטיוויראלי (מנגנון אחר)",
   genericEn:"Dolutegravir", genericHe:"דולוטגרביר",
   brandEn:"Tivicay (in Triumeq, Dovato)", brandHe:"טיביקיי",
   routeEn:"PO", routeHe:"פומי",
@@ -4979,6 +5174,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Triazole antifungal", classHe:"אנטי-פטרייתי מקבוצת טריאזול",
+  classFamilyEn:"Antifungal (azole)", classFamilyHe:"אנטי-פטרייתי (אזול)",
   genericEn:"Fluconazole", genericHe:"פלוקונזול",
   brandEn:"Diflucan", brandHe:"דיפלוקן",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -5001,6 +5197,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Triazole antifungal (mold-active)", classHe:"אנטי-פטרייתי מקבוצת טריאזול (פעיל נגד עובשים)",
+  classFamilyEn:"Antifungal (azole)", classFamilyHe:"אנטי-פטרייתי (אזול)",
   genericEn:"Voriconazole", genericHe:"ווריקונזול",
   brandEn:"Vfend", brandHe:"וי-פנד",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -5023,6 +5220,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Polyene antifungal", classHe:"אנטי-פטרייתי מקבוצת פוליאן",
+  classFamilyEn:"Antifungal (other)", classFamilyHe:"אנטי-פטרייתי (אחר)",
   genericEn:"Amphotericin B (liposomal)", genericHe:"אמפוטריצין B (ליפוזומלי)",
   brandEn:"AmBisome, Abelcet", brandHe:"אמביזום",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
@@ -5045,6 +5243,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Polyene antifungal (topical/oral, non-absorbed)", classHe:"אנטי-פטרייתי מקבוצת פוליאן (מקומי/פומי, בלתי נספג)",
+  classFamilyEn:"Antifungal (other)", classFamilyHe:"אנטי-פטרייתי (אחר)",
   genericEn:"Nystatin", genericHe:"ניסטטין",
   brandEn:"Mycostatin", brandHe:"מיקוסטטין",
   routeEn:"PO / topical / vaginal", routeHe:"פומי / מקומי / נרתיקי",
@@ -5066,6 +5265,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Echinocandin antifungal", classHe:"אנטי-פטרייתי מקבוצת אכינוקנדין",
+  classFamilyEn:"Antifungal (other)", classFamilyHe:"אנטי-פטרייתי (אחר)",
   genericEn:"Micafungin", genericHe:"מיקפונגין",
   brandEn:"Mycamine", brandHe:"מיקמין",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -5087,6 +5287,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Allylamine antifungal", classHe:"אנטי-פטרייתי מקבוצת אלילאמין",
+  classFamilyEn:"Antifungal (other)", classFamilyHe:"אנטי-פטרייתי (אחר)",
   genericEn:"Terbinafine", genericHe:"טרבינפין",
   brandEn:"Lamisil", brandHe:"למיזיל",
   routeEn:"PO / topical", routeHe:"פומי / מקומי",
@@ -5108,6 +5309,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Antiparasitic (avermectin)", classHe:"נגד טפילים (אברמקטין)",
+  classFamilyEn:"Antiparasitic", classFamilyHe:"נגד טפילים",
   genericEn:"Ivermectin", genericHe:"איברמקטין",
   brandEn:"Stromectol, Sklice", brandHe:"סטרומקטול",
   routeEn:"PO / topical", routeHe:"פומי / מקומי",
@@ -5129,6 +5331,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"4-aminoquinoline antimalarial / immunomodulator", classHe:"נגד מלריה מקבוצת 4-אמינוקינולין / מווסת חיסון",
+  classFamilyEn:"Antimalarial / immunomodulator", classFamilyHe:"נגד מלריה / מאזן חיסוני",
   genericEn:"Hydroxychloroquine", genericHe:"הידרוקסיכלורוקין",
   brandEn:"Plaquenil", brandHe:"פלקווניל",
   routeEn:"PO", routeHe:"פומי",
@@ -5150,6 +5353,7 @@ const MEDS = [
 {
   cat:"immuno",
   classEn:"Antimetabolite / disease-modifying antirheumatic (DMARD)", classHe:"אנטי-מטבוליט / תרופה משנה מהלך מחלה (DMARD)",
+  classFamilyEn:"DMARD", classFamilyHe:"DMARD",
   genericEn:"Methotrexate (low dose)", genericHe:"מתוטרקסט (מינון נמוך)",
   brandEn:"Otrexup, Rasuvo, Trexall", brandHe:"מתוטרקסט, אברטרקס",
   routeEn:"PO / SC / IM / IV / intrathecal", routeHe:"פומי / תת-עורי / תוך-שרירי / תוך-ורידי / תוך-שדרתי",
@@ -5173,6 +5377,7 @@ const MEDS = [
 {
   cat:"immuno",
   classEn:"Calcineurin inhibitor immunosuppressant", classHe:"מדכא חיסון מעכב קלצינאורין",
+  classFamilyEn:"Immunosuppressant (calcineurin inhibitor)", classFamilyHe:"מדכא חיסון (מעכב קלצינאורין)",
   genericEn:"Tacrolimus", genericHe:"טקרולימוס",
   brandEn:"Prograf, Advagraf", brandHe:"פרוגרף, אדבגרף",
   routeEn:"PO / IV / topical", routeHe:"פומי / תוך-ורידי / מקומי",
@@ -5194,6 +5399,7 @@ const MEDS = [
 {
   cat:"immuno",
   classEn:"Antimetabolite immunosuppressant", classHe:"מדכא חיסון אנטי-מטבוליט",
+  classFamilyEn:"Immunosuppressant (antimetabolite)", classFamilyHe:"מדכא חיסון (אנטימטבוליט)",
   genericEn:"Mycophenolate mofetil", genericHe:"מיקופנולט מופטיל",
   brandEn:"CellCept, Myfortic", brandHe:"סלספט, מייפורטיק",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -5215,6 +5421,7 @@ const MEDS = [
 {
   cat:"immuno",
   classEn:"TNF-alpha inhibitor biologic", classHe:"ביולוגי מעכב TNF-אלפא",
+  classFamilyEn:"Biologic (TNF-alpha inhibitor)", classFamilyHe:"ביולוגי (מעכב TNF-alpha)",
   genericEn:"Adalimumab", genericHe:"אדלימומאב",
   brandEn:"Humira", brandHe:"הומירה",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -5237,6 +5444,7 @@ const MEDS = [
 {
   cat:"immuno",
   classEn:"CD20-directed monoclonal antibody", classHe:"נוגדן חד-שבטי כנגד CD20",
+  classFamilyEn:"Biologic (monoclonal antibody, other)", classFamilyHe:"ביולוגי (נוגדן חד-שבטי, אחר)",
   genericEn:"Rituximab", genericHe:"ריטוקסימאב",
   brandEn:"Mabthera, Rituxan", brandHe:"מבתרה",
   routeEn:"IV / SC", routeHe:"תוך-ורידי / תת-עורי",
@@ -5259,6 +5467,7 @@ const MEDS = [
 {
   cat:"immuno",
   classEn:"Purine antimetabolite immunosuppressant", classHe:"מדכא חיסון אנטי-מטבוליט פורין",
+  classFamilyEn:"Immunosuppressant (antimetabolite)", classFamilyHe:"מדכא חיסון (אנטימטבוליט)",
   genericEn:"Azathioprine", genericHe:"אזתיופרין",
   brandEn:"Imuran", brandHe:"אימורן",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -5280,6 +5489,7 @@ const MEDS = [
 {
   cat:"immuno",
   classEn:"Interleukin-6 receptor antagonist biologic", classHe:"ביולוגי אנטגוניסט לקולטן אינטרלאוקין-6",
+  classFamilyEn:"Biologic (monoclonal antibody, other)", classFamilyHe:"ביולוגי (נוגדן חד-שבטי, אחר)",
   genericEn:"Tocilizumab", genericHe:"טוסיליזומאב",
   brandEn:"Actemra, RoActemra", brandHe:"אקטמרה",
   routeEn:"IV / SC", routeHe:"תוך-ורידי / תת-עורי",
@@ -5302,6 +5512,7 @@ const MEDS = [
 {
   cat:"immuno",
   classEn:"Janus kinase (JAK) inhibitor", classHe:"מעכב יאנוס קינאז (JAK)",
+  classFamilyEn:"JAK inhibitor", classFamilyHe:"מעכב JAK",
   genericEn:"Tofacitinib", genericHe:"טופציטיניב",
   brandEn:"Xeljanz", brandHe:"קסלג'אנז",
   routeEn:"PO", routeHe:"פומי",
@@ -5323,6 +5534,7 @@ const MEDS = [
 {
   cat:"immuno",
   classEn:"Polyclonal immunoglobulin (immune replacement / modulator)", classHe:"אימונוגלובולין פוליקלונלי (החלפה / ויסות חיסוני)",
+  classFamilyEn:"Immune globulin", classFamilyHe:"אימונוגלובולין",
   genericEn:"Immune globulin (IVIG)", genericHe:"אימונוגלובולין (IVIG)",
   brandEn:"Privigen, Gammagard, Octagam", brandHe:"אוקטגם, גמגרד",
   routeEn:"IV / SC", routeHe:"תוך-ורידי / תת-עורי",
@@ -5344,6 +5556,7 @@ const MEDS = [
 {
   cat:"onco",
   classEn:"Anthracycline chemotherapy (topoisomerase II inhibitor)", classHe:"כימותרפיה מקבוצת אנתרהציקלינים (מעכב טופואיזומראז II)",
+  classFamilyEn:"Chemotherapy (cytotoxic)", classFamilyHe:"כימותרפיה (רעילה לתאים)",
   genericEn:"Doxorubicin", genericHe:"דוקסורוביצין",
   brandEn:"Adriamycin, Doxil", brandHe:"אדריאמיצין",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -5368,6 +5581,7 @@ const MEDS = [
 {
   cat:"onco",
   classEn:"Platinum-based chemotherapy (alkylating-like)", classHe:"כימותרפיה מבוססת פלטינה (דמוית-מאלקל)",
+  classFamilyEn:"Chemotherapy (cytotoxic)", classFamilyHe:"כימותרפיה (רעילה לתאים)",
   genericEn:"Cisplatin", genericHe:"ציספלטין",
   brandEn:"Platinol", brandHe:"ציספלטין",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
@@ -5390,6 +5604,7 @@ const MEDS = [
 {
   cat:"onco",
   classEn:"Selective estrogen receptor modulator (anticancer)", classHe:"מווסת סלקטיבי של קולטן אסטרוגן (נגד סרטן)",
+  classFamilyEn:"Hormonal anticancer agent", classFamilyHe:"תרופה הורמונלית לסרטן",
   genericEn:"Tamoxifen", genericHe:"טמוקסיפן",
   brandEn:"Nolvadex, Soltamox", brandHe:"טמוקסיפן",
   routeEn:"PO", routeHe:"פומי",
@@ -5411,6 +5626,7 @@ const MEDS = [
 {
   cat:"onco",
   classEn:"Granulocyte colony-stimulating factor (G-CSF)", classHe:"גורם מגרה מושבות גרנולוציטים (G-CSF)",
+  classFamilyEn:"Chemotherapy support agent", classFamilyHe:"תרופת תמיכה בכימותרפיה",
   genericEn:"Filgrastim", genericHe:"פילגרסטים",
   brandEn:"Neupogen, Zarxio", brandHe:"נויפוגן",
   routeEn:"SC / IV", routeHe:"תת-עורי / תוך-ורידי",
@@ -5432,6 +5648,7 @@ const MEDS = [
 {
   cat:"onco",
   classEn:"Urate oxidase (tumor lysis prophylaxis)", classHe:"אורט אוקסידאז (מניעת תסמונת פירוק גידול)",
+  classFamilyEn:"Chemotherapy support agent", classFamilyHe:"תרופת תמיכה בכימותרפיה",
   genericEn:"Rasburicase", genericHe:"רסבוריקאז",
   brandEn:"Elitek, Fasturtec", brandHe:"פסטורטק",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
@@ -5453,6 +5670,7 @@ const MEDS = [
 {
   cat:"hematology",
   classEn:"Oral iron supplement", classHe:"תוסף ברזל פומי",
+  classFamilyEn:"Iron supplement", classFamilyHe:"תוסף ברזל",
   genericEn:"Ferrous sulfate", genericHe:"ברזל גופרתי (פרוס סולפט)",
   brandEn:"Feosol, Ferro-Grad", brandHe:"פרוגרד, פריפולט",
   routeEn:"PO", routeHe:"פומי",
@@ -5477,6 +5695,7 @@ const MEDS = [
 {
   cat:"hematology",
   classEn:"Parenteral iron", classHe:"ברזל פרנטרלי",
+  classFamilyEn:"Iron supplement", classFamilyHe:"תוסף ברזל",
   genericEn:"Iron sucrose", genericHe:"ברזל סוכרוז",
   brandEn:"Venofer", brandHe:"ונופר",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -5500,6 +5719,7 @@ const MEDS = [
 {
   cat:"hematology",
   classEn:"Erythropoiesis-stimulating agent (ESA)", classHe:"תרופה מגרה יצירת כדוריות דם אדומות (ESA)",
+  classFamilyEn:"Erythropoiesis-stimulating agent", classFamilyHe:"ממריץ ייצור דם",
   genericEn:"Epoetin alfa", genericHe:"אפואטין אלפא",
   brandEn:"Epogen, Procrit, Eprex", brandHe:"אפרקס",
   routeEn:"SC / IV", routeHe:"תת-עורי / תוך-ורידי",
@@ -5521,6 +5741,7 @@ const MEDS = [
 {
   cat:"hematology",
   classEn:"Antifibrinolytic", classHe:"נוגד פירוק פיברין",
+  classFamilyEn:"Antifibrinolytic", classFamilyHe:"אנטי-פיברינוליטי",
   genericEn:"Tranexamic acid", genericHe:"חומצה טרנקסמית",
   brandEn:"Lysteda, Cyklokapron", brandHe:"היקסקפרון",
   routeEn:"PO / IV / topical", routeHe:"פומי / תוך-ורידי / מקומי",
@@ -5542,6 +5763,7 @@ const MEDS = [
 {
   cat:"musculoskeletal",
   classEn:"Xanthine oxidase inhibitor (urate-lowering)", classHe:"מעכב קסנטין אוקסידאז (מוריד חומצה אורית)",
+  classFamilyEn:"Gout / uric acid agent", classFamilyHe:"תרופה לגאוט / חומצה אורית",
   genericEn:"Allopurinol", genericHe:"אלופורינול",
   brandEn:"Alopur, Zyloric", brandHe:"אלופור, זילוריק",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -5563,6 +5785,7 @@ const MEDS = [
 {
   cat:"musculoskeletal",
   classEn:"Anti-inflammatory (microtubule inhibitor) for gout", classHe:"נוגד דלקת (מעכב מיקרוטובולים) לשיגדון",
+  classFamilyEn:"Gout / uric acid agent", classFamilyHe:"תרופה לגאוט / חומצה אורית",
   genericEn:"Colchicine", genericHe:"קולכיצין",
   brandEn:"Colcrys, Mitigare", brandHe:"קולכיצין",
   routeEn:"PO", routeHe:"פומי",
@@ -5585,6 +5808,7 @@ const MEDS = [
 {
   cat:"musculoskeletal",
   classEn:"RANK ligand inhibitor monoclonal antibody", classHe:"נוגדן חד-שבטי מעכב ליגנד RANK",
+  classFamilyEn:"Bone agent", classFamilyHe:"תרופת עצם",
   genericEn:"Denosumab", genericHe:"דנוסומאב",
   brandEn:"Prolia, Xgeva", brandHe:"פרוליה, אקסג'יבה",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -5607,6 +5831,7 @@ const MEDS = [
 {
   cat:"musculoskeletal",
   classEn:"Recombinant parathyroid hormone analog (anabolic)", classHe:"אנלוג רקומביננטי להורמון פרתירואיד (אנבולי)",
+  classFamilyEn:"Bone agent", classFamilyHe:"תרופת עצם",
   genericEn:"Teriparatide", genericHe:"טריפרטיד",
   brandEn:"Forteo", brandHe:"פורטאו",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -5628,6 +5853,7 @@ const MEDS = [
 {
   cat:"musculoskeletal",
   classEn:"Skeletal muscle relaxant (GABA-B agonist)", classHe:"מרפה שרירי שלד (אגוניסט GABA-B)",
+  classFamilyEn:"Skeletal muscle relaxant", classFamilyHe:"מרפה שריר",
   genericEn:"Baclofen", genericHe:"בקלופן",
   brandEn:"Lioresal, Bacinol", brandHe:"ליורסל, בסינול",
   routeEn:"PO / intrathecal", routeHe:"פומי / תוך-שדרתי",
@@ -5649,6 +5875,7 @@ const MEDS = [
 {
   cat:"gu",
   classEn:"Alpha-1A adrenergic blocker (uroselective)", classHe:"חוסם אדרנרגי אלפא-1A (סלקטיבי לדרכי השתן)",
+  classFamilyEn:"Alpha blocker", classFamilyHe:"חוסם אלפא",
   genericEn:"Tamsulosin", genericHe:"טמסולוסין",
   brandEn:"Omnic", brandHe:"אומניק",
   routeEn:"PO", routeHe:"פומי",
@@ -5670,6 +5897,7 @@ const MEDS = [
 {
   cat:"gu",
   classEn:"5-alpha-reductase inhibitor", classHe:"מעכב 5-אלפא-רדוקטאז",
+  classFamilyEn:"5-alpha-reductase inhibitor", classFamilyHe:"מעכב 5-אלפא-רדוקטאז",
   genericEn:"Finasteride", genericHe:"פינסטריד",
   brandEn:"Proscar, Propecia", brandHe:"פרוסקר, פרופסיה",
   routeEn:"PO", routeHe:"פומי",
@@ -5691,6 +5919,7 @@ const MEDS = [
 {
   cat:"gu",
   classEn:"Antimuscarinic (overactive bladder)", classHe:"אנטי-מוסקריני (שלפוחית רגיזה)",
+  classFamilyEn:"Overactive bladder agent", classFamilyHe:"תרופה לשלפוחית פעילה מדי",
   genericEn:"Oxybutynin", genericHe:"אוקסיבוטינין",
   brandEn:"Novitropan, Ditropan", brandHe:"נוביטרופן",
   routeEn:"PO / transdermal / topical", routeHe:"פומי / מדבקה טרנסדרמלית / מקומי",
@@ -5715,6 +5944,7 @@ const MEDS = [
 {
   cat:"gu",
   classEn:"Uterotonic (posterior pituitary hormone)", classHe:"מכווץ רחם (הורמון יותרת המוח האחורית)",
+  classFamilyEn:"Uterotonic / obstetric agent", classFamilyHe:"תרופה אוטרוטונית / מיילדותית",
   genericEn:"Oxytocin", genericHe:"אוקסיטוצין",
   brandEn:"Pitocin, Syntocinon", brandHe:"פיטוצין",
   routeEn:"IV infusion / IM", routeHe:"עירוי תוך-ורידי / תוך-שרירי",
@@ -5738,6 +5968,7 @@ const MEDS = [
 {
   cat:"gu",
   classEn:"Prostaglandin E1 analog", classHe:"אנלוג לפרוסטגלנדין E1",
+  classFamilyEn:"Uterotonic / obstetric agent", classFamilyHe:"תרופה אוטרוטונית / מיילדותית",
   genericEn:"Misoprostol", genericHe:"מיזופרוסטול",
   brandEn:"Cytotec", brandHe:"סייטוטק",
   routeEn:"PO / SL / buccal / vaginal / rectal", routeHe:"פומי / תת-לשוני / בוקאלי / נרתיקי / רקטלי",
@@ -5759,6 +5990,7 @@ const MEDS = [
 {
   cat:"gu",
   classEn:"Urinary tract analgesic (azo dye)", classHe:"משכך כאב לדרכי השתן (צבע אזו)",
+  classFamilyEn:"Urinary tract analgesic", classFamilyHe:"משכך כאב בדרכי השתן",
   genericEn:"Phenazopyridine", genericHe:"פנאזופירידין",
   brandEn:"Pyridium, Azo", brandHe:"סדורל, פירידיום",
   routeEn:"PO", routeHe:"פומי",
@@ -5780,6 +6012,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"Benzodiazepine receptor antagonist", classHe:"אנטגוניסט לקולטן בנזודיאזפין",
+  classFamilyEn:"Antidote / reversal agent", classFamilyHe:"נוגדן / חומר היפוך",
   genericEn:"Flumazenil", genericHe:"פלומזניל",
   brandEn:"Romazicon, Anexate", brandHe:"אנקסייט",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -5802,6 +6035,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"Digoxin-specific antibody fragments", classHe:"מקטעי נוגדן ספציפיים לדיגוקסין",
+  classFamilyEn:"Antidote / reversal agent", classFamilyHe:"נוגדן / חומר היפוך",
   genericEn:"Digoxin immune Fab", genericHe:"דיגוקסין אימיון Fab",
   brandEn:"DigiFab", brandHe:"דיגיפאב",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -5826,6 +6060,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"Alcohol dehydrogenase inhibitor", classHe:"מעכב אלכוהול דהידרוגנאז",
+  classFamilyEn:"Antidote / reversal agent", classFamilyHe:"נוגדן / חומר היפוך",
   genericEn:"Fomepizole", genericHe:"פומפיזול",
   brandEn:"Antizol", brandHe:"אנטיזול",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -5847,6 +6082,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"Cholinesterase reactivator (oxime)", classHe:"מפעיל מחדש של כולין-אסטראז (אוקסים)",
+  classFamilyEn:"Antidote / reversal agent", classFamilyHe:"נוגדן / חומר היפוך",
   genericEn:"Pralidoxime", genericHe:"פרלידוקסים",
   brandEn:"Protopam, 2-PAM", brandHe:"פרלידוקסים",
   routeEn:"IV / IM", routeHe:"תוך-ורידי / תוך-שרירי",
@@ -5868,6 +6104,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"Cyanide antidote (cobalt compound)", classHe:"נוגדן לציאניד (תרכובת קובלט)",
+  classFamilyEn:"Antidote / reversal agent", classFamilyHe:"נוגדן / חומר היפוך",
   genericEn:"Hydroxocobalamin", genericHe:"הידרוקסוקובלמין",
   brandEn:"Cyanokit", brandHe:"סיאנוקיט",
   routeEn:"IV / IM", routeHe:"תוך-ורידי / תוך-שרירי",
@@ -5889,6 +6126,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"Reduced folate (chemotherapy rescue / methanol adjunct)", classHe:"פולאט מחוזר (הצלה מכימותרפיה / תוספת במתנול)",
+  classFamilyEn:"Antidote / reversal agent", classFamilyHe:"נוגדן / חומר היפוך",
   genericEn:"Leucovorin (folinic acid)", genericHe:"לאוקוברין (חומצה פולינית)",
   brandEn:"Leucovorin calcium", brandHe:"לאוקוברין",
   routeEn:"PO / IV / IM", routeHe:"פומי / תוך-ורידי / תוך-שרירי",
@@ -5910,6 +6148,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"Iron chelator", classHe:"קושר ברזל (כלטור)",
+  classFamilyEn:"Antidote / reversal agent", classFamilyHe:"נוגדן / חומר היפוך",
   genericEn:"Deferoxamine", genericHe:"דפרוקסמין",
   brandEn:"Desferal", brandHe:"דספרל",
   routeEn:"IV / IM / SC", routeHe:"תוך-ורידי / תוך-שרירי / תת-עורי",
@@ -5931,6 +6170,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"Modified cyclodextrin (neuromuscular blockade reversal)", classHe:"ציקלודקסטרין מותאם (היפוך חסם עצבי-שרירי)",
+  classFamilyEn:"Antidote / reversal agent", classFamilyHe:"נוגדן / חומר היפוך",
   genericEn:"Sugammadex", genericHe:"סוגמדקס",
   brandEn:"Bridion", brandHe:"ברידיון",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -5954,6 +6194,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"Reduced hematin dye (methemoglobinemia)", classHe:"צבע מחוזר (מתהמוגלובינמיה)",
+  classFamilyEn:"Antidote / reversal agent", classFamilyHe:"נוגדן / חומר היפוך",
   genericEn:"Methylene blue", genericHe:"מתילן בלו (כחול מתילן)",
   brandEn:"Provayblue", brandHe:"מתילן בלו",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -5976,6 +6217,7 @@ const MEDS = [
 {
   cat:"electrolytes",
   classEn:"Isotonic crystalloid IV fluid", classHe:"נוזל תוך-ורידי קריסטלואיד איזוטוני",
+  classFamilyEn:"IV fluid", classFamilyHe:"נוזל תוך-ורידי",
   genericEn:"0.9% Sodium chloride (normal saline)", genericHe:"נתרן כלורי 0.9% (סליין רגיל)",
   brandEn:"Normal saline, NS", brandHe:"פיזיולוגי, NaCl 0.9%",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -5997,6 +6239,7 @@ const MEDS = [
 {
   cat:"electrolytes",
   classEn:"Balanced isotonic crystalloid IV fluid", classHe:"נוזל תוך-ורידי קריסטלואיד איזוטוני מאוזן",
+  classFamilyEn:"IV fluid", classFamilyHe:"נוזל תוך-ורידי",
   genericEn:"Lactated Ringer's (Hartmann's)", genericHe:"רינגר לקטט (הרטמן)",
   brandEn:"LR, Ringer's lactate", brandHe:"רינגר לקטט",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -6018,6 +6261,7 @@ const MEDS = [
 {
   cat:"electrolytes",
   classEn:"Hypotonic maintenance IV fluid", classHe:"נוזל תוך-ורידי היפוטוני לאחזקה",
+  classFamilyEn:"IV fluid", classFamilyHe:"נוזל תוך-ורידי",
   genericEn:"Dextrose 5% in water (D5W)", genericHe:"דקסטרוז 5% במים (D5W)",
   brandEn:"D5W", brandHe:"גלוקוז 5%",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -6039,6 +6283,7 @@ const MEDS = [
 {
   cat:"electrolytes",
   classEn:"Alkalinizing agent / electrolyte", classHe:"חומר מבסיס / אלקטרוליט",
+  classFamilyEn:"Alkalinizing agent", classFamilyHe:"חומר מבסס",
   genericEn:"Sodium bicarbonate", genericHe:"נתרן ביקרבונט (סודה לשתייה)",
   brandEn:"NaHCO3, Neut", brandHe:"נתרן ביקרבונט",
   routeEn:"IV / PO", routeHe:"תוך-ורידי / פומי",
@@ -6060,6 +6305,7 @@ const MEDS = [
 {
   cat:"vitamins",
   classEn:"Fat-soluble vitamin (bone and calcium)", classHe:"ויטמין מסיס בשומן (עצם וסידן)",
+  classFamilyEn:"Vitamin / supplement", classFamilyHe:"ויטמין / תוסף",
   genericEn:"Vitamin D3 (cholecalciferol)", genericHe:"ויטמין D3 (כולקלציפרול)",
   brandEn:"D-Vi-Sol, various", brandHe:"די-3, ויטמין D",
   routeEn:"PO", routeHe:"פומי",
@@ -6081,6 +6327,7 @@ const MEDS = [
 {
   cat:"vitamins",
   classEn:"Water-soluble vitamin (B1)", classHe:"ויטמין מסיס במים (B1)",
+  classFamilyEn:"Vitamin / supplement", classFamilyHe:"ויטמין / תוסף",
   genericEn:"Thiamine", genericHe:"תיאמין",
   brandEn:"Thiamine HCl, Benerva", brandHe:"תיאמין",
   routeEn:"PO / IV / IM", routeHe:"פומי / תוך-ורידי / תוך-שרירי",
@@ -6102,6 +6349,7 @@ const MEDS = [
 {
   cat:"vitamins",
   classEn:"Water-soluble vitamin (B9)", classHe:"ויטמין מסיס במים (B9)",
+  classFamilyEn:"Vitamin / supplement", classFamilyHe:"ויטמין / תוסף",
   genericEn:"Folic acid", genericHe:"חומצה פולית",
   brandEn:"Folacin, various", brandHe:"פולית, פולי",
   routeEn:"PO / IV / IM / SC", routeHe:"פומי / תוך-ורידי / תוך-שרירי / תת-עורי",
@@ -6123,6 +6371,7 @@ const MEDS = [
 {
   cat:"vitamins",
   classEn:"Water-soluble vitamin (B12)", classHe:"ויטמין מסיס במים (B12)",
+  classFamilyEn:"Vitamin / supplement", classFamilyHe:"ויטמין / תוסף",
   genericEn:"Cyanocobalamin (vitamin B12)", genericHe:"ציאנוקובלמין (ויטמין B12)",
   brandEn:"Nascobal, various", brandHe:"בדוז, B12",
   routeEn:"IM / SC / intranasal / PO", routeHe:"תוך-שרירי / תת-עורי / תוך-אפי / פומי",
@@ -6144,6 +6393,7 @@ const MEDS = [
 {
   cat:"anesthesia",
   classEn:"IV general anesthetic (GABA-A potentiator)", classHe:"מרדים כללי תוך-ורידי (מגביר GABA-A)",
+  classFamilyEn:"IV general anesthetic", classFamilyHe:"חומר הרדמה כללי תוך-ורידי",
   genericEn:"Propofol", genericHe:"פרופופול",
   brandEn:"Diprivan, Recofol, Propofol-Lipuro", brandHe:"דיפריבן, רקופול",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -6167,6 +6417,7 @@ const MEDS = [
 {
   cat:"anesthesia",
   classEn:"Dissociative anesthetic (NMDA antagonist)", classHe:"מרדים דיסוציאטיבי (אנטגוניסט NMDA)",
+  classFamilyEn:"Dissociative anesthetic", classFamilyHe:"חומר הרדמה דיסוציאטיבי",
   genericEn:"Ketamine", genericHe:"קטמין",
   brandEn:"Ketalar", brandHe:"קטלר",
   routeEn:"IV / IM / intranasal", routeHe:"תוך-ורידי / תוך-שרירי / תוך-אפי",
@@ -6190,6 +6441,7 @@ const MEDS = [
 {
   cat:"anesthesia",
   classEn:"Alpha-2 agonist sedative", classHe:"מרגיע אגוניסט אלפא-2",
+  classFamilyEn:"Sedative (alpha-2 agonist)", classFamilyHe:"תרופת הרגעה (אגוניסט אלפא-2)",
   genericEn:"Dexmedetomidine", genericHe:"דקסמדטומידין",
   brandEn:"Precedex", brandHe:"פרסדקס",
   routeEn:"IV infusion / intranasal / buccal", routeHe:"עירוי תוך-ורידי / תוך-אפי / בוקאלי",
@@ -6213,6 +6465,7 @@ const MEDS = [
 {
   cat:"anesthesia",
   classEn:"Depolarizing neuromuscular blocker", classHe:"חוסם עצבי-שרירי מדה-פולריזציה",
+  classFamilyEn:"Neuromuscular blocker", classFamilyHe:"חוסם עצבי-שרירי",
   genericEn:"Succinylcholine", genericHe:"סוקסיניל-כולין (סוקסאמתוניום)",
   brandEn:"Anectine, Quelicin", brandHe:"אנקטין",
   routeEn:"IV / IM", routeHe:"תוך-ורידי / תוך-שרירי",
@@ -6239,6 +6492,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Opioid agonist analgesic / antitussive", classHe:"משכך כאב אופיואידי / נוגד שיעול",
+  classFamilyEn:"Opioid agonist", classFamilyHe:"אגוניסט אופיואידי",
   genericEn:"Codeine", genericHe:"קודאין",
   brandEn:"often with acetaminophen (Tylenol #3)", brandHe:"לרוב בשילוב עם פרצטמול",
   routeEn:"PO", routeHe:"פומי",
@@ -6263,6 +6517,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Opioid + non-opioid combination analgesic", classHe:"משכך כאב משולב אופיואיד ולא-אופיואיד",
+  classFamilyEn:"Opioid agonist", classFamilyHe:"אגוניסט אופיואידי",
   genericEn:"Hydrocodone / acetaminophen", genericHe:"הידרוקודון / פרצטמול",
   brandEn:"Norco, Vicodin", brandHe:"נורקו, ויקודין",
   routeEn:"PO", routeHe:"פומי",
@@ -6287,6 +6542,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Long-acting opioid agonist / NMDA antagonist", classHe:"אגוניסט אופיואידי ארוך טווח / אנטגוניסט NMDA",
+  classFamilyEn:"Opioid agonist", classFamilyHe:"אגוניסט אופיואידי",
   genericEn:"Methadone", genericHe:"מתדון",
   brandEn:"Adolan", brandHe:"אדולן",
   routeEn:"PO / IV / IM / SC", routeHe:"פומי / תוך-ורידי / תוך-שרירי / תת-עורי",
@@ -6313,6 +6569,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"NSAID (acetic acid derivative)", classHe:"NSAID (נגזרת חומצה אצטית)",
+  classFamilyEn:"NSAID", classFamilyHe:"NSAID",
   genericEn:"Diclofenac", genericHe:"דיקלופנק",
   brandEn:"Voltaren, Abitren, Cataflam", brandHe:"וולטרן, אביטרן",
   routeEn:"PO / topical / IV / ophthalmic", routeHe:"פומי / מקומי / תוך-ורידי / טיפות עיניים",
@@ -6335,6 +6592,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"NSAID (enolic acid, preferential COX-2)", classHe:"NSAID (חומצה אנולית, מועדף COX-2)",
+  classFamilyEn:"NSAID", classFamilyHe:"NSAID",
   genericEn:"Meloxicam", genericHe:"מלוקסיקם",
   brandEn:"Movalis, Mobic", brandHe:"מובליס",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -6357,6 +6615,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Serotonin 5-HT1B/1D agonist (triptan)", classHe:"אגוניסט סרוטונין 5-HT1B/1D (טריפטן)",
+  classFamilyEn:"Triptan (migraine agent)", classFamilyHe:"טריפטן (תרופה למיגרנה)",
   genericEn:"Rizatriptan", genericHe:"ריזטריפטן",
   brandEn:"Maxalt", brandHe:"מקסלט",
   routeEn:"PO", routeHe:"פומי",
@@ -6379,6 +6638,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Broad-spectrum antiepileptic (multiple mechanisms)", classHe:"נוגד פרכוסים רחב טווח (מנגנונים מרובים)",
+  classFamilyEn:"Anticonvulsant", classFamilyHe:"נוגד פרכוסים",
   genericEn:"Topiramate", genericHe:"טופירמט",
   brandEn:"Topamax", brandHe:"טופמקס",
   routeEn:"PO", routeHe:"פומי",
@@ -6400,6 +6660,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Antiepileptic (sodium channel blocker)", classHe:"נוגד פרכוסים (חוסם תעלות נתרן)",
+  classFamilyEn:"Anticonvulsant", classFamilyHe:"נוגד פרכוסים",
   genericEn:"Oxcarbazepine", genericHe:"אוקסקרבזפין",
   brandEn:"Trileptal, Oxtellar", brandHe:"טרילפטל",
   routeEn:"PO", routeHe:"פומי",
@@ -6421,6 +6682,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Antiepileptic (sodium channel blocker, slow inactivation)", classHe:"נוגד פרכוסים (חוסם תעלות נתרן, השבתה איטית)",
+  classFamilyEn:"Anticonvulsant", classFamilyHe:"נוגד פרכוסים",
   genericEn:"Lacosamide", genericHe:"לקוסאמיד",
   brandEn:"Vimpat", brandHe:"וימפט",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -6444,6 +6706,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Benzodiazepine (long-acting)", classHe:"בנזודיאזפין (ארוך טווח)",
+  classFamilyEn:"Benzodiazepine", classFamilyHe:"בנזודיאזפין",
   genericEn:"Clonazepam", genericHe:"קלונזפאם",
   brandEn:"Clonex, Rivotril", brandHe:"קלונקס, ריבוטריל",
   routeEn:"PO", routeHe:"פומי",
@@ -6468,6 +6731,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Benzodiazepine (long-acting)", classHe:"בנזודיאזפין (ארוך טווח)",
+  classFamilyEn:"Benzodiazepine", classFamilyHe:"בנזודיאזפין",
   genericEn:"Diazepam", genericHe:"דיאזפאם",
   brandEn:"Assival, Valium", brandHe:"אסיבל, ואליום",
   routeEn:"PO / IV / IM / rectal / intranasal", routeHe:"פומי / תוך-ורידי / תוך-שרירי / רקטלי / תוך-אפי",
@@ -6492,6 +6756,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Central alpha-2 agonist muscle relaxant", classHe:"מרפה שרירים אגוניסט אלפא-2 מרכזי",
+  classFamilyEn:"Skeletal muscle relaxant", classFamilyHe:"מרפה שריר",
   genericEn:"Tizanidine", genericHe:"טיזנידין",
   brandEn:"Sirdalud", brandHe:"סירדלוד",
   routeEn:"PO", routeHe:"פומי",
@@ -6515,6 +6780,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"NMDA receptor antagonist (dementia)", classHe:"אנטגוניסט לקולטן NMDA (דמנציה)",
+  classFamilyEn:"Dementia agent", classFamilyHe:"תרופה לדמנציה",
   genericEn:"Memantine", genericHe:"ממנטין",
   brandEn:"Ebixa", brandHe:"אביקסה",
   routeEn:"PO", routeHe:"פומי",
@@ -6536,6 +6802,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Cholinesterase inhibitor (dementia, transdermal)", classHe:"מעכב כולין-אסטראז (דמנציה, דרך העור)",
+  classFamilyEn:"Dementia agent", classFamilyHe:"תרופה לדמנציה",
   genericEn:"Rivastigmine", genericHe:"ריבסטיגמין",
   brandEn:"Exelon", brandHe:"אקסלון",
   routeEn:"PO / transdermal", routeHe:"פומי / מדבקה טרנסדרמלית",
@@ -6560,6 +6827,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Non-ergot dopamine agonist", classHe:"אגוניסט דופמין שאינו ארגוט",
+  classFamilyEn:"Antiparkinsonian", classFamilyHe:"תרופה נגד פרקינסון",
   genericEn:"Pramipexole", genericHe:"פרמיפקסול",
   brandEn:"Sifrol, Mirapex", brandHe:"סיפרול",
   routeEn:"PO", routeHe:"פומי",
@@ -6581,6 +6849,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Non-ergot dopamine agonist", classHe:"אגוניסט דופמין שאינו ארגוט",
+  classFamilyEn:"Antiparkinsonian", classFamilyHe:"תרופה נגד פרקינסון",
   genericEn:"Ropinirole", genericHe:"רופינירול",
   brandEn:"Requip, Adartrel", brandHe:"רקוויפ",
   routeEn:"PO", routeHe:"פומי",
@@ -6602,6 +6871,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"MAO-B inhibitor (antiparkinsonian)", classHe:"מעכב MAO-B (נגד פרקינסון)",
+  classFamilyEn:"Antiparkinsonian", classFamilyHe:"תרופה נגד פרקינסון",
   genericEn:"Rasagiline", genericHe:"רסגילין",
   brandEn:"Azilect", brandHe:"אזילקט",
   routeEn:"PO", routeHe:"פומי",
@@ -6623,6 +6893,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Antiparkinsonian / antiviral (NMDA antagonist, dopamine release)", classHe:"נגד פרקינסון / אנטי-ויראלי (אנטגוניסט NMDA, שחרור דופמין)",
+  classFamilyEn:"Antiparkinsonian", classFamilyHe:"תרופה נגד פרקינסון",
   genericEn:"Amantadine", genericHe:"אמנטדין",
   brandEn:"Gocovri, Symmetrel", brandHe:"אמנטדין",
   routeEn:"PO", routeHe:"פומי",
@@ -6644,6 +6915,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Anticholinergic (antiparkinsonian / anti-dystonic)", classHe:"אנטיכולינרגי (נגד פרקינסון / נגד דיסטוניה)",
+  classFamilyEn:"Antiparkinsonian", classFamilyHe:"תרופה נגד פרקינסון",
   genericEn:"Benztropine", genericHe:"בנזטרופין",
   brandEn:"Cogentin", brandHe:"בנזטרופין",
   routeEn:"PO / IM / IV", routeHe:"פומי / תוך-שרירי / תוך-ורידי",
@@ -6668,6 +6940,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Anticholinergic (antiparkinsonian / anti-dystonic)", classHe:"אנטיכולינרגי (נגד פרקינסון / נגד דיסטוניה)",
+  classFamilyEn:"Antiparkinsonian", classFamilyHe:"תרופה נגד פרקינסון",
   genericEn:"Biperiden", genericHe:"ביפרידן",
   brandEn:"Dekinet, Akineton", brandHe:"דקינט, אקינטון",
   routeEn:"PO / IM / IV", routeHe:"פומי / תוך-שרירי / תוך-ורידי",
@@ -6694,6 +6967,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"CNS stimulant (amphetamine, ADHD)", classHe:"ממריץ מערכת העצבים (אמפטמין, ADHD)",
+  classFamilyEn:"ADHD agent (stimulant / non-stimulant)", classFamilyHe:"תרופה ל-ADHD (ממריצה / לא ממריצה)",
   genericEn:"Amphetamine / dextroamphetamine", genericHe:"אמפטמין / דקסטרואמפטמין",
   brandEn:"Adderall", brandHe:"אדרל",
   routeEn:"PO", routeHe:"פומי",
@@ -6717,6 +6991,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"SSRI", classHe:"SSRI (מעכב ספיגה חוזרת של סרוטונין)",
+  classFamilyEn:"SSRI", classFamilyHe:"SSRI",
   genericEn:"Paroxetine", genericHe:"פארוקסטין",
   brandEn:"Seroxat, Paxxet", brandHe:"סרוקסט, פקסט",
   routeEn:"PO", routeHe:"פומי",
@@ -6738,6 +7013,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"SSRI", classHe:"SSRI (מעכב ספיגה חוזרת של סרוטונין)",
+  classFamilyEn:"SSRI", classFamilyHe:"SSRI",
   genericEn:"Citalopram", genericHe:"ציטלופרם",
   brandEn:"Recital, Cipramil", brandHe:"רסיטל, ציפרמיל",
   routeEn:"PO", routeHe:"פומי",
@@ -6759,6 +7035,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Serotonin modulator antidepressant (multimodal)", classHe:"נוגד דיכאון מווסת סרוטונין (רב-מנגנוני)",
+  classFamilyEn:"Other antidepressant", classFamilyHe:"נוגד דיכאון אחר",
   genericEn:"Vortioxetine", genericHe:"וורטיוקסטין",
   brandEn:"Trintellix, Brintellix", brandHe:"ברינטליקס",
   routeEn:"PO", routeHe:"פומי",
@@ -6780,6 +7057,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Tricyclic antidepressant (secondary amine)", classHe:"נוגד דיכאון טריציקלי (אמין שניוני)",
+  classFamilyEn:"TCA", classFamilyHe:"TCA (תלת-טציקלי)",
   genericEn:"Nortriptyline", genericHe:"נורטריפטילין",
   brandEn:"Pamelor, Nortylin", brandHe:"נורטילין",
   routeEn:"PO", routeHe:"פומי",
@@ -6805,6 +7083,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Irreversible non-selective MAO inhibitor", classHe:"מעכב MAO לא סלקטיבי בלתי הפיך",
+  classFamilyEn:"MAO inhibitor", classFamilyHe:"מעכב MAO",
   genericEn:"Phenelzine", genericHe:"פנלזין",
   brandEn:"Nardil", brandHe:"נרדיל",
   routeEn:"PO", routeHe:"פומי",
@@ -6828,6 +7107,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Atypical antipsychotic", classHe:"אנטיפסיכוטי אטיפי",
+  classFamilyEn:"Atypical antipsychotic", classFamilyHe:"אנטיפסיכוטי אטיפי",
   genericEn:"Ziprasidone", genericHe:"זיפרסידון",
   brandEn:"Geodon, Zeldox", brandHe:"זלדוקס",
   routeEn:"PO / IM", routeHe:"פומי / תוך-שרירי",
@@ -6849,6 +7129,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Atypical antipsychotic", classHe:"אנטיפסיכוטי אטיפי",
+  classFamilyEn:"Atypical antipsychotic", classFamilyHe:"אנטיפסיכוטי אטיפי",
   genericEn:"Lurasidone", genericHe:"לוראסידון",
   brandEn:"Latuda", brandHe:"לטודה",
   routeEn:"PO", routeHe:"פומי",
@@ -6870,6 +7151,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Atypical antipsychotic (long-acting injectable available)", classHe:"אנטיפסיכוטי אטיפי (זמין כזריקה ארוכת טווח)",
+  classFamilyEn:"Atypical antipsychotic", classFamilyHe:"אנטיפסיכוטי אטיפי",
   genericEn:"Paliperidone", genericHe:"פליפרידון",
   brandEn:"Invega, Invega Sustenna/Trinza", brandHe:"אינווגה",
   routeEn:"PO / IM", routeHe:"פומי / תוך-שרירי",
@@ -6891,6 +7173,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"First-generation (low-potency) antipsychotic", classHe:"אנטיפסיכוטי מהדור הראשון (עצמה נמוכה)",
+  classFamilyEn:"Typical antipsychotic", classFamilyHe:"אנטיפסיכוטי טיפוסי",
   genericEn:"Chlorpromazine", genericHe:"כלורפרומזין",
   brandEn:"Thorazine, Largactil", brandHe:"לרגקטיל",
   routeEn:"PO / IM / IV / rectal", routeHe:"פומי / תוך-שרירי / תוך-ורידי / רקטלי",
@@ -6914,6 +7197,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Non-benzodiazepine hypnotic (\"Z-drug\")", classHe:"היפנוטי שאינו בנזודיאזפין (\"תרופת Z\")",
+  classFamilyEn:"Non-benzodiazepine hypnotic", classFamilyHe:"כדור שינה שאינו בנזודיאזפין",
   genericEn:"Eszopiclone", genericHe:"אסזופיקלון",
   brandEn:"Lunesta", brandHe:"לונסטה",
   routeEn:"PO", routeHe:"פומי",
@@ -6935,6 +7219,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Melatonin receptor agonist hypnotic", classHe:"היפנוטי אגוניסט לקולטן מלטונין",
+  classFamilyEn:"Non-benzodiazepine hypnotic", classFamilyHe:"כדור שינה שאינו בנזודיאזפין",
   genericEn:"Ramelteon", genericHe:"רמלטאון",
   brandEn:"Rozerem", brandHe:"רוזרם",
   routeEn:"PO", routeHe:"פומי",
@@ -6956,6 +7241,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Antihistamine anxiolytic / antipruritic", classHe:"אנטיהיסטמין נוגד חרדה / נוגד גירוד",
+  classFamilyEn:"Antihistamine", classFamilyHe:"אנטיהיסטמין",
   genericEn:"Hydroxyzine", genericHe:"הידרוקסיזין",
   brandEn:"Atarax, Vistaril", brandHe:"אטרקס",
   routeEn:"PO / IM", routeHe:"פומי / תוך-שרירי",
@@ -6977,6 +7263,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Opioid antagonist (alcohol and opioid use disorder)", classHe:"אנטגוניסט לאופיואידים (הפרעת שימוש באלכוהול ובאופיואידים)",
+  classFamilyEn:"Opioid antagonist", classFamilyHe:"אנטגוניסט אופיואידי",
   genericEn:"Naltrexone", genericHe:"נלטרקסון",
   brandEn:"Vivitrol, ReVia", brandHe:"נלטרקסון, ויוויטרול",
   routeEn:"PO / IM", routeHe:"פומי / תוך-שרירי",
@@ -6998,6 +7285,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Aldehyde dehydrogenase inhibitor (alcohol deterrent)", classHe:"מעכב אלדהיד דהידרוגנאז (מרתיע מאלכוהול)",
+  classFamilyEn:"Alcohol-use-disorder agent", classFamilyHe:"תרופה להפרעת שימוש באלכוהול",
   genericEn:"Disulfiram", genericHe:"דיסולפירם",
   brandEn:"Antabuse", brandHe:"אנטבוז",
   routeEn:"PO", routeHe:"פומי",
@@ -7019,6 +7307,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Sulfonylurea (long-acting oral insulin secretagogue)", classHe:"סולפונילאוריאה (מגרה הפרשת אינסולין פומי ארוך טווח)",
+  classFamilyEn:"Sulfonylurea / meglitinide", classFamilyHe:"סולפונילאוריאה / מגליטיניד",
   genericEn:"Glimepiride", genericHe:"גלימפיריד",
   brandEn:"Amaryl", brandHe:"אמריל",
   routeEn:"PO", routeHe:"פומי",
@@ -7042,6 +7331,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Sulfonylurea (long-acting oral insulin secretagogue)", classHe:"סולפונילאוריאה (מגרה הפרשת אינסולין פומי ארוך טווח)",
+  classFamilyEn:"Sulfonylurea / meglitinide", classFamilyHe:"סולפונילאוריאה / מגליטיניד",
   genericEn:"Glyburide (glibenclamide)", genericHe:"גליבוריד (גליבנקלמיד)",
   brandEn:"Gluben", brandHe:"גלובן",
   routeEn:"PO", routeHe:"פומי",
@@ -7065,6 +7355,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Meglitinide (rapid, mealtime oral insulin secretagogue)", classHe:"מגליטיניד (מגרה הפרשת אינסולין פומי מהיר, סביב ארוחה)",
+  classFamilyEn:"Sulfonylurea / meglitinide", classFamilyHe:"סולפונילאוריאה / מגליטיניד",
   genericEn:"Repaglinide", genericHe:"רפגליניד",
   brandEn:"Prandin, NovoNorm", brandHe:"נובונורם",
   routeEn:"PO", routeHe:"פומי",
@@ -7088,6 +7379,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Long-acting basal insulin", classHe:"אינסולין בזאלי ארוך טווח",
+  classFamilyEn:"Insulin", classFamilyHe:"אינסולין",
   genericEn:"Insulin detemir", genericHe:"אינסולין דטמיר",
   brandEn:"Levemir", brandHe:"לבמיר",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -7111,6 +7403,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"SGLT2 inhibitor (oral, gliflozin)", classHe:"מעכב SGLT2 (פומי, גליפלוזין)",
+  classFamilyEn:"SGLT2 inhibitor", classFamilyHe:"מעכב SGLT2",
   genericEn:"Dapagliflozin", genericHe:"דפגליפלוזין",
   brandEn:"Forxiga", brandHe:"פורסיגה",
   routeEn:"PO", routeHe:"פומי",
@@ -7133,6 +7426,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"SGLT2 inhibitor (oral, gliflozin)", classHe:"מעכב SGLT2 (פומי, גליפלוזין)",
+  classFamilyEn:"SGLT2 inhibitor", classFamilyHe:"מעכב SGLT2",
   genericEn:"Canagliflozin", genericHe:"קנגליפלוזין",
   brandEn:"Invokana", brandHe:"אינווקנה",
   routeEn:"PO", routeHe:"פומי",
@@ -7155,6 +7449,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"GLP-1 receptor agonist (weekly injectable)", classHe:"אגוניסט לקולטן GLP-1 (זריקה שבועית)",
+  classFamilyEn:"GLP-1 / GIP agonist", classFamilyHe:"אגוניסט GLP-1 / GIP",
   genericEn:"Dulaglutide", genericHe:"דולגלוטיד",
   brandEn:"Trulicity", brandHe:"טרוליסיטי",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -7177,6 +7472,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"GLP-1 receptor agonist (short-acting, twice daily)", classHe:"אגוניסט לקולטן GLP-1 (קצר טווח, פעמיים ביום)",
+  classFamilyEn:"GLP-1 / GIP agonist", classFamilyHe:"אגוניסט GLP-1 / GIP",
   genericEn:"Exenatide", genericHe:"אקסנטיד",
   brandEn:"Byetta (twice daily), Bydureon (weekly)", brandHe:"ביאטה, בידוריאון",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -7199,6 +7495,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Dual GIP / GLP-1 receptor agonist (weekly injectable)", classHe:"אגוניסט כפול לקולטני GIP / GLP-1 (זריקה שבועית)",
+  classFamilyEn:"GLP-1 / GIP agonist", classFamilyHe:"אגוניסט GLP-1 / GIP",
   genericEn:"Tirzepatide", genericHe:"טירזפטיד",
   brandEn:"Mounjaro, Zepbound", brandHe:"מונג'רו, זפבאונד",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -7221,6 +7518,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"DPP-4 inhibitor (oral, gliptin)", classHe:"מעכב DPP-4 (פומי, גליפטין)",
+  classFamilyEn:"DPP-4 inhibitor", classFamilyHe:"מעכב DPP-4",
   genericEn:"Linagliptin", genericHe:"לינגליפטין",
   brandEn:"Tradjenta, Trajenta", brandHe:"טרג'נטה",
   routeEn:"PO", routeHe:"פומי",
@@ -7242,6 +7540,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Alpha-glucosidase inhibitor (oral, with meals)", classHe:"מעכב אלפא-גלוקוזידאז (פומי, עם ארוחות)",
+  classFamilyEn:"Alpha-glucosidase inhibitor", classFamilyHe:"מעכב אלפא-גלוקוזידאז",
   genericEn:"Acarbose", genericHe:"אקרבוז",
   brandEn:"Precose, Glucobay", brandHe:"גלוקובאי",
   routeEn:"PO", routeHe:"פומי",
@@ -7263,6 +7562,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Estrogen (hormone replacement)", classHe:"אסטרוגן (טיפול הורמונלי חלופי)",
+  classFamilyEn:"Hormone replacement (estrogen / progestin)", classFamilyHe:"תחליף הורמונלי (אסטרוגן / פרוגסטין)",
   genericEn:"Estradiol", genericHe:"אסטרדיול",
   brandEn:"Estrace, Climara, Vagifem", brandHe:"אסטרופם, קלימרה",
   routeEn:"PO / transdermal / topical / vaginal / IM", routeHe:"פומי / מדבקה טרנסדרמלית / מקומי / נרתיקי / תוך-שרירי",
@@ -7284,6 +7584,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Progestin", classHe:"פרוגסטין",
+  classFamilyEn:"Hormone replacement (estrogen / progestin)", classFamilyHe:"תחליף הורמונלי (אסטרוגן / פרוגסטין)",
   genericEn:"Medroxyprogesterone acetate", genericHe:"מדרוקסיפרוגסטרון אצטט",
   brandEn:"Provera, Depo-Provera", brandHe:"פרוברה, דפו-פרוברה",
   routeEn:"PO / IM", routeHe:"פומי / תוך-שרירי",
@@ -7305,6 +7606,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"Combined hormonal contraceptive (estrogen + progestin)", classHe:"אמצעי מניעה הורמונלי משולב (אסטרוגן + פרוגסטין)",
+  classFamilyEn:"Hormone replacement (estrogen / progestin)", classFamilyHe:"תחליף הורמונלי (אסטרוגן / פרוגסטין)",
   genericEn:"Ethinyl estradiol / progestin", genericHe:"אתיניל אסטרדיול / פרוגסטין",
   brandEn:"many (e.g. Yaz, Microgynon, Loestrin)", brandHe:"רבים (למשל יסמין, מיקרוגינון)",
   routeEn:"PO", routeHe:"פומי",
@@ -7326,6 +7628,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"GnRH agonist", classHe:"אגוניסט GnRH",
+  classFamilyEn:"GnRH agonist", classFamilyHe:"אגוניסט GnRH",
   genericEn:"Leuprolide", genericHe:"לאופרוליד",
   brandEn:"Lupron, Eligard", brandHe:"לופרון",
   routeEn:"SC / IM depot / SC implant", routeHe:"תת-עורי / דפו תוך-שרירי / שתל תת-עורי",
@@ -7347,6 +7650,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Proton pump inhibitor", classHe:"מעכב משאבת פרוטונים",
+  classFamilyEn:"Proton pump inhibitor", classFamilyHe:"מעכב משאבת פרוטונים",
   genericEn:"Esomeprazole", genericHe:"אסאומפרזול",
   brandEn:"Nexium", brandHe:"נקסיום",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -7368,6 +7672,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Proton pump inhibitor", classHe:"מעכב משאבת פרוטונים",
+  classFamilyEn:"Proton pump inhibitor", classFamilyHe:"מעכב משאבת פרוטונים",
   genericEn:"Lansoprazole", genericHe:"לנסופרזול",
   brandEn:"Lanton", brandHe:"לנטון",
   routeEn:"PO", routeHe:"פומי",
@@ -7389,6 +7694,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Phenothiazine antiemetic (dopamine D2 antagonist)", classHe:"נוגד הקאה מקבוצת פנותיאזין (אנטגוניסט דופמין D2)",
+  classFamilyEn:"Antiemetic (dopamine antagonist)", classFamilyHe:"נוגד הקאה (אנטגוניסט דופמין)",
   genericEn:"Prochlorperazine", genericHe:"פרוכלורפרזין",
   brandEn:"Compazine, Compro", brandHe:"פרוכלורפרזין",
   routeEn:"PO / IM / IV / rectal", routeHe:"פומי / תוך-שרירי / תוך-ורידי / רקטלי",
@@ -7412,6 +7718,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Antihistamine antiemetic (vestibular)", classHe:"נוגד הקאה אנטיהיסטמין (וסטיבולרי)",
+  classFamilyEn:"Antiemetic (anticholinergic / antihistamine)", classFamilyHe:"נוגד הקאה (אנטיכולינרגי / אנטיהיסטמין)",
   genericEn:"Meclizine", genericHe:"מקליזין",
   brandEn:"Antivert, Bonine", brandHe:"אגילן, מקליזין",
   routeEn:"PO", routeHe:"פומי",
@@ -7433,6 +7740,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Stimulant laxative (anthraquinone)", classHe:"משלשל ממריץ (אנתרהקינון)",
+  classFamilyEn:"Laxative", classFamilyHe:"משלשל",
   genericEn:"Senna (sennosides)", genericHe:"סנה (סנוזידים)",
   brandEn:"Senokot, Ex-Lax", brandHe:"סנוקוט",
   routeEn:"PO", routeHe:"פומי",
@@ -7454,6 +7762,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Bulk-forming laxative (soluble fiber)", classHe:"משלשל יוצר נפח (סיבים מסיסים)",
+  classFamilyEn:"Laxative", classFamilyHe:"משלשל",
   genericEn:"Psyllium", genericHe:"פסיליום (קליפת זרעי פשתן הודי)",
   brandEn:"Metamucil, Fybogel", brandHe:"מטמוסיל, פיברולקס",
   routeEn:"PO", routeHe:"פומי",
@@ -7475,6 +7784,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Antisecretory / antacid (bismuth compound)", classHe:"נוגד הפרשה / נוגד חומצה (תרכובת ביסמוט)",
+  classFamilyEn:"GI protectant / antisecretory", classFamilyHe:"מגן / נוגד הפרשה במערכת העיכול",
   genericEn:"Bismuth subsalicylate", genericHe:"ביסמוט סאבסליצילט",
   brandEn:"Pepto-Bismol", brandHe:"פפטו-ביסמול",
   routeEn:"PO", routeHe:"פומי",
@@ -7497,6 +7807,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Antispasmodic (anticholinergic)", classHe:"נוגד עווית (אנטיכולינרגי)",
+  classFamilyEn:"Anticholinergic", classFamilyHe:"אנטיכולינרגי",
   genericEn:"Dicyclomine", genericHe:"דיציקלומין",
   brandEn:"Bentyl, Merbentyl", brandHe:"בנטיל",
   routeEn:"PO / IM", routeHe:"פומי / תוך-שרירי",
@@ -7521,6 +7832,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Peripheral opioid antagonist (opioid-induced constipation)", classHe:"אנטגוניסט אופיואידי היקפי (עצירות מאופיואידים)",
+  classFamilyEn:"Opioid antagonist", classFamilyHe:"אנטגוניסט אופיואידי",
   genericEn:"Methylnaltrexone", genericHe:"מתילנלטרקסון",
   brandEn:"Relistor", brandHe:"רליסטור",
   routeEn:"SC / PO", routeHe:"תת-עורי / פומי",
@@ -7542,6 +7854,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Antidiarrheal + anticholinergic combination (controlled)", classHe:"שילוב נוגד שלשול + אנטיכולינרגי (מבוקר)",
+  classFamilyEn:"Antidiarrheal", classFamilyHe:"נוגד שלשול",
   genericEn:"Diphenoxylate / atropine", genericHe:"דיפנוקסילאט / אטרופין",
   brandEn:"Lomotil", brandHe:"לומוטיל, אימודקס",
   routeEn:"PO", routeHe:"פומי",
@@ -7566,6 +7879,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Natural penicillin", classHe:"פניצילין טבעי",
+  classFamilyEn:"Penicillin", classFamilyHe:"פניצילין",
   genericEn:"Penicillin G / Penicillin VK", genericHe:"פניצילין G / פניצילין VK",
   brandEn:"Rafapen", brandHe:"רפאפן",
   routeEn:"IV / IM / PO", routeHe:"תוך-ורידי / תוך-שרירי / פומי",
@@ -7588,6 +7902,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Aminopenicillin (IV/IM)", classHe:"אמינופניצילין (תוך-ורידי/שרירי)",
+  classFamilyEn:"Penicillin", classFamilyHe:"פניצילין",
   genericEn:"Ampicillin", genericHe:"אמפיצילין",
   brandEn:"Ampicillin, Unasyn (with sulbactam)", brandHe:"אמפיצילין, אונאסין",
   routeEn:"IV / IM / PO", routeHe:"תוך-ורידי / תוך-שרירי / פומי",
@@ -7610,6 +7925,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Second-generation cephalosporin", classHe:"צפלוספורין מהדור השני",
+  classFamilyEn:"Cephalosporin", classFamilyHe:"צפלוספורין",
   genericEn:"Cefuroxime", genericHe:"צפורוקסים",
   brandEn:"Zinnat, Zinacef", brandHe:"זינאט, זינצף",
   routeEn:"PO / IV / IM", routeHe:"פומי / תוך-ורידי / תוך-שרירי",
@@ -7631,6 +7947,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Third-generation oral cephalosporin", classHe:"צפלוספורין פומי מהדור השלישי",
+  classFamilyEn:"Cephalosporin", classFamilyHe:"צפלוספורין",
   genericEn:"Cefdinir", genericHe:"צפדיניר",
   brandEn:"Omnicef", brandHe:"צפדיניר",
   routeEn:"PO", routeHe:"פומי",
@@ -7652,6 +7969,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Macrolide antibiotic", classHe:"אנטיביוטיקה מקבוצת מקרולידים",
+  classFamilyEn:"Macrolide", classFamilyHe:"מקרוליד",
   genericEn:"Clarithromycin", genericHe:"קלריתרומיצין",
   brandEn:"Klacid", brandHe:"קלאסיד",
   routeEn:"PO", routeHe:"פומי",
@@ -7673,6 +7991,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Macrolide antibiotic (prokinetic use)", classHe:"אנטיביוטיקה מקבוצת מקרולידים (שימוש מזרז תנועתיות)",
+  classFamilyEn:"Macrolide", classFamilyHe:"מקרוליד",
   genericEn:"Erythromycin", genericHe:"אריתרומיצין",
   brandEn:"Ery-Tab, Erythrocin", brandHe:"אריתרומיצין",
   routeEn:"PO / IV / topical / ophthalmic", routeHe:"פומי / תוך-ורידי / מקומי / טיפות עיניים",
@@ -7694,6 +8013,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Fluoroquinolone antibiotic (respiratory)", classHe:"אנטיביוטיקה מקבוצת פלואורוקינולונים (נשימתית)",
+  classFamilyEn:"Fluoroquinolone", classFamilyHe:"פלואורוקינולון",
   genericEn:"Moxifloxacin", genericHe:"מוקסיפלוקסצין",
   brandEn:"Avelox", brandHe:"אבלוקס",
   routeEn:"PO / IV / ophthalmic", routeHe:"פומי / תוך-ורידי / טיפות עיניים",
@@ -7716,6 +8036,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Glycylcycline antibiotic (broad-spectrum tetracycline derivative)", classHe:"אנטיביוטיקה מקבוצת גליצילציקלינים (נגזרת טטרהציקלין רחבת טווח)",
+  classFamilyEn:"Tetracycline", classFamilyHe:"טטרציקלין",
   genericEn:"Tigecycline", genericHe:"טיגציקלין",
   brandEn:"Tygacil", brandHe:"טיגסיל",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -7738,6 +8059,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Nitroimidazole antiprotozoal / antibacterial", classHe:"נגד טפילים / אנטיבקטריאלי מקבוצת ניטרואימידזול",
+  classFamilyEn:"Nitroimidazole", classFamilyHe:"ניטרואימידזול",
   genericEn:"Tinidazole", genericHe:"טינידזול",
   brandEn:"Tindamax, Fasigyn", brandHe:"פסיג'ין",
   routeEn:"PO", routeHe:"פומי",
@@ -7759,6 +8081,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Antitubercular (part of RIPE therapy)", classHe:"נגד שחפת (חלק ממשטר RIPE)",
+  classFamilyEn:"Antitubercular", classFamilyHe:"תרופה נגד שחפת",
   genericEn:"Ethambutol", genericHe:"אתמבוטול",
   brandEn:"Myambutol", brandHe:"אתמבוטול",
   routeEn:"PO", routeHe:"פומי",
@@ -7780,6 +8103,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Antitubercular (part of RIPE therapy)", classHe:"נגד שחפת (חלק ממשטר RIPE)",
+  classFamilyEn:"Antitubercular", classFamilyHe:"תרופה נגד שחפת",
   genericEn:"Pyrazinamide", genericHe:"פיראזינאמיד",
   brandEn:"PZA, Tebrazid", brandHe:"פיראזינאמיד",
   routeEn:"PO", routeHe:"פומי",
@@ -7801,6 +8125,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Streptogramin / MRSA-active alternative", classHe:"סטרפטוגרמין / חלופה פעילה נגד MRSA",
+  classFamilyEn:"Tetracycline", classFamilyHe:"טטרציקלין",
   genericEn:"Doxycycline / minocycline (MRSA use)", genericHe:"דוקסיציקלין / מינוציקלין (שימוש ב-MRSA)",
   brandEn:"Minocin (minocycline)", brandHe:"מינוצין",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -7822,6 +8147,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Topical antibiotic (nasal/skin decolonization)", classHe:"אנטיביוטיקה מקומית (דה-קולוניזציה של אף/עור)",
+  classFamilyEn:"Topical antibacterial", classFamilyHe:"אנטיביוטיקה מקומית",
   genericEn:"Mupirocin", genericHe:"מופירוצין",
   brandEn:"Bactroban", brandHe:"בקטרובן",
   routeEn:"topical / intranasal", routeHe:"מקומי / תוך-אפי",
@@ -7843,6 +8169,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Nucleoside analog antiviral (anti-herpes prodrug)", classHe:"אנטי-ויראלי אנלוג נוקלאוזיד (תרופת קדם נגד הרפס)",
+  classFamilyEn:"Antiviral (nucleoside/nucleotide analog)", classFamilyHe:"אנטיוויראלי (אנלוג נוקלאוזיד/נוקלאוטיד)",
   genericEn:"Valacyclovir", genericHe:"ואלאציקלוביר",
   brandEn:"Valtrex", brandHe:"ולטרקס",
   routeEn:"PO", routeHe:"פומי",
@@ -7864,6 +8191,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Nucleoside analog antiviral (anti-herpes prodrug)", classHe:"אנטי-ויראלי אנלוג נוקלאוזיד (תרופת קדם נגד הרפס)",
+  classFamilyEn:"Antiviral (nucleoside/nucleotide analog)", classFamilyHe:"אנטיוויראלי (אנלוג נוקלאוזיד/נוקלאוטיד)",
   genericEn:"Famciclovir", genericHe:"פמציקלוביר",
   brandEn:"Famvir", brandHe:"פמויר",
   routeEn:"PO", routeHe:"פומי",
@@ -7885,6 +8213,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Nucleoside analog antiviral (CMV)", classHe:"אנטי-ויראלי אנלוג נוקלאוזיד (CMV)",
+  classFamilyEn:"Antiviral (nucleoside/nucleotide analog)", classFamilyHe:"אנטיוויראלי (אנלוג נוקלאוזיד/נוקלאוטיד)",
   genericEn:"Ganciclovir / valganciclovir", genericHe:"גנציקלוביר / ולגנציקלוביר",
   brandEn:"Cytovene, Valcyte", brandHe:"ולסייט",
   routeEn:"IV / PO", routeHe:"תוך-ורידי / פומי",
@@ -7906,6 +8235,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Antiviral endonuclease inhibitor (influenza)", classHe:"מעכב אנדונוקלאז אנטי-ויראלי (שפעת)",
+  classFamilyEn:"Antiviral (other mechanism)", classFamilyHe:"אנטיוויראלי (מנגנון אחר)",
   genericEn:"Baloxavir", genericHe:"בלוקסביר",
   brandEn:"Xofluza", brandHe:"קסופלוזה",
   routeEn:"PO", routeHe:"פומי",
@@ -7927,6 +8257,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Single-tablet HIV regimen (INSTI-based)", classHe:"משטר HIV בטבליה אחת (מבוסס INSTI)",
+  classFamilyEn:"Antiviral (other mechanism)", classFamilyHe:"אנטיוויראלי (מנגנון אחר)",
   genericEn:"Bictegravir / emtricitabine / tenofovir alafenamide", genericHe:"ביקטגרביר / אמטריציטבין / טנופוביר אלפנאמיד",
   brandEn:"Biktarvy", brandHe:"ביקטרווי",
   routeEn:"PO", routeHe:"פומי",
@@ -7948,6 +8279,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Triazole antifungal (broad, mold-active)", classHe:"אנטי-פטרייתי מקבוצת טריאזול (רחב, פעיל נגד עובשים)",
+  classFamilyEn:"Antifungal (azole)", classFamilyHe:"אנטי-פטרייתי (אזול)",
   genericEn:"Itraconazole", genericHe:"איטראקונזול",
   brandEn:"Sporanox", brandHe:"ספורנוקס",
   routeEn:"PO", routeHe:"פומי",
@@ -7972,6 +8304,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Azole antifungal (topical / vaginal)", classHe:"אנטי-פטרייתי מקבוצת אזול (מקומי / נרתיקי)",
+  classFamilyEn:"Antifungal (azole)", classFamilyHe:"אנטי-פטרייתי (אזול)",
   genericEn:"Clotrimazole", genericHe:"קלוטרימזול",
   brandEn:"Canesten, Agisten", brandHe:"קנסטן, אגיסטן",
   routeEn:"topical / vaginal / buccal", routeHe:"מקומי / נרתיקי / בוקאלי",
@@ -7994,6 +8327,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Antiparasitic anthelmintic (benzimidazole)", classHe:"נגד תולעים (בנזימידזול)",
+  classFamilyEn:"Antiparasitic", classFamilyHe:"נגד טפילים",
   genericEn:"Albendazole", genericHe:"אלבנדזול",
   brandEn:"Albenza, Zentel", brandHe:"זנטל",
   routeEn:"PO", routeHe:"פומי",
@@ -8015,6 +8349,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Second-generation antihistamine (H1 antagonist, non-sedating)", classHe:"אנטיהיסטמין דור שני (אנטגוניסט H1, לא מרדים)",
+  classFamilyEn:"Antihistamine", classFamilyHe:"אנטיהיסטמין",
   genericEn:"Loratadine", genericHe:"לורטדין",
   brandEn:"Lorastine, Claritin", brandHe:"לורסטין, קלריטין",
   routeEn:"PO", routeHe:"פומי",
@@ -8036,6 +8371,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Second-generation antihistamine (H1 antagonist, non-sedating)", classHe:"אנטיהיסטמין דור שני (אנטגוניסט H1, לא מרדים)",
+  classFamilyEn:"Antihistamine", classFamilyHe:"אנטיהיסטמין",
   genericEn:"Fexofenadine", genericHe:"פקסופנדין",
   brandEn:"Telfast, Allegra", brandHe:"טלפסט",
   routeEn:"PO", routeHe:"פומי",
@@ -8057,6 +8393,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Long-acting beta-2 agonist (LABA, fast-onset)", classHe:"אגוניסט בטא-2 ארוך טווח (LABA, תחילת פעולה מהירה)",
+  classFamilyEn:"Beta-2 agonist", classFamilyHe:"אגוניסט בטא-2",
   genericEn:"Formoterol", genericHe:"פורמוטרול",
   brandEn:"Foradil, Oxis", brandHe:"פורדיל",
   routeEn:"inhaled / nebulized", routeHe:"בשאיפה / בנבולייזר",
@@ -8081,6 +8418,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Inhaled corticosteroid (nasal / oral inhalation)", classHe:"קורטיקוסטרואיד באינהלציה (אף / שאיפה פומית)",
+  classFamilyEn:"Inhaled corticosteroid", classFamilyHe:"קורטיקוסטרואיד בשאיפה",
   genericEn:"Mometasone", genericHe:"מומטזון",
   brandEn:"Nasonex, Asmanex", brandHe:"נזונקס, אסמנקס",
   routeEn:"inhaled / intranasal / topical", routeHe:"בשאיפה / תוך-אפי / מקומי",
@@ -8103,6 +8441,7 @@ const MEDS = [
 {
   cat:"respiratory",
   classEn:"Antitussive (peripheral, local anesthetic)", classHe:"נוגד שיעול (היקפי, מרדים מקומי)",
+  classFamilyEn:"Expectorant / antitussive", classFamilyHe:"מרחיב כיח / נוגד שיעול",
   genericEn:"Benzonatate", genericHe:"בנזונטט",
   brandEn:"Tessalon Perles", brandHe:"בנזונטט",
   routeEn:"PO", routeHe:"פומי",
@@ -8124,6 +8463,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Dihydropyridine calcium channel blocker (short and extended-release)", classHe:"חוסם תעלות סידן דיהידרופירידיני (קצר ובשחרור מושהה)",
+  classFamilyEn:"Dihydropyridine calcium channel blocker", classFamilyHe:"חוסם תעלות סידן דיהידרופירידיני",
   genericEn:"Nifedipine", genericHe:"ניפדיפין",
   brandEn:"Adalat, Osmo-Adalat", brandHe:"אדלת",
   routeEn:"PO", routeHe:"פומי",
@@ -8148,6 +8488,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"HMG-CoA reductase inhibitor (moderate-intensity statin)", classHe:"מעכב HMG-CoA רדוקטאז (סטטין בעצמה בינונית)",
+  classFamilyEn:"Statin", classFamilyHe:"סטטין",
   genericEn:"Simvastatin", genericHe:"סימבסטטין",
   brandEn:"Simovil, Zocor", brandHe:"סימוביל",
   routeEn:"PO", routeHe:"פומי",
@@ -8170,6 +8511,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Bile acid sequestrant", classHe:"סופח חומצות מרה",
+  classFamilyEn:"Other lipid-lowering agent", classFamilyHe:"תרופה נוספת להורדת שומנים בדם",
   genericEn:"Cholestyramine", genericHe:"כולסטירמין",
   brandEn:"Questran, Prevalite", brandHe:"קווסטרן",
   routeEn:"PO", routeHe:"פומי",
@@ -8191,6 +8533,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Class III antiarrhythmic (multichannel, non-iodine)", classHe:"נוגד הפרעות קצב מקבוצה III (רב-תעלתי, ללא יוד)",
+  classFamilyEn:"Antiarrhythmic", classFamilyHe:"נוגד הפרעות קצב",
   genericEn:"Dronedarone", genericHe:"דרונדרון",
   brandEn:"Multaq", brandHe:"מולטק",
   routeEn:"PO", routeHe:"פומי",
@@ -8214,6 +8557,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"If-channel inhibitor (heart-rate lowering)", classHe:"מעכב תעלת If (מוריד קצב לב)",
+  classFamilyEn:"If-channel inhibitor", classFamilyHe:"מעכב תעלת If",
   genericEn:"Ivabradine", genericHe:"איבברדין",
   brandEn:"Corlanor, Procoralan", brandHe:"פרוקורלן",
   routeEn:"PO", routeHe:"פומי",
@@ -8237,6 +8581,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Anti-anginal (late sodium current inhibitor)", classHe:"נגד תעוקת חזה (מעכב זרם נתרן מאוחר)",
+  classFamilyEn:"Anti-anginal agent", classFamilyHe:"תרופה נגד תעוקת חזה",
   genericEn:"Ranolazine", genericHe:"רנולזין",
   brandEn:"Ranexa", brandHe:"רנקסה",
   routeEn:"PO", routeHe:"פומי",
@@ -8258,6 +8603,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Peripheral alpha-1 blocker (also used for BPH)", classHe:"חוסם אלפא-1 היקפי (משמש גם ל-BPH)",
+  classFamilyEn:"Alpha blocker", classFamilyHe:"חוסם אלפא",
   genericEn:"Doxazosin", genericHe:"דוקסזוסין",
   brandEn:"Cadex, Cardura", brandHe:"קדקס",
   routeEn:"PO", routeHe:"פומי",
@@ -8281,6 +8627,7 @@ const MEDS = [
 {
   cat:"vasoactive",
   classEn:"Beta-1 selective ultra-short-acting blocker (IV)", classHe:"חוסם בטא-1 סלקטיבי קצר-טווח במיוחד (תוך-ורידי)",
+  classFamilyEn:"Beta blocker", classFamilyHe:"חוסם בטא",
   genericEn:"Esmolol", genericHe:"אסמולול",
   brandEn:"Brevibloc", brandHe:"ברביבלוק",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
@@ -8305,6 +8652,7 @@ const MEDS = [
 {
   cat:"vasoactive",
   classEn:"Rapidly titratable dihydropyridine calcium channel blocker (IV)", classHe:"חוסם תעלות סידן דיהידרופירידיני הניתן לכיול מהיר (תוך-ורידי)",
+  classFamilyEn:"Dihydropyridine calcium channel blocker", classFamilyHe:"חוסם תעלות סידן דיהידרופירידיני",
   genericEn:"Nicardipine", genericHe:"ניקרדיפין",
   brandEn:"Cardene", brandHe:"קרדן",
   routeEn:"IV infusion / PO", routeHe:"עירוי תוך-ורידי / פומי",
@@ -8329,6 +8677,7 @@ const MEDS = [
 {
   cat:"anticoag",
   classEn:"Direct factor Xa inhibitor (DOAC, once daily)", classHe:"מעכב ישיר של גורם Xa (DOAC, פעם ביום)",
+  classFamilyEn:"Direct oral anticoagulant (DOAC)", classFamilyHe:"נוגד קרישה פומי ישיר (DOAC)",
   genericEn:"Edoxaban", genericHe:"אדוקסבן",
   brandEn:"Savaysa, Lixiana", brandHe:"ליקסיאנה",
   routeEn:"PO", routeHe:"פומי",
@@ -8351,6 +8700,7 @@ const MEDS = [
 {
   cat:"anticoag",
   classEn:"Direct thrombin inhibitor (IV, for HIT)", classHe:"מעכב תרומבין ישיר (תוך-ורידי, ל-HIT)",
+  classFamilyEn:"Injectable anticoagulant (heparin / related)", classFamilyHe:"נוגד קרישה בזריקה (הפרין וקרובים)",
   genericEn:"Argatroban", genericHe:"ארגטרובן",
   brandEn:"Argatroban", brandHe:"ארגטרובן",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
@@ -8372,6 +8722,7 @@ const MEDS = [
 {
   cat:"topical",
   classEn:"Prostaglandin analog eye drop (glaucoma)", classHe:"טיפת עיניים אנלוג לפרוסטגלנדין (גלאוקומה)",
+  classFamilyEn:"Ophthalmic agent", classFamilyHe:"תרופת עיניים",
   genericEn:"Latanoprost", genericHe:"לטנופרוסט",
   brandEn:"Xalatan", brandHe:"קסלטן",
   routeEn:"ophthalmic", routeHe:"טיפות עיניים",
@@ -8393,6 +8744,7 @@ const MEDS = [
 {
   cat:"topical",
   classEn:"Beta-blocker eye drop (glaucoma)", classHe:"טיפת עיניים חוסם בטא (גלאוקומה)",
+  classFamilyEn:"Beta blocker", classFamilyHe:"חוסם בטא",
   genericEn:"Timolol (ophthalmic)", genericHe:"טימולול (עיני)",
   brandEn:"Timoptic, Betimol", brandHe:"טימופטול",
   routeEn:"ophthalmic", routeHe:"טיפות עיניים",
@@ -8417,6 +8769,7 @@ const MEDS = [
 {
   cat:"topical",
   classEn:"High-potency topical corticosteroid", classHe:"קורטיקוסטרואיד מקומי בעצמה גבוהה",
+  classFamilyEn:"Topical corticosteroid", classFamilyHe:"קורטיקוסטרואיד מקומי",
   genericEn:"Clobetasol propionate", genericHe:"קלובטזול פרופיונט",
   brandEn:"Dermovate", brandHe:"דרמובט",
   routeEn:"topical", routeHe:"מקומי",
@@ -8438,6 +8791,7 @@ const MEDS = [
 {
   cat:"topical",
   classEn:"Topical scabicide / pediculicide", classHe:"נגד גרדת וכינים (מקומי)",
+  classFamilyEn:"Topical antiparasitic", classFamilyHe:"נגד טפילים מקומי",
   genericEn:"Permethrin", genericHe:"פרמתרין",
   brandEn:"Elimite, Nix", brandHe:"קוואל, נקס",
   routeEn:"topical", routeHe:"מקומי",
@@ -8459,6 +8813,7 @@ const MEDS = [
 {
   cat:"topical",
   classEn:"Topical antibacterial (burn wound)", classHe:"אנטיבקטריאלי מקומי (פצע כוויה)",
+  classFamilyEn:"Topical antibacterial", classFamilyHe:"אנטיביוטיקה מקומית",
   genericEn:"Silver sulfadiazine", genericHe:"כסף סולפדיאזין",
   brandEn:"Silvadene, Flamazine", brandHe:"פלמזין",
   routeEn:"topical", routeHe:"מקומי",
@@ -8480,6 +8835,7 @@ const MEDS = [
 {
   cat:"topical",
   classEn:"Topical calcineurin inhibitor (non-steroid)", classHe:"מעכב קלצינאורין מקומי (לא סטרואידי)",
+  classFamilyEn:"Immunosuppressant (calcineurin inhibitor)", classFamilyHe:"מדכא חיסון (מעכב קלצינאורין)",
   genericEn:"Tacrolimus ointment", genericHe:"משחת טקרולימוס",
   brandEn:"Protopic", brandHe:"פרוטופיק",
   routeEn:"topical", routeHe:"מקומי",
@@ -8501,6 +8857,7 @@ const MEDS = [
 {
   cat:"gu",
   classEn:"Beta-3 adrenergic agonist (overactive bladder)", classHe:"אגוניסט אדרנרגי בטא-3 (שלפוחית רגיזה)",
+  classFamilyEn:"Overactive bladder agent", classFamilyHe:"תרופה לשלפוחית פעילה מדי",
   genericEn:"Mirabegron", genericHe:"מירבגרון",
   brandEn:"Betmiga", brandHe:"בטמיגה",
   routeEn:"PO", routeHe:"פומי",
@@ -8524,6 +8881,7 @@ const MEDS = [
 {
   cat:"gu",
   classEn:"Phosphodiesterase-5 inhibitor", classHe:"מעכב פוספודיאסטראז-5",
+  classFamilyEn:"PDE-5 inhibitor", classFamilyHe:"מעכב PDE-5",
   genericEn:"Tadalafil", genericHe:"טדלפיל",
   brandEn:"Cialis", brandHe:"סיאליס",
   routeEn:"PO", routeHe:"פומי",
@@ -8546,6 +8904,7 @@ const MEDS = [
 {
   cat:"gu",
   classEn:"Uterotonic (ergot alkaloid)", classHe:"מכווץ רחם (אלקלואיד ארגוט)",
+  classFamilyEn:"Uterotonic / obstetric agent", classFamilyHe:"תרופה אוטרוטונית / מיילדותית",
   genericEn:"Methylergonovine", genericHe:"מתילארגונובין",
   brandEn:"Methergin", brandHe:"מתרגין",
   routeEn:"IM / PO / IV", routeHe:"תוך-שרירי / פומי / תוך-ורידי",
@@ -8569,6 +8928,7 @@ const MEDS = [
 {
   cat:"electrolytes",
   classEn:"Colloid volume expander / oncotic agent", classHe:"מרחיב נפח קולואידי / חומר אונקוטי",
+  classFamilyEn:"Colloid volume expander", classFamilyHe:"מרחיב נפח קולואידי",
   genericEn:"Albumin (human) 5% / 25%", genericHe:"אלבומין (אנושי) 5% / 25%",
   brandEn:"Albuminar, Buminate", brandHe:"אלבומין",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -8590,6 +8950,7 @@ const MEDS = [
 {
   cat:"electrolytes",
   classEn:"Potassium binder (gut cation-exchange)", classHe:"קושר אשלגן (החלפת קטיונים במעי)",
+  classFamilyEn:"Potassium binder", classFamilyHe:"קושר אשלגן",
   genericEn:"Patiromer", genericHe:"פטירומר",
   brandEn:"Veltassa", brandHe:"ולטסה",
   routeEn:"PO", routeHe:"פומי",
@@ -8611,6 +8972,7 @@ const MEDS = [
 {
   cat:"electrolytes",
   classEn:"Phosphate binder (calcium-free)", classHe:"קושר פוספט (ללא סידן)",
+  classFamilyEn:"Phosphate binder", classFamilyHe:"קושר פוספט",
   genericEn:"Sevelamer", genericHe:"סבלאמר",
   brandEn:"Renvela, Renagel", brandHe:"רנוולה",
   routeEn:"PO", routeHe:"פומי",
@@ -8632,6 +8994,7 @@ const MEDS = [
 {
   cat:"vitamins",
   classEn:"Fat-soluble vitamin (coagulation)", classHe:"ויטמין מסיס בשומן (קרישה)",
+  classFamilyEn:"Vitamin / supplement", classFamilyHe:"ויטמין / תוסף",
   genericEn:"Phytonadione (vitamin K1)", genericHe:"פיטונדיון (ויטמין K1)",
   brandEn:"Konakion", brandHe:"קונקיון",
   routeEn:"PO / SC / IM / IV", routeHe:"פומי / תת-עורי / תוך-שרירי / תוך-ורידי",
@@ -8653,6 +9016,7 @@ const MEDS = [
 {
   cat:"vitamins",
   classEn:"Water-soluble vitamin (B6)", classHe:"ויטמין מסיס במים (B6)",
+  classFamilyEn:"Vitamin / supplement", classFamilyHe:"ויטמין / תוסף",
   genericEn:"Pyridoxine (vitamin B6)", genericHe:"פירידוקסין (ויטמין B6)",
   brandEn:"Vitamin B6", brandHe:"B6",
   routeEn:"PO / IV / IM", routeHe:"פומי / תוך-ורידי / תוך-שרירי",
@@ -8674,6 +9038,7 @@ const MEDS = [
 {
   cat:"musculoskeletal",
   classEn:"Xanthine oxidase inhibitor (non-purine, urate-lowering)", classHe:"מעכב קסנטין אוקסידאז (לא-פורין, מוריד חומצה אורית)",
+  classFamilyEn:"Gout / uric acid agent", classFamilyHe:"תרופה לגאוט / חומצה אורית",
   genericEn:"Febuxostat", genericHe:"פבוקסוסטט",
   brandEn:"Adenuric", brandHe:"אדנוריק",
   routeEn:"PO", routeHe:"פומי",
@@ -8695,6 +9060,7 @@ const MEDS = [
 {
   cat:"musculoskeletal",
   classEn:"Uricosuric agent", classHe:"תרופה מגבירת הפרשת חומצה אורית",
+  classFamilyEn:"Gout / uric acid agent", classFamilyHe:"תרופה לגאוט / חומצה אורית",
   genericEn:"Probenecid", genericHe:"פרובנציד",
   brandEn:"Probenecid, Benemid", brandHe:"פרובנציד",
   routeEn:"PO", routeHe:"פומי",
@@ -8716,6 +9082,7 @@ const MEDS = [
 {
   cat:"immuno",
   classEn:"Conventional DMARD / aminosalicylate", classHe:"DMARD קלאסי / אמינוסליצילט",
+  classFamilyEn:"DMARD", classFamilyHe:"DMARD",
   genericEn:"Sulfasalazine", genericHe:"סולפסלזין",
   brandEn:"Salazopyrin", brandHe:"סלזופירין",
   routeEn:"PO", routeHe:"פומי",
@@ -8737,6 +9104,7 @@ const MEDS = [
 {
   cat:"topical",
   classEn:"Medium-potency corticosteroid (topical / intralesional / intra-articular)", classHe:"קורטיקוסטרואיד בעצמה בינונית (מקומי / תוך-נגעי / תוך-מפרקי)",
+  classFamilyEn:"Topical corticosteroid", classFamilyHe:"קורטיקוסטרואיד מקומי",
   genericEn:"Triamcinolone acetonide", genericHe:"טריאמצינולון אצטוניד",
   brandEn:"Kenalog, Aristocort, Nasacort", brandHe:"קנלוג, נזקורט",
   routeEn:"topical / intranasal / IM / intra-articular", routeHe:"מקומי / תוך-אפי / תוך-שרירי / תוך-מפרקי",
@@ -8758,6 +9126,7 @@ const MEDS = [
 {
   cat:"topical",
   classEn:"Ophthalmic macrolide antibiotic ointment", classHe:"משחת עיניים אנטיביוטית מקבוצת מקרולידים",
+  classFamilyEn:"Macrolide", classFamilyHe:"מקרוליד",
   genericEn:"Erythromycin ophthalmic ointment", genericHe:"משחת עיניים אריתרומיצין",
   brandEn:"Ilotycin, Romycin", brandHe:"אריתרומיצין עיני",
   routeEn:"ophthalmic", routeHe:"טיפות עיניים",
@@ -8779,6 +9148,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Beta-1 selective adrenergic blocker (highly selective)", classHe:"חוסם בטא-1 סלקטיבי (סלקטיביות גבוהה)",
+  classFamilyEn:"Beta blocker", classFamilyHe:"חוסם בטא",
   genericEn:"Bisoprolol", genericHe:"ביסופרולול",
   brandEn:"Concor, Cardiloc", brandHe:"קונקור, קרדילוק",
   routeEn:"PO", routeHe:"פומי",
@@ -8803,6 +9173,7 @@ const MEDS = [
 {
   cat:"electrolytes",
   classEn:"Phosphate binder (calcium-based)", classHe:"קושר פוספט (מבוסס סידן)",
+  classFamilyEn:"Phosphate binder", classFamilyHe:"קושר פוספט",
   genericEn:"Calcium acetate", genericHe:"סידן אצטט",
   brandEn:"PhosLo, Eliphos", brandHe:"פוסלו",
   routeEn:"PO", routeHe:"פומי",
@@ -8824,6 +9195,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Imidazole antifungal (topical / shampoo / oral)", classHe:"אנטי-פטרייתי מקבוצת אימידזול (מקומי / שמפו / פומי)",
+  classFamilyEn:"Antifungal (azole)", classFamilyHe:"אנטי-פטרייתי (אזול)",
   genericEn:"Ketoconazole", genericHe:"קטוקונזול",
   brandEn:"Nizoral, Ketoderm", brandHe:"ניזורל",
   routeEn:"topical / PO", routeHe:"מקומי / פומי",
@@ -8846,6 +9218,7 @@ const MEDS = [
 {
   cat:"topical",
   classEn:"Low-potency topical corticosteroid (OTC)", classHe:"קורטיקוסטרואיד מקומי בעצמה נמוכה (ללא מרשם)",
+  classFamilyEn:"Topical corticosteroid", classFamilyHe:"קורטיקוסטרואיד מקומי",
   genericEn:"Hydrocortisone 1% (topical)", genericHe:"הידרוקורטיזון 1% (מקומי)",
   brandEn:"Cortaid, Dermolate", brandHe:"אגיסטן-B, דרמולייט",
   routeEn:"topical", routeHe:"מקומי",
@@ -8867,6 +9240,7 @@ const MEDS = [
 {
   cat:"topical",
   classEn:"Ocular lubricant (artificial tears)", classHe:"חומר סיכה לעין (דמעות מלאכותיות)",
+  classFamilyEn:"Ocular lubricant", classFamilyHe:"משחה/טיפות לחות לעיניים",
   genericEn:"Carboxymethylcellulose / hypromellose", genericHe:"קרבוקסימתילצלולוז / היפרומלוז",
   brandEn:"Refresh, Systane, Genteal", brandHe:"סיסטיין, ריפרש",
   routeEn:"ophthalmic", routeHe:"טיפות עיניים",
@@ -8888,6 +9262,7 @@ const MEDS = [
 {
   cat:"anesthesia",
   classEn:"Short-acting benzodiazepine", classHe:"בנזודיאזפין קצר-טווח",
+  classFamilyEn:"Benzodiazepine", classFamilyHe:"בנזודיאזפין",
   genericEn:"Midazolam", genericHe:"מידזולם",
   brandEn:"Dormicum", brandHe:"דורמיקום",
   routeEn:"IV / IM / intranasal / buccal", routeHe:"תוך-ורידי / תוך-שרירי / תוך-אפי / בוקאלי",
@@ -8912,6 +9287,7 @@ const MEDS = [
 {
   cat:"anesthesia",
   classEn:"Non-barbiturate IV anesthetic induction agent", classHe:"חומר השראת הרדמה תוך-ורידי שאינו ברביטורט",
+  classFamilyEn:"IV general anesthetic", classFamilyHe:"חומר הרדמה כללי תוך-ורידי",
   genericEn:"Etomidate", genericHe:"אטומידאט",
   brandEn:"Hypnomidate", brandHe:"היפנומידאט",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -8935,6 +9311,7 @@ const MEDS = [
 {
   cat:"anesthesia",
   classEn:"Non-depolarizing neuromuscular blocker (aminosteroid)", classHe:"חוסם עצבי-שרירי לא מדפולריזציה (אמינוסטרואיד)",
+  classFamilyEn:"Neuromuscular blocker", classFamilyHe:"חוסם עצבי-שרירי",
   genericEn:"Rocuronium", genericHe:"רוקורוניום",
   brandEn:"Esmeron", brandHe:"אסמרון",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -8961,6 +9338,7 @@ const MEDS = [
 {
   cat:"anesthesia",
   classEn:"Non-depolarizing neuromuscular blocker (aminosteroid)", classHe:"חוסם עצבי-שרירי לא מדפולריזציה (אמינוסטרואיד)",
+  classFamilyEn:"Neuromuscular blocker", classFamilyHe:"חוסם עצבי-שרירי",
   genericEn:"Vecuronium", genericHe:"וקורוניום",
   brandEn:"Norcuron", brandHe:"נורקורון",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -8985,6 +9363,7 @@ const MEDS = [
 {
   cat:"anesthesia",
   classEn:"Acetylcholinesterase inhibitor (neuromuscular block reversal)", classHe:"מעכב אצטילכולין-אסטראז (היפוך חסם עצבי-שרירי)",
+  classFamilyEn:"Cholinesterase inhibitor", classFamilyHe:"מעכב כולין-אסטראז",
   genericEn:"Neostigmine", genericHe:"נאוסטיגמין",
   brandEn:"Prostigmin", brandHe:"פרוסטיגמין",
   routeEn:"IV / IM / SC", routeHe:"תוך-ורידי / תוך-שרירי / תת-עורי",
@@ -9009,6 +9388,7 @@ const MEDS = [
 {
   cat:"anesthesia",
   classEn:"Amide local anesthetic", classHe:"חומר הרדמה מקומי מסוג אמיד",
+  classFamilyEn:"Local anesthetic", classFamilyHe:"חומר הרדמה מקומי",
   genericEn:"Bupivacaine", genericHe:"בופיבקאין",
   brandEn:"Marcaine", brandHe:"מרקאין",
   routeEn:"epidural / spinal / infiltration / peripheral nerve block", routeHe:"אפידורלי / ספינלי / חדירה מקומית / חסם עצב היקפי",
@@ -9035,6 +9415,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Non-selective beta-blocker with alpha-1 blockade", classHe:"חוסם בטא לא סלקטיבי עם חסימת אלפא-1",
+  classFamilyEn:"Beta blocker", classFamilyHe:"חוסם בטא",
   genericEn:"Labetalol", genericHe:"לבטלול",
   brandEn:"Trandate", brandHe:"טרנדייט",
   routeEn:"IV / PO", routeHe:"תוך-ורידי / פומי",
@@ -9059,6 +9440,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"Skeletal muscle relaxant (ryanodine receptor antagonist)", classHe:"מרפה שריר שלד (אנטגוניסט לקולטן ריאנודין)",
+  classFamilyEn:"Skeletal muscle relaxant", classFamilyHe:"מרפה שריר",
   genericEn:"Dantrolene", genericHe:"דנטרולן",
   brandEn:"Dantrium, Ryanodex", brandHe:"דנטריום",
   routeEn:"IV / PO", routeHe:"תוך-ורידי / פומי",
@@ -9080,6 +9462,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Organic nitrate (long-acting)", classHe:"חנקה אורגנית (ארוכת טווח)",
+  classFamilyEn:"Nitrate", classFamilyHe:"ניטרט",
   genericEn:"Isosorbide mononitrate / dinitrate", genericHe:"איזוסורביד מונוניטראט / דיניטראט",
   brandEn:"Mono Mack, Isoket", brandHe:"מונו מק, איזוקט",
   routeEn:"PO", routeHe:"פומי",
@@ -9103,6 +9486,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Class III antiarrhythmic with beta-blocker activity", classHe:"נוגד הפרעות קצב מסוג III עם פעילות חוסם בטא",
+  classFamilyEn:"Antiarrhythmic", classFamilyHe:"נוגד הפרעות קצב",
   genericEn:"Sotalol", genericHe:"סוטלול",
   brandEn:"Betapace, Sotalex", brandHe:"סוטלקס",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -9127,6 +9511,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Class Ic antiarrhythmic", classHe:"נוגד הפרעות קצב מסוג Ic",
+  classFamilyEn:"Antiarrhythmic", classFamilyHe:"נוגד הפרעות קצב",
   genericEn:"Propafenone", genericHe:"פרופפנון",
   brandEn:"Rythmol, Rytmonorm", brandHe:"ריתמונורם",
   routeEn:"PO", routeHe:"פומי",
@@ -9150,6 +9535,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Alpha-1 adrenergic blocker", classHe:"חוסם אלפא-1 אדרנרגי",
+  classFamilyEn:"Alpha blocker", classFamilyHe:"חוסם אלפא",
   genericEn:"Prazosin", genericHe:"פרזוסין",
   brandEn:"Minipress", brandHe:"מיניפרס",
   routeEn:"PO", routeHe:"פומי",
@@ -9173,6 +9559,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Alpha-1 adrenergic agonist (vasopressor)", classHe:"אגוניסט אלפא-1 אדרנרגי (מכווץ כלי דם)",
+  classFamilyEn:"Vasopressor / inotrope", classFamilyHe:"מכווץ כלי דם / אינוטרופ",
   genericEn:"Midodrine", genericHe:"מידודרין",
   brandEn:"ProAmatine, Gutron", brandHe:"גוטרון",
   routeEn:"PO", routeHe:"פומי",
@@ -9196,6 +9583,7 @@ const MEDS = [
 {
   cat:"cardiovascular",
   classEn:"Beta-1 selective blocker with nitric oxide-mediated vasodilation", classHe:"חוסם בטא-1 סלקטיבי עם הרחבת כלי דם מתווכת תחמוצת חנקן",
+  classFamilyEn:"Beta blocker", classFamilyHe:"חוסם בטא",
   genericEn:"Nebivolol", genericHe:"נביבולול",
   brandEn:"Nebilet", brandHe:"נבילט",
   routeEn:"PO", routeHe:"פומי",
@@ -9220,6 +9608,7 @@ const MEDS = [
 {
   cat:"diuretics",
   classEn:"Thiazide-like diuretic (long-acting)", classHe:"משתן דמוי-תיאזיד (ארוך טווח)",
+  classFamilyEn:"Thiazide / thiazide-like diuretic", classFamilyHe:"משתן תיאזידי / דמוי-תיאזיד",
   genericEn:"Chlorthalidone", genericHe:"כלורתלידון",
   brandEn:"Thalitone, Hygroton", brandHe:"היגרוטון",
   routeEn:"PO", routeHe:"פומי",
@@ -9241,6 +9630,7 @@ const MEDS = [
 {
   cat:"diuretics",
   classEn:"Thiazide-like diuretic", classHe:"משתן דמוי-תיאזיד",
+  classFamilyEn:"Thiazide / thiazide-like diuretic", classFamilyHe:"משתן תיאזידי / דמוי-תיאזיד",
   genericEn:"Indapamide", genericHe:"אינדפמיד",
   brandEn:"Lozol, Natrilix", brandHe:"נטריליקס",
   routeEn:"PO", routeHe:"פומי",
@@ -9262,6 +9652,7 @@ const MEDS = [
 {
   cat:"endocrine",
   classEn:"GLP-1 receptor agonist (long-acting, once daily)", classHe:"אגוניסט לקולטן GLP-1 (ארוך טווח, פעם ביום)",
+  classFamilyEn:"GLP-1 / GIP agonist", classFamilyHe:"אגוניסט GLP-1 / GIP",
   genericEn:"Liraglutide", genericHe:"ליראגלוטיד",
   brandEn:"Victoza, Saxenda", brandHe:"ויקטוזה, סקסנדה",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -9284,6 +9675,7 @@ const MEDS = [
 {
   cat:"vitamins",
   classEn:"Active vitamin D analog", classHe:"אנלוג פעיל של ויטמין D",
+  classFamilyEn:"Vitamin / supplement", classFamilyHe:"ויטמין / תוסף",
   genericEn:"Calcitriol", genericHe:"קלציטריול",
   brandEn:"Rocaltrol, Calcijex", brandHe:"רוקלטרול",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -9305,6 +9697,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Short-acting benzodiazepine", classHe:"בנזודיאזפין קצר-טווח",
+  classFamilyEn:"Benzodiazepine", classFamilyHe:"בנזודיאזפין",
   genericEn:"Alprazolam", genericHe:"אלפרזולם",
   brandEn:"Xanagis, Xanax", brandHe:"קסנג'יס, קסנקס",
   routeEn:"PO", routeHe:"פומי",
@@ -9327,6 +9720,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Long-acting benzodiazepine", classHe:"בנזודיאזפין ארוך-טווח",
+  classFamilyEn:"Benzodiazepine", classFamilyHe:"בנזודיאזפין",
   genericEn:"Chlordiazepoxide", genericHe:"כלורדיאזפוקסיד",
   brandEn:"Librium", brandHe:"ליבריום",
   routeEn:"PO", routeHe:"פומי",
@@ -9349,6 +9743,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Anticonvulsant (succinimide)", classHe:"נוגד פרכוסים (סוקצינימיד)",
+  classFamilyEn:"Anticonvulsant", classFamilyHe:"נוגד פרכוסים",
   genericEn:"Ethosuximide", genericHe:"אתוסוקסימיד",
   brandEn:"Zarontin", brandHe:"זרונטין",
   routeEn:"PO", routeHe:"פומי",
@@ -9370,6 +9765,7 @@ const MEDS = [
 {
   cat:"psych",
   classEn:"Selective norepinephrine reuptake inhibitor (non-stimulant)", classHe:"מעכב ספיגה חוזרת סלקטיבי של נוראפינפרין (לא ממריץ)",
+  classFamilyEn:"ADHD agent (stimulant / non-stimulant)", classFamilyHe:"תרופה ל-ADHD (ממריצה / לא ממריצה)",
   genericEn:"Atomoxetine", genericHe:"אטומוקסטין",
   brandEn:"Strattera", brandHe:"סטרטרה",
   routeEn:"PO", routeHe:"פומי",
@@ -9393,6 +9789,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Acetylcholinesterase inhibitor", classHe:"מעכב אצטילכולין-אסטראז",
+  classFamilyEn:"Cholinesterase inhibitor", classFamilyHe:"מעכב כולין-אסטראז",
   genericEn:"Pyridostigmine", genericHe:"פירידוסטיגמין",
   brandEn:"Mestinon", brandHe:"מסטינון",
   routeEn:"PO / IV", routeHe:"פומי / תוך-ורידי",
@@ -9417,6 +9814,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"COMT inhibitor (Parkinson adjunct)", classHe:"מעכב COMT (תוספת למחלת פרקינסון)",
+  classFamilyEn:"Antiparkinsonian", classFamilyHe:"תרופה נגד פרקינסון",
   genericEn:"Entacapone", genericHe:"אנטקפון",
   brandEn:"Comtan (Stalevo with levodopa/carbidopa)", brandHe:"קומטן (סטלבו עם לבודופה/קרבידופה)",
   routeEn:"PO", routeHe:"פומי",
@@ -9438,6 +9836,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Acetylcholinesterase inhibitor (cognitive)", classHe:"מעכב אצטילכולין-אסטראז (קוגניטיבי)",
+  classFamilyEn:"Dementia agent", classFamilyHe:"תרופה לדמנציה",
   genericEn:"Galantamine", genericHe:"גלנטמין",
   brandEn:"Razadyne, Reminyl", brandHe:"רמיניל",
   routeEn:"PO", routeHe:"פומי",
@@ -9462,6 +9861,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"NSAID (non-selective COX inhibitor)", classHe:"NSAID (מעכב COX לא סלקטיבי)",
+  classFamilyEn:"NSAID", classFamilyHe:"NSAID",
   genericEn:"Indomethacin", genericHe:"אינדומתצין",
   brandEn:"Indocin, Tivorbex", brandHe:"אינדוצין",
   routeEn:"PO / rectal / IV", routeHe:"פומי / רקטלי / תוך-ורידי",
@@ -9484,6 +9884,7 @@ const MEDS = [
 {
   cat:"gu",
   classEn:"Corticosteroid (fetal lung maturation)", classHe:"קורטיקוסטרואיד (הבשלת ריאות עובריות)",
+  classFamilyEn:"Systemic corticosteroid", classFamilyHe:"קורטיקוסטרואיד סיסטמי",
   genericEn:"Betamethasone", genericHe:"בטמתזון",
   brandEn:"Celestone", brandHe:"סלסטון",
   routeEn:"IM", routeHe:"תוך-שרירי",
@@ -9505,6 +9906,7 @@ const MEDS = [
 {
   cat:"gu",
   classEn:"Rh isoimmunization prophylaxis (immune globulin)", classHe:"מניעת רגישות Rh (אימונוגלובולין)",
+  classFamilyEn:"Immune globulin", classFamilyHe:"אימונוגלובולין",
   genericEn:"Rho(D) immune globulin", genericHe:"אימונוגלובולין אנטי-D",
   brandEn:"RhoGAM, WinRho, Rhophylac", brandHe:"רוגאם, רופילק",
   routeEn:"IM / IV", routeHe:"תוך-שרירי / תוך-ורידי",
@@ -9526,6 +9928,7 @@ const MEDS = [
 {
   cat:"gu",
   classEn:"Beta-2 adrenergic agonist (tocolytic)", classHe:"אגוניסט בטא-2 אדרנרגי (טוקוליטי)",
+  classFamilyEn:"Beta-2 agonist", classFamilyHe:"אגוניסט בטא-2",
   genericEn:"Terbutaline", genericHe:"טרבוטלין",
   brandEn:"Brethine, Bricanyl", brandHe:"בריקניל",
   routeEn:"SC / PO / inhaled", routeHe:"תת-עורי / פומי / בשאיפה",
@@ -9550,6 +9953,7 @@ const MEDS = [
 {
   cat:"gu",
   classEn:"Prostaglandin F2-alpha analog (uterotonic)", classHe:"אנלוג של פרוסטגלנדין F2-אלפא (מכווץ רחם)",
+  classFamilyEn:"Uterotonic / obstetric agent", classFamilyHe:"תרופה אוטרוטונית / מיילדותית",
   genericEn:"Carboprost tromethamine", genericHe:"קרבופרוסט",
   brandEn:"Hemabate", brandHe:"המבייט",
   routeEn:"IM / intramyometrial", routeHe:"תוך-שרירי / תוך-שריר-הרחם",
@@ -9571,6 +9975,7 @@ const MEDS = [
 {
   cat:"gu",
   classEn:"Prostaglandin E2 analog (cervical ripening)", classHe:"אנלוג של פרוסטגלנדין E2 (הבשלת צוואר הרחם)",
+  classFamilyEn:"Uterotonic / obstetric agent", classFamilyHe:"תרופה אוטרוטונית / מיילדותית",
   genericEn:"Dinoprostone", genericHe:"דינופרוסטון",
   brandEn:"Cervidil, Prepidil, Prostin E2", brandHe:"סרווידיל, פרפידיל",
   routeEn:"vaginal insert / gel", routeHe:"החדרה נרתיקית / ג'ל",
@@ -9592,6 +9997,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"Heparin antagonist", classHe:"אנטגוניסט להפרין",
+  classFamilyEn:"Antidote / reversal agent", classFamilyHe:"נוגדן / חומר היפוך",
   genericEn:"Protamine sulfate", genericHe:"פרוטמין סולפט",
   brandEn:"Protamine", brandHe:"פרוטמין",
   routeEn:"IV (slow)", routeHe:"תוך-ורידי (איטי)",
@@ -9614,6 +10020,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"Monoclonal antibody fragment (dabigatran reversal)", classHe:"פרגמנט נוגדן חד-שבטי (היפוך דביגטרן)",
+  classFamilyEn:"Antidote / reversal agent", classFamilyHe:"נוגדן / חומר היפוך",
   genericEn:"Idarucizumab", genericHe:"אידרוציזומאב",
   brandEn:"Praxbind", brandHe:"פרקסבינד",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -9636,6 +10043,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"Recombinant factor Xa decoy (DOAC reversal)", classHe:"פיתיון רקומביננטי לפקטור Xa (היפוך נוגדי קרישה פומיים)",
+  classFamilyEn:"Antidote / reversal agent", classFamilyHe:"נוגדן / חומר היפוך",
   genericEn:"Andexanet alfa", genericHe:"אנדקסנט אלפא",
   brandEn:"Andexxa, Ondexxya", brandHe:"אנדקסה",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -9657,6 +10065,7 @@ const MEDS = [
 {
   cat:"immuno",
   classEn:"Calcineurin inhibitor", classHe:"מעכב קלצינאורין",
+  classFamilyEn:"Immunosuppressant (calcineurin inhibitor)", classFamilyHe:"מדכא חיסון (מעכב קלצינאורין)",
   genericEn:"Cyclosporine", genericHe:"ציקלוספורין",
   brandEn:"Sandimmun Neoral", brandHe:"סנדימון נאורל",
   routeEn:"PO / IV / ophthalmic", routeHe:"פומי / תוך-ורידי / טיפות עיניים",
@@ -9678,6 +10087,7 @@ const MEDS = [
 {
   cat:"immuno",
   classEn:"TNF-alpha inhibitor (soluble receptor fusion protein)", classHe:"מעכב TNF-אלפא (חלבון היתוך של קולטן מסיס)",
+  classFamilyEn:"Biologic (TNF-alpha inhibitor)", classFamilyHe:"ביולוגי (מעכב TNF-alpha)",
   genericEn:"Etanercept", genericHe:"אטנרספט",
   brandEn:"Enbrel", brandHe:"אנברל",
   routeEn:"SC", routeHe:"תת-עורי",
@@ -9699,6 +10109,7 @@ const MEDS = [
 {
   cat:"immuno",
   classEn:"TNF-alpha inhibitor (monoclonal antibody)", classHe:"מעכב TNF-אלפא (נוגדן חד-שבטי)",
+  classFamilyEn:"Biologic (TNF-alpha inhibitor)", classFamilyHe:"ביולוגי (מעכב TNF-alpha)",
   genericEn:"Infliximab", genericHe:"אינפליקסימאב",
   brandEn:"Remicade, Remsima", brandHe:"רמיקייד, רמסימה",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
@@ -9720,6 +10131,7 @@ const MEDS = [
 {
   cat:"onco",
   classEn:"Alkylating agent (nitrogen mustard)", classHe:"חומר מאלקל (חרדל חנקני)",
+  classFamilyEn:"Chemotherapy (cytotoxic)", classFamilyHe:"כימותרפיה (רעילה לתאים)",
   genericEn:"Cyclophosphamide", genericHe:"ציקלופוספמיד",
   brandEn:"Cytoxan, Endoxan", brandHe:"אנדוקסן",
   routeEn:"IV / PO", routeHe:"תוך-ורידי / פומי",
@@ -9742,6 +10154,7 @@ const MEDS = [
 {
   cat:"onco",
   classEn:"Vinca alkaloid (mitotic spindle inhibitor)", classHe:"אלקלואיד וינקה (מעכב כיש חלוקה)",
+  classFamilyEn:"Chemotherapy (cytotoxic)", classFamilyHe:"כימותרפיה (רעילה לתאים)",
   genericEn:"Vincristine", genericHe:"וינקריסטין",
   brandEn:"Oncovin, Marqibo", brandHe:"אונקובין",
   routeEn:"IV only", routeHe:"תוך-ורידי בלבד",
@@ -9764,6 +10177,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Aminoglycoside antibiotic", classHe:"אנטיביוטיקה מסוג אמינוגליקוזיד",
+  classFamilyEn:"Aminoglycoside", classFamilyHe:"אמינוגליקוזיד",
   genericEn:"Amikacin", genericHe:"אמיקצין",
   brandEn:"Amikin, Arikayce", brandHe:"אמיקין",
   routeEn:"IV / IM / inhaled", routeHe:"תוך-ורידי / תוך-שרירי / בשאיפה",
@@ -9786,6 +10200,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Third-generation cephalosporin (antipseudomonal)", classHe:"צפלוספורין מדור שלישי (נגד פסאודומונס)",
+  classFamilyEn:"Cephalosporin", classFamilyHe:"צפלוספורין",
   genericEn:"Ceftazidime", genericHe:"צפטזידים",
   brandEn:"Fortaz, Fortum (Avycaz with avibactam)", brandHe:"פורטום (אביקאז עם אביבקטם)",
   routeEn:"IV / IM", routeHe:"תוך-ורידי / תוך-שרירי",
@@ -9807,6 +10222,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Carbapenem antibiotic (once daily)", classHe:"אנטיביוטיקה מסוג קרבפנם (פעם ביום)",
+  classFamilyEn:"Carbapenem / monobactam", classFamilyHe:"קרבפנם / מונובקטם",
   genericEn:"Ertapenem", genericHe:"ארטפנם",
   brandEn:"Invanz", brandHe:"אינבנז",
   routeEn:"IV / IM", routeHe:"תוך-ורידי / תוך-שרירי",
@@ -9828,6 +10244,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Monobactam antibiotic", classHe:"אנטיביוטיקה מסוג מונובקטם",
+  classFamilyEn:"Carbapenem / monobactam", classFamilyHe:"קרבפנם / מונובקטם",
   genericEn:"Aztreonam", genericHe:"אזטראונם",
   brandEn:"Azactam, Cayston", brandHe:"אזקטם",
   routeEn:"IV / IM / inhaled", routeHe:"תוך-ורידי / תוך-שרירי / בשאיפה",
@@ -9849,6 +10266,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Echinocandin antifungal", classHe:"אנטי-פטרייתי מסוג אכינוקנדין",
+  classFamilyEn:"Antifungal (other)", classFamilyHe:"אנטי-פטרייתי (אחר)",
   genericEn:"Caspofungin", genericHe:"קספופונגין",
   brandEn:"Cancidas", brandHe:"קנסידס",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
@@ -9870,6 +10288,7 @@ const MEDS = [
 {
   cat:"antiviralfungal",
   classEn:"Nucleotide analog antiviral (RNA polymerase inhibitor)", classHe:"אנטי-נגיפי אנלוג נוקלאוטיד (מעכב פולימראז RNA)",
+  classFamilyEn:"Antiviral (nucleoside/nucleotide analog)", classFamilyHe:"אנטיוויראלי (אנלוג נוקלאוזיד/נוקלאוטיד)",
   genericEn:"Remdesivir", genericHe:"רמדסיביר",
   brandEn:"Veklury", brandHe:"וקלורי",
   routeEn:"IV infusion", routeHe:"עירוי תוך-ורידי",
@@ -9891,6 +10310,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"GI decontaminant adsorbent", classHe:"סופח לחיטוי מערכת העיכול",
+  classFamilyEn:"Antidote / reversal agent", classFamilyHe:"נוגדן / חומר היפוך",
   genericEn:"Activated charcoal", genericHe:"פחם פעיל",
   brandEn:"Actidose-Aqua, EZ-Char", brandHe:"אקטידוז",
   routeEn:"PO / via nasogastric tube", routeHe:"פומי / דרך זונדה",
@@ -9913,6 +10333,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"Reversible cholinesterase inhibitor (tertiary amine)", classHe:"מעכב כולין-אסטראז הפיך (אמין שלישוני)",
+  classFamilyEn:"Cholinesterase inhibitor", classFamilyHe:"מעכב כולין-אסטראז",
   genericEn:"Physostigmine", genericHe:"פיסוסטיגמין",
   brandEn:"Antilirium", brandHe:"אנטיליריום",
   routeEn:"IV (slow) / IM", routeHe:"תוך-ורידי (איטי) / תוך-שרירי",
@@ -9937,6 +10358,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"Lipid sink antidote (parenteral fat emulsion)", classHe:"נוגדן \"מלכודת שומן\" (תחליב שומן פרנטרלי)",
+  classFamilyEn:"Antidote / reversal agent", classFamilyHe:"נוגדן / חומר היפוך",
   genericEn:"Lipid emulsion 20% (Intralipid)", genericHe:"תחליב שומנים 20% (אינטרליפיד)",
   brandEn:"Intralipid, Liposyn", brandHe:"אינטרליפיד",
   routeEn:"IV (bolus then infusion)", routeHe:"תוך-ורידי (בולוס ואז עירוי)",
@@ -9958,6 +10380,7 @@ const MEDS = [
 {
   cat:"antidote",
   classEn:"Oral heavy-metal chelator (dimercaptosuccinic acid)", classHe:"קושר מתכות כבדות פומי (חומצה דימרקפטוסוקצינית)",
+  classFamilyEn:"Antidote / reversal agent", classFamilyHe:"נוגדן / חומר היפוך",
   genericEn:"Succimer (DMSA)", genericHe:"סוקסימר (DMSA)",
   brandEn:"Chemet", brandHe:"כמט",
   routeEn:"PO", routeHe:"פומי",
@@ -9979,6 +10402,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Non-opioid analgesic / antipyretic (pyrazolone)", classHe:"משכך כאב לא אופיואידי / מוריד חום (פירזולון)",
+  classFamilyEn:"Non-opioid analgesic / antipyretic", classFamilyHe:"משכך כאב לא-אופיואידי / מוריד חום",
   genericEn:"Dipyrone (metamizole)", genericHe:"דיפירון (מטמיזול)",
   brandEn:"Optalgin, Novalgin", brandHe:"אופטלגין, נובלגין",
   routeEn:"PO / IV / IM / rectal", routeHe:"פומי / תוך-ורידי / תוך-שרירי / רקטלי",
@@ -10001,6 +10425,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Antihistamine antiemetic (H1 blocker)", classHe:"אנטיהיסטמין נוגד הקאה (חוסם H1)",
+  classFamilyEn:"Antiemetic (anticholinergic / antihistamine)", classFamilyHe:"נוגד הקאה (אנטיכולינרגי / אנטיהיסטמין)",
   genericEn:"Dimenhydrinate", genericHe:"דימנהידרינאט",
   brandEn:"Travamin, Dramamine", brandHe:"טרוומין",
   routeEn:"PO / IV / IM / rectal", routeHe:"פומי / תוך-ורידי / תוך-שרירי / רקטלי",
@@ -10024,6 +10449,7 @@ const MEDS = [
 {
   cat:"gi",
   classEn:"Peripheral dopamine (D2) antagonist prokinetic", classHe:"פרוקינטי אנטגוניסט דופמין (D2) היקפי",
+  classFamilyEn:"Antiemetic (dopamine antagonist)", classFamilyHe:"נוגד הקאה (אנטגוניסט דופמין)",
   genericEn:"Domperidone", genericHe:"דומפרידון",
   brandEn:"Motilium", brandHe:"מוטיליום",
   routeEn:"PO", routeHe:"פומי",
@@ -10045,6 +10471,7 @@ const MEDS = [
 {
   cat:"painneuro",
   classEn:"Selective COX-2 inhibitor (NSAID)", classHe:"מעכב COX-2 סלקטיבי (NSAID)",
+  classFamilyEn:"NSAID", classFamilyHe:"NSAID",
   genericEn:"Etoricoxib", genericHe:"אטוריקוקסיב",
   brandEn:"Arcoxia", brandHe:"ארקוקסיה",
   routeEn:"PO", routeHe:"פומי",
@@ -10067,6 +10494,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Penicillinase-resistant penicillin (antistaphylococcal)", classHe:"פניצילין עמיד לפניצילינאז (נגד סטפילוקוקוס)",
+  classFamilyEn:"Penicillin", classFamilyHe:"פניצילין",
   genericEn:"Cloxacillin", genericHe:"קלוקסצילין",
   brandEn:"Cloxa, Orbenin", brandHe:"קלוקסה",
   routeEn:"PO / IV / IM", routeHe:"פומי / תוך-ורידי / תוך-שרירי",
@@ -10089,6 +10517,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Polymyxin antibiotic (last-line gram-negative)", classHe:"אנטיביוטיקה מסוג פולימיקסין (קו אחרון גרם-שלילי)",
+  classFamilyEn:"Polymyxin", classFamilyHe:"פולימיקסין",
   genericEn:"Colistin (polymyxin E)", genericHe:"קוליסטין (פולימיקסין E)",
   brandEn:"Colimycin", brandHe:"קולימיצין",
   routeEn:"IV / inhaled / IM", routeHe:"תוך-ורידי / בשאיפה / תוך-שרירי",
@@ -10111,6 +10540,7 @@ const MEDS = [
 {
   cat:"antiinfective",
   classEn:"Phosphonic acid antibiotic (urinary)", classHe:"אנטיביוטיקה מחומצה פוספונית (דרכי שתן)",
+  classFamilyEn:"Urinary tract antibiotic", classFamilyHe:"אנטיביוטיקה לדרכי השתן",
   genericEn:"Fosfomycin", genericHe:"פוספומיצין",
   brandEn:"Monuril", brandHe:"מונוריל",
   routeEn:"PO (single dose) / IV", routeHe:"פומי (מנה בודדת) / תוך-ורידי",
@@ -10133,6 +10563,7 @@ const MEDS = [
 {
   cat:"hematology",
   classEn:"Parenteral iron replacement", classHe:"תחליף ברזל פרנטרלי",
+  classFamilyEn:"Iron supplement", classFamilyHe:"תוסף ברזל",
   genericEn:"Ferric carboxymaltose", genericHe:"ברזל קרבוקסימלטוז",
   brandEn:"Ferinject", brandHe:"פרינג'קט",
   routeEn:"IV", routeHe:"תוך-ורידי",
@@ -10154,6 +10585,7 @@ const MEDS = [
 {
   cat:"topical",
   classEn:"Topical antibiotic (ophthalmic)", classHe:"אנטיביוטיקה מקומית (עיניים)",
+  classFamilyEn:"Topical antibacterial", classFamilyHe:"אנטיביוטיקה מקומית",
   genericEn:"Chloramphenicol (ophthalmic)", genericHe:"כלורמפניקול (עיניים)",
   brandEn:"Synthomycine, Chloramphenicol", brandHe:"סינטומיצין",
   routeEn:"ophthalmic drops / ointment", routeHe:"טיפות עיניים / משחה",
@@ -10191,11 +10623,13 @@ const catLabel = c => (CATS.find(x => x[0] === c) || [c,c,c]);
 const esc = s => String(s).replace(/[&<>]/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[m]));
 
 let activeCat = "all";
+let activeClass = "all";
 let query = "";
 
 const listEl = document.getElementById("list");
 const countEl = document.getElementById("count");
 const catSelectEl = document.getElementById("catSelect");
+const classSelectEl = document.getElementById("classSelect");
 const searchEl = document.getElementById("search");
 const controlsEl = document.getElementById("controls");
 
@@ -10216,6 +10650,26 @@ function syncStarOption(){
 syncStarOption();
 catSelectEl.value = "all";
 catSelectEl.addEventListener("change", () => { activeCat = catSelectEl.value; render(); });
+
+const allOptionEl = document.createElement("option");
+allOptionEl.value = "all";
+allOptionEl.textContent = "All classes  ·  כל הקבוצות  (" + MEDS.length + ")";
+classSelectEl.appendChild(allOptionEl);
+const classMap = new Map();
+MEDS.forEach(m => {
+  if (!m.classFamilyEn) return;
+  if (!classMap.has(m.classFamilyEn)) classMap.set(m.classFamilyEn, {he:m.classFamilyHe, n:0});
+  classMap.get(m.classFamilyEn).n++;
+});
+Array.from(classMap.keys()).sort((a,b) => a.localeCompare(b)).forEach(en => {
+  const {he,n} = classMap.get(en);
+  const o = document.createElement("option");
+  o.value = en;
+  o.textContent = (he ? en + "  ·  " + he : en) + "  (" + n + ")";
+  classSelectEl.appendChild(o);
+});
+classSelectEl.value = "all";
+classSelectEl.addEventListener("change", () => { activeClass = classSelectEl.value; render(); });
 
 searchEl.addEventListener("input", () => { query = searchEl.value.trim().toLowerCase(); render(); });
 document.addEventListener("keydown", e => {
@@ -10249,6 +10703,7 @@ measureControls();
 function matches(m){
   if (activeCat === "starred"){ if (!isStarred(m.genericEn)) return false; }
   else if (activeCat !== "all" && m.cat !== activeCat) return false;
+  if (activeClass !== "all" && m.classFamilyEn !== activeClass) return false;
   if (!query) return true;
   const hay = [m.genericEn,m.genericHe,m.brandEn,m.brandHe,m.classEn,m.classHe].join(" ").toLowerCase();
   return query.split(/\s+/).every(t => hay.includes(t));

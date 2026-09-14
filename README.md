@@ -31,8 +31,11 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   (wordplay, an acronym, a nickname) shown right under the brand names — added only
   where a genuinely memorable one exists, not forced onto every entry.
 - Search bar (matches name, brand, or class in either language; press `/` to focus it).
-- Drug-class filter dropdown (including a **★ Starred** option that shows only the
-  drugs you've starred) and a live result count.
+- Two filter dropdowns: **category** (the 21 body-system groups above, including a
+  **★ Starred** option that shows only the drugs you've starred) and **pharmacological
+  class** (about 150 specific classes — e.g. ACE inhibitor, beta blocker, SSRI,
+  fluoroquinolone — so you can pull up every drug in one class regardless of category).
+  Both combine, plus a live result count.
 - **Display-language switch** (Both / EN / עברית): show every field in just one
   language while generic and brand names stay bilingual. The choice is saved on
   the device.
