@@ -57,12 +57,23 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   any number of them, and track each one's diagnoses and medications
   independently — the same medication can be added to several patients at
   once. Diagnoses are picked from a curated bilingual list of ~130 common
-  clinical diagnoses (search-as-you-type) or typed freely if not on it. Every
-  drug card also gets a quick **"+"** button to add it straight to a patient
-  without leaving Browse mode. Everything is saved on the device only (no
-  accounts, no server) — a **Share** button per patient generates a link that
-  imports that patient's data into the app on any other device, for handing
-  off to a classmate or moving between your own devices.
+  clinical diagnoses (search-as-you-type, and abbreviation-aware — typing
+  "CHF", "T2DM", "UTI", etc. finds the matching diagnosis) or typed freely if
+  not on it. Adding a diagnosis shows a **suggested medications** list drawn
+  from that diagnosis's relevant drug categories (a shortlist to speed
+  charting, not a clinical guideline — the full medication search is always
+  there too for anything else). Every drug card also gets a quick **"+"**
+  button to add it straight to a patient without leaving Browse mode. When a
+  medication has more than one route of administration, picking it for a
+  patient shows a route dropdown so you can record how *that* patient is
+  getting it. Everything is saved on the device only (no accounts, no
+  server) — a **Share** button per patient generates a link that imports
+  that patient's data (including any chosen route) into the app on any other
+  device, for handing off to a classmate or moving between your own devices.
+- **Missing medication log** (toggle at the top): if a drug you need isn't in
+  the guide yet, log its name (plus an optional note) here so it can be added
+  later. Saved on the device only; a **Copy list** button exports everything
+  as plain text to paste elsewhere.
 - Light/dark theme toggle and the display-language switch. Hebrew renders
   right-to-left throughout.
 - Fonts (Frank Ruhl Libre + Assistant) load from Google Fonts when online; everything
@@ -78,4 +89,8 @@ protocol before administering any medication.
 
 All medication data lives in the `MEDS` array inside the `<script>` block near the
 bottom of `index.html`. Each entry has matching `...En` / `...He` fields. The category
-list is the `CATS` array just above it.
+list is the `CATS` array just above it. Just below `CATS` are three more lookups for
+Patients mode: `DIAGNOSES` (the curated diagnosis list), `DIAGNOSIS_ABBREVS`
+(abbreviation → full-phrase matches for the diagnosis search), and `DIAGNOSIS_CATS`
+(diagnosis id → relevant `CATS` category ids, powering the suggested-medications box —
+give any new diagnosis an entry here or it just won't suggest anything).

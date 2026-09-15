@@ -705,6 +705,62 @@
     flex:1;font:inherit;font-size:.85rem;color:var(--ink);
     background:var(--surface-2);border:1.5px solid var(--line);border-radius:8px;padding:7px 9px;
   }
+  .suggested-meds{margin:-2px 0 10px}
+  .suggested-meds-label{
+    display:flex;gap:6px;font-size:.72rem;font-weight:700;letter-spacing:.02em;
+    color:var(--muted);margin:0 0 6px;
+  }
+  .suggested-meds-label .he{font-weight:600}
+  .suggested-med-chip{
+    display:inline-flex;align-items:center;gap:6px;margin:0 6px 6px 0;
+    font:inherit;font-size:.82rem;font-weight:600;background:var(--surface-2);
+    border:1px dashed var(--line);color:var(--ink);padding:6px 10px;border-radius:999px;cursor:pointer;
+  }
+  .suggested-med-chip:hover{border-color:var(--accent);border-style:solid;color:var(--accent)}
+  .suggested-med-chip .he{direction:rtl;color:var(--muted)}
+  .med-row-route{
+    flex:0 0 auto;font:inherit;font-size:.78rem;color:var(--muted);
+    background:var(--surface-2);border:1.5px solid var(--line);border-radius:999px;padding:5px 10px;
+  }
+  select.med-row-route{cursor:pointer}
+  select.med-row-route:focus{border-color:var(--accent);outline:none}
+
+  /* ---- Missing-medication mode ---- */
+  #missing{padding-top:14px;padding-bottom:90px}
+  .missing-intro{color:var(--muted);font-size:.85rem;margin:0 0 14px;display:flex;flex-direction:column;gap:2px}
+  .add-missing-btn{
+    font:inherit;font-size:.85rem;font-weight:700;margin-top:8px;
+    background:var(--accent);color:var(--on-accent);border:none;border-radius:10px;
+    padding:10px 16px;cursor:pointer;
+  }
+  .missing-topbar{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    margin:26px 0 12px;
+  }
+  .missing-topbar h3{
+    font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);margin:0;display:flex;gap:8px;align-items:baseline;
+  }
+  .missing-topbar h3 .he{font-weight:600;text-transform:none}
+  .copy-missing-btn{
+    font:inherit;font-size:.82rem;font-weight:600;color:var(--accent);
+    background:var(--accent-soft);border:1.5px solid transparent;border-radius:999px;
+    padding:8px 14px;cursor:pointer;
+  }
+  .missing-row{
+    display:flex;align-items:flex-start;gap:10px;
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:11px 14px;margin-bottom:8px;
+  }
+  .missing-row-body{flex:1}
+  .missing-row-text{font-size:.92rem;font-weight:600}
+  .missing-row-note{font-size:.82rem;color:var(--muted);margin-top:2px}
+  .missing-row-date{font-size:.72rem;color:var(--muted);margin-top:4px}
+  .missing-row-remove{
+    font-size:.95rem;line-height:1;color:var(--muted);background:none;border:none;
+    cursor:pointer;padding:2px 6px;border-radius:999px;
+  }
+  .missing-row-remove:hover{color:var(--danger)}
   @media (max-width:640px){
     .field-body{grid-template-columns:1fr;gap:10px}
     .field-body .en{border-inline-end:none;padding-inline-end:0;border-bottom:1px solid var(--line);padding-bottom:10px}
@@ -732,6 +788,7 @@
       <button class="mode-btn" type="button" data-mode="browse" aria-pressed="true">Browse<span class="he" dir="rtl">עיון</span></button>
       <button class="mode-btn" type="button" data-mode="study" aria-pressed="false">Study<span class="he" dir="rtl">תרגול</span></button>
       <button class="mode-btn" type="button" data-mode="patients" aria-pressed="false">Patients<span class="he" dir="rtl">מטופלים</span></button>
+      <button class="mode-btn" type="button" data-mode="missing" aria-pressed="false">Missing<span class="he" dir="rtl">חסרות</span></button>
     </div>
     <div class="search-row">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
@@ -759,6 +816,22 @@
     <button class="add-patient-btn" id="addPatientBtn" type="button">+ Patient<span class="he" dir="rtl">+ מטופל</span></button>
   </div>
   <div id="patientPanel"></div>
+</section>
+<section class="wrap" id="missing" hidden>
+  <div class="missing-panel">
+    <p class="missing-intro"><span class="en">Log a medication that isn't in this guide yet, so it can be added later.</span>
+      <span class="he" dir="rtl">רשמו תרופה שעדיין לא נמצאת במדריך, כדי שנוכל להוסיף אותה בהמשך.</span></p>
+    <div class="add-row"><input type="text" id="missingTextInput" dir="auto" autocomplete="off"
+      placeholder="Medication name... / שם התרופה..."></div>
+    <div class="add-row"><input type="text" id="missingNoteInput" dir="auto" autocomplete="off"
+      placeholder="Note (optional) / הערה (רשות)"></div>
+    <button class="add-missing-btn" id="addMissingBtn" type="button">Add<span class="he" dir="rtl"> · הוסף</span></button>
+    <div class="missing-topbar">
+      <h3><span class="en">Logged medications</span><span class="he" dir="rtl">תרופות שנרשמו</span></h3>
+      <button class="copy-missing-btn" id="copyMissingBtn" type="button">Copy list<span class="he" dir="rtl"> · העתק רשימה</span></button>
+    </div>
+    <div id="missingList"></div>
+  </div>
 </section>
 
 <footer class="wrap" id="siteFooter">
@@ -926,6 +999,185 @@ const DIAGNOSES = [
   ["retinopathy","Diabetic retinopathy","רטינופתיה סוכרתית"],
   ["eczema","Eczema / atopic dermatitis","אקזמה / דרמטיטיס אטופית"]
 ];
+
+/* Common medical abbreviations that don't literally appear in a DIAGNOSES
+   entry's text (entries like COPD/GERD/TIA/BPH already contain their own
+   abbreviation in parentheses and need no entry here). Keys are matched
+   only as a whole, exact, lowercased query against the diagnosis picker's
+   search box - see searchDiagnosesForPicker(). */
+const DIAGNOSIS_ABBREVS = {
+  chf: "congestive heart failure",
+  mi: "myocardial infarction",
+  af: "atrial fibrillation",
+  afib: "atrial fibrillation",
+  htn: "hypertension",
+  cad: "coronary artery disease",
+  pad: "peripheral arterial disease",
+  dvt: "deep vein thrombosis",
+  pe: "pulmonary embolism",
+  vt: "ventricular tachycardia",
+  copd: "chronic obstructive pulmonary disease",
+  osa: "obstructive sleep apnea",
+  tb: "tuberculosis",
+  t1dm: "type 1 diabetes",
+  t2dm: "type 2 diabetes",
+  dka: "diabetic ketoacidosis",
+  hhs: "hyperosmolar hyperglycemic state",
+  aki: "acute kidney injury",
+  ckd: "chronic kidney disease",
+  esrd: "end-stage renal disease",
+  uti: "urinary tract infection",
+  ibd: "inflammatory bowel disease",
+  pud: "peptic ulcer disease",
+  ms: "multiple sclerosis",
+  gbs: "guillain-barré syndrome",
+  mdd: "major depressive disorder",
+  gad: "generalized anxiety disorder",
+  ra: "rheumatoid arthritis",
+  oa: "osteoarthritis",
+  ssi: "surgical site infection",
+  scd: "sickle cell crisis",
+  ed: "erectile dysfunction",
+  pph: "postpartum hemorrhage",
+  cdiff: "clostridioides difficile"
+};
+
+/* Diagnosis -> relevant drug category ids (CATS ids above), for the
+   Patients-mode "suggested medications" box. Broad category matching, not
+   a per-drug curated list - a shortlist to speed charting, not a
+   guideline. See renderSuggestedMeds(). */
+const DIAGNOSIS_CATS = {
+  chf: ["cardiovascular","diuretics","vasoactive"],
+  mi: ["cardiovascular","anticoag","painneuro","vasoactive"],
+  afib: ["cardiovascular","anticoag"],
+  htn: ["cardiovascular","diuretics"],
+  htncrisis: ["cardiovascular","vasoactive"],
+  angina: ["cardiovascular","painneuro"],
+  cardshock: ["vasoactive","cardiovascular"],
+  dvt: ["anticoag"],
+  pe: ["anticoag","respiratory"],
+  pad: ["cardiovascular","anticoag"],
+  cad: ["cardiovascular","anticoag"],
+  vtach: ["cardiovascular","vasoactive"],
+  brady: ["cardiovascular","vasoactive"],
+  valvular: ["cardiovascular","anticoag"],
+  arrest: ["vasoactive"],
+  copd: ["respiratory"],
+  asthma: ["respiratory"],
+  pneumonia: ["antiinfective","respiratory"],
+  ards: ["respiratory","anesthesia"],
+  respfail: ["respiratory","anesthesia"],
+  pleural: ["respiratory"],
+  pneumothorax: ["respiratory","painneuro"],
+  tb: ["antiinfective","respiratory"],
+  bronchitis: ["respiratory"],
+  osa: ["respiratory"],
+  pulmedema: ["diuretics","cardiovascular","respiratory"],
+  flu: ["antiviralfungal","respiratory"],
+  t1dm: ["endocrine"],
+  t2dm: ["endocrine"],
+  dka: ["endocrine","electrolytes"],
+  hhs: ["endocrine","electrolytes"],
+  hypoglycemia: ["endocrine"],
+  hypothyroid: ["endocrine"],
+  hyperthyroid: ["endocrine"],
+  thyroidstorm: ["endocrine","vasoactive"],
+  adrenalinsuff: ["endocrine"],
+  metsyn: ["endocrine","cardiovascular"],
+  obesity: ["endocrine"],
+  dyslipidemia: ["cardiovascular"],
+  aki: ["electrolytes","diuretics"],
+  ckd: ["electrolytes","cardiovascular"],
+  esrd: ["electrolytes","hematology","vitamins"],
+  uti: ["antiinfective"],
+  pyelo: ["antiinfective"],
+  kidneystones: ["painneuro","gu"],
+  fluidoverload: ["diuretics","electrolytes"],
+  dehydration: ["electrolytes"],
+  hyperkalemia: ["electrolytes"],
+  hyponatremia: ["electrolytes"],
+  gastroenteritis: ["gi","electrolytes"],
+  pud: ["gi"],
+  gerd: ["gi"],
+  pancreatitis: ["gi","painneuro"],
+  cirrhosis: ["gi","hematology"],
+  hepatitis: ["gi","antiviralfungal"],
+  cholecystitis: ["gi","antiinfective"],
+  bowelobstruction: ["gi"],
+  ibd: ["gi","immuno"],
+  gibleed: ["gi","hematology"],
+  appendicitis: ["gi","antiinfective"],
+  diverticulitis: ["gi","antiinfective"],
+  ischstroke: ["anticoag","cardiovascular","painneuro"],
+  hemstroke: ["cardiovascular","painneuro"],
+  tia: ["anticoag","cardiovascular"],
+  seizure: ["painneuro"],
+  tbi: ["painneuro"],
+  parkinsons: ["painneuro"],
+  dementia: ["painneuro","psych"],
+  ms: ["painneuro","immuno"],
+  migraine: ["painneuro"],
+  meningitis: ["antiinfective","painneuro"],
+  gbs: ["painneuro","immuno"],
+  delirium: ["psych","painneuro"],
+  mdd: ["psych"],
+  gad: ["psych"],
+  bipolar: ["psych"],
+  schizophrenia: ["psych"],
+  etohwithdrawal: ["psych","painneuro"],
+  substanceuse: ["psych"],
+  suicidal: ["psych"],
+  ptsd: ["psych"],
+  panic: ["psych"],
+  insomnia: ["psych"],
+  sepsis: ["antiinfective","vasoactive","electrolytes"],
+  septicshock: ["vasoactive","antiinfective"],
+  cellulitis: ["antiinfective","topical"],
+  covid: ["antiviralfungal","respiratory"],
+  cdiff: ["antiinfective","gi"],
+  hiv: ["antiviralfungal"],
+  osteomyelitis: ["antiinfective","musculoskeletal"],
+  endocarditis: ["antiinfective","cardiovascular"],
+  oa: ["musculoskeletal","painneuro"],
+  ra: ["musculoskeletal","immuno"],
+  osteoporosis: ["musculoskeletal","vitamins"],
+  hipfracture: ["painneuro","musculoskeletal"],
+  gout: ["musculoskeletal","painneuro"],
+  compartment: ["painneuro","musculoskeletal"],
+  lowbackpain: ["painneuro","musculoskeletal"],
+  bph: ["gu"],
+  urinaryretention: ["gu"],
+  preeclampsia: ["cardiovascular","gu","electrolytes"],
+  pph: ["hematology","gu","vasoactive"],
+  ectopic: ["gu","painneuro"],
+  pelvicpain: ["gu","painneuro"],
+  ed: ["gu"],
+  anemia: ["hematology","vitamins"],
+  scd: ["hematology","painneuro"],
+  thrombocytopenia: ["hematology"],
+  leukemia: ["onco","hematology"],
+  lymphoma: ["onco"],
+  breastcancer: ["onco"],
+  lungcancer: ["onco"],
+  colorectalcancer: ["onco"],
+  postoppain: ["painneuro"],
+  ileus: ["gi"],
+  ssi: ["antiinfective","topical"],
+  pressureinjury: ["topical"],
+  failuretothrive: ["vitamins"],
+  fallsrisk: ["psych","painneuro"],
+  malnutrition: ["vitamins","electrolytes"],
+  anaphylaxis: ["vasoactive","antidote"],
+  burns: ["topical","electrolytes","painneuro"],
+  hipreplacement: ["anticoag","painneuro"],
+  multitrauma: ["painneuro","anesthesia","hematology"],
+  chronicpain: ["painneuro"],
+  glaucoma: ["topical"],
+  cataracts: ["topical"],
+  psoriasis: ["topical","immuno"],
+  retinopathy: ["topical","endocrine"],
+  eczema: ["topical"]
+};
 
 const MEDS = [
 {
@@ -11312,7 +11564,28 @@ const patientTabsEl = document.getElementById("patientTabs");
 const patientPanelEl = document.getElementById("patientPanel");
 
 function newPatientId(){ return "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
-function getPatients(){ return lsGet("ndg-patients", []); }
+function routeOptions(m){
+  return { en: (m.routeEn || "").split(" / "), he: (m.routeHe || "").split(" / ") };
+}
+function defaultRouteFor(genericEn){
+  const m = MEDS.find(x => x.genericEn === genericEn);
+  if (!m) return "";
+  const opts = routeOptions(m).en;
+  return opts.length === 1 ? opts[0] : "";
+}
+function getPatients(){
+  const list = lsGet("ndg-patients", []);
+  let changed = false;
+  list.forEach(p => {
+    if (!Array.isArray(p.meds)) { p.meds = []; return; }
+    p.meds = p.meds.map(x => {
+      if (typeof x === "string") { changed = true; return { generic: x, route: defaultRouteFor(x) }; }
+      return x;
+    });
+  });
+  if (changed) savePatients(list);
+  return list;
+}
 function savePatients(list){ lsSet("ndg-patients", list); }
 function getPatient(id){ return getPatients().find(p => p.id === id) || null; }
 function getActivePatientId(){ return lsGetRaw("ndg-active-patient"); }
@@ -11328,7 +11601,7 @@ function addPatient(){
 }
 function createPatientWithMed(genericEn, label){
   const list = getPatients();
-  const p = { id: newPatientId(), label: label || "", diagnoses: [], meds: [genericEn] };
+  const p = { id: newPatientId(), label: label || "", diagnoses: [], meds: [{ generic: genericEn, route: defaultRouteFor(genericEn) }] };
   list.push(p);
   savePatients(list);
   setActivePatientId(p.id);
@@ -11354,7 +11627,7 @@ function addDiagnosis(id, entry){
   const list = getPatients();
   const p = list.find(x => x.id === id);
   if (!p) return;
-  p.diagnoses.push({ textEn: entry.textEn || "", textHe: entry.textHe || "" });
+  p.diagnoses.push({ id: entry.id || null, textEn: entry.textEn || "", textHe: entry.textHe || "" });
   savePatients(list);
   renderActivePatient(id);
 }
@@ -11370,7 +11643,7 @@ function addMedToPatient(id, genericEn){
   const list = getPatients();
   const p = list.find(x => x.id === id);
   if (!p) return;
-  if (p.meds.indexOf(genericEn) === -1) p.meds.push(genericEn);
+  if (!p.meds.some(x => x.generic === genericEn)) p.meds.push({ generic: genericEn, route: defaultRouteFor(genericEn) });
   savePatients(list);
   if (id === getActivePatientId()) renderActivePatient(id);
 }
@@ -11378,18 +11651,28 @@ function removeMedFromPatient(id, genericEn){
   const list = getPatients();
   const p = list.find(x => x.id === id);
   if (!p) return;
-  const i = p.meds.indexOf(genericEn);
+  const i = p.meds.findIndex(x => x.generic === genericEn);
   if (i !== -1) p.meds.splice(i, 1);
   savePatients(list);
   if (id === getActivePatientId()) renderActivePatient(id);
 }
+function setMedRoute(id, genericEn, route){
+  const list = getPatients();
+  const p = list.find(x => x.id === id);
+  if (!p) return;
+  const entry = p.meds.find(x => x.generic === genericEn);
+  if (!entry) return;
+  entry.route = route;
+  savePatients(list);
+}
 function importPatientFromShare(data){
+  const rawMeds = (data && Array.isArray(data.meds)) ? data.meds : [];
   const list = getPatients();
   const p = {
     id: newPatientId(),
     label: (data && data.label) || "",
     diagnoses: (data && Array.isArray(data.diagnoses)) ? data.diagnoses : [],
-    meds: (data && Array.isArray(data.meds)) ? data.meds : []
+    meds: rawMeds.map(x => typeof x === "string" ? { generic: x, route: defaultRouteFor(x) } : x)
   };
   list.push(p);
   savePatients(list);
@@ -11405,8 +11688,13 @@ function searchMedsForPicker(q){
   ).slice(0, 8);
 }
 function searchDiagnosesForPicker(q){
-  const needle = q.toLowerCase();
-  return DIAGNOSES.filter(([id, en, he]) => en.toLowerCase().includes(needle) || he.includes(q)).slice(0, 8);
+  const needle = q.toLowerCase().trim();
+  const direct = DIAGNOSES.filter(([id, en, he]) => en.toLowerCase().includes(needle) || he.includes(q));
+  const phrase = DIAGNOSIS_ABBREVS[needle];
+  const expanded = phrase ? DIAGNOSES.filter(([id, en]) => en.toLowerCase().includes(phrase)) : [];
+  const seen = new Set(), merged = [];
+  expanded.concat(direct).forEach(entry => { if (!seen.has(entry[0])) { seen.add(entry[0]); merged.push(entry); } });
+  return merged.slice(0, 8);
 }
 
 function renderPatients(){
@@ -11450,14 +11738,24 @@ function renderActivePatient(id){
     : '<p class="empty">No diagnoses yet.<span class="he" dir="rtl">אין עדיין אבחנות.</span></p>';
 
   const medRows = p.meds.length
-    ? '<div class="med-list">' + p.meds.map(gen => {
+    ? '<div class="med-list">' + p.meds.map(entry => {
+        const gen = entry.generic;
         const m = MEDS.find(x => x.genericEn === gen);
         if (!m) return "";
+        const opts = routeOptions(m);
+        const routeControl = opts.en.length <= 1
+          ? '<span class="med-row-route">' + esc(opts.en[0] || "") + "</span>"
+          : '<select class="med-row-route" data-route-select="' + escAttr(gen) + '" aria-label="Route for this patient / דרך מתן למטופל זה">' +
+              '<option value=""' + (entry.route ? "" : " selected") + ">Select route · בחר דרך מתן</option>" +
+              opts.en.map((r, i) => '<option value="' + escAttr(r) + '"' + (entry.route === r ? " selected" : "") + ">" +
+                esc(r) + " · " + esc(opts.he[i] || "") + "</option>").join("") +
+            "</select>";
         return '<div class="med-row" data-med-row="' + escAttr(gen) + '">' +
           '<div class="med-row-head" data-toggle-med="' + escAttr(gen) + '">' +
             '<span class="med-row-chevron">›</span>' +
             '<span class="med-row-name"><span class="en">' + esc(m.genericEn) + '</span>' +
             '<span class="he" dir="rtl">' + esc(m.genericHe) + "</span></span>" +
+            routeControl +
             '<button type="button" class="med-row-remove" data-remove-med="' + escAttr(gen) + '" aria-label="Remove">×</button>' +
           "</div>" +
           '<div class="med-row-card" hidden></div>' +
@@ -11478,6 +11776,7 @@ function renderActivePatient(id){
         '<div class="add-row"><input type="text" id="diagAddInput" dir="auto" autocomplete="off" ' +
           'placeholder="Add a diagnosis... / הוסף אבחנה..."></div>' +
         '<div class="diag-picker-results" id="diagPickerResults" hidden></div>' +
+        '<div class="suggested-meds" id="suggestedMedsBox" hidden></div>' +
       "</div>" +
       '<div class="patient-section">' +
         '<h3><span class="en">Medications</span><span class="he" dir="rtl">תרופות</span></h3>' +
@@ -11501,6 +11800,26 @@ function renderActivePatient(id){
   });
   const medInput = document.getElementById("medAddInput");
   medInput.addEventListener("input", function(){ renderMedPicker(id, this.value); });
+  renderSuggestedMeds(id);
+}
+
+function renderSuggestedMeds(patientId){
+  const box = document.getElementById("suggestedMedsBox");
+  if (!box) return;
+  const p = getPatient(patientId);
+  const cats = new Set();
+  p.diagnoses.forEach(d => { if (d.id && DIAGNOSIS_CATS[d.id]) DIAGNOSIS_CATS[d.id].forEach(c => cats.add(c)); });
+  if (!cats.size){ box.hidden = true; box.innerHTML = ""; return; }
+  const already = new Set(p.meds.map(x => typeof x === "string" ? x : x.generic));
+  const rows = MEDS.filter(m => cats.has(m.cat) && !already.has(m.genericEn))
+                    .sort((a, b) => a.genericEn.localeCompare(b.genericEn)).slice(0, 12);
+  if (!rows.length){ box.hidden = true; box.innerHTML = ""; return; }
+  box.innerHTML = '<p class="suggested-meds-label"><span class="en">Suggested for this patient\'s diagnoses</span>' +
+    '<span class="he" dir="rtl">מוצע על סמך האבחנות</span></p>' +
+    rows.map(m => '<button type="button" class="suggested-med-chip" data-pick-med="' + escAttr(m.genericEn) + '">' +
+      '<span class="en">' + esc(m.genericEn) + '</span><span class="he" dir="rtl">' + esc(m.genericHe) + '</span></button>'
+    ).join("");
+  box.hidden = false;
 }
 
 function renderDiagnosisPicker(patientId, query){
@@ -11510,7 +11829,7 @@ function renderDiagnosisPicker(patientId, query){
   if (!q){ box.hidden = true; box.innerHTML = ""; return; }
   const matches = searchDiagnosesForPicker(q);
   let html = matches.map(([dxId, en, he]) =>
-    '<div class="picker-item" data-pick-diag-en="' + escAttr(en) + '" data-pick-diag-he="' + escAttr(he) + '">' +
+    '<div class="picker-item" data-pick-diag-id="' + escAttr(dxId) + '" data-pick-diag-en="' + escAttr(en) + '" data-pick-diag-he="' + escAttr(he) + '">' +
       '<span class="en">' + esc(en) + '</span><span class="he" dir="rtl">' + esc(he) + "</span></div>"
   ).join("");
   html += '<div class="picker-item picker-custom" data-pick-diag-en="' + escAttr(q) + '" data-pick-diag-he="' + escAttr(q) + '">' +
@@ -11555,11 +11874,12 @@ patientsEl.addEventListener("click", function(e){
   if (rmMed){ removeMedFromPatient(getActivePatientId(), rmMed.dataset.removeMed); return; }
   const pickDiag = e.target.closest("[data-pick-diag-en]");
   if (pickDiag){
-    addDiagnosis(getActivePatientId(), { textEn: pickDiag.dataset.pickDiagEn, textHe: pickDiag.dataset.pickDiagHe });
+    addDiagnosis(getActivePatientId(), { id: pickDiag.dataset.pickDiagId || null, textEn: pickDiag.dataset.pickDiagEn, textHe: pickDiag.dataset.pickDiagHe });
     return;
   }
   const pickMed = e.target.closest("[data-pick-med]");
   if (pickMed){ addMedToPatient(getActivePatientId(), pickMed.dataset.pickMed); return; }
+  if (e.target.closest("select[data-route-select]")) return;
   const toggleMed = e.target.closest("[data-toggle-med]");
   if (toggleMed){
     const row = toggleMed.closest(".med-row");
@@ -11572,6 +11892,10 @@ patientsEl.addEventListener("click", function(e){
     }
     slot.hidden = !expanded;
   }
+});
+patientsEl.addEventListener("change", function(e){
+  const sel = e.target.closest("select[data-route-select]");
+  if (sel) setMedRoute(getActivePatientId(), sel.dataset.routeSelect, sel.value);
 });
 
 /* ---- Quick "+ Patient" button on every drug card ---- */
@@ -11598,7 +11922,7 @@ function togglePatientPickerMenu(btn){
   } else {
     menu.innerHTML = patients.map(p => {
       const label = p.label && p.label.trim() ? esc(p.label) : "Untitled";
-      const checked = p.meds.indexOf(gen) !== -1;
+      const checked = p.meds.some(x => x.generic === gen);
       return '<label><input type="checkbox" data-picker-patient="' + escAttr(p.id) + '"' + (checked ? " checked" : "") + ">" +
         "<span>" + label + "</span></label>";
     }).join("");
@@ -11676,6 +12000,85 @@ function handleShareImport(){
     setMode("patients");
   }
 }
+
+/* ============================================================
+   Missing-medication mode (local-only log of drugs not yet in
+   the guide, so they can be added to MEDS later)
+   ============================================================ */
+const missingEl = document.getElementById("missing");
+const missingListEl = document.getElementById("missingList");
+
+function newMissingId(){ return "x" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+function getMissingMeds(){ return lsGet("ndg-missing-meds", []); }
+function saveMissingMeds(list){ lsSet("ndg-missing-meds", list); }
+function addMissingMed(text, note){
+  if (!text || !text.trim()) return;
+  const list = getMissingMeds();
+  list.push({ id: newMissingId(), text: text.trim(), note: (note || "").trim(), dateAdded: todayStr() });
+  saveMissingMeds(list);
+  renderMissing();
+}
+function removeMissingMed(id){
+  saveMissingMeds(getMissingMeds().filter(x => x.id !== id));
+  renderMissing();
+}
+function missingMedsToText(){
+  return getMissingMeds().map(x =>
+    "- " + x.text + (x.note ? " (note: " + x.note + ")" : "") + " — added " + x.dateAdded
+  ).join("\n");
+}
+function renderMissing(){
+  const list = getMissingMeds();
+  missingListEl.innerHTML = list.length
+    ? list.map(x =>
+        '<div class="missing-row" data-missing-row="' + escAttr(x.id) + '">' +
+          '<div class="missing-row-body">' +
+            '<div class="missing-row-text">' + esc(x.text) + "</div>" +
+            (x.note ? '<div class="missing-row-note">' + esc(x.note) + "</div>" : "") +
+            '<div class="missing-row-date">' + esc(x.dateAdded) + "</div>" +
+          "</div>" +
+          '<button type="button" class="missing-row-remove" data-remove-missing="' + escAttr(x.id) + '" aria-label="Remove">×</button>' +
+        "</div>"
+      ).join("")
+    : '<p class="empty">Nothing logged yet.<span class="he" dir="rtl">עדיין לא נרשם דבר.</span></p>';
+}
+document.getElementById("addMissingBtn").addEventListener("click", function(){
+  const textInput = document.getElementById("missingTextInput");
+  const noteInput = document.getElementById("missingNoteInput");
+  addMissingMed(textInput.value, noteInput.value);
+  textInput.value = "";
+  noteInput.value = "";
+  textInput.focus();
+});
+document.getElementById("missingTextInput").addEventListener("keydown", function(e){
+  if (e.key === "Enter"){ e.preventDefault(); document.getElementById("addMissingBtn").click(); }
+});
+missingListEl.addEventListener("click", function(e){
+  const rmBtn = e.target.closest("[data-remove-missing]");
+  if (rmBtn) removeMissingMed(rmBtn.dataset.removeMissing);
+});
+document.getElementById("copyMissingBtn").addEventListener("click", function(){
+  const btn = this;
+  const text = missingMedsToText();
+  const flash = function(label){
+    const orig = btn.innerHTML;
+    btn.textContent = label;
+    setTimeout(function(){ btn.innerHTML = orig; }, 1600);
+  };
+  if (!text){ flash("Nothing to copy · אין מה להעתיק"); return; }
+  const fallback = function(){
+    const ta = document.createElement("textarea");
+    ta.readOnly = true;
+    ta.value = text;
+    ta.className = "add-row";
+    missingEl.querySelector(".missing-panel").prepend(ta);
+    ta.focus();
+    ta.select();
+  };
+  try {
+    navigator.clipboard.writeText(text).then(function(){ flash("Copied! · הועתק!"); }).catch(fallback);
+  } catch(e){ fallback(); }
+});
 
 /* ============================================================
    Study mode
@@ -12257,16 +12660,19 @@ function renderDone(){
 function setMode(mode){
   const studying = mode === "study";
   const patientsMode = mode === "patients";
+  const missingMode = mode === "missing";
   lsSetRaw("ndg-mode", mode);
   modeSwitchEl.querySelectorAll(".mode-btn").forEach(b => b.setAttribute("aria-pressed", b.dataset.mode === mode));
   controlsEl.classList.toggle("study-mode", studying);
   controlsEl.classList.toggle("patients-mode", patientsMode);
-  listEl.hidden = studying || patientsMode;
-  footerEl.hidden = studying || patientsMode;
+  listEl.hidden = studying || patientsMode || missingMode;
+  footerEl.hidden = studying || patientsMode || missingMode;
   studyEl.hidden = !studying;
   patientsEl.hidden = !patientsMode;
+  missingEl.hidden = !missingMode;
   if (studying){ study = null; renderStudy(); window.scrollTo(0, 0); }
   if (patientsMode){ renderPatients(); window.scrollTo(0, 0); }
+  if (missingMode){ renderMissing(); window.scrollTo(0, 0); }
   if (typeof measureControls === "function") measureControls();
 }
 modeSwitchEl.addEventListener("click", function(e){
@@ -12291,7 +12697,7 @@ document.addEventListener("keydown", function(e){
 render();
 {
   const savedMode = lsGetRaw("ndg-mode");
-  if (savedMode === "study" || savedMode === "patients") setMode(savedMode);
+  if (savedMode === "study" || savedMode === "patients" || savedMode === "missing") setMode(savedMode);
 }
 handleShareImport();
 
