@@ -35,6 +35,10 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   state their **Gram coverage** (Gram-positive / Gram-negative / broad spectrum, with
   standard qualifiers like MRSA or Pseudomonas where relevant).
 - Search bar (matches name, brand, or class in either language; press `/` to focus it).
+  It also recognizes **diagnoses** (the same ~156-entry curated list used in Patients
+  mode, abbreviation-aware) — typing "SVT" or "congestive heart failure" surfaces
+  medications relevant to that diagnosis (by category) alongside any literal name match,
+  with a small note confirming which diagnosis it matched.
 - **Category filter** (the 21 body-system groups, including a **★ Starred** option and a
   separate, independent **🕑 Review Later** option — star and review-later are two
   unrelated lists, a drug can be in either, both, or neither), plus a live result count.
@@ -63,7 +67,7 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
 - **Patients mode** (toggle at the top, for clinicals): open a tab per patient,
   any number of them, and track each one's diagnoses and medications
   independently — the same medication can be added to several patients at
-  once. Diagnoses are picked from a curated bilingual list of ~130 common
+  once. Diagnoses are picked from a curated bilingual list of ~156 common
   clinical diagnoses (search-as-you-type, and abbreviation-aware — typing
   "CHF", "T2DM", "UTI", etc. finds the matching diagnosis) or typed freely if
   not on it. Each diagnosis chip gets its own **℞ dropdown**, scrollable,

@@ -213,8 +213,12 @@
     background-repeat:no-repeat;background-position:right 13px center;
   }
   .cat-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);outline:none}
-  .count{flex:1 1 auto;min-width:0;font-size:.85rem;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+  .count{flex:1 1 100%;min-width:0;font-size:.85rem;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
   .count .he{margin-inline-start:8px}
+  .dx-match-note{
+    display:block;margin-top:3px;font-size:.8rem;font-weight:600;color:var(--accent);
+  }
+  .dx-match-note .he{margin-inline-start:8px;font-weight:500}
   .theme-toggle{
     flex:0 0 auto;
     font:inherit;font-size:.8rem;font-weight:700;
@@ -1053,7 +1057,33 @@ const DIAGNOSES = [
   ["cataracts","Cataracts","קטרקט"],
   ["psoriasis","Psoriasis","פסוריאזיס"],
   ["retinopathy","Diabetic retinopathy","רטינופתיה סוכרתית"],
-  ["eczema","Eczema / atopic dermatitis","אקזמה / דרמטיטיס אטופית"]
+  ["eczema","Eczema / atopic dermatitis","אקזמה / דרמטיטיס אטופית"],
+  ["svt","Supraventricular tachycardia (SVT)","טכיקרדיה על-חדרית (SVT)"],
+  ["hyperlipidemia","Hyperlipidemia","היפרליפידמיה"],
+  ["pericarditis","Pericarditis","דלקת קרום הלב"],
+  ["cardiomyopathy","Cardiomyopathy","קרדיומיופתיה"],
+  ["aorticaneurysm","Aortic aneurysm / dissection","מפרצת / פיצול אבי העורקים"],
+  ["heartblock","Heart block (AV block)","חסם פרוזדורי-חדרי (AV block)"],
+  ["syncope","Syncope","התעלפות (סינקופה)"],
+  ["atelectasis","Atelectasis","אטלקטזיס (קריסת ריאה)"],
+  ["pulmfibrosis","Pulmonary fibrosis","פיברוזיס ריאתי"],
+  ["cushing","Cushing's syndrome","תסמונת קושינג"],
+  ["siadh","SIADH","תסמונת הפרשת יתר של הורמון אנטידיורטי (SIADH)"],
+  ["diabetesinsipidus","Diabetes insipidus","סוכרת אינספידית (סוכרת שתן מדולל)"],
+  ["nephroticsyndrome","Nephrotic syndrome","תסמונת נפרוטית"],
+  ["glomerulonephritis","Glomerulonephritis","דלקת כדוריות הכליה"],
+  ["urinaryincontinence","Urinary incontinence","אי-שליטה על שתן"],
+  ["peritonitis","Peritonitis","דלקת הצפק"],
+  ["hepaticencephalopathy","Hepatic encephalopathy","אנצפלופתיה כבדית"],
+  ["increasedicp","Increased intracranial pressure (ICP)","לחץ תוך-גולגולתי מוגבר"],
+  ["myastheniagravis","Myasthenia gravis","מיאסתניה גרביס"],
+  ["bellspalsy","Bell's palsy","שיתוק בל"],
+  ["dic","Disseminated intravascular coagulation (DIC)","קרישה תוך-כלית מפושטת (DIC)"],
+  ["neutropenia","Neutropenia","נויטרופניה"],
+  ["shingles","Shingles (herpes zoster)","שלבקת חוגרת (הרפס זוסטר)"],
+  ["placentaprevia","Placenta previa","שליית פתח"],
+  ["placentalabruption","Placental abruption","היפרדות שליה"],
+  ["fibromyalgia","Fibromyalgia","פיברומיאלגיה"]
 ];
 
 /* Common medical abbreviations that don't literally appear in a DIAGNOSES
@@ -1232,7 +1262,33 @@ const DIAGNOSIS_CATS = {
   cataracts: ["topical"],
   psoriasis: ["topical","immuno"],
   retinopathy: ["topical","endocrine"],
-  eczema: ["topical"]
+  eczema: ["topical"],
+  svt: ["cardiovascular","vasoactive"],
+  hyperlipidemia: ["cardiovascular"],
+  pericarditis: ["cardiovascular","painneuro"],
+  cardiomyopathy: ["cardiovascular","diuretics"],
+  aorticaneurysm: ["cardiovascular","vasoactive"],
+  heartblock: ["cardiovascular","vasoactive"],
+  syncope: ["cardiovascular"],
+  atelectasis: ["respiratory"],
+  pulmfibrosis: ["respiratory"],
+  cushing: ["endocrine"],
+  siadh: ["electrolytes","endocrine"],
+  diabetesinsipidus: ["endocrine","electrolytes"],
+  nephroticsyndrome: ["electrolytes","diuretics"],
+  glomerulonephritis: ["electrolytes","antiinfective"],
+  urinaryincontinence: ["gu"],
+  peritonitis: ["antiinfective","gi"],
+  hepaticencephalopathy: ["gi","painneuro"],
+  increasedicp: ["painneuro","electrolytes"],
+  myastheniagravis: ["painneuro","antidote"],
+  bellspalsy: ["painneuro"],
+  dic: ["hematology","anticoag"],
+  neutropenia: ["hematology","antiinfective"],
+  shingles: ["antiviralfungal","painneuro"],
+  placentaprevia: ["gu","hematology"],
+  placentalabruption: ["gu","hematology"],
+  fibromyalgia: ["musculoskeletal","painneuro"]
 };
 
 /* Clinical-commonality tier per drug, for sorting Browse mode, the diagnosis suggestion dropdown, and the
@@ -11597,13 +11653,43 @@ window.addEventListener("resize", measureControls);
 syncControls();
 measureControls();
 
+/* Recognizes a diagnosis name (or abbreviation) typed into Browse's search box, so typing e.g. "SVT" or
+   "congestive heart failure" surfaces medications relevant to that diagnosis (by DIAGNOSIS_CATS category)
+   even when the drugs' own names/classes don't literally contain the query text. Returns
+   { cats: Set<catId>, label: {en, he} } for the first diagnosis matched, or null if the query doesn't
+   resolve to any diagnosis. */
+function diagnosisCatsForQuery(q){
+  const needle = q.toLowerCase().trim();
+  if (!needle) return null;
+  const cats = new Set();
+  let label = null;
+  DIAGNOSES.forEach(([id, en, he]) => {
+    if (en.toLowerCase().includes(needle) || he.includes(q)){
+      if (!label) label = { en, he };
+      (DIAGNOSIS_CATS[id] || []).forEach(c => cats.add(c));
+    }
+  });
+  const phrase = DIAGNOSIS_ABBREVS[needle];
+  if (phrase){
+    DIAGNOSES.forEach(([id, en, he]) => {
+      if (en.toLowerCase().includes(phrase)){
+        if (!label) label = { en, he };
+        (DIAGNOSIS_CATS[id] || []).forEach(c => cats.add(c));
+      }
+    });
+  }
+  return cats.size ? { cats, label } : null;
+}
+let activeDiagnosisCats = null; /* set once per render() call, read by matches() below */
+
 function matches(m){
   if (activeCat === "starred"){ if (!isStarred(m.genericEn)) return false; }
   else if (activeCat === "review"){ if (!isReviewLater(m.genericEn)) return false; }
   else if (activeCat !== "all" && m.cat !== activeCat) return false;
   if (!query) return true;
   const hay = [m.genericEn,m.genericHe,m.brandEn,m.brandHe,m.classEn,m.classHe].join(" ").toLowerCase();
-  return query.split(/\s+/).every(t => hay.includes(t));
+  if (query.split(/\s+/).every(t => hay.includes(t))) return true;
+  return !!(activeDiagnosisCats && activeDiagnosisCats.has(m.cat));
 }
 
 function inoDirHTML(dir){
@@ -11687,9 +11773,13 @@ function cardHTML(m){
 }
 
 function render(){
+  const dxMatch = query ? diagnosisCatsForQuery(query) : null;
+  activeDiagnosisCats = dxMatch ? dxMatch.cats : null;
   const rows = MEDS.filter(matches).sort(byCommonality);
   countEl.innerHTML = "Showing " + rows.length + " of " + MEDS.length + " medications" +
-    '<span class="he" dir="rtl">&nbsp; מציג ' + rows.length + " מתוך " + MEDS.length + " תרופות</span>";
+    '<span class="he" dir="rtl">&nbsp; מציג ' + rows.length + " מתוך " + MEDS.length + " תרופות</span>" +
+    (dxMatch ? '<span class="dx-match-note"><span class="en">Also showing medications for &ldquo;' + esc(dxMatch.label.en) + '&rdquo;</span>' +
+      '<span class="he" dir="rtl">גם תרופות עבור &ldquo;' + esc(dxMatch.label.he) + '&rdquo;</span></span>' : "");
   if (!rows.length){
     const msg = (activeCat === "starred" && !query)
       ? 'No starred medications yet. Tap the ☆ on any card to add one.<span class="he" dir="rtl">עדיין אין תרופות נבחרות. הקש/י על ☆ בכרטיס כדי להוסיף.</span>'
