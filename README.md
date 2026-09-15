@@ -59,12 +59,15 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   once. Diagnoses are picked from a curated bilingual list of ~130 common
   clinical diagnoses (search-as-you-type, and abbreviation-aware — typing
   "CHF", "T2DM", "UTI", etc. finds the matching diagnosis) or typed freely if
-  not on it. Each diagnosis chip gets its own **℞ dropdown** of medications
-  relevant to just that diagnosis (a shortlist to speed charting, not a
-  clinical guideline — the full medication search is always there too for
+  not on it. Each diagnosis chip gets its own **℞ dropdown**, scrollable,
+  listing every medication in that diagnosis's relevant drug categories (not
+  a clinical guideline — the full medication search is always there too for
   anything else) — add every diagnosis first, then go back and open each
   one's dropdown to pick its medications; the dropdown stays open so you can
-  pick several in a row. Every drug card also gets a quick **"+"**
+  pick several in a row. This dropdown, Browse mode's main list, and the
+  general medication search are all ordered by clinical commonality (common,
+  first-line drugs first) rather than alphabetically. Every drug card also
+  gets a quick **"+"**
   button to add it straight to a patient without leaving Browse mode. When a
   medication has more than one route of administration, picking it for a
   patient shows a route dropdown so you can record how *that* patient is
@@ -91,8 +94,11 @@ protocol before administering any medication.
 
 All medication data lives in the `MEDS` array inside the `<script>` block near the
 bottom of `index.html`. Each entry has matching `...En` / `...He` fields. The category
-list is the `CATS` array just above it. Just below `CATS` are three more lookups for
-Patients mode: `DIAGNOSES` (the curated diagnosis list), `DIAGNOSIS_ABBREVS`
-(abbreviation → full-phrase matches for the diagnosis search), and `DIAGNOSIS_CATS`
-(diagnosis id → relevant `CATS` category ids, powering the suggested-medications box —
-give any new diagnosis an entry here or it just won't suggest anything).
+list is the `CATS` array just above it. Just below `CATS` are four more lookups:
+`DIAGNOSES` (the curated diagnosis list), `DIAGNOSIS_ABBREVS` (abbreviation → full-phrase
+matches for the diagnosis search), `DIAGNOSIS_CATS` (diagnosis id → relevant `CATS`
+category ids, powering each diagnosis's suggested-medications dropdown — give any new
+diagnosis an entry here or it just won't suggest anything), and `MED_FREQ` (generic name →
+commonality tier, 1 = very common/first-line, 3 = less common/specialized, no entry =
+tier 2 — drives the ordering of Browse mode, the diagnosis dropdowns, and the Patients-mode
+medication search; it's a judgment call, not real prescribing data).

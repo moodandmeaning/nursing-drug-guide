@@ -719,6 +719,7 @@
     color:var(--muted);padding:9px 12px;border-bottom:1px solid var(--line);
   }
   .diag-meds-menu-label .he{font-weight:600}
+  .diag-meds-menu-items{max-height:260px;overflow-y:auto}
   .med-row-route{
     flex:0 0 auto;font:inherit;font-size:.78rem;color:var(--muted);
     background:var(--surface-2);border:1.5px solid var(--line);border-radius:999px;padding:5px 10px;
@@ -1179,6 +1180,113 @@ const DIAGNOSIS_CATS = {
   retinopathy: ["topical","endocrine"],
   eczema: ["topical"]
 };
+
+/* Clinical-commonality tier per drug, for sorting Browse mode, the diagnosis suggestion dropdown, and the
+   Patients-mode medication search: 1 = very common/first-line, 3 = less common or specialized, no entry
+   (default 2) = moderately common. A judgment call (nursing-education/general-clinical knowledge), not real
+   prescribing-frequency data - see medFreq()/byCommonality() below, used near MEDS. */
+const MED_FREQ = {
+  // cardiovascular
+  "Digoxin":1,"Metoprolol":1,"Lisinopril":1,"Amlodipine":1,"Atorvastatin":1,"Nitroglycerin":1,"Amiodarone":1,
+  "Losartan":1,"Atenolol":1,"Carvedilol":1,"Diltiazem":1,"Verapamil":1,"Clonidine":1,"Hydralazine":1,
+  "Vernakalant":3,"Dronedarone":3,"Ivabradine":3,"Ranolazine":3,"Sotalol":3,"Propafenone":3,"Evolocumab":3,
+  "Cholestyramine":3,"Midodrine":3,"Nebivolol":3,"Flecainide":3,
+  // diuretics
+  "Furosemide":1,"Hydrochlorothiazide":1,"Spironolactone":1,
+  "Acetazolamide":3,"Eplerenone":3,"Indapamide":3,"Metolazone":3,
+  // anticoag
+  "Warfarin":1,"Heparin":1,"Enoxaparin":1,"Apixaban":1,"Clopidogrel":1,"Aspirin (low dose)":1,
+  "Rivaroxaban":1,"Alteplase (tPA)":1,
+  "Fondaparinux":3,"Cilostazol":3,"Edoxaban":3,"Argatroban":3,
+  // vasoactive
+  "Atropine":1,"Epinephrine (adrenaline)":1,"Norepinephrine":1,"Dopamine":1,"Dobutamine":1,"Vasopressin":1,
+  "Adenosine":1,"Lidocaine (systemic)":1,
+  "Sodium nitroprusside":3,"Procainamide":3,"Esmolol":3,"Nicardipine":3,"Milrinone":3,
+  // endocrine
+  "Insulin regular":1,"Insulin glargine":1,"Insulin aspart":1,"Metformin":1,"Levothyroxine":1,"Prednisone":1,
+  "Hydrocortisone":1,"Insulin NPH (isophane)":1,"Insulin lispro":1,"Glipizide":1,"Glucagon":1,"Dexamethasone":1,
+  "Propylthiouracil (PTU)":3,"Octreotide":3,"Fludrocortisone":3,"Raloxifene":3,"Repaglinide":3,"Exenatide":3,
+  "Linagliptin":3,"Acarbose":3,"Leuprolide":3,
+  // electrolytes
+  "Potassium chloride":1,"Magnesium sulfate":1,"Calcium gluconate":1,"0.9% Sodium chloride (normal saline)":1,
+  "Lactated Ringer's (Hartmann's)":1,"Dextrose 5% in water (D5W)":1,"Sodium bicarbonate":1,
+  "Sodium polystyrene sulfonate":3,"Patiromer":3,"Sevelamer":3,"Calcium acetate":3,
+  // vitamins
+  "Vitamin D3 (cholecalciferol)":1,"Thiamine":1,"Folic acid":1,"Cyanocobalamin (vitamin B12)":1,
+  "Phytonadione (vitamin K1)":1,
+  "Pyridoxine (vitamin B6)":3,"Calcitriol":3,
+  // respiratory
+  "Albuterol":1,"Ipratropium":1,"Fluticasone":1,"Montelukast":1,"Diphenhydramine":1,"Cetirizine":1,
+  "Omalizumab":3,"Epoprostenol":3,"Varenicline":3,"Acetylcysteine":3,"Benzonatate":3,"Formoterol":3,
+  "Mometasone":3,
+  // gi
+  "Omeprazole":1,"Famotidine":1,"Ondansetron":1,"Docusate sodium":1,"Pantoprazole":1,"Metoclopramide":1,
+  "Loperamide":1,"Bisacodyl":1,"Polyethylene glycol 3350":1,"Senna (sennosides)":1,
+  "Aprepitant":3,"Mesalamine (5-ASA)":3,"Pancrelipase":3,"Rifaximin":3,"Ursodiol (ursodeoxycholic acid)":3,
+  "Methylnaltrexone":3,"Domperidone":3,"Bismuth subsalicylate":3,"Dicyclomine":3,"Diphenoxylate / atropine":3,
+  // pain & nervous system
+  "Acetaminophen":1,"Ibuprofen":1,"Morphine":1,"Naloxone":1,"Gabapentin":1,"Phenytoin":1,"Oxycodone":1,
+  "Hydromorphone":1,"Fentanyl":1,"Tramadol":1,"Naproxen":1,"Ketorolac":1,"Diazepam":1,"Clonazepam":1,
+  "Levetiracetam":1,"Carbamazepine":1,"Valproic acid / divalproex":1,"Donepezil":1,
+  "Hydrocodone / acetaminophen":1,"Codeine":1,"Levodopa / carbidopa":1,
+  "Buprenorphine / naloxone":3,"Rizatriptan":3,"Oxcarbazepine":3,"Lacosamide":3,"Tizanidine":3,"Memantine":3,
+  "Rivastigmine":3,"Pramipexole":3,"Ropinirole":3,"Rasagiline":3,"Amantadine":3,"Benztropine":3,"Biperiden":3,
+  "Amphetamine / dextroamphetamine":3,"Ethosuximide":3,"Pyridostigmine":3,"Entacapone":3,"Galantamine":3,
+  "Dipyrone (metamizole)":3,"Etoricoxib":3,
+  // psychiatric
+  "Sertraline":1,"Lorazepam":1,"Haloperidol":1,"Lithium carbonate":1,"Fluoxetine":1,"Escitalopram":1,
+  "Trazodone":1,"Risperidone":1,"Olanzapine":1,"Quetiapine":1,"Aripiprazole":1,"Zolpidem":1,"Citalopram":1,
+  "Alprazolam":1,"Amitriptyline":1,"Bupropion":1,"Duloxetine":1,"Venlafaxine":1,
+  "Clozapine":3,"Vortioxetine":3,"Nortriptyline":3,"Phenelzine":3,"Ziprasidone":3,"Lurasidone":3,
+  "Paliperidone":3,"Chlorpromazine":3,"Eszopiclone":3,"Ramelteon":3,"Naltrexone":3,"Disulfiram":3,
+  "Chlordiazepoxide":3,"Atomoxetine":3,
+  // anti-infectives
+  "Vancomycin":1,"Ceftriaxone":1,"Azithromycin":1,"Ciprofloxacin":1,"Gentamicin":1,"Amoxicillin":1,
+  "Amoxicillin / clavulanate":1,"Piperacillin / tazobactam":1,"Cefazolin":1,"Cephalexin":1,"Metronidazole":1,
+  "Trimethoprim / sulfamethoxazole":1,"Nitrofurantoin":1,"Levofloxacin":1,"Doxycycline":1,"Clindamycin":1,
+  "Rifampin (rifampicin)":1,"Isoniazid (INH)":1,"Penicillin G / Penicillin VK":1,"Ampicillin":1,
+  "Cefepime":3,"Meropenem":3,"Linezolid":3,"Daptomycin":3,"Tobramycin":3,"Cefuroxime":3,"Cefdinir":3,
+  "Clarithromycin":3,"Erythromycin":3,"Moxifloxacin":3,"Tigecycline":3,"Tinidazole":3,"Ethambutol":3,
+  "Pyrazinamide":3,"Doxycycline / minocycline (MRSA use)":3,"Mupirocin":3,"Amikacin":3,"Ceftazidime":3,
+  "Ertapenem":3,"Aztreonam":3,"Cloxacillin":3,"Colistin (polymyxin E)":3,"Fosfomycin":3,
+  // antivirals/antifungals
+  "Acyclovir":1,"Oseltamivir":1,"Fluconazole":1,"Valacyclovir":1,"Nystatin":1,
+  "Nirmatrelvir / ritonavir":3,"Dolutegravir":3,"Voriconazole":3,"Amphotericin B (liposomal)":3,
+  "Micafungin":3,"Terbinafine":3,"Ivermectin":3,"Hydroxychloroquine":3,"Famciclovir":3,
+  "Ganciclovir / valganciclovir":3,"Baloxavir":3,"Bictegravir / emtricitabine / tenofovir alafenamide":3,
+  "Itraconazole":3,"Clotrimazole":3,"Albendazole":3,"Ketoconazole":3,"Caspofungin":3,"Remdesivir":3,
+  // immunosuppressants/biologics
+  "Methotrexate (low dose)":1,"Tacrolimus":1,"Adalimumab":1,"Azathioprine":1,
+  "Mycophenolate mofetil":3,"Rituximab":3,"Tocilizumab":3,"Tofacitinib":3,"Immune globulin (IVIG)":3,
+  "Sulfasalazine":3,"Cyclosporine":3,"Etanercept":3,"Infliximab":3,
+  // chemo/onco
+  "Doxorubicin":1,"Cisplatin":1,"Cyclophosphamide":1,"Vincristine":1,
+  "Filgrastim":3,"Rasburicase":3,
+  // hematology
+  "Ferrous sulfate":1,"Epoetin alfa":1,
+  "Iron sucrose":3,"Ferric carboxymaltose":3,
+  // musculoskeletal
+  "Allopurinol":1,"Colchicine":1,"Baclofen":1,
+  "Denosumab":3,"Teriparatide":3,"Febuxostat":3,"Probenecid":3,
+  // genitourinary
+  "Tamsulosin":1,"Oxybutynin":1,"Oxytocin":1,"Finasteride":1,
+  "Phenazopyridine":3,"Mirabegron":3,"Methylergonovine":3,"Rho(D) immune globulin":3,"Terbutaline":3,
+  "Carboprost tromethamine":3,"Dinoprostone":3,
+  // eye/skin/topical
+  "Latanoprost":1,"Timolol (ophthalmic)":1,"Triamcinolone acetonide":1,"Hydrocortisone 1% (topical)":1,
+  "Clobetasol propionate":3,"Permethrin":3,"Silver sulfadiazine":3,"Tacrolimus ointment":3,
+  "Erythromycin ophthalmic ointment":3,"Carboxymethylcellulose / hypromellose":3,"Chloramphenicol (ophthalmic)":3,
+  // antidotes
+  "Flumazenil":1,"Protamine sulfate":1,"Activated charcoal":1,"Digoxin immune Fab":1,
+  "Fomepizole":3,"Pralidoxime":3,"Hydroxocobalamin":3,"Leucovorin (folinic acid)":3,"Deferoxamine":3,
+  "Sugammadex":3,"Methylene blue":3,"Dantrolene":3,"Idarucizumab":3,"Andexanet alfa":3,"Physostigmine":3,
+  "Lipid emulsion 20% (Intralipid)":3,"Succimer (DMSA)":3,
+  // anesthesia
+  "Propofol":1,"Midazolam":1,"Succinylcholine":1,"Rocuronium":1,
+  "Dexmedetomidine":3,"Etomidate":3,"Vecuronium":3,"Neostigmine":3
+};
+function medFreq(m){ return MED_FREQ[m.genericEn] || 2; }
+function byCommonality(a, b){ return (medFreq(a) - medFreq(b)) || a.genericEn.localeCompare(b.genericEn); }
 
 const MEDS = [
 {
@@ -11463,7 +11571,7 @@ function cardHTML(m){
 }
 
 function render(){
-  const rows = MEDS.filter(matches).sort((a,b) => a.genericEn.localeCompare(b.genericEn));
+  const rows = MEDS.filter(matches).sort(byCommonality);
   countEl.innerHTML = "Showing " + rows.length + " of " + MEDS.length + " medications" +
     '<span class="he" dir="rtl">&nbsp; מציג ' + rows.length + " מתוך " + MEDS.length + " תרופות</span>";
   if (!rows.length){
@@ -11687,7 +11795,7 @@ function searchMedsForPicker(q){
   return MEDS.filter(m =>
     m.genericEn.toLowerCase().includes(needle) || m.genericHe.includes(q) ||
     (m.brandEn && m.brandEn.toLowerCase().includes(needle)) || (m.brandHe && m.brandHe.includes(q))
-  ).slice(0, 8);
+  ).sort(byCommonality).slice(0, 8);
 }
 function searchDiagnosesForPicker(q){
   const needle = q.toLowerCase().trim();
@@ -11826,7 +11934,7 @@ function diagMedsRows(patientId, diagIndex){
   const cats = DIAGNOSIS_CATS[d.id];
   const already = new Set(p.meds.map(x => x.generic));
   const rows = MEDS.filter(m => cats.indexOf(m.cat) !== -1 && !already.has(m.genericEn))
-                    .sort((a, b) => a.genericEn.localeCompare(b.genericEn)).slice(0, 12);
+                    .sort(byCommonality);
   return { d, rows };
 }
 function diagMedsMenuHTML(patientId, diagIndex){
@@ -11838,7 +11946,7 @@ function diagMedsMenuHTML(patientId, diagIndex){
     ? rows.map(m => '<div class="picker-item" data-diag-meds-pick="' + escAttr(m.genericEn) + '">' +
         '<span class="en">' + esc(m.genericEn) + '</span><span class="he" dir="rtl">' + esc(m.genericHe) + '</span></div>').join("")
     : '<div class="picker-item picker-custom">All suggested medications already added<span class="he" dir="rtl">כל התרופות המוצעות כבר נוספו</span></div>';
-  return label + items;
+  return label + '<div class="diag-meds-menu-items">' + items + "</div>";
 }
 function toggleDiagMedsMenu(btn, patientId, diagIndex){
   if (openDiagMedsBtn === btn){ closeOpenDiagMeds(); return; }
