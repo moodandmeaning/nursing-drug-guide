@@ -422,7 +422,16 @@
     color:var(--muted);padding:2px 4px;z-index:1;
   }
   .add-to-patient-btn:hover,.add-to-patient-btn.open{color:var(--accent)}
-  .card-sticky .card-class,.card-sticky .card-names{padding-inline-end:64px}
+  .speak-btn{
+    position:absolute;top:15px;
+    font-size:.68rem;font-weight:700;line-height:1;background:none;border:none;cursor:pointer;
+    color:var(--muted);padding:3px 4px;z-index:1;border-radius:5px;
+  }
+  .speak-btn[data-speak="en"]{inset-inline-end:76px}
+  .speak-btn[data-speak="he"]{inset-inline-end:106px}
+  .speak-btn:hover{color:var(--accent)}
+  .speak-btn.on{color:var(--on-accent);background:var(--accent)}
+  .card-sticky .card-class,.card-sticky .card-names{padding-inline-end:128px}
   .card-sticky .patient-picker-menu{
     position:absolute;top:44px;inset-inline-end:16px;width:min(240px,calc(100% - 32px));
     z-index:6;box-shadow:var(--shadow);
@@ -11629,6 +11638,8 @@ function cardHTML(m){
     '<div class="card-sticky">' +
       '<button class="star-btn' + (starred ? " on" : "") + '" type="button" data-star="' + escAttr(m.genericEn) + '" aria-label="Star this drug / הוסף לנבחרים" aria-pressed="' + starred + '">' + (starred ? "★" : "☆") + "</button>" +
       '<button class="add-to-patient-btn" type="button" data-add-patient="' + escAttr(m.genericEn) + '" aria-label="Add to a patient / הוסף למטופל" title="Add to a patient / הוסף למטופל">+</button>' +
+      '<button class="speak-btn" type="button" data-speak="en" data-speak-med="' + escAttr(m.genericEn) + '" aria-label="Read aloud in English" title="Read aloud in English">🔊A</button>' +
+      '<button class="speak-btn" type="button" data-speak="he" data-speak-med="' + escAttr(m.genericEn) + '" aria-label="הקראה בעברית" title="הקראה בעברית">🔊א</button>' +
       '<p class="card-class"><span class="en">' + esc(m.classEn) + '</span>' +
         '<span class="mid">&nbsp;&middot;&nbsp;</span>' +
         '<span class="he" dir="rtl">' + esc(m.classHe) + "</span></p>" +
@@ -11735,6 +11746,48 @@ document.body.addEventListener("click", function(e){
   btn.setAttribute("aria-pressed", on);
   syncStarOption();
   if (activeCat === "starred" && !on) render();
+});
+
+/* ---- Read aloud (Web Speech API), English / Hebrew ---- */
+function cardSpeechText(m, lang){
+  const he = lang === "he";
+  const f = key => m[key + (he ? "He" : "En")] || "";
+  const parts = [f("class"), f("generic")];
+  if (m.brandEn || m.brandHe) parts.push((he ? "שם מסחרי: " : "Brand: ") + f("brand"));
+  if (m.routeEn) parts.push((he ? "דרך מתן: " : "Route: ") + f("route"));
+  const gram = GRAM_COVERAGE[m.genericEn];
+  if (gram) parts.push((he ? "כיסוי גראם: " : "Gram coverage: ") + gram[he ? 1 : 0]);
+  if (m.doseEn) parts.push((he ? "מינון מקובל: " : "Common dose: ") + f("dose"));
+  if (m.inoEn) parts.push((he ? "אינו כרונו: " : "Ino chrono: ") + f("ino"));
+  if (m.memHookEn) parts.push((he ? "עזר זיכרון: " : "Memory aid: ") + f("memHook"));
+  FIELDS.forEach(([key,en,heLabel]) => {
+    const body = m[key + (he ? "He" : "En")];
+    if (!body) return;
+    parts.push((he ? heLabel : en) + ": " + body);
+  });
+  return parts.filter(Boolean).join(". ");
+}
+function stopSpeaking(){
+  try { speechSynthesis.cancel(); } catch(e){}
+  document.querySelectorAll(".speak-btn.on").forEach(b => b.classList.remove("on"));
+}
+document.body.addEventListener("click", function(e){
+  const btn = e.target.closest("[data-speak]");
+  if (!btn) return;
+  const wasOn = btn.classList.contains("on");
+  stopSpeaking();
+  if (wasOn) return;
+  if (typeof speechSynthesis === "undefined") return;
+  const m = MEDS.find(x => x.genericEn === btn.dataset.speakMed);
+  if (!m) return;
+  const lang = btn.dataset.speak;
+  const text = cardSpeechText(m, lang);
+  if (!text) return;
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = lang === "he" ? "he-IL" : "en-US";
+  utter.onend = utter.onerror = function(){ btn.classList.remove("on"); };
+  btn.classList.add("on");
+  speechSynthesis.speak(utter);
 });
 
 /* ============================================================
