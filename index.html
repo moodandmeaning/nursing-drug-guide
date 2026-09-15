@@ -214,6 +214,14 @@
 
   /* ---- Cards ---- */
   main{padding:8px 0 80px}
+  .class-heading{
+    display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;
+    font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.78rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--accent);
+    margin:28px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line);
+  }
+  .class-heading:first-child{margin-top:0}
+  .class-heading .he{direction:rtl;color:var(--muted);text-transform:none;letter-spacing:normal}
   .card{
     background:var(--surface);
     border:1px solid var(--line);
@@ -824,7 +832,7 @@
       <button class="mode-btn" type="button" data-mode="browse" aria-pressed="true">Browse<span class="he" dir="rtl">עיון</span></button>
       <button class="mode-btn" type="button" data-mode="study" aria-pressed="false">Study<span class="he" dir="rtl">תרגול</span></button>
       <button class="mode-btn" type="button" data-mode="patients" aria-pressed="false">Patients<span class="he" dir="rtl">מטופלים</span></button>
-      <button class="mode-btn" type="button" data-mode="missing" aria-pressed="false">Missing<span class="he" dir="rtl">חסרות</span></button>
+      <button class="mode-btn" type="button" data-mode="missing" aria-pressed="false">Missing<span class="he" dir="rtl">חסר</span></button>
     </div>
     <div class="search-row">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
@@ -837,7 +845,6 @@
         <button class="lang-btn" type="button" data-lang="he" aria-pressed="false">עברית</button>
       </div>
       <select id="catSelect" class="cat-select" aria-label="Filter by drug category / סינון לפי קטגוריית תרופה"></select>
-      <select id="classSelect" class="cat-select" aria-label="Filter by pharmacological class / סינון לפי קבוצה פרמקולוגית"></select>
       <span class="count" id="count"></span>
       <button class="theme-toggle" id="themeToggle" type="button">Theme · ערכת צבע</button>
     </div>
@@ -11334,13 +11341,11 @@ const catLabel = c => (CATS.find(x => x[0] === c) || [c,c,c]);
 const esc = s => String(s).replace(/[&<>]/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[m]));
 
 let activeCat = "all";
-let activeClass = "all";
 let query = "";
 
 const listEl = document.getElementById("list");
 const countEl = document.getElementById("count");
 const catSelectEl = document.getElementById("catSelect");
-const classSelectEl = document.getElementById("classSelect");
 const searchEl = document.getElementById("search");
 const controlsEl = document.getElementById("controls");
 
@@ -11527,28 +11532,15 @@ const CLASS_GROUPS = {
   "Ophthalmic agent":["Ophthalmic & topical agents","עיניים ותרופות מקומיות"]
 };
 
-const allOptionEl = document.createElement("option");
-allOptionEl.value = "all";
-allOptionEl.textContent = "All classes  ·  כל הקבוצות  (" + MEDS.length + ")";
-classSelectEl.appendChild(allOptionEl);
 const classGroupOf = m => CLASS_GROUPS[m.classFamilyEn] || null;
-const classMap = new Map();
-MEDS.forEach(m => {
-  const g = classGroupOf(m);
-  if (!g) return;
-  const [en,he] = g;
-  if (!classMap.has(en)) classMap.set(en, {he, n:0});
-  classMap.get(en).n++;
-});
-Array.from(classMap.keys()).sort((a,b) => a.localeCompare(b)).forEach(en => {
-  const {he,n} = classMap.get(en);
-  const o = document.createElement("option");
-  o.value = en;
-  o.textContent = (he ? en + "  ·  " + he : en) + "  (" + n + ")";
-  classSelectEl.appendChild(o);
-});
-classSelectEl.value = "all";
-classSelectEl.addEventListener("change", () => { activeClass = classSelectEl.value; render(); });
+/* Broad-group order (first appearance in CLASS_GROUPS) used to order the class-heading sections in
+   render() below, so related body systems still flow together instead of a flat alphabetical soup. */
+const CLASS_GROUP_ORDER = [];
+Object.values(CLASS_GROUPS).forEach(g => { if (CLASS_GROUP_ORDER.indexOf(g[0]) === -1) CLASS_GROUP_ORDER.push(g[0]); });
+function classHeadingRank(specificClass){
+  const g = CLASS_GROUPS[specificClass];
+  return g ? CLASS_GROUP_ORDER.indexOf(g[0]) : CLASS_GROUP_ORDER.length;
+}
 
 searchEl.addEventListener("input", () => { query = searchEl.value.trim().toLowerCase(); render(); });
 document.addEventListener("keydown", e => {
@@ -11583,7 +11575,6 @@ function matches(m){
   if (activeCat === "starred"){ if (!isStarred(m.genericEn)) return false; }
   else if (activeCat === "review"){ if (!isReviewLater(m.genericEn)) return false; }
   else if (activeCat !== "all" && m.cat !== activeCat) return false;
-  if (activeClass !== "all"){ const g = classGroupOf(m); if (!g || g[0] !== activeClass) return false; }
   if (!query) return true;
   const hay = [m.genericEn,m.genericHe,m.brandEn,m.brandHe,m.classEn,m.classHe].join(" ").toLowerCase();
   return query.split(/\s+/).every(t => hay.includes(t));
@@ -11683,7 +11674,19 @@ function render(){
     listEl.innerHTML = '<p class="empty">' + msg + '</p>';
     return;
   }
-  listEl.innerHTML = rows.map(cardHTML).join("");
+  const groups = new Map();
+  rows.forEach(m => {
+    const key = m.classFamilyEn || "Other";
+    if (!groups.has(key)) groups.set(key, { he: m.classFamilyHe || "", items: [] });
+    groups.get(key).items.push(m);
+  });
+  const keys = Array.from(groups.keys()).sort((a, b) => (classHeadingRank(a) - classHeadingRank(b)) || a.localeCompare(b));
+  listEl.innerHTML = keys.map(key => {
+    const g = groups.get(key);
+    return '<h3 class="class-heading"><span class="en">' + esc(key) + '</span>' +
+      (g.he ? '<span class="he" dir="rtl">' + esc(g.he) + "</span>" : "") + "</h3>" +
+      g.items.map(cardHTML).join("");
+  }).join("");
 }
 
 const themeToggle = document.getElementById("themeToggle");
