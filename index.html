@@ -237,6 +237,14 @@
   }
   .class-heading:first-child{margin-top:0}
   .class-heading .he{direction:rtl;color:var(--muted);text-transform:none;letter-spacing:normal;font-weight:500}
+  .line-heading{
+    display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;
+    font-size:1.02rem;font-weight:800;color:var(--accent);
+    margin:36px 0 6px;padding:10px 14px;border-radius:10px;background:var(--accent-soft);
+  }
+  .line-heading:first-child{margin-top:0}
+  .line-heading .he{direction:rtl;font-weight:700}
+  .line-heading + .class-heading{margin-top:6px}
   .card{
     background:var(--surface);
     border:2px solid var(--line);
@@ -781,6 +789,12 @@
   }
   .diag-meds-menu-label .he{font-weight:600}
   .diag-meds-menu-items{max-height:260px;overflow-y:auto}
+  .diag-meds-line-heading{
+    display:flex;gap:6px;font-size:.68rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    color:var(--accent);background:var(--surface-2);padding:6px 12px;
+  }
+  .diag-meds-line-heading .he{text-transform:none;font-weight:600}
+  .diag-meds-line-heading:first-child{margin-top:0}
   .med-row-route{
     flex:0 0 auto;font:inherit;font-size:.78rem;color:var(--muted);
     background:var(--surface-2);border:1.5px solid var(--line);border-radius:999px;padding:5px 10px;
@@ -1291,6 +1305,180 @@ const DIAGNOSIS_CATS = {
   placentaprevia: ["gu","hematology"],
   placentalabruption: ["gu","hematology"],
   fibromyalgia: ["musculoskeletal","painneuro"]
+};
+
+/* Line-of-treatment tag (1 = first-line, 2 = second-line, 3 = third-line/specialized) for each category
+   listed under a diagnosis above - a clinical-priority judgment call (same spirit as DIAGNOSIS_CATS itself),
+   not per-drug precision. Read by treatmentLine() below to order diagnosis-driven medication lists (the
+   Patients-mode ℞ dropdown and Browse-mode diagnosis search) by line rather than general commonality. Any
+   diagnosis/category not listed here safely falls back to line 2 via treatmentLine(). */
+const DIAGNOSIS_LINES = {
+  chf: {diuretics:1,cardiovascular:1,vasoactive:2},
+  mi: {cardiovascular:1,anticoag:1,painneuro:1,vasoactive:2},
+  afib: {cardiovascular:1,anticoag:1},
+  htn: {cardiovascular:1,diuretics:1},
+  htncrisis: {vasoactive:1,cardiovascular:2},
+  angina: {cardiovascular:1,painneuro:1},
+  cardshock: {vasoactive:1,cardiovascular:2},
+  dvt: {anticoag:1},
+  pe: {anticoag:1,respiratory:2},
+  pad: {cardiovascular:1,anticoag:1},
+  cad: {cardiovascular:1,anticoag:1},
+  vtach: {vasoactive:1,cardiovascular:2},
+  brady: {vasoactive:1,cardiovascular:2},
+  valvular: {cardiovascular:1,anticoag:2},
+  arrest: {vasoactive:1},
+  copd: {respiratory:1},
+  asthma: {respiratory:1},
+  pneumonia: {antiinfective:1,respiratory:2},
+  ards: {respiratory:1,anesthesia:2},
+  respfail: {respiratory:1,anesthesia:2},
+  pleural: {respiratory:1},
+  pneumothorax: {respiratory:1,painneuro:2},
+  tb: {antiinfective:1,respiratory:2},
+  bronchitis: {respiratory:1},
+  osa: {respiratory:2},
+  pulmedema: {diuretics:1,cardiovascular:2,respiratory:2},
+  flu: {antiviralfungal:1,respiratory:2},
+  t1dm: {endocrine:1},
+  t2dm: {endocrine:1},
+  dka: {endocrine:1,electrolytes:1},
+  hhs: {endocrine:1,electrolytes:1},
+  hypoglycemia: {endocrine:1},
+  hypothyroid: {endocrine:1},
+  hyperthyroid: {endocrine:1},
+  thyroidstorm: {endocrine:1,vasoactive:2},
+  adrenalinsuff: {endocrine:1},
+  metsyn: {endocrine:1,cardiovascular:1},
+  obesity: {endocrine:2},
+  dyslipidemia: {cardiovascular:1},
+  aki: {electrolytes:1,diuretics:2},
+  ckd: {cardiovascular:1,electrolytes:2},
+  esrd: {electrolytes:1,hematology:2,vitamins:2},
+  uti: {antiinfective:1},
+  pyelo: {antiinfective:1},
+  kidneystones: {painneuro:1,gu:2},
+  fluidoverload: {diuretics:1,electrolytes:2},
+  dehydration: {electrolytes:1},
+  hyperkalemia: {electrolytes:1},
+  hyponatremia: {electrolytes:1},
+  gastroenteritis: {electrolytes:1,gi:1},
+  pud: {gi:1},
+  gerd: {gi:1},
+  pancreatitis: {painneuro:1,gi:2},
+  cirrhosis: {gi:1,hematology:2},
+  hepatitis: {antiviralfungal:1,gi:2},
+  cholecystitis: {antiinfective:1,gi:2},
+  bowelobstruction: {gi:1},
+  ibd: {gi:1,immuno:2},
+  gibleed: {gi:1,hematology:2},
+  appendicitis: {antiinfective:1,gi:2},
+  diverticulitis: {antiinfective:1,gi:2},
+  ischstroke: {anticoag:1,cardiovascular:2,painneuro:3},
+  hemstroke: {cardiovascular:1,painneuro:2},
+  tia: {anticoag:1,cardiovascular:2},
+  seizure: {painneuro:1},
+  tbi: {painneuro:1},
+  parkinsons: {painneuro:1},
+  dementia: {painneuro:1,psych:2},
+  ms: {immuno:1,painneuro:2},
+  migraine: {painneuro:1},
+  meningitis: {antiinfective:1,painneuro:2},
+  gbs: {immuno:1,painneuro:2},
+  delirium: {psych:1,painneuro:2},
+  mdd: {psych:1},
+  gad: {psych:1},
+  bipolar: {psych:1},
+  schizophrenia: {psych:1},
+  etohwithdrawal: {psych:1,painneuro:2},
+  substanceuse: {psych:1},
+  suicidal: {psych:1},
+  ptsd: {psych:1},
+  panic: {psych:1},
+  insomnia: {psych:1},
+  sepsis: {antiinfective:1,electrolytes:1,vasoactive:2},
+  septicshock: {vasoactive:1,antiinfective:1},
+  cellulitis: {antiinfective:1,topical:2},
+  covid: {antiviralfungal:1,respiratory:2},
+  cdiff: {antiinfective:1,gi:2},
+  hiv: {antiviralfungal:1},
+  osteomyelitis: {antiinfective:1,musculoskeletal:2},
+  endocarditis: {antiinfective:1,cardiovascular:2},
+  oa: {painneuro:1,musculoskeletal:2},
+  ra: {immuno:1,musculoskeletal:2},
+  osteoporosis: {musculoskeletal:1,vitamins:1},
+  hipfracture: {painneuro:1,musculoskeletal:2},
+  gout: {painneuro:1,musculoskeletal:2},
+  compartment: {painneuro:1,musculoskeletal:2},
+  lowbackpain: {painneuro:1,musculoskeletal:2},
+  bph: {gu:1},
+  urinaryretention: {gu:1},
+  preeclampsia: {cardiovascular:1,electrolytes:1,gu:2},
+  pph: {gu:1,hematology:2,vasoactive:2},
+  ectopic: {gu:1,painneuro:2},
+  pelvicpain: {painneuro:1,gu:2},
+  ed: {gu:1},
+  anemia: {hematology:1,vitamins:1},
+  scd: {painneuro:1,hematology:2},
+  thrombocytopenia: {hematology:1},
+  leukemia: {onco:1,hematology:2},
+  lymphoma: {onco:1},
+  breastcancer: {onco:1},
+  lungcancer: {onco:1},
+  colorectalcancer: {onco:1},
+  postoppain: {painneuro:1},
+  ileus: {gi:1},
+  ssi: {antiinfective:1,topical:2},
+  pressureinjury: {topical:1},
+  failuretothrive: {vitamins:1},
+  fallsrisk: {psych:2,painneuro:2},
+  malnutrition: {vitamins:1,electrolytes:2},
+  anaphylaxis: {vasoactive:1,antidote:2},
+  burns: {electrolytes:1,painneuro:1,topical:2},
+  hipreplacement: {anticoag:1,painneuro:1},
+  multitrauma: {painneuro:1,hematology:1,anesthesia:2},
+  chronicpain: {painneuro:1},
+  glaucoma: {topical:1},
+  cataracts: {topical:1},
+  psoriasis: {topical:1,immuno:2},
+  retinopathy: {endocrine:1,topical:2},
+  eczema: {topical:1},
+  svt: {vasoactive:1,cardiovascular:2},
+  hyperlipidemia: {cardiovascular:1},
+  pericarditis: {painneuro:1,cardiovascular:2},
+  cardiomyopathy: {cardiovascular:1,diuretics:1},
+  aorticaneurysm: {cardiovascular:1,vasoactive:2},
+  heartblock: {vasoactive:1,cardiovascular:2},
+  syncope: {cardiovascular:1},
+  atelectasis: {respiratory:1},
+  pulmfibrosis: {respiratory:1},
+  cushing: {endocrine:1},
+  siadh: {electrolytes:1,endocrine:2},
+  diabetesinsipidus: {endocrine:1,electrolytes:2},
+  nephroticsyndrome: {diuretics:1,electrolytes:2},
+  glomerulonephritis: {electrolytes:1,antiinfective:2},
+  urinaryincontinence: {gu:1},
+  peritonitis: {antiinfective:1,gi:2},
+  hepaticencephalopathy: {gi:1,painneuro:2},
+  increasedicp: {electrolytes:1,painneuro:2},
+  myastheniagravis: {painneuro:1,antidote:2},
+  bellspalsy: {painneuro:1},
+  dic: {hematology:1,anticoag:2},
+  neutropenia: {antiinfective:1,hematology:2},
+  shingles: {antiviralfungal:1,painneuro:2},
+  placentaprevia: {gu:2,hematology:2},
+  placentalabruption: {hematology:1,gu:2},
+  fibromyalgia: {painneuro:1,musculoskeletal:2}
+};
+function treatmentLine(diagId, cat){
+  const lines = DIAGNOSIS_LINES[diagId];
+  return (lines && lines[cat]) || 2;
+}
+const TREATMENT_LINE_LABELS = {
+  1: ["First-line", "קו טיפול ראשון"],
+  2: ["Second-line", "קו טיפול שני"],
+  3: ["Third-line", "קו טיפול שלישי"],
+  4: ["Other options", "אפשרויות נוספות"]
 };
 
 /* Clinical-commonality tier per drug, for sorting Browse mode, the diagnosis suggestion dropdown, and the
@@ -11664,11 +11852,19 @@ function diagnosisCatsForQuery(q){
   const needle = q.toLowerCase().trim();
   if (!needle) return null;
   const cats = new Set();
+  const catLines = new Map();
   let label = null;
+  function absorb(id){
+    (DIAGNOSIS_CATS[id] || []).forEach(c => {
+      cats.add(c);
+      const line = treatmentLine(id, c);
+      if (!catLines.has(c) || line < catLines.get(c)) catLines.set(c, line);
+    });
+  }
   DIAGNOSES.forEach(([id, en, he]) => {
     if (en.toLowerCase().includes(needle) || he.includes(q)){
       if (!label) label = { en, he };
-      (DIAGNOSIS_CATS[id] || []).forEach(c => cats.add(c));
+      absorb(id);
     }
   });
   const phrase = DIAGNOSIS_ABBREVS[needle];
@@ -11676,13 +11872,14 @@ function diagnosisCatsForQuery(q){
     DIAGNOSES.forEach(([id, en, he]) => {
       if (en.toLowerCase().includes(phrase)){
         if (!label) label = { en, he };
-        (DIAGNOSIS_CATS[id] || []).forEach(c => cats.add(c));
+        absorb(id);
       }
     });
   }
-  return cats.size ? { cats, label } : null;
+  return cats.size ? { cats, catLines, label } : null;
 }
 let activeDiagnosisCats = null; /* set once per render() call, read by matches() below */
+let activeDiagnosisLines = null; /* Map<catId, line 1-3>, set alongside activeDiagnosisCats, read by render() */
 
 function matches(m){
   if (activeCat === "starred"){ if (!isStarred(m.genericEn)) return false; }
@@ -11774,9 +11971,29 @@ function cardHTML(m){
   "</article>";
 }
 
+/* Buckets already-sorted rows into per-classFamilyEn groups rendered under .class-heading <h3>s, ordered by
+   body-system (classHeadingRank) then alphabetically - shared by the plain-browse path and, per line, by the
+   diagnosis-driven path below. */
+function classHeadingsHTML(rows){
+  const groups = new Map();
+  rows.forEach(m => {
+    const key = m.classFamilyEn || "Other";
+    if (!groups.has(key)) groups.set(key, { he: m.classFamilyHe || "", items: [] });
+    groups.get(key).items.push(m);
+  });
+  const keys = Array.from(groups.keys()).sort((a, b) => (classHeadingRank(a) - classHeadingRank(b)) || a.localeCompare(b));
+  return keys.map(key => {
+    const g = groups.get(key);
+    return '<h3 class="class-heading"><span class="en">' + esc(key) + '</span>' +
+      (g.he ? '<span class="he" dir="rtl">' + esc(g.he) + "</span>" : "") + "</h3>" +
+      g.items.map(cardHTML).join("");
+  }).join("");
+}
+
 function render(){
   const dxMatch = query ? diagnosisCatsForQuery(query) : null;
   activeDiagnosisCats = dxMatch ? dxMatch.cats : null;
+  activeDiagnosisLines = dxMatch ? dxMatch.catLines : null;
   const rows = MEDS.filter(matches).sort(byCommonality);
   countEl.innerHTML = "Showing " + rows.length + " of " + MEDS.length + " medications" +
     '<span class="he" dir="rtl">&nbsp; מציג ' + rows.length + " מתוך " + MEDS.length + " תרופות</span>" +
@@ -11791,18 +12008,22 @@ function render(){
     listEl.innerHTML = '<p class="empty">' + msg + '</p>';
     return;
   }
-  const groups = new Map();
+  if (!activeDiagnosisLines){
+    listEl.innerHTML = classHeadingsHTML(rows);
+    return;
+  }
+  const lineGroups = new Map();
   rows.forEach(m => {
-    const key = m.classFamilyEn || "Other";
-    if (!groups.has(key)) groups.set(key, { he: m.classFamilyHe || "", items: [] });
-    groups.get(key).items.push(m);
+    const line = activeDiagnosisLines.has(m.cat) ? activeDiagnosisLines.get(m.cat) : 4;
+    if (!lineGroups.has(line)) lineGroups.set(line, []);
+    lineGroups.get(line).push(m);
   });
-  const keys = Array.from(groups.keys()).sort((a, b) => (classHeadingRank(a) - classHeadingRank(b)) || a.localeCompare(b));
-  listEl.innerHTML = keys.map(key => {
-    const g = groups.get(key);
-    return '<h3 class="class-heading"><span class="en">' + esc(key) + '</span>' +
-      (g.he ? '<span class="he" dir="rtl">' + esc(g.he) + "</span>" : "") + "</h3>" +
-      g.items.map(cardHTML).join("");
+  const lineKeys = Array.from(lineGroups.keys()).sort((a, b) => a - b);
+  listEl.innerHTML = lineKeys.map(line => {
+    const lbl = TREATMENT_LINE_LABELS[line] || TREATMENT_LINE_LABELS[4];
+    return '<h2 class="line-heading"><span class="en">' + esc(lbl[0]) + '</span>' +
+      '<span class="he" dir="rtl">' + esc(lbl[1]) + '</span></h2>' +
+      classHeadingsHTML(lineGroups.get(line));
   }).join("");
 }
 
@@ -12193,7 +12414,7 @@ function diagMedsRows(patientId, diagIndex){
   const cats = DIAGNOSIS_CATS[d.id];
   const already = new Set(p.meds.map(x => x.generic));
   const rows = MEDS.filter(m => cats.indexOf(m.cat) !== -1 && !already.has(m.genericEn))
-                    .sort(byCommonality);
+                    .sort((a, b) => (treatmentLine(d.id, a.cat) - treatmentLine(d.id, b.cat)) || byCommonality(a, b));
   return { d, rows };
 }
 function diagMedsMenuHTML(patientId, diagIndex){
@@ -12201,10 +12422,24 @@ function diagMedsMenuHTML(patientId, diagIndex){
   if (!d) return "";
   const label = '<div class="diag-meds-menu-label"><span class="en">Suggested for "' + esc(d.textEn) + '"</span>' +
     '<span class="he" dir="rtl">מוצע עבור "' + esc(d.textHe) + '"</span></div>';
-  const items = rows.length
-    ? rows.map(m => '<div class="picker-item" data-diag-meds-pick="' + escAttr(m.genericEn) + '">' +
-        '<span class="en">' + esc(m.genericEn) + '</span><span class="he" dir="rtl">' + esc(m.genericHe) + '</span></div>').join("")
-    : '<div class="picker-item picker-custom">All suggested medications already added<span class="he" dir="rtl">כל התרופות המוצעות כבר נוספו</span></div>';
+  let items;
+  if (rows.length){
+    let lastLine = null;
+    items = rows.map(m => {
+      const line = treatmentLine(d.id, m.cat);
+      let heading = "";
+      if (line !== lastLine){
+        lastLine = line;
+        const lbl = TREATMENT_LINE_LABELS[line] || TREATMENT_LINE_LABELS[4];
+        heading = '<div class="diag-meds-line-heading"><span class="en">' + esc(lbl[0]) + '</span>' +
+          '<span class="he" dir="rtl">' + esc(lbl[1]) + '</span></div>';
+      }
+      return heading + '<div class="picker-item" data-diag-meds-pick="' + escAttr(m.genericEn) + '">' +
+        '<span class="en">' + esc(m.genericEn) + '</span><span class="he" dir="rtl">' + esc(m.genericHe) + '</span></div>';
+    }).join("");
+  } else {
+    items = '<div class="picker-item picker-custom">All suggested medications already added<span class="he" dir="rtl">כל התרופות המוצעות כבר נוספו</span></div>';
+  }
   return label + '<div class="diag-meds-menu-items">' + items + "</div>";
 }
 function toggleDiagMedsMenu(btn, patientId, diagIndex){
