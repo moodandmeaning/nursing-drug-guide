@@ -43,6 +43,9 @@
     --teach-soft:#e0f0f1;
     --mem:#a83f6f;
     --mem-soft:#f7e7ef;
+    --gram-positive:#7d4aa8;
+    --gram-negative:#c23a6f;
+    --gram-broad:#12807a;
     --shadow:0 1px 2px rgba(24,33,46,.06), 0 8px 24px rgba(24,33,46,.06);
     --card-sticky-top:132px; /* set from JS to the live height of the controls bar */
   }
@@ -71,6 +74,9 @@
       --teach-soft:#122a2c;
       --mem:#e58ab0;
       --mem-soft:#301f28;
+      --gram-positive:#c79eef;
+      --gram-negative:#ea93b7;
+      --gram-broad:#5fd1c9;
       --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
     }
   }
@@ -98,6 +104,9 @@
     --teach-soft:#122a2c;
     --mem:#e58ab0;
     --mem-soft:#301f28;
+    --gram-positive:#c79eef;
+    --gram-negative:#ea93b7;
+    --gram-broad:#5fd1c9;
     --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
   }
 
@@ -276,6 +285,16 @@
   .cardio-line{color:var(--ink)}
   .mem-line{color:var(--mem)}
   .mem-line .route-tag{color:var(--mem);border-color:color-mix(in srgb,var(--mem) 35%,transparent)}
+  .gram-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);align-self:center}
+  .gram-positive{color:var(--gram-positive)}
+  .gram-positive .route-tag{color:var(--gram-positive);border-color:color-mix(in srgb,var(--gram-positive) 35%,transparent)}
+  .gram-positive .gram-dot{background:var(--gram-positive)}
+  .gram-negative{color:var(--gram-negative)}
+  .gram-negative .route-tag{color:var(--gram-negative);border-color:color-mix(in srgb,var(--gram-negative) 35%,transparent)}
+  .gram-negative .gram-dot{background:var(--gram-negative)}
+  .gram-broad{color:var(--gram-broad)}
+  .gram-broad .route-tag{color:var(--gram-broad);border-color:color-mix(in srgb,var(--gram-broad) 35%,transparent)}
+  .gram-broad .gram-dot{background:var(--gram-broad)}
   .ino-dir{
     font-weight:700;font-size:1rem;line-height:1;
     display:inline-flex;align-items:center;gap:1px;white-space:nowrap;
@@ -1348,49 +1367,49 @@ function byCommonality(a, b){ return (medFreq(a) - medFreq(b)) || a.genericEn.lo
 /* Gram coverage for antiinfective-category drugs only (objective microbiology, not a judgment call) - shown
    as a card meta line like Route/Dose. [en, he]. */
 const GRAM_COVERAGE = {
-  "Vancomycin": ["Gram-positive (incl. MRSA)", "גראם חיובי (כולל MRSA)"],
-  "Ceftriaxone": ["Broad spectrum (Gram-negative & Gram-positive)", "ספקטרום רחב (גראם שלילי וחיובי)"],
-  "Azithromycin": ["Gram-positive & atypicals (some Gram-negative)", "גראם חיובי ופתוגנים אטיפיים (מעט גראם שלילי)"],
-  "Ciprofloxacin": ["Primarily Gram-negative (incl. Pseudomonas), some Gram-positive", "בעיקר גראם שלילי (כולל פסאודומונס), מעט גראם חיובי"],
-  "Gentamicin": ["Gram-negative (incl. Pseudomonas)", "גראם שלילי (כולל פסאודומונס)"],
-  "Amoxicillin": ["Gram-positive (some Gram-negative)", "גראם חיובי (מעט גראם שלילי)"],
-  "Amoxicillin / clavulanate": ["Broad spectrum (Gram-positive & Gram-negative)", "ספקטרום רחב (גראם חיובי ושלילי)"],
-  "Piperacillin / tazobactam": ["Broad spectrum (Gram-positive & Gram-negative, incl. Pseudomonas)", "ספקטרום רחב (גראם חיובי ושלילי, כולל פסאודומונס)"],
-  "Cefazolin": ["Gram-positive (some Gram-negative)", "גראם חיובי (מעט גראם שלילי)"],
-  "Cephalexin": ["Gram-positive (some Gram-negative)", "גראם חיובי (מעט גראם שלילי)"],
-  "Cefepime": ["Broad spectrum (Gram-positive & Gram-negative, incl. Pseudomonas)", "ספקטרום רחב (גראם חיובי ושלילי, כולל פסאודומונס)"],
-  "Meropenem": ["Broad spectrum (Gram-positive & Gram-negative, incl. Pseudomonas)", "ספקטרום רחב (גראם חיובי ושלילי, כולל פסאודומונס)"],
-  "Doxycycline": ["Broad spectrum (Gram-positive & Gram-negative, plus atypicals)", "ספקטרום רחב (גראם חיובי ושלילי, וגם פתוגנים אטיפיים)"],
-  "Clindamycin": ["Gram-positive & anaerobes", "גראם חיובי ואנאירובים"],
-  "Metronidazole": ["Anaerobic bacteria & protozoa (not Gram-based)", "חיידקים אנאירוביים וטפילים (לא מסווג לפי גראם)"],
-  "Trimethoprim / sulfamethoxazole": ["Broad spectrum (Gram-positive & Gram-negative)", "ספקטרום רחב (גראם חיובי ושלילי)"],
-  "Nitrofurantoin": ["Gram-positive & Gram-negative (urinary)", "גראם חיובי ושלילי (בדרכי השתן)"],
-  "Levofloxacin": ["Broad spectrum (Gram-negative & Gram-positive, plus atypicals)", "ספקטרום רחב (גראם שלילי וחיובי, וגם פתוגנים אטיפיים)"],
-  "Linezolid": ["Gram-positive (incl. MRSA, VRE)", "גראם חיובי (כולל MRSA ו-VRE)"],
-  "Daptomycin": ["Gram-positive (incl. MRSA, VRE)", "גראם חיובי (כולל MRSA ו-VRE)"],
-  "Tobramycin": ["Gram-negative (incl. Pseudomonas)", "גראם שלילי (כולל פסאודומונס)"],
-  "Rifampin (rifampicin)": ["Broad spectrum incl. mycobacteria (Gram-positive & Gram-negative)", "ספקטרום רחב כולל מיקובקטריות (גראם חיובי ושלילי)"],
-  "Isoniazid (INH)": ["Mycobacteria (TB) - not a general Gram agent", "מיקובקטריות (שחפת) - לא תרופה כללית לפי גראם"],
-  "Penicillin G / Penicillin VK": ["Gram-positive", "גראם חיובי"],
-  "Ampicillin": ["Gram-positive (some Gram-negative)", "גראם חיובי (מעט גראם שלילי)"],
-  "Cefuroxime": ["Broad spectrum (Gram-positive & Gram-negative)", "ספקטרום רחב (גראם חיובי ושלילי)"],
-  "Cefdinir": ["Broad spectrum (Gram-positive & Gram-negative)", "ספקטרום רחב (גראם חיובי ושלילי)"],
-  "Clarithromycin": ["Gram-positive & atypicals (some Gram-negative)", "גראם חיובי ופתוגנים אטיפיים (מעט גראם שלילי)"],
-  "Erythromycin": ["Gram-positive & atypicals", "גראם חיובי ופתוגנים אטיפיים"],
-  "Moxifloxacin": ["Broad spectrum (Gram-positive & Gram-negative, plus atypicals)", "ספקטרום רחב (גראם חיובי ושלילי, וגם פתוגנים אטיפיים)"],
-  "Tigecycline": ["Broad spectrum (Gram-positive & Gram-negative, incl. MRSA)", "ספקטרום רחב (גראם חיובי ושלילי, כולל MRSA)"],
-  "Tinidazole": ["Anaerobic bacteria & protozoa (not Gram-based)", "חיידקים אנאירוביים וטפילים (לא מסווג לפי גראם)"],
-  "Ethambutol": ["Mycobacteria (TB) - not a general Gram agent", "מיקובקטריות (שחפת) - לא תרופה כללית לפי גראם"],
-  "Pyrazinamide": ["Mycobacteria (TB) - not a general Gram agent", "מיקובקטריות (שחפת) - לא תרופה כללית לפי גראם"],
-  "Doxycycline / minocycline (MRSA use)": ["Gram-positive (incl. MRSA) & broad spectrum", "גראם חיובי (כולל MRSA) וספקטרום רחב"],
-  "Mupirocin": ["Gram-positive, topical (incl. MRSA)", "גראם חיובי, מקומי (כולל MRSA)"],
-  "Amikacin": ["Gram-negative (incl. Pseudomonas)", "גראם שלילי (כולל פסאודומונס)"],
-  "Ceftazidime": ["Gram-negative (incl. Pseudomonas)", "גראם שלילי (כולל פסאודומונס)"],
-  "Ertapenem": ["Broad spectrum (Gram-positive & Gram-negative, NOT Pseudomonas)", "ספקטרום רחב (גראם חיובי ושלילי, לא כולל פסאודומונס)"],
-  "Aztreonam": ["Gram-negative only (incl. Pseudomonas)", "גראם שלילי בלבד (כולל פסאודומונס)"],
-  "Cloxacillin": ["Gram-positive (anti-staphylococcal)", "גראם חיובי (נגד סטפילוקוקוס)"],
-  "Colistin (polymyxin E)": ["Gram-negative (incl. multidrug-resistant strains)", "גראם שלילי (כולל זנים עמידים מרובי-תרופות)"],
-  "Fosfomycin": ["Broad spectrum (Gram-positive & Gram-negative), mainly urinary", "ספקטרום רחב (גראם חיובי ושלילי), בעיקר בדרכי השתן"]
+  "Vancomycin": ["Gram-positive (incl. MRSA)", "גראם חיובי (כולל MRSA)", "positive"],
+  "Ceftriaxone": ["Broad spectrum (Gram-negative & Gram-positive)", "ספקטרום רחב (גראם שלילי וחיובי)", "broad"],
+  "Azithromycin": ["Gram-positive & atypicals (some Gram-negative)", "גראם חיובי ופתוגנים אטיפיים (מעט גראם שלילי)", "positive"],
+  "Ciprofloxacin": ["Primarily Gram-negative (incl. Pseudomonas), some Gram-positive", "בעיקר גראם שלילי (כולל פסאודומונס), מעט גראם חיובי", "negative"],
+  "Gentamicin": ["Gram-negative (incl. Pseudomonas)", "גראם שלילי (כולל פסאודומונס)", "negative"],
+  "Amoxicillin": ["Gram-positive (some Gram-negative)", "גראם חיובי (מעט גראם שלילי)", "positive"],
+  "Amoxicillin / clavulanate": ["Broad spectrum (Gram-positive & Gram-negative)", "ספקטרום רחב (גראם חיובי ושלילי)", "broad"],
+  "Piperacillin / tazobactam": ["Broad spectrum (Gram-positive & Gram-negative, incl. Pseudomonas)", "ספקטרום רחב (גראם חיובי ושלילי, כולל פסאודומונס)", "broad"],
+  "Cefazolin": ["Gram-positive (some Gram-negative)", "גראם חיובי (מעט גראם שלילי)", "positive"],
+  "Cephalexin": ["Gram-positive (some Gram-negative)", "גראם חיובי (מעט גראם שלילי)", "positive"],
+  "Cefepime": ["Broad spectrum (Gram-positive & Gram-negative, incl. Pseudomonas)", "ספקטרום רחב (גראם חיובי ושלילי, כולל פסאודומונס)", "broad"],
+  "Meropenem": ["Broad spectrum (Gram-positive & Gram-negative, incl. Pseudomonas)", "ספקטרום רחב (גראם חיובי ושלילי, כולל פסאודומונס)", "broad"],
+  "Doxycycline": ["Broad spectrum (Gram-positive & Gram-negative, plus atypicals)", "ספקטרום רחב (גראם חיובי ושלילי, וגם פתוגנים אטיפיים)", "broad"],
+  "Clindamycin": ["Gram-positive & anaerobes", "גראם חיובי ואנאירובים", "positive"],
+  "Metronidazole": ["Anaerobic bacteria & protozoa (not Gram-based)", "חיידקים אנאירוביים וטפילים (לא מסווג לפי גראם)", "other"],
+  "Trimethoprim / sulfamethoxazole": ["Broad spectrum (Gram-positive & Gram-negative)", "ספקטרום רחב (גראם חיובי ושלילי)", "broad"],
+  "Nitrofurantoin": ["Gram-positive & Gram-negative (urinary)", "גראם חיובי ושלילי (בדרכי השתן)", "broad"],
+  "Levofloxacin": ["Broad spectrum (Gram-negative & Gram-positive, plus atypicals)", "ספקטרום רחב (גראם שלילי וחיובי, וגם פתוגנים אטיפיים)", "broad"],
+  "Linezolid": ["Gram-positive (incl. MRSA, VRE)", "גראם חיובי (כולל MRSA ו-VRE)", "positive"],
+  "Daptomycin": ["Gram-positive (incl. MRSA, VRE)", "גראם חיובי (כולל MRSA ו-VRE)", "positive"],
+  "Tobramycin": ["Gram-negative (incl. Pseudomonas)", "גראם שלילי (כולל פסאודומונס)", "negative"],
+  "Rifampin (rifampicin)": ["Broad spectrum incl. mycobacteria (Gram-positive & Gram-negative)", "ספקטרום רחב כולל מיקובקטריות (גראם חיובי ושלילי)", "broad"],
+  "Isoniazid (INH)": ["Mycobacteria (TB) - not a general Gram agent", "מיקובקטריות (שחפת) - לא תרופה כללית לפי גראם", "other"],
+  "Penicillin G / Penicillin VK": ["Gram-positive", "גראם חיובי", "positive"],
+  "Ampicillin": ["Gram-positive (some Gram-negative)", "גראם חיובי (מעט גראם שלילי)", "positive"],
+  "Cefuroxime": ["Broad spectrum (Gram-positive & Gram-negative)", "ספקטרום רחב (גראם חיובי ושלילי)", "broad"],
+  "Cefdinir": ["Broad spectrum (Gram-positive & Gram-negative)", "ספקטרום רחב (גראם חיובי ושלילי)", "broad"],
+  "Clarithromycin": ["Gram-positive & atypicals (some Gram-negative)", "גראם חיובי ופתוגנים אטיפיים (מעט גראם שלילי)", "positive"],
+  "Erythromycin": ["Gram-positive & atypicals", "גראם חיובי ופתוגנים אטיפיים", "positive"],
+  "Moxifloxacin": ["Broad spectrum (Gram-positive & Gram-negative, plus atypicals)", "ספקטרום רחב (גראם חיובי ושלילי, וגם פתוגנים אטיפיים)", "broad"],
+  "Tigecycline": ["Broad spectrum (Gram-positive & Gram-negative, incl. MRSA)", "ספקטרום רחב (גראם חיובי ושלילי, כולל MRSA)", "broad"],
+  "Tinidazole": ["Anaerobic bacteria & protozoa (not Gram-based)", "חיידקים אנאירוביים וטפילים (לא מסווג לפי גראם)", "other"],
+  "Ethambutol": ["Mycobacteria (TB) - not a general Gram agent", "מיקובקטריות (שחפת) - לא תרופה כללית לפי גראם", "other"],
+  "Pyrazinamide": ["Mycobacteria (TB) - not a general Gram agent", "מיקובקטריות (שחפת) - לא תרופה כללית לפי גראם", "other"],
+  "Doxycycline / minocycline (MRSA use)": ["Gram-positive (incl. MRSA) & broad spectrum", "גראם חיובי (כולל MRSA) וספקטרום רחב", "positive"],
+  "Mupirocin": ["Gram-positive, topical (incl. MRSA)", "גראם חיובי, מקומי (כולל MRSA)", "positive"],
+  "Amikacin": ["Gram-negative (incl. Pseudomonas)", "גראם שלילי (כולל פסאודומונס)", "negative"],
+  "Ceftazidime": ["Gram-negative (incl. Pseudomonas)", "גראם שלילי (כולל פסאודומונס)", "negative"],
+  "Ertapenem": ["Broad spectrum (Gram-positive & Gram-negative, NOT Pseudomonas)", "ספקטרום רחב (גראם חיובי ושלילי, לא כולל פסאודומונס)", "broad"],
+  "Aztreonam": ["Gram-negative only (incl. Pseudomonas)", "גראם שלילי בלבד (כולל פסאודומונס)", "negative"],
+  "Cloxacillin": ["Gram-positive (anti-staphylococcal)", "גראם חיובי (נגד סטפילוקוקוס)", "positive"],
+  "Colistin (polymyxin E)": ["Gram-negative (incl. multidrug-resistant strains)", "גראם שלילי (כולל זנים עמידים מרובי-תרופות)", "negative"],
+  "Fosfomycin": ["Broad spectrum (Gram-positive & Gram-negative), mainly urinary", "ספקטרום רחב (גראם חיובי ושלילי), בעיקר בדרכי השתן", "broad"]
 };
 
 const MEDS = [
@@ -11649,7 +11668,8 @@ function cardHTML(m){
         '<span class="en">' + esc(m.routeEn) + '</span>' +
         '<span class="mid">·</span>' +
         '<span class="he" dir="rtl">' + esc(m.routeHe) + "</span></div>" : "") +
-      (GRAM_COVERAGE[m.genericEn] ? '<div class="gram-line">' +
+      (GRAM_COVERAGE[m.genericEn] ? '<div class="gram-line gram-' + GRAM_COVERAGE[m.genericEn][2] + '">' +
+        '<span class="gram-dot"></span>' +
         '<span class="route-tag en">Gram coverage</span><span class="route-tag route-tag-he" dir="rtl">כיסוי גראם</span> ' +
         '<span class="en">' + esc(GRAM_COVERAGE[m.genericEn][0]) + '</span>' +
         '<span class="mid">·</span>' +
