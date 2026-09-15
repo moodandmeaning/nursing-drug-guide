@@ -162,8 +162,9 @@
     border-bottom:1px solid var(--line);
     padding:14px 0;
     padding-top:max(14px,env(safe-area-inset-top));
-    transition:box-shadow .22s ease;
+    transition:box-shadow .22s ease,transform .22s ease;
   }
+  .controls.hide-bar{transform:translateY(-100%)}
   .search-row{position:relative;display:flex;align-items:center}
   .search-row svg{position:absolute;left:14px;width:18px;height:18px;color:var(--muted);pointer-events:none}
   #search{
@@ -11547,21 +11548,34 @@ document.addEventListener("keydown", e => {
   if (e.key === "/" && document.activeElement !== searchEl) { e.preventDefault(); searchEl.focus(); }
 });
 
-/* Collapse the category row (and meta) once the page is scrolled; keep only the search bar. */
+/* Collapse the category row (and meta) once the page is scrolled; keep only the search bar.
+   Also hide the whole bar while scrolling down (revealing it again on scroll-up or near the top) so only
+   each card's own sticky name+class stays visible while browsing the list. */
 let collapseTicking = false;
 let lastCollapsed = null;
+let lastHide = null;
+let lastScrollY = 0;
 function measureControls(){
-  /* Pin each card's name just below the live height of the sticky controls bar. */
-  document.documentElement.style.setProperty("--card-sticky-top", controlsEl.offsetHeight + "px");
+  /* Pin each card's name just below the live height of the sticky controls bar - or right at the top
+     when the bar is hidden off-screen (transform doesn't change offsetHeight, so this can't be measured). */
+  const hidden = controlsEl.classList.contains("hide-bar");
+  document.documentElement.style.setProperty("--card-sticky-top", hidden ? "0px" : controlsEl.offsetHeight + "px");
 }
 function syncControls(){
   collapseTicking = false;
-  const c = window.scrollY > 6;
+  const y = window.scrollY;
+  const c = y > 6;
   controlsEl.classList.toggle("collapsed", c);
-  if (c !== lastCollapsed){
+  const hide = y > 64 && y > lastScrollY + 4 ? true
+             : y < lastScrollY - 4 || y < 40 ? false
+             : controlsEl.classList.contains("hide-bar");
+  controlsEl.classList.toggle("hide-bar", hide);
+  lastScrollY = y;
+  if (c !== lastCollapsed || hide !== lastHide){
     lastCollapsed = c;
+    lastHide = hide;
     measureControls();
-    setTimeout(measureControls, 260); /* re-measure once the collapse transition settles */
+    setTimeout(measureControls, 260); /* re-measure once the collapse/hide transition settles */
   }
 }
 window.addEventListener("scroll", () => {
