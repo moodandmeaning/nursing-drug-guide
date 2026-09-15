@@ -670,6 +670,20 @@
     cursor:pointer;padding:2px 6px;border-radius:999px;
   }
   .med-row-remove:hover{color:var(--danger)}
+  .med-row-add-note{
+    display:block;font:inherit;font-size:.78rem;color:var(--muted);background:none;border:none;
+    cursor:pointer;padding:0 14px 10px;text-align:start;
+  }
+  .med-row-add-note:hover{color:var(--accent)}
+  .med-row-note{
+    font-size:.8rem;color:var(--muted);padding:0 14px 10px;cursor:pointer;
+    white-space:pre-wrap;word-break:break-word;
+  }
+  .med-row-note:hover{color:var(--ink)}
+  .med-row-note-input{
+    display:block;width:calc(100% - 28px);margin:0 14px 10px;font:inherit;font-size:.8rem;color:var(--ink);
+    background:var(--surface);border:1.5px solid var(--accent);border-radius:8px;padding:6px 9px;
+  }
   .med-row-card{border-top:1px solid var(--line)}
   .nested-card .card-sticky{position:relative;top:auto}
   .nested-card .card{margin-bottom:0;border:none;box-shadow:none;border-radius:0}
@@ -11746,7 +11760,8 @@ function getPatients(){
   list.forEach(p => {
     if (!Array.isArray(p.meds)) { p.meds = []; return; }
     p.meds = p.meds.map(x => {
-      if (typeof x === "string") { changed = true; return { generic: x, route: defaultRouteFor(x) }; }
+      if (typeof x === "string") { changed = true; return { generic: x, route: defaultRouteFor(x), note: "" }; }
+      if (x.note === undefined) { changed = true; x.note = ""; }
       return x;
     });
   });
@@ -11768,7 +11783,7 @@ function addPatient(){
 }
 function createPatientWithMed(genericEn, label){
   const list = getPatients();
-  const p = { id: newPatientId(), label: label || "", diagnoses: [], meds: [{ generic: genericEn, route: defaultRouteFor(genericEn) }] };
+  const p = { id: newPatientId(), label: label || "", diagnoses: [], meds: [{ generic: genericEn, route: defaultRouteFor(genericEn), note: "" }] };
   list.push(p);
   savePatients(list);
   setActivePatientId(p.id);
@@ -11811,7 +11826,7 @@ function addMedToPatient(id, genericEn, render){
   const list = getPatients();
   const p = list.find(x => x.id === id);
   if (!p) return;
-  if (!p.meds.some(x => x.generic === genericEn)) p.meds.push({ generic: genericEn, route: defaultRouteFor(genericEn) });
+  if (!p.meds.some(x => x.generic === genericEn)) p.meds.push({ generic: genericEn, route: defaultRouteFor(genericEn), note: "" });
   savePatients(list);
   if (render && id === getActivePatientId()) renderActivePatient(id);
 }
@@ -11833,6 +11848,15 @@ function setMedRoute(id, genericEn, route){
   entry.route = route;
   savePatients(list);
 }
+function setMedNote(id, genericEn, note){
+  const list = getPatients();
+  const p = list.find(x => x.id === id);
+  if (!p) return;
+  const entry = p.meds.find(x => x.generic === genericEn);
+  if (!entry) return;
+  entry.note = note;
+  savePatients(list);
+}
 function importPatientFromShare(data){
   const rawMeds = (data && Array.isArray(data.meds)) ? data.meds : [];
   const list = getPatients();
@@ -11840,7 +11864,7 @@ function importPatientFromShare(data){
     id: newPatientId(),
     label: (data && data.label) || "",
     diagnoses: (data && Array.isArray(data.diagnoses)) ? data.diagnoses : [],
-    meds: rawMeds.map(x => typeof x === "string" ? { generic: x, route: defaultRouteFor(x) } : x)
+    meds: rawMeds.map(x => typeof x === "string" ? { generic: x, route: defaultRouteFor(x), note: "" } : { note: "", ...x })
   };
   list.push(p);
   savePatients(list);
@@ -11908,6 +11932,9 @@ function buildMedRows(p){
               opts.en.map((r, i) => '<option value="' + escAttr(r) + '"' + (entry.route === r ? " selected" : "") + ">" +
                 esc(r) + " · " + esc(opts.he[i] || "") + "</option>").join("") +
             "</select>";
+        const noteRow = entry.note
+          ? '<div class="med-row-note" data-edit-note="' + escAttr(gen) + '">' + esc(entry.note) + "</div>"
+          : '<button type="button" class="med-row-add-note" data-add-note="' + escAttr(gen) + '">+ Add note<span class="he" dir="rtl"> · הוסף הערה</span></button>';
         return '<div class="med-row" data-med-row="' + escAttr(gen) + '">' +
           '<div class="med-row-head" data-toggle-med="' + escAttr(gen) + '">' +
             '<span class="med-row-chevron">›</span>' +
@@ -11916,6 +11943,7 @@ function buildMedRows(p){
             routeControl +
             '<button type="button" class="med-row-remove" data-remove-med="' + escAttr(gen) + '" aria-label="Remove">×</button>' +
           "</div>" +
+          noteRow +
           '<div class="med-row-card" hidden></div>' +
         "</div>";
       }).join("") + "</div>"
@@ -12093,6 +12121,12 @@ patientsEl.addEventListener("click", function(e){
     return;
   }
   if (e.target.closest("select[data-route-select]")) return;
+  const noteTrigger = e.target.closest("[data-add-note],[data-edit-note]");
+  if (noteTrigger){
+    e.stopPropagation();
+    startEditingNote(noteTrigger, noteTrigger.dataset.addNote || noteTrigger.dataset.editNote);
+    return;
+  }
   const toggleMed = e.target.closest("[data-toggle-med]");
   if (toggleMed){
     const row = toggleMed.closest(".med-row");
@@ -12109,6 +12143,27 @@ patientsEl.addEventListener("click", function(e){
 patientsEl.addEventListener("change", function(e){
   const sel = e.target.closest("select[data-route-select]");
   if (sel) setMedRoute(getActivePatientId(), sel.dataset.routeSelect, sel.value);
+});
+function startEditingNote(el, gen){
+  const current = el.dataset.editNote !== undefined ? el.textContent : "";
+  const input = document.createElement("input");
+  input.type = "text";
+  input.className = "med-row-note-input";
+  input.dataset.noteInput = gen;
+  input.placeholder = "Why is this patient getting it? (optional) / למה המטופל מקבל את זה? (רשות)";
+  input.value = current;
+  el.replaceWith(input);
+  input.focus();
+  input.select();
+  input.addEventListener("keydown", function(e){ if (e.key === "Enter"){ e.preventDefault(); input.blur(); } });
+}
+patientsEl.addEventListener("focusout", function(e){
+  const input = e.target.closest("input[data-note-input]");
+  if (!input) return;
+  const pid = getActivePatientId();
+  setMedNote(pid, input.dataset.noteInput, input.value.trim());
+  const wrap = document.getElementById("medListWrap");
+  if (wrap) wrap.innerHTML = buildMedRows(getPatient(pid));
 });
 
 /* ---- Quick "+ Patient" button on every drug card ---- */
