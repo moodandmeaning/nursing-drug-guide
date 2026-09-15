@@ -38,7 +38,10 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   It also recognizes **diagnoses** (the same ~156-entry curated list used in Patients
   mode, abbreviation-aware) — typing "SVT" or "congestive heart failure" surfaces
   medications relevant to that diagnosis (by category) alongside any literal name match,
-  with a small note confirming which diagnosis it matched.
+  with a small note confirming which diagnosis it matched. When a diagnosis match is
+  active, results are grouped under **First-line / Second-line / Third-line** headings
+  (clinical priority per diagnosis) before the usual class headings underneath each one;
+  a plain name/class search shows the usual single class-grouped list.
 - **Category filter** (the 21 body-system groups, including a **★ Starred** option and a
   separate, independent **🕑 Review Later** option — star and review-later are two
   unrelated lists, a drug can be in either, both, or neither), plus a live result count.
@@ -75,10 +78,12 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   a clinical guideline — the full medication search is always there too for
   anything else) — add every diagnosis first, then go back and open each
   one's dropdown to pick its medications; the dropdown stays open so you can
-  pick several in a row. This dropdown, Browse mode's main list, and the
-  general medication search are all ordered by clinical commonality (common,
-  first-line drugs first) rather than alphabetically. Every drug card also
-  gets a quick **"+"**
+  pick several in a row. This dropdown and Browse's diagnosis search are
+  ordered by **line of treatment** (first-line drugs before second-/third-line,
+  with headings marking each group), with clinical commonality as the
+  tiebreaker; Browse mode's plain list and the general medication search are
+  ordered by clinical commonality alone (common, first-line drugs first)
+  rather than alphabetically. Every drug card also gets a quick **"+"**
   button to add it straight to a patient without leaving Browse mode. When a
   medication has more than one route of administration, picking it for a
   patient shows a route dropdown so you can record how *that* patient is
@@ -113,7 +118,11 @@ list is the `CATS` array just above it. Just below `CATS` are four more lookups:
 `DIAGNOSES` (the curated diagnosis list), `DIAGNOSIS_ABBREVS` (abbreviation → full-phrase
 matches for the diagnosis search), `DIAGNOSIS_CATS` (diagnosis id → relevant `CATS`
 category ids, powering each diagnosis's suggested-medications dropdown — give any new
-diagnosis an entry here or it just won't suggest anything), `MED_FREQ` (generic name →
+diagnosis an entry here or it just won't suggest anything), `DIAGNOSIS_LINES`
+(diagnosis id → `{ category: line }`, tagging each of that diagnosis's `DIAGNOSIS_CATS`
+categories 1/2/3 for first-/second-/third-line — a category left untagged quietly
+defaults to line 2 via `treatmentLine()`; drives the line-of-treatment ordering above),
+`MED_FREQ` (generic name →
 commonality tier, 1 = very common/first-line, 3 = less common/specialized, no entry =
 tier 2 — drives the ordering of Browse mode, the diagnosis dropdowns, and the Patients-mode
 medication search; it's a judgment call, not real prescribing data), and `GRAM_COVERAGE`
