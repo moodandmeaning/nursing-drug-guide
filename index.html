@@ -11871,11 +11871,12 @@ function renderActivePatient(id){
   openDiagMedsMenu = null;
   const diagChips = p.diagnoses.length
     ? '<div class="chip-row">' + p.diagnoses.map((d, i) =>
-        '<span class="diag-chip"><span class="en">' + esc(d.textEn) + '</span>' +
-        '<span class="he" dir="rtl">' + esc(d.textHe) + '</span>' +
+        '<span class="diag-chip">' +
         (d.id && DIAGNOSIS_CATS[d.id]
           ? '<button type="button" class="diag-chip-meds-btn" data-diag-meds-toggle="' + i + '" aria-label="Suggested medications / תרופות מוצעות">℞</button>'
           : "") +
+        '<span class="en">' + esc(d.textEn) + '</span>' +
+        '<span class="he" dir="rtl">' + esc(d.textHe) + '</span>' +
         '<button type="button" class="diag-chip-remove" data-remove-diag="' + i + '" aria-label="Remove">×</button></span>'
       ).join("") + "</div>"
     : '<p class="empty">No diagnoses yet.<span class="he" dir="rtl">אין עדיין אבחנות.</span></p>';
