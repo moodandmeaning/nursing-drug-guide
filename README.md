@@ -35,19 +35,15 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   state their **Gram coverage** (Gram-positive / Gram-negative / broad spectrum, with
   standard qualifiers like MRSA or Pseudomonas where relevant).
 - Search bar (matches name, brand, or class in either language; press `/` to focus it).
-- Two filter dropdowns: **category** (the 21 body-system groups above, including a
-  **★ Starred** option and a separate, independent **🕑 Review Later** option — star
-  and review-later are two unrelated lists, a drug can be in either, both, or neither)
-  and **pharmacological class** (19 broad class groups — e.g. Cardiovascular agents,
-  Antibacterials, Neuro & psychiatric agents — grouping ~150 specific classes like ACE
-  inhibitor, beta blocker, SSRI, or fluoroquinolone, so you can pull up every drug in a
-  class regardless of category). Both combine, plus a live result count. Results are
-  ordered by clinical commonality (common, first-line drugs first), not alphabetically.
-- **Read aloud**: every card has two small speaker buttons that read the entire card
-  (class, names, route, dose, gram coverage, every section) using the device's built-in
-  text-to-speech — one for English, one for Hebrew. Tap the active button again (or the
-  other language) to stop. Handy for studying hands-free. Voice quality/availability
-  depends on the device.
+- **Category filter** (the 21 body-system groups, including a **★ Starred** option and a
+  separate, independent **🕑 Review Later** option — star and review-later are two
+  unrelated lists, a drug can be in either, both, or neither), plus a live result count.
+  Within the filtered list, drugs are grouped under scrollable **class headings** (e.g.
+  "Beta blocker", "Loop diuretic" — ~150 specific classes) instead of one flat
+  alphabetical list, so browsing reads like a textbook organized by topic; a specific
+  class like "beta blocker" is also always reachable by typing it into the search bar.
+  Within each heading, drugs are ordered by clinical commonality (common, first-line
+  drugs first), not alphabetically.
 - **Display-language switch** (Both / EN / עברית): show every field in just one
   language while generic and brand names stay bilingual. The choice is saved on
   the device.
