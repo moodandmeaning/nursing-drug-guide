@@ -763,6 +763,20 @@
   }
   .diag-meds-menu-label .he{font-weight:600}
   .diag-meds-menu-items{max-height:260px;overflow-y:auto}
+  .voice-menu{
+    flex:1 0 100%;margin-top:6px;
+    border:1.5px solid var(--line);border-radius:10px;background:var(--surface);
+    overflow:hidden;
+  }
+  .voice-menu-section{padding:10px 14px;border-top:1px solid var(--line)}
+  .voice-menu-section:first-child{border-top:none}
+  .voice-menu-section h4{
+    display:flex;gap:8px;font-size:.72rem;font-weight:700;letter-spacing:.02em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 8px;
+  }
+  .voice-menu-section h4 .he{font-weight:600;text-transform:none}
+  .voice-menu-section label{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:.85rem;cursor:pointer}
+  .voice-menu-empty{font-size:.82rem;color:var(--muted);font-style:italic;margin:0}
   .med-row-route{
     flex:0 0 auto;font:inherit;font-size:.78rem;color:var(--muted);
     background:var(--surface-2);border:1.5px solid var(--line);border-radius:999px;padding:5px 10px;
@@ -847,6 +861,7 @@
       </div>
       <select id="catSelect" class="cat-select" aria-label="Filter by drug category / סינון לפי קטגוריית תרופה"></select>
       <span class="count" id="count"></span>
+      <button class="theme-toggle" id="voiceBtn" type="button">🎙 Voice · קול</button>
       <button class="theme-toggle" id="themeToggle" type="button">Theme · ערכת צבע</button>
     </div>
   </div>
@@ -11829,6 +11844,29 @@ function stopSpeaking(){
   try { speechSynthesis.cancel(); } catch(e){}
   document.querySelectorAll(".speak-btn.on").forEach(b => b.classList.remove("on"));
 }
+/* Voices load asynchronously on some browsers; warm the list eagerly and again once it's ready. */
+if (typeof speechSynthesis !== "undefined"){
+  speechSynthesis.getVoices();
+  speechSynthesis.addEventListener("voiceschanged", function(){ speechSynthesis.getVoices(); });
+}
+function pickVoice(lang){
+  if (typeof speechSynthesis === "undefined") return null;
+  const voices = speechSynthesis.getVoices() || [];
+  const prefix = lang === "he" ? "he" : "en";
+  const candidates = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith(prefix));
+  if (!candidates.length) return null;
+  const preferredName = lsGetRaw("ndg-voice-" + lang);
+  const chosen = preferredName && candidates.find(v => v.name === preferredName);
+  if (chosen) return chosen;
+  const scored = candidates.map(v => {
+    const n = v.name.toLowerCase();
+    let score = /enhanced|premium|neural|natural|siri/.test(n) ? 3 : 0;
+    if (v.localService) score += 1;
+    if (/compact|espeak/.test(n)) score -= 2;
+    return { v, score };
+  }).sort((a, b) => b.score - a.score);
+  return scored[0].v;
+}
 document.body.addEventListener("click", function(e){
   const btn = e.target.closest("[data-speak]");
   if (!btn) return;
@@ -11843,9 +11881,51 @@ document.body.addEventListener("click", function(e){
   if (!text) return;
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = lang === "he" ? "he-IL" : "en-US";
+  const voice = pickVoice(lang);
+  if (voice) utter.voice = voice;
   utter.onend = utter.onerror = function(){ btn.classList.remove("on"); };
   btn.classList.add("on");
   speechSynthesis.speak(utter);
+});
+
+/* ---- Voice picker popover ---- */
+const voiceBtnEl = document.getElementById("voiceBtn");
+let openVoiceMenu = null;
+function closeOpenVoiceMenu(){
+  if (openVoiceMenu) openVoiceMenu.remove();
+  openVoiceMenu = null;
+}
+function voiceMenuHTML(){
+  const voices = (typeof speechSynthesis !== "undefined" && speechSynthesis.getVoices()) || [];
+  const section = (lang, label, labelHe) => {
+    const prefix = lang === "he" ? "he" : "en";
+    const candidates = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith(prefix));
+    const current = pickVoice(lang);
+    const rows = candidates.length
+      ? candidates.map(v => '<label><input type="radio" name="voice-' + lang + '" value="' + escAttr(v.name) + '"' +
+          (current && current.name === v.name ? " checked" : "") + '><span>' + esc(v.name) + " (" + esc(v.lang) + ")</span></label>").join("")
+      : '<p class="voice-menu-empty">No additional voices found on this device / stock voice only<span class="he" dir="rtl">לא נמצאו קולות נוספים במכשיר זה / קול ברירת המחדל בלבד</span></p>';
+    return '<div class="voice-menu-section"><h4>' + label + '<span class="he" dir="rtl">' + labelHe + "</span></h4>" + rows + "</div>";
+  };
+  return section("en", "English voice", "קול באנגלית") + section("he", "Hebrew voice", "קול בעברית");
+}
+voiceBtnEl.addEventListener("click", function(e){
+  e.stopPropagation();
+  if (openVoiceMenu){ closeOpenVoiceMenu(); return; }
+  const menu = document.createElement("div");
+  menu.className = "voice-menu";
+  menu.innerHTML = voiceMenuHTML();
+  voiceBtnEl.insertAdjacentElement("afterend", menu);
+  openVoiceMenu = menu;
+});
+document.body.addEventListener("change", function(e){
+  const radio = e.target.closest('.voice-menu input[type="radio"]');
+  if (!radio) return;
+  const lang = radio.name === "voice-he" ? "he" : "en";
+  lsSetRaw("ndg-voice-" + lang, radio.value);
+});
+document.body.addEventListener("click", function(e){
+  if (openVoiceMenu && !e.target.closest(".voice-menu") && e.target !== voiceBtnEl) closeOpenVoiceMenu();
 });
 
 /* ============================================================
