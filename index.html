@@ -422,16 +422,22 @@
     color:var(--muted);padding:2px 4px;z-index:1;
   }
   .add-to-patient-btn:hover,.add-to-patient-btn.open{color:var(--accent)}
+  .review-btn{
+    position:absolute;top:14px;inset-inline-end:76px;
+    font-size:1.05rem;line-height:1;background:none;border:none;cursor:pointer;
+    color:var(--muted);padding:2px;z-index:1;opacity:.55;
+  }
+  .review-btn.on{color:var(--accent);opacity:1}
   .speak-btn{
     position:absolute;top:15px;
     font-size:.68rem;font-weight:700;line-height:1;background:none;border:none;cursor:pointer;
     color:var(--muted);padding:3px 4px;z-index:1;border-radius:5px;
   }
-  .speak-btn[data-speak="en"]{inset-inline-end:76px}
-  .speak-btn[data-speak="he"]{inset-inline-end:106px}
+  .speak-btn[data-speak="en"]{inset-inline-end:106px}
+  .speak-btn[data-speak="he"]{inset-inline-end:136px}
   .speak-btn:hover{color:var(--accent)}
   .speak-btn.on{color:var(--on-accent);background:var(--accent)}
-  .card-sticky .card-class,.card-sticky .card-names{padding-inline-end:128px}
+  .card-sticky .card-class,.card-sticky .card-names{padding-inline-end:158px}
   .card-sticky .patient-picker-menu{
     position:absolute;top:44px;inset-inline-end:16px;width:min(240px,calc(100% - 32px));
     z-index:6;box-shadow:var(--shadow);
@@ -11353,6 +11359,14 @@ function syncStarOption(){
   starOptionEl.textContent = "★ Starred (" + n + ")  ·  נבחרים";
 }
 syncStarOption();
+const reviewOptionEl = document.createElement("option");
+reviewOptionEl.value = "review";
+catSelectEl.insertBefore(reviewOptionEl, catSelectEl.children[2] || null);
+function syncReviewOption(){
+  const n = getReviewLater().length;
+  reviewOptionEl.textContent = "🕑 Review Later (" + n + ")  ·  לעיון מאוחר יותר";
+}
+syncReviewOption();
 catSelectEl.value = "all";
 catSelectEl.addEventListener("change", () => { activeCat = catSelectEl.value; render(); });
 
@@ -11567,6 +11581,7 @@ measureControls();
 
 function matches(m){
   if (activeCat === "starred"){ if (!isStarred(m.genericEn)) return false; }
+  else if (activeCat === "review"){ if (!isReviewLater(m.genericEn)) return false; }
   else if (activeCat !== "all" && m.cat !== activeCat) return false;
   if (activeClass !== "all"){ const g = classGroupOf(m); if (!g || g[0] !== activeClass) return false; }
   if (!query) return true;
@@ -11606,6 +11621,7 @@ function cardHTML(m){
   }).join("");
   const cl = catLabel(m.cat);
   const starred = isStarred(m.genericEn);
+  const reviewLater = isReviewLater(m.genericEn);
   const meta =
       (brands ? '<div class="brands">' + brands + "</div>" : "") +
       (m.routeEn ? '<div class="route-line">' +
@@ -11638,6 +11654,7 @@ function cardHTML(m){
     '<div class="card-sticky">' +
       '<button class="star-btn' + (starred ? " on" : "") + '" type="button" data-star="' + escAttr(m.genericEn) + '" aria-label="Star this drug / הוסף לנבחרים" aria-pressed="' + starred + '">' + (starred ? "★" : "☆") + "</button>" +
       '<button class="add-to-patient-btn" type="button" data-add-patient="' + escAttr(m.genericEn) + '" aria-label="Add to a patient / הוסף למטופל" title="Add to a patient / הוסף למטופל">+</button>' +
+      '<button class="review-btn' + (reviewLater ? " on" : "") + '" type="button" data-review="' + escAttr(m.genericEn) + '" aria-label="Mark for review later / סמן לעיון מאוחר יותר" aria-pressed="' + reviewLater + '" title="Review later / לעיון מאוחר יותר">🕑</button>' +
       '<button class="speak-btn" type="button" data-speak="en" data-speak-med="' + escAttr(m.genericEn) + '" aria-label="Read aloud in English" title="Read aloud in English">🔊A</button>' +
       '<button class="speak-btn" type="button" data-speak="he" data-speak-med="' + escAttr(m.genericEn) + '" aria-label="הקראה בעברית" title="הקראה בעברית">🔊א</button>' +
       '<p class="card-class"><span class="en">' + esc(m.classEn) + '</span>' +
@@ -11660,6 +11677,8 @@ function render(){
   if (!rows.length){
     const msg = (activeCat === "starred" && !query)
       ? 'No starred medications yet. Tap the ☆ on any card to add one.<span class="he" dir="rtl">עדיין אין תרופות נבחרות. הקש/י על ☆ בכרטיס כדי להוסיף.</span>'
+      : (activeCat === "review" && !query)
+      ? 'No medications marked for review yet. Tap the 🕑 on any card to add one.<span class="he" dir="rtl">עדיין אין תרופות לעיון מאוחר יותר. הקש/י על 🕑 בכרטיס כדי להוסיף.</span>'
       : 'No medications match your search.<span class="he" dir="rtl">לא נמצאו תרופות התואמות לחיפוש.</span>';
     listEl.innerHTML = '<p class="empty">' + msg + '</p>';
     return;
@@ -11746,6 +11765,28 @@ document.body.addEventListener("click", function(e){
   btn.setAttribute("aria-pressed", on);
   syncStarOption();
   if (activeCat === "starred" && !on) render();
+});
+
+/* ============================================================
+   Review-later drugs - a second, independent list from Starred
+   ============================================================ */
+function getReviewLater(){ return lsGet("ndg-review-later", []); }
+function isReviewLater(gen){ return getReviewLater().indexOf(gen) !== -1; }
+function toggleReviewLater(gen){
+  const r = getReviewLater();
+  const i = r.indexOf(gen);
+  if (i === -1) r.push(gen); else r.splice(i, 1);
+  lsSet("ndg-review-later", r);
+}
+document.body.addEventListener("click", function(e){
+  const btn = e.target.closest(".review-btn");
+  if (!btn) return;
+  toggleReviewLater(btn.dataset.review);
+  const on = isReviewLater(btn.dataset.review);
+  btn.classList.toggle("on", on);
+  btn.setAttribute("aria-pressed", on);
+  syncReviewOption();
+  if (activeCat === "review" && !on) render();
 });
 
 /* ---- Read aloud (Web Speech API), English / Hebrew ---- */

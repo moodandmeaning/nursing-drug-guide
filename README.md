@@ -10,6 +10,8 @@ in **English and Hebrew** side by side. Installable as an app on iOS and Android
 - **iPhone / iPad (Safari):** open the live app link, tap the **Share** button, then
   **Add to Home Screen**. It gets an app icon and opens full-screen with no browser bars.
 - **Android (Chrome):** open the link, then **Install app** from the menu (or the prompt).
+- The layout is locked to a fixed size (no accidental pinch/double-tap zoom) so it behaves
+  like a native app once installed.
 
 ## What's in it
 
@@ -29,14 +31,23 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   monitoring, patient teaching (what to tell the patient), and — where one exists —
   the antidote / reversal agent. About a third of drugs also carry a memory trick
   (wordplay, an acronym, a nickname) shown right under the brand names — added only
-  where a genuinely memorable one exists, not forced onto every entry.
+  where a genuinely memorable one exists, not forced onto every entry. Antibiotics also
+  state their **Gram coverage** (Gram-positive / Gram-negative / broad spectrum, with
+  standard qualifiers like MRSA or Pseudomonas where relevant).
 - Search bar (matches name, brand, or class in either language; press `/` to focus it).
 - Two filter dropdowns: **category** (the 21 body-system groups above, including a
-  **★ Starred** option that shows only the drugs you've starred) and **pharmacological
-  class** (19 broad class groups — e.g. Cardiovascular agents, Antibacterials, Neuro &
-  psychiatric agents — grouping ~150 specific classes like ACE inhibitor, beta blocker,
-  SSRI, or fluoroquinolone, so you can pull up every drug in a class regardless of
-  category). Both combine, plus a live result count.
+  **★ Starred** option and a separate, independent **🕑 Review Later** option — star
+  and review-later are two unrelated lists, a drug can be in either, both, or neither)
+  and **pharmacological class** (19 broad class groups — e.g. Cardiovascular agents,
+  Antibacterials, Neuro & psychiatric agents — grouping ~150 specific classes like ACE
+  inhibitor, beta blocker, SSRI, or fluoroquinolone, so you can pull up every drug in a
+  class regardless of category). Both combine, plus a live result count. Results are
+  ordered by clinical commonality (common, first-line drugs first), not alphabetically.
+- **Read aloud**: every card has two small speaker buttons that read the entire card
+  (class, names, route, dose, gram coverage, every section) using the device's built-in
+  text-to-speech — one for English, one for Hebrew. Tap the active button again (or the
+  other language) to stop. Handy for studying hands-free. Voice quality/availability
+  depends on the device.
 - **Display-language switch** (Both / EN / עברית): show every field in just one
   language while generic and brand names stay bilingual. The choice is saved on
   the device.
@@ -71,10 +82,14 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   button to add it straight to a patient without leaving Browse mode. When a
   medication has more than one route of administration, picking it for a
   patient shows a route dropdown so you can record how *that* patient is
-  getting it. Everything is saved on the device only (no accounts, no
-  server) — a **Share** button per patient generates a link that imports
-  that patient's data (including any chosen route) into the app on any other
-  device, for handing off to a classmate or moving between your own devices.
+  getting it. Each medication on a patient can also carry an optional
+  free-text note (why they're getting it) — hidden by default as a small
+  "+ Add note" link, shown in smaller text than the drug name once you write
+  one, tap it again to edit. Everything is saved on the device only (no
+  accounts, no server) — a **Share** button per patient generates a link that
+  imports that patient's data (including any chosen route and notes) into
+  the app on any other device, for handing off to a classmate or moving
+  between your own devices.
 - **Missing medication log** (toggle at the top): if a drug you need isn't in
   the guide yet, log its name (plus an optional note) here so it can be added
   later. Saved on the device only; a **Copy list** button exports everything
@@ -98,7 +113,9 @@ list is the `CATS` array just above it. Just below `CATS` are four more lookups:
 `DIAGNOSES` (the curated diagnosis list), `DIAGNOSIS_ABBREVS` (abbreviation → full-phrase
 matches for the diagnosis search), `DIAGNOSIS_CATS` (diagnosis id → relevant `CATS`
 category ids, powering each diagnosis's suggested-medications dropdown — give any new
-diagnosis an entry here or it just won't suggest anything), and `MED_FREQ` (generic name →
+diagnosis an entry here or it just won't suggest anything), `MED_FREQ` (generic name →
 commonality tier, 1 = very common/first-line, 3 = less common/specialized, no entry =
 tier 2 — drives the ordering of Browse mode, the diagnosis dropdowns, and the Patients-mode
-medication search; it's a judgment call, not real prescribing data).
+medication search; it's a judgment call, not real prescribing data), and `GRAM_COVERAGE`
+(generic name → [English, Hebrew] Gram-coverage text, antibiotics only — objective
+microbiology, not a judgment call).
