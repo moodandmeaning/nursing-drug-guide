@@ -705,19 +705,20 @@
     flex:1;font:inherit;font-size:.85rem;color:var(--ink);
     background:var(--surface-2);border:1.5px solid var(--line);border-radius:8px;padding:7px 9px;
   }
-  .suggested-meds{margin:-2px 0 10px}
-  .suggested-meds-label{
+  .diag-chip-meds-btn{
+    font-size:.78rem;line-height:1;color:var(--accent);background:var(--accent-soft);border:none;
+    cursor:pointer;padding:4px 7px;border-radius:999px;
+  }
+  .diag-chip-meds-btn.open{background:var(--accent);color:var(--on-accent)}
+  .diag-meds-menu{
+    flex:1 0 100%;margin-top:-2px;border:1.5px solid var(--line);border-radius:10px;
+    background:var(--surface);overflow:hidden;
+  }
+  .diag-meds-menu-label{
     display:flex;gap:6px;font-size:.72rem;font-weight:700;letter-spacing:.02em;
-    color:var(--muted);margin:0 0 6px;
+    color:var(--muted);padding:9px 12px;border-bottom:1px solid var(--line);
   }
-  .suggested-meds-label .he{font-weight:600}
-  .suggested-med-chip{
-    display:inline-flex;align-items:center;gap:6px;margin:0 6px 6px 0;
-    font:inherit;font-size:.82rem;font-weight:600;background:var(--surface-2);
-    border:1px dashed var(--line);color:var(--ink);padding:6px 10px;border-radius:999px;cursor:pointer;
-  }
-  .suggested-med-chip:hover{border-color:var(--accent);border-style:solid;color:var(--accent)}
-  .suggested-med-chip .he{direction:rtl;color:var(--muted)}
+  .diag-meds-menu-label .he{font-weight:600}
   .med-row-route{
     flex:0 0 auto;font:inherit;font-size:.78rem;color:var(--muted);
     background:var(--surface-2);border:1.5px solid var(--line);border-radius:999px;padding:5px 10px;
@@ -11639,13 +11640,14 @@ function removeDiagnosis(id, index){
   savePatients(list);
   renderActivePatient(id);
 }
-function addMedToPatient(id, genericEn){
+function addMedToPatient(id, genericEn, render){
+  if (render === undefined) render = true;
   const list = getPatients();
   const p = list.find(x => x.id === id);
   if (!p) return;
   if (!p.meds.some(x => x.generic === genericEn)) p.meds.push({ generic: genericEn, route: defaultRouteFor(genericEn) });
   savePatients(list);
-  if (id === getActivePatientId()) renderActivePatient(id);
+  if (render && id === getActivePatientId()) renderActivePatient(id);
 }
 function removeMedFromPatient(id, genericEn){
   const list = getPatients();
@@ -11726,18 +11728,8 @@ function renderPatientTabs(){
   }).join("");
 }
 
-function renderActivePatient(id){
-  const p = getPatient(id);
-  if (!p) return;
-  const diagChips = p.diagnoses.length
-    ? '<div class="chip-row">' + p.diagnoses.map((d, i) =>
-        '<span class="diag-chip"><span class="en">' + esc(d.textEn) + '</span>' +
-        '<span class="he" dir="rtl">' + esc(d.textHe) + '</span>' +
-        '<button type="button" class="diag-chip-remove" data-remove-diag="' + i + '" aria-label="Remove">×</button></span>'
-      ).join("") + "</div>"
-    : '<p class="empty">No diagnoses yet.<span class="he" dir="rtl">אין עדיין אבחנות.</span></p>';
-
-  const medRows = p.meds.length
+function buildMedRows(p){
+  return p.meds.length
     ? '<div class="med-list">' + p.meds.map(entry => {
         const gen = entry.generic;
         const m = MEDS.find(x => x.genericEn === gen);
@@ -11762,6 +11754,23 @@ function renderActivePatient(id){
         "</div>";
       }).join("") + "</div>"
     : '<p class="empty">No medications yet.<span class="he" dir="rtl">אין עדיין תרופות.</span></p>';
+}
+
+function renderActivePatient(id){
+  const p = getPatient(id);
+  if (!p) return;
+  openDiagMedsBtn = null;
+  openDiagMedsMenu = null;
+  const diagChips = p.diagnoses.length
+    ? '<div class="chip-row">' + p.diagnoses.map((d, i) =>
+        '<span class="diag-chip"><span class="en">' + esc(d.textEn) + '</span>' +
+        '<span class="he" dir="rtl">' + esc(d.textHe) + '</span>' +
+        (d.id && DIAGNOSIS_CATS[d.id]
+          ? '<button type="button" class="diag-chip-meds-btn" data-diag-meds-toggle="' + i + '" aria-label="Suggested medications / תרופות מוצעות">℞</button>'
+          : "") +
+        '<button type="button" class="diag-chip-remove" data-remove-diag="' + i + '" aria-label="Remove">×</button></span>'
+      ).join("") + "</div>"
+    : '<p class="empty">No diagnoses yet.<span class="he" dir="rtl">אין עדיין אבחנות.</span></p>';
 
   patientPanelEl.innerHTML =
     '<div class="patient-panel">' +
@@ -11776,11 +11785,10 @@ function renderActivePatient(id){
         '<div class="add-row"><input type="text" id="diagAddInput" dir="auto" autocomplete="off" ' +
           'placeholder="Add a diagnosis... / הוסף אבחנה..."></div>' +
         '<div class="diag-picker-results" id="diagPickerResults" hidden></div>' +
-        '<div class="suggested-meds" id="suggestedMedsBox" hidden></div>' +
       "</div>" +
       '<div class="patient-section">' +
         '<h3><span class="en">Medications</span><span class="he" dir="rtl">תרופות</span></h3>' +
-        medRows +
+        '<div id="medListWrap">' + buildMedRows(p) + "</div>" +
         '<div class="add-row"><input type="text" id="medAddInput" dir="auto" autocomplete="off" ' +
           'placeholder="Search a medication to add... / חיפוש תרופה להוספה..."></div>' +
         '<div class="med-picker-results" id="medPickerResults" hidden></div>' +
@@ -11800,26 +11808,49 @@ function renderActivePatient(id){
   });
   const medInput = document.getElementById("medAddInput");
   medInput.addEventListener("input", function(){ renderMedPicker(id, this.value); });
-  renderSuggestedMeds(id);
 }
 
-function renderSuggestedMeds(patientId){
-  const box = document.getElementById("suggestedMedsBox");
-  if (!box) return;
+/* ---- Per-diagnosis suggested-medications dropdown ---- */
+let openDiagMedsBtn = null;
+let openDiagMedsMenu = null;
+function closeOpenDiagMeds(){
+  if (openDiagMedsMenu) openDiagMedsMenu.remove();
+  if (openDiagMedsBtn) openDiagMedsBtn.classList.remove("open");
+  openDiagMedsMenu = null;
+  openDiagMedsBtn = null;
+}
+function diagMedsRows(patientId, diagIndex){
   const p = getPatient(patientId);
-  const cats = new Set();
-  p.diagnoses.forEach(d => { if (d.id && DIAGNOSIS_CATS[d.id]) DIAGNOSIS_CATS[d.id].forEach(c => cats.add(c)); });
-  if (!cats.size){ box.hidden = true; box.innerHTML = ""; return; }
-  const already = new Set(p.meds.map(x => typeof x === "string" ? x : x.generic));
-  const rows = MEDS.filter(m => cats.has(m.cat) && !already.has(m.genericEn))
+  const d = p && p.diagnoses[diagIndex];
+  if (!d || !d.id || !DIAGNOSIS_CATS[d.id]) return { d: null, rows: [] };
+  const cats = DIAGNOSIS_CATS[d.id];
+  const already = new Set(p.meds.map(x => x.generic));
+  const rows = MEDS.filter(m => cats.indexOf(m.cat) !== -1 && !already.has(m.genericEn))
                     .sort((a, b) => a.genericEn.localeCompare(b.genericEn)).slice(0, 12);
-  if (!rows.length){ box.hidden = true; box.innerHTML = ""; return; }
-  box.innerHTML = '<p class="suggested-meds-label"><span class="en">Suggested for this patient\'s diagnoses</span>' +
-    '<span class="he" dir="rtl">מוצע על סמך האבחנות</span></p>' +
-    rows.map(m => '<button type="button" class="suggested-med-chip" data-pick-med="' + escAttr(m.genericEn) + '">' +
-      '<span class="en">' + esc(m.genericEn) + '</span><span class="he" dir="rtl">' + esc(m.genericHe) + '</span></button>'
-    ).join("");
-  box.hidden = false;
+  return { d, rows };
+}
+function diagMedsMenuHTML(patientId, diagIndex){
+  const { d, rows } = diagMedsRows(patientId, diagIndex);
+  if (!d) return "";
+  const label = '<div class="diag-meds-menu-label"><span class="en">Suggested for "' + esc(d.textEn) + '"</span>' +
+    '<span class="he" dir="rtl">מוצע עבור "' + esc(d.textHe) + '"</span></div>';
+  const items = rows.length
+    ? rows.map(m => '<div class="picker-item" data-diag-meds-pick="' + escAttr(m.genericEn) + '">' +
+        '<span class="en">' + esc(m.genericEn) + '</span><span class="he" dir="rtl">' + esc(m.genericHe) + '</span></div>').join("")
+    : '<div class="picker-item picker-custom">All suggested medications already added<span class="he" dir="rtl">כל התרופות המוצעות כבר נוספו</span></div>';
+  return label + items;
+}
+function toggleDiagMedsMenu(btn, patientId, diagIndex){
+  if (openDiagMedsBtn === btn){ closeOpenDiagMeds(); return; }
+  closeOpenDiagMeds();
+  const menu = document.createElement("div");
+  menu.className = "diag-meds-menu";
+  menu.dataset.diagIndex = diagIndex;
+  menu.innerHTML = diagMedsMenuHTML(patientId, diagIndex);
+  btn.closest(".diag-chip").insertAdjacentElement("afterend", menu);
+  btn.classList.add("open");
+  openDiagMedsBtn = btn;
+  openDiagMedsMenu = menu;
 }
 
 function renderDiagnosisPicker(patientId, query){
@@ -11879,6 +11910,21 @@ patientsEl.addEventListener("click", function(e){
   }
   const pickMed = e.target.closest("[data-pick-med]");
   if (pickMed){ addMedToPatient(getActivePatientId(), pickMed.dataset.pickMed); return; }
+  const diagMedsToggle = e.target.closest("[data-diag-meds-toggle]");
+  if (diagMedsToggle){
+    e.stopPropagation();
+    toggleDiagMedsMenu(diagMedsToggle, getActivePatientId(), parseInt(diagMedsToggle.dataset.diagMedsToggle, 10));
+    return;
+  }
+  const diagMedsPick = e.target.closest("[data-diag-meds-pick]");
+  if (diagMedsPick){
+    e.stopPropagation();
+    const pid = getActivePatientId();
+    addMedToPatient(pid, diagMedsPick.dataset.diagMedsPick, false);
+    document.getElementById("medListWrap").innerHTML = buildMedRows(getPatient(pid));
+    if (openDiagMedsMenu) openDiagMedsMenu.innerHTML = diagMedsMenuHTML(pid, parseInt(openDiagMedsMenu.dataset.diagIndex, 10));
+    return;
+  }
   if (e.target.closest("select[data-route-select]")) return;
   const toggleMed = e.target.closest("[data-toggle-med]");
   if (toggleMed){
@@ -11946,6 +11992,7 @@ document.body.addEventListener("click", function(e){
   const addBtn = e.target.closest(".add-to-patient-btn");
   if (addBtn){ e.stopPropagation(); togglePatientPickerMenu(addBtn); return; }
   if (openPatientPickerMenu && !e.target.closest(".patient-picker-menu")) closeOpenPatientPicker();
+  if (openDiagMedsMenu && !e.target.closest(".diag-meds-menu") && !e.target.closest("[data-diag-meds-toggle]")) closeOpenDiagMeds();
 });
 document.body.addEventListener("change", function(e){
   const cb = e.target.closest("input[data-picker-patient]");

@@ -59,10 +59,12 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   once. Diagnoses are picked from a curated bilingual list of ~130 common
   clinical diagnoses (search-as-you-type, and abbreviation-aware — typing
   "CHF", "T2DM", "UTI", etc. finds the matching diagnosis) or typed freely if
-  not on it. Adding a diagnosis shows a **suggested medications** list drawn
-  from that diagnosis's relevant drug categories (a shortlist to speed
-  charting, not a clinical guideline — the full medication search is always
-  there too for anything else). Every drug card also gets a quick **"+"**
+  not on it. Each diagnosis chip gets its own **℞ dropdown** of medications
+  relevant to just that diagnosis (a shortlist to speed charting, not a
+  clinical guideline — the full medication search is always there too for
+  anything else) — add every diagnosis first, then go back and open each
+  one's dropdown to pick its medications; the dropdown stays open so you can
+  pick several in a row. Every drug card also gets a quick **"+"**
   button to add it straight to a patient without leaving Browse mode. When a
   medication has more than one route of administration, picking it for a
   patient shows a route dropdown so you can record how *that* patient is
