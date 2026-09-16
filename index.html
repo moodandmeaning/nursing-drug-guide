@@ -272,6 +272,32 @@
   }
   .dx-sub-heading .he{direction:rtl;font-weight:500}
   .dx-sub-heading + .class-heading{margin-top:0}
+  /* ---- Diagnosis treatment-flow (curated protocols) ---- */
+  .protocol-flow{margin:20px 0 40px}
+  .protocol-step{position:relative;padding-left:44px;margin-bottom:28px}
+  .protocol-step:last-child{margin-bottom:0}
+  .protocol-step::before{
+    content:"";position:absolute;left:15px;top:34px;bottom:-28px;width:2px;background:var(--line);
+  }
+  .protocol-step:last-child::before{display:none}
+  .protocol-badge{
+    position:absolute;left:0;top:0;width:32px;height:32px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--accent);color:var(--on-accent);font-weight:800;font-size:.95rem;
+    border:2px solid var(--line);
+  }
+  .protocol-step-head{
+    display:flex;flex-wrap:wrap;align-items:center;gap:8px;min-height:32px;margin-bottom:12px;
+    font-weight:800;font-size:1.02rem;color:var(--ink);
+  }
+  .protocol-step-head .he{direction:rtl;font-weight:700;color:var(--muted)}
+  .protocol-drugs{display:flex;flex-direction:column;gap:14px}
+  .protocol-drug{display:flex;flex-direction:column}
+  .protocol-note{
+    font-size:.85rem;font-weight:600;color:var(--accent);
+    background:var(--accent-soft);border-radius:8px;padding:8px 12px;margin:0 0 8px;
+  }
+  .protocol-note .he{display:block;direction:rtl;color:var(--ink);font-weight:500;margin-top:2px}
   .card{
     background:var(--surface);
     border:2px solid var(--line);
@@ -1514,6 +1540,186 @@ const TREATMENT_LINE_LABELS = {
   2: ["Second-line", "קו טיפול שני"],
   3: ["Third-line", "קו טיפול שלישי"],
   4: ["Other options", "אפשרויות נוספות"]
+};
+
+/* Curated step-by-step treatment flow for a handful of high-yield emergency diagnoses, layered on top of
+   the coarse DIAGNOSIS_CATS/DIAGNOSIS_LINES category system above. Each `generic` must exactly match a
+   MEDS[].genericEn - render() looks the drug up and reuses its normal card via cardHTML(), with the note
+   shown as a small callout above it. Diagnoses NOT listed here keep the existing category-grouped view -
+   this is only checked/used when present, see render() below. */
+const DIAGNOSIS_PROTOCOL = {
+  anaphylaxis: [
+    { stepEn:"First-line — give immediately", stepHe:"קו ראשון — לתת מיד",
+      drugs:[
+        { generic:"Epinephrine (adrenaline)",
+          noteEn:"IM, anterolateral thigh; repeat every 5-15 min as needed — the only lifesaving drug here, everything below is adjunct.",
+          noteHe:"תוך-שרירי, ירך אנטרולטרלית; לחזור כל 5-15 דקות לפי הצורך — התרופה המצילת-החיים היחידה כאן, כל השאר נלווה." }
+      ] },
+    { stepEn:"Adjunct therapy — alongside/after epinephrine", stepHe:"טיפול נלווה — לצד/אחרי האפינפרין",
+      drugs:[
+        { generic:"Diphenhydramine", noteEn:"Relieves itching/hives — not a substitute for epinephrine.", noteHe:"מקל על גרד/סרפדת — אינו תחליף לאפינפרין." },
+        { generic:"Famotidine", noteEn:"Added H2 blockade alongside the H1 blocker.", noteHe:"חסימת H2 נוספת לצד חוסם ה-H1." },
+        { generic:"Albuterol", noteEn:"Nebulized for bronchospasm/wheeze not resolved by epinephrine.", noteHe:"בנבולייזר לברונכוספזם/צפצופים שלא חלפו עם האפינפרין." }
+      ] },
+    { stepEn:"Delayed-onset — prevents a biphasic reaction", stepHe:"השהיית הופעה — מונע תגובה דו-פאזית",
+      drugs:[
+        { generic:"Methylprednisolone", noteEn:"IV; onset takes hours — doesn't help acutely, aimed at reducing a rebound reaction.", noteHe:"תוך-ורידי; תחילת פעולה לוקחת שעות — אינו עוזר באופן מיידי, מיועד להפחתת תגובה חוזרת." }
+      ] },
+    { stepEn:"Refractory shock", stepHe:"הלם עמיד לטיפול",
+      drugs:[
+        { generic:"Norepinephrine", noteEn:"Infusion for hypotension unresponsive to IM epinephrine + fluids.", noteHe:"עירוי להיפוטנשן שאינו מגיב לאפינפרין תוך-שרירי ולנוזלים." },
+        { generic:"Glucagon", noteEn:"For patients on beta-blockers whose anaphylaxis isn't responding to epinephrine.", noteHe:"למטופלים הנוטלים חוסמי בטא שהאנפילקסיס שלהם אינו מגיב לאפינפרין." }
+      ] }
+  ],
+  sepsis: [
+    { stepEn:"First hour — empiric therapy", stepHe:"השעה הראשונה — טיפול אמפירי",
+      drugs:[
+        { generic:"Piperacillin / tazobactam", noteEn:"Broad-spectrum empiric coverage, ideally after blood cultures are drawn, within 1 hour.", noteHe:"כיסוי אמפירי רחב-טווח, רצוי לאחר לקיחת תרביות דם, תוך שעה." },
+        { generic:"0.9% Sodium chloride (normal saline)", noteEn:"Crystalloid bolus, 30 mL/kg.", noteHe:"בולוס קריסטלואיד, 30 מ\"ל/ק\"ג." }
+      ] },
+    { stepEn:"Fluid-refractory hypotension", stepHe:"היפוטנשן עמיד לנוזלים",
+      drugs:[
+        { generic:"Norepinephrine", noteEn:"First-line vasopressor if BP doesn't respond to fluids.", noteHe:"נוגד לחץ-דם קו ראשון אם ל\"ד אינו מגיב לנוזלים." }
+      ] },
+    { stepEn:"Refractory shock", stepHe:"הלם עמיד לטיפול",
+      drugs:[
+        { generic:"Hydrocortisone", noteEn:"Added for shock refractory to fluids and vasopressors.", noteHe:"נוסף להלם העמיד לנוזלים ולנוגדי לחץ-דם." }
+      ] }
+  ],
+  mi: [
+    { stepEn:"Immediate", stepHe:"מיידי",
+      drugs:[
+        { generic:"Aspirin (low dose)", noteEn:"Chewed, non-enteric (325 mg) at presentation — dose differs from the daily prevention dose this entry is normally used for.", noteHe:"ללעיסה, לא בציפוי אנטרי (325 מ\"ג) עם ההגעה — המינון שונה מהמינון היומי למניעה שערך זה מיועד לו בדרך כלל." },
+        { generic:"Nitroglycerin", noteEn:"Sublingual/IV for chest pain, unless hypotensive or a right-ventricular infarct.", noteHe:"תת-לשוני/תוך-ורידי לכאב חזה, אלא אם היפוטנשן או אוטם חדר ימין." }
+      ] },
+    { stepEn:"Antiplatelet + anticoagulation", stepHe:"נוגד טסיות + נוגד קרישה",
+      drugs:[
+        { generic:"Clopidogrel", noteEn:"Dual antiplatelet therapy alongside aspirin.", noteHe:"טיפול נוגד טסיות כפול לצד אספירין." },
+        { generic:"Heparin", noteEn:"Anticoagulation alongside antiplatelet therapy.", noteHe:"נוגד קרישה לצד הטיפול נוגד הטסיות." }
+      ] },
+    { stepEn:"Adjuncts", stepHe:"תוספות",
+      drugs:[
+        { generic:"Metoprolol", noteEn:"If no contraindication (bradycardia, hypotension, decompensated HF).", noteHe:"בהיעדר התווית נגד (ברדיקרדיה, היפוטנשן, אי-ספיקת לב לא מפוצה)." },
+        { generic:"Morphine", noteEn:"For pain refractory to nitrates.", noteHe:"לכאב שאינו מגיב לניטרטים." }
+      ] },
+    { stepEn:"Reperfusion if PCI unavailable", stepHe:"רפרפוזיה אם PCI אינו זמין",
+      drugs:[
+        { generic:"Alteplase (tPA)", noteEn:"Thrombolysis when timely cath lab access isn't possible.", noteHe:"תרומבוליזה כאשר אין גישה בזמן למעבדת צנתור." }
+      ] }
+  ],
+  asthma: [
+    { stepEn:"First-line", stepHe:"קו ראשון",
+      drugs:[{ generic:"Albuterol", noteEn:"Repeated or continuous nebulized/MDI dosing.", noteHe:"מינון חוזר או רציף בנבולייזר/משאף." }] },
+    { stepEn:"Added for severe exacerbation", stepHe:"נוסף להחמרה קשה",
+      drugs:[{ generic:"Ipratropium", noteEn:"Combined with albuterol.", noteHe:"בשילוב עם סלבוטמול." }] },
+    { stepEn:"Started early — delayed onset", stepHe:"מתחילים מוקדם — השהיית הופעה",
+      drugs:[{ generic:"Methylprednisolone", noteEn:"Systemic corticosteroid, onset takes hours.", noteHe:"קורטיקוסטרואיד סיסטמי, תחילת פעולה לוקחת שעות." }] },
+    { stepEn:"Refractory / severe cases", stepHe:"מקרים עמידים / קשים",
+      drugs:[
+        { generic:"Magnesium sulfate", noteEn:"IV for severe exacerbation not responding to the above.", noteHe:"תוך-ורידי להחמרה קשה שאינה מגיבה לאמור לעיל." },
+        { generic:"Epinephrine (adrenaline)", noteEn:"IM for impending respiratory failure.", noteHe:"תוך-שרירי לכשל נשימתי מתקרב." }
+      ] }
+  ],
+  copd: [
+    { stepEn:"First-line", stepHe:"קו ראשון",
+      drugs:[
+        { generic:"Albuterol", noteEn:"Combined nebulizer with ipratropium.", noteHe:"נבולייזר משולב עם איפרטרופיום." },
+        { generic:"Ipratropium", noteEn:"Combined with albuterol.", noteHe:"בשילוב עם סלבוטמול." }
+      ] },
+    { stepEn:"Systemic corticosteroid", stepHe:"קורטיקוסטרואיד סיסטמי",
+      drugs:[{ generic:"Methylprednisolone", noteEn:"Short course for the exacerbation.", noteHe:"קורס קצר להחמרה." }] },
+    { stepEn:"If purulent sputum / suspected infection", stepHe:"אם ליחה מוגלתית / חשד לזיהום",
+      drugs:[{ generic:"Azithromycin", noteEn:"Empiric coverage for a bacterial component to the exacerbation.", noteHe:"כיסוי אמפירי למרכיב חיידקי בהחמרה." }] }
+  ],
+  dka: [
+    { stepEn:"First — before insulin", stepHe:"ראשית — לפני אינסולין",
+      drugs:[{ generic:"0.9% Sodium chloride (normal saline)", noteEn:"IV fluid resuscitation before starting insulin.", noteHe:"החייאת נוזלים תוך-ורידית לפני התחלת אינסולין." }] },
+    { stepEn:"Insulin — only once K+ is confirmed not low", stepHe:"אינסולין — רק לאחר שאשלגן אושר כלא נמוך",
+      drugs:[{ generic:"Insulin regular", noteEn:"IV infusion; starting insulin before confirming K+ can precipitate dangerous hypokalemia.", noteHe:"עירוי תוך-ורידי; התחלת אינסולין לפני אישור רמת אשלגן עלולה לגרום להיפוקלמיה מסוכנת." }] },
+    { stepEn:"Potassium replacement if K+ < 5.2", stepHe:"החלפת אשלגן אם אשלגן < 5.2",
+      drugs:[{ generic:"Potassium chloride", noteEn:"Insulin drives potassium into cells — replace proactively.", noteHe:"אינסולין דוחף אשלגן לתוך התאים — יש להחליף באופן יזום." }] },
+    { stepEn:"Severe acidosis only (rare)", stepHe:"חמצת קשה בלבד (נדיר)",
+      drugs:[{ generic:"Sodium bicarbonate", noteEn:"Reserved for pH under ~6.9 — controversial, not routine.", noteHe:"שמור ל-pH מתחת ל-6.9 בערך — שנוי במחלוקת, לא שגרתי." }] }
+  ],
+  ischstroke: [
+    { stepEn:"Time-critical first-line", stepHe:"קו ראשון קריטי-זמן",
+      drugs:[{ generic:"Alteplase (tPA)", noteEn:"IV within the eligible window (typically 3-4.5h from onset) — \"time is brain\".", noteHe:"תוך-ורידי בתוך החלון הזמן המתאים (בדרך כלל 3-4.5 שעות מתחילת התסמינים) — \"זמן הוא מוח\"." }] },
+    { stepEn:"If tPA not given/contraindicated", stepHe:"אם tPA לא ניתן/יש התווית נגד",
+      drugs:[{ generic:"Aspirin (low dose)", noteEn:"Started instead, or 24h after tPA if it was given.", noteHe:"מתחילים במקום, או 24 שעות לאחר tPA אם ניתן." }] },
+    { stepEn:"Blood pressure management", stepHe:"ניהול לחץ דם",
+      drugs:[
+        { generic:"Labetalol", noteEn:"Permissive hypertension pre-tPA; treat only if over 185/110 before tPA.", noteHe:"יתר לחץ דם מותר לפני tPA; לטפל רק אם מעל 185/110 לפני tPA." },
+        { generic:"Nicardipine", noteEn:"Titratable IV alternative for BP control.", noteHe:"חלופה תוך-ורידית ניתנת להתאמה לשליטה בלחץ דם." }
+      ] },
+    { stepEn:"Secondary prevention — not acute", stepHe:"מניעה שניונית — לא אקוטי",
+      drugs:[{ generic:"Atorvastatin", noteEn:"High-intensity statin, started but not for the acute event itself.", noteHe:"סטטין בעצימות גבוהה, מתחילים אך לא לאירוע האקוטי עצמו." }] }
+  ],
+  seizure: [
+    { stepEn:"First-line — abort the seizure", stepHe:"קו ראשון — להפסיק את הפרכוס",
+      drugs:[
+        { generic:"Lorazepam", noteEn:"IV benzodiazepine, first choice where available.", noteHe:"בנזודיאזפין תוך-ורידי, בחירה ראשונה כשזמין." },
+        { generic:"Diazepam", noteEn:"IV or rectal alternative.", noteHe:"חלופה תוך-ורידית או רקטלית." }
+      ] },
+    { stepEn:"If seizure continues", stepHe:"אם הפרכוס נמשך",
+      drugs:[
+        { generic:"Levetiracetam", noteEn:"IV second-line agent.", noteHe:"חומר קו שני תוך-ורידי." },
+        { generic:"Phenytoin", noteEn:"IV second-line alternative; infuse slowly, monitor cardiac rhythm.", noteHe:"חלופת קו שני תוך-ורידית; יש לעירוי לאט, לעקוב אחר קצב לב." }
+      ] },
+    { stepEn:"Refractory status epilepticus", stepHe:"סטטוס אפילפטיקוס עמיד",
+      drugs:[
+        { generic:"Propofol", noteEn:"Anesthetic infusion, ICU setting.", noteHe:"עירוי הרדמה, בסביבת טיפול נמרץ." },
+        { generic:"Midazolam", noteEn:"Anesthetic infusion alternative.", noteHe:"חלופת עירוי הרדמה." }
+      ] }
+  ],
+  chf: [
+    { stepEn:"First-line", stepHe:"קו ראשון",
+      drugs:[{ generic:"Furosemide", noteEn:"IV diuresis.", noteHe:"משתן תוך-ורידי." }] },
+    { stepEn:"Afterload reduction if not hypotensive", stepHe:"הפחתת עומס-אחר אם אין היפוטנשן",
+      drugs:[{ generic:"Nitroglycerin", noteEn:"IV, if blood pressure allows.", noteHe:"תוך-ורידי, אם לחץ הדם מאפשר." }] },
+    { stepEn:"Cardiogenic shock refractory to diuretics", stepHe:"הלם קרדיוגני עמיד למשתנים",
+      drugs:[
+        { generic:"Dobutamine", noteEn:"Inotropic support.", noteHe:"תמיכה אינוטרופית." },
+        { generic:"Milrinone", noteEn:"Inotropic alternative.", noteHe:"חלופה אינוטרופית." }
+      ] }
+  ],
+  hyperkalemia: [
+    { stepEn:"Immediately if ECG changes", stepHe:"מיד אם יש שינויים בא.ק.ג",
+      drugs:[{ generic:"Calcium gluconate", noteEn:"Cardiac membrane stabilization — doesn't lower K+, just protects the heart while other agents work.", noteHe:"ייצוב ממברנת הלב — אינו מוריד אשלגן, רק מגן על הלב בזמן שחומרים אחרים פועלים." }] },
+    { stepEn:"Shift potassium intracellularly", stepHe:"הזזת אשלגן לתוך התאים",
+      drugs:[
+        { generic:"Insulin regular", noteEn:"With dextrose to prevent hypoglycemia; onset ~15-30 min.", noteHe:"עם דקסטרוז למניעת היפוגליקמיה; תחילת פעולה כ-15-30 דקות." },
+        { generic:"Dextrose 5% in water (D5W)", noteEn:"Given with the insulin to prevent hypoglycemia.", noteHe:"ניתן יחד עם האינסולין למניעת היפוגליקמיה." },
+        { generic:"Albuterol", noteEn:"Nebulized, high-dose, as an adjunct shifting agent.", noteHe:"בנבולייזר, מינון גבוה, כחומר מזיז נלווה." }
+      ] },
+    { stepEn:"Actually remove potassium", stepHe:"הסרת אשלגן בפועל",
+      drugs:[
+        { generic:"Sodium polystyrene sulfonate", noteEn:"Slower onset than the shifting agents above.", noteHe:"תחילת פעולה איטית יותר מחומרי ההזזה לעיל." },
+        { generic:"Patiromer", noteEn:"Alternative potassium binder, also slower-onset.", noteHe:"קושר אשלגן חלופי, גם הוא איטי-פעולה." }
+      ] }
+  ],
+  htncrisis: [
+    { stepEn:"First-line — titratable IV infusion", stepHe:"קו ראשון — עירוי תוך-ורידי ניתן להתאמה",
+      drugs:[
+        { generic:"Labetalol", noteEn:"Goal: reduce MAP by no more than ~25% in the first hour.", noteHe:"מטרה: הפחתת לחץ עורקי ממוצע בלא יותר מ-25% בשעה הראשונה." },
+        { generic:"Nicardipine", noteEn:"Titratable IV alternative.", noteHe:"חלופה תוך-ורידית ניתנת להתאמה." }
+      ] },
+    { stepEn:"Emergencies needing tighter titration", stepHe:"חירום הדורש התאמה מדויקת יותר",
+      drugs:[{ generic:"Sodium nitroprusside", noteEn:"Very fast on/off, but needs close monitoring (cyanide toxicity risk with prolonged use).", noteHe:"פועל ונעצר במהירות רבה, אך דורש מעקב צמוד (סיכון לרעילות ציאניד בשימוש ממושך)." }] }
+  ],
+  pe: [
+    { stepEn:"Immediate anticoagulation", stepHe:"נוגד קרישה מיידי",
+      drugs:[
+        { generic:"Heparin", noteEn:"Unfractionated, first-line for immediate effect.", noteHe:"לא מקוטע, קו ראשון להשפעה מיידית." },
+        { generic:"Enoxaparin", noteEn:"Low-molecular-weight alternative.", noteHe:"חלופה במשקל מולקולרי נמוך." }
+      ] },
+    { stepEn:"Massive PE with hemodynamic instability", stepHe:"תסחיף ריאתי מסיבי עם חוסר יציבות המודינמית",
+      drugs:[{ generic:"Alteplase (tPA)", noteEn:"Thrombolysis.", noteHe:"תרומבוליזה." }] },
+    { stepEn:"Ongoing anticoagulation", stepHe:"נוגד קרישה מתמשך",
+      drugs:[
+        { generic:"Apixaban", noteEn:"Oral anticoagulant for continued treatment.", noteHe:"נוגד קרישה פומי להמשך הטיפול." },
+        { generic:"Rivaroxaban", noteEn:"Oral anticoagulant alternative.", noteHe:"חלופת נוגד קרישה פומי." }
+      ] }
+  ]
 };
 
 /* Clinical-commonality tier per drug, for sorting Browse mode, the diagnosis suggestion dropdown, and the
@@ -12348,6 +12554,7 @@ function diagnosisCatsForQuery(q){
   const cats = new Set();
   const catLines = new Map();
   let label = null;
+  let matchedId = null;
   function absorb(id){
     (DIAGNOSIS_CATS[id] || []).forEach(c => {
       cats.add(c);
@@ -12357,7 +12564,7 @@ function diagnosisCatsForQuery(q){
   }
   DIAGNOSES.forEach(([id, en, he]) => {
     if (en.toLowerCase().includes(needle) || he.includes(q)){
-      if (!label) label = { en, he };
+      if (!label){ label = { en, he }; matchedId = id; }
       absorb(id);
     }
   });
@@ -12365,12 +12572,12 @@ function diagnosisCatsForQuery(q){
   if (phrase){
     DIAGNOSES.forEach(([id, en, he]) => {
       if (en.toLowerCase().includes(phrase)){
-        if (!label) label = { en, he };
+        if (!label){ label = { en, he }; matchedId = id; }
         absorb(id);
       }
     });
   }
-  return cats.size ? { cats, catLines, label } : null;
+  return cats.size ? { id: matchedId, cats, catLines, label } : null;
 }
 let activeDiagnosisCats = null; /* set once per render() call, read by matches() below */
 let activeDiagnosisLines = null; /* Map<catId, line 1-3>, set alongside activeDiagnosisCats, read by render() */
@@ -12494,10 +12701,39 @@ function classHeadingsHTML(rows){
   }).join("");
 }
 
+function protocolHTML(steps){
+  const circled = ["①","②","③","④","⑤","⑥","⑦","⑧"];
+  return '<div class="protocol-flow">' + steps.map((step, i) => {
+    const badge = circled[i] || (i + 1) + ".";
+    const cards = step.drugs.map(d => {
+      const m = MEDS.find(x => x.genericEn === d.generic);
+      if (!m) return "";
+      return '<div class="protocol-drug">' +
+        '<p class="protocol-note"><span class="en">' + esc(d.noteEn) + '</span>' +
+          '<span class="he" dir="rtl">' + esc(d.noteHe) + '</span></p>' +
+        cardHTML(m) +
+      '</div>';
+    }).join("");
+    return '<div class="protocol-step">' +
+      '<span class="protocol-badge">' + badge + '</span>' +
+      '<div class="protocol-step-head"><span class="en">' + esc(step.stepEn) + '</span>' +
+        '<span class="he" dir="rtl">' + esc(step.stepHe) + '</span></div>' +
+      '<div class="protocol-drugs">' + cards + '</div>' +
+    '</div>';
+  }).join("") + '</div>';
+}
+
 function render(){
   const dxMatch = query ? diagnosisCatsForQuery(query) : null;
   activeDiagnosisCats = dxMatch ? dxMatch.cats : null;
   activeDiagnosisLines = dxMatch ? dxMatch.catLines : null;
+  const protocol = dxMatch && dxMatch.id ? DIAGNOSIS_PROTOCOL[dxMatch.id] : null;
+  if (protocol){
+    countEl.innerHTML = '<span class="en">Curated treatment flow for &ldquo;' + esc(dxMatch.label.en) + '&rdquo;</span>' +
+      '<span class="he" dir="rtl">מסלול טיפול ערוך עבור &ldquo;' + esc(dxMatch.label.he) + '&rdquo;</span>';
+    listEl.innerHTML = protocolHTML(protocol);
+    return;
+  }
   const rows = MEDS.filter(matches).sort(byCommonality);
   countEl.innerHTML = "Showing " + rows.length + " of " + MEDS.length + " medications" +
     '<span class="he" dir="rtl">&nbsp; מציג ' + rows.length + " מתוך " + MEDS.length + " תרופות</span>" +
