@@ -461,9 +461,35 @@
   #controls.study-mode .search-row,
   #controls.study-mode .cat-row,
   #controls.patients-mode .search-row,
-  #controls.patients-mode .cat-row{display:none}
+  #controls.patients-mode .cat-row,
+  #controls.protocols-mode .search-row,
+  #controls.protocols-mode .cat-row{display:none}
   #controls.study-mode.collapsed,
-  #controls.patients-mode.collapsed{box-shadow:none}
+  #controls.patients-mode.collapsed,
+  #controls.protocols-mode.collapsed{box-shadow:none}
+
+  /* ---- Protocols tab (clickable list of curated diagnosis flows) ---- */
+  .protocol-list{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+  .protocol-list-item{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;
+    text-align:left;font:inherit;
+    background:var(--surface);border:2px solid var(--line);border-radius:10px;
+    padding:14px 16px;cursor:pointer;box-shadow:var(--shadow);
+  }
+  .protocol-list-item:hover{border-color:var(--accent)}
+  .protocol-list-item .names{display:flex;flex-direction:column;gap:2px}
+  .protocol-list-item .en{font-weight:800;color:var(--ink)}
+  .protocol-list-item .he{direction:rtl;color:var(--muted);font-weight:600}
+  .protocol-list-item .chevron{flex:0 0 auto;color:var(--muted);font-size:1.2rem}
+  .protocol-back-btn{
+    display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:.85rem;font-weight:700;
+    background:none;border:none;color:var(--accent);cursor:pointer;padding:4px 0;margin-bottom:14px;
+  }
+  .protocol-detail-heading{
+    display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;margin-bottom:6px;
+    font-size:1.3rem;font-weight:800;color:var(--ink);
+  }
+  .protocol-detail-heading .he{direction:rtl;color:var(--muted);font-weight:700}
 
   /* While the search box has focus, show only the search bar (+ its suggestions) - hides the mode
      switch, category row, and the full card grid so a mobile keyboard opening doesn't shove a long
@@ -939,6 +965,7 @@
   <div class="wrap">
     <div class="mode-switch" id="modeSwitch">
       <button class="mode-btn" type="button" data-mode="browse" aria-pressed="true">Browse<span class="he" dir="rtl">עיון</span></button>
+      <button class="mode-btn" type="button" data-mode="protocols" aria-pressed="false">Protocols<span class="he" dir="rtl">פרוטוקולים</span></button>
       <button class="mode-btn" type="button" data-mode="study" aria-pressed="false">Study<span class="he" dir="rtl">תרגול</span></button>
       <button class="mode-btn" type="button" data-mode="patients" aria-pressed="false">Patients<span class="he" dir="rtl">מטופלים</span></button>
       <button class="mode-btn" type="button" data-mode="missing" aria-pressed="false">Missing<span class="he" dir="rtl">חסר</span></button>
@@ -962,6 +989,7 @@
 </div>
 
 <main class="wrap" id="list"></main>
+<section class="wrap" id="protocols" hidden></section>
 <section class="wrap" id="study" hidden></section>
 <section class="wrap" id="patients" hidden>
   <div class="patients-topbar">
@@ -2006,6 +2034,50 @@ const DIAGNOSIS_PROTOCOL = {
       ] },
     { stepEn:"Always give before any glucose", stepHe:"תמיד לתת לפני מתן גלוקוז",
       drugs:[{ options:[{ generic:"Thiamine", noteEn:"Prevents precipitating Wernicke encephalopathy.", noteHe:"מונע הפעלת אנצפלופתיית ורניקה." }] }] }
+  ],
+  multitrauma: [
+    { stepEn:"A — Airway, with C-spine protection: check patency, look/listen/feel for obstruction or stridor, and maintain in-line cervical spine immobilization while assessing. Secure a definitive airway (intubation) if the patient can't protect it.",
+      stepHe:"A — נתיב אוויר, עם הגנה על עמוד השדרה הצווארי: יש לבדוק פתיחות, להסתכל/להקשיב/לחוש לחסימה או סטרידור, ולשמור על קיבוע בקו ישר של עמוד השדרה הצווארי בזמן ההערכה. יש להבטיח נתיב אוויר מוגדר (אינטובציה) אם המטופל אינו מסוגל להגן על נתיב האוויר בעצמו.",
+      drugs:[
+        { roleEn:"RSI induction agent", roleHe:"חומר אינדוקציה ל-RSI",
+          options:[
+            { generic:"Ketamine", noteEn:"Hemodynamically favorable in trauma/hypotensive patients — a common first choice for RSI induction.", noteHe:"נוח המודינמית בטראומה/מטופלים היפוטנסיביים — בחירה ראשונה נפוצה לאינדוקציית RSI." },
+            { generic:"Etomidate", noteEn:"Alternative induction agent, minimal hemodynamic effect.", noteHe:"חומר אינדוקציה חלופי, השפעה המודינמית מינימלית." }
+          ] },
+        { roleEn:"RSI paralytic", roleHe:"מרפה שרירים ל-RSI",
+          options:[
+            { generic:"Rocuronium", noteEn:"Non-depolarizing paralytic for rapid sequence intubation.", noteHe:"מרפה שרירים לא-דה-פולריזציה לאינטובציה במהירות מבוקרת." },
+            { generic:"Succinylcholine", noteEn:"Depolarizing alternative — faster offset, but avoid in hyperkalemia or a crush/burn injury more than a few hours old.", noteHe:"חלופה דה-פולריזציה — פינוי מהיר יותר, אך יש להימנע בהיפרקלמיה או בפגיעת מעיכה/כווייה בת יותר משעות בודדות." }
+          ] }
+      ] },
+    { stepEn:"B — Breathing: expose the chest, assess rate/effort/symmetry and breath sounds, and treat immediately life-threatening chest injuries (tension pneumothorax, open pneumothorax, massive hemothorax) — needle/finger thoracostomy is a procedure, not a drug, and takes priority. Give supplemental oxygen.",
+      stepHe:"B — נשימה: יש לחשוף את בית החזה, להעריך קצב/מאמץ/סימטריה וקולות נשימה, ולטפל מיידית בפגיעות חזה מסכנות חיים (פנאומוטורקס לחצי, פנאומוטורקס פתוח, המוטורקס מסיבי) — ניקוז מחט/אצבע הוא הליך, לא תרופה, וקודם בעדיפות. יש לתת חמצן משלים.",
+      drugs:[] },
+    { stepEn:"C — Circulation, with hemorrhage control: control external bleeding (direct pressure, tourniquet), get IV/IO access, and assess for shock (heart rate, blood pressure, skin, mental status).",
+      stepHe:"C — מחזור הדם, עם שליטה בדימום: יש לשלוט בדימום חיצוני (לחץ ישיר, חוסם עורקים), להשיג גישה תוך-ורידית/תוך-עצמית, ולהעריך הלם (דופק, לחץ דם, עור, מצב הכרה).",
+      drugs:[
+        { roleEn:"Initial fluid resuscitation", roleHe:"החייאת נוזלים ראשונית",
+          options:[
+            { generic:"0.9% Sodium chloride (normal saline)", noteEn:"Crystalloid bolus while blood products are prepared, if needed.", noteHe:"בולוס קריסטלואיד בזמן הכנת מוצרי דם, לפי הצורך." },
+            { generic:"Lactated Ringer's (Hartmann's)", noteEn:"Alternative crystalloid.", noteHe:"קריסטלואיד חלופי." }
+          ] },
+        { options:[{ generic:"Tranexamic acid", noteEn:"Within 3 hours of injury for significant hemorrhage — reduces mortality in trauma; give the loading dose then an infusion per protocol.", noteHe:"תוך 3 שעות מהפציעה לדימום משמעותי — מפחית תמותה בטראומה; יש לתת מנת העמסה ולאחריה עירוי לפי פרוטוקול." }] }
+      ] },
+    { stepEn:"D — Disability: assess Glasgow Coma Scale, pupils, and gross motor/sensory function; check a rapid glucose for any altered mental status, and consider reversible causes.",
+      stepHe:"D — נכות (מצב נוירולוגי): יש להעריך סולם תרדמת גלזגו, אישונים, ותפקוד מוטורי/חושי גס; יש לבדוק סוכר מהיר בכל שינוי במצב ההכרה, ולשקול גורמים הפיכים.",
+      drugs:[
+        { options:[{ generic:"Naloxone", noteEn:"If opioid intoxication is suspected as a cause of altered mental status or respiratory depression.", noteHe:"בחשד להרעלת אופיואידים כגורם לשינוי במצב ההכרה או דיכוי נשימתי." }] },
+        { options:[{ generic:"Dextrose 5% in water (D5W)", noteEn:"If hypoglycemia is found/suspected as a cause of altered mental status.", noteHe:"אם נמצא/יש חשד להיפוגליקמיה כגורם לשינוי במצב ההכרה." }] }
+      ] },
+    { stepEn:"E — Exposure and environment: fully undress the patient to look for injuries not yet found, then cover and actively warm — hypothermia worsens coagulopathy in trauma. Treat pain once life threats are addressed.",
+      stepHe:"E — חשיפה וסביבה: יש להפשיט את המטופל לחלוטין לחיפוש פציעות שטרם אותרו, ולאחר מכן לכסות ולחמם באופן אקטיבי — היפותרמיה מחמירה קרישיות בטראומה. יש לטפל בכאב לאחר שהאיומים על החיים טופלו.",
+      drugs:[
+        { roleEn:"Analgesia once stabilized", roleHe:"שיכוך כאב לאחר ייצוב",
+          options:[
+            { generic:"Fentanyl", noteEn:"Favorable hemodynamic profile, common choice in trauma.", noteHe:"פרופיל המודינמי נוח, בחירה נפוצה בטראומה." },
+            { generic:"Morphine", noteEn:"Alternative opioid.", noteHe:"אופיואיד חלופי." }
+          ] }
+      ] }
   ]
 };
 
@@ -13025,6 +13097,47 @@ function protocolHTML(steps){
   }).join("") + '</div>';
 }
 
+/* ============================================================
+   Protocols tab - a clickable list of every curated diagnosis flow,
+   independent of (and in addition to) finding one via Browse search.
+   ============================================================ */
+const protocolsEl = document.getElementById("protocols");
+const DIAGNOSES_BY_ID = {};
+DIAGNOSES.forEach(([id, en, he]) => { DIAGNOSES_BY_ID[id] = { en: en, he: he }; });
+let activeProtocolId = null;
+function renderProtocolsTab(){
+  if (activeProtocolId && DIAGNOSIS_PROTOCOL[activeProtocolId]){
+    const label = DIAGNOSES_BY_ID[activeProtocolId] || { en: activeProtocolId, he: "" };
+    protocolsEl.innerHTML =
+      '<button type="button" class="protocol-back-btn" id="protocolBackBtn">' +
+        '<span class="en">&larr; All protocols</span><span class="he" dir="rtl">&larr; כל הפרוטוקולים</span>' +
+      '</button>' +
+      '<h2 class="protocol-detail-heading"><span class="en">' + esc(label.en) + '</span>' +
+        '<span class="he" dir="rtl">' + esc(label.he) + '</span></h2>' +
+      protocolHTML(DIAGNOSIS_PROTOCOL[activeProtocolId]);
+    return;
+  }
+  const ids = Object.keys(DIAGNOSIS_PROTOCOL).sort((a, b) => {
+    const la = (DIAGNOSES_BY_ID[a] || {}).en || a;
+    const lb = (DIAGNOSES_BY_ID[b] || {}).en || b;
+    return la.localeCompare(lb);
+  });
+  protocolsEl.innerHTML = '<div class="protocol-list">' + ids.map(id => {
+    const label = DIAGNOSES_BY_ID[id] || { en: id, he: "" };
+    return '<button type="button" class="protocol-list-item" data-protocol-id="' + id + '">' +
+      '<span class="names"><span class="en">' + esc(label.en) + '</span>' +
+        '<span class="he" dir="rtl">' + esc(label.he) + '</span></span>' +
+      '<span class="chevron">&rsaquo;</span>' +
+    '</button>';
+  }).join("") + '</div>';
+}
+document.body.addEventListener("click", function(e){
+  const row = e.target.closest(".protocol-list-item");
+  if (row){ activeProtocolId = row.dataset.protocolId; renderProtocolsTab(); window.scrollTo(0, 0); return; }
+  const back = e.target.closest("#protocolBackBtn");
+  if (back){ activeProtocolId = null; renderProtocolsTab(); window.scrollTo(0, 0); }
+});
+
 function render(){
   const dxMatch = query ? diagnosisCatsForQuery(query) : null;
   activeDiagnosisCats = dxMatch ? dxMatch.cats : null;
@@ -14402,18 +14515,22 @@ function setMode(mode){
   const studying = mode === "study";
   const patientsMode = mode === "patients";
   const missingMode = mode === "missing";
+  const protocolsMode = mode === "protocols";
   lsSetRaw("ndg-mode", mode);
   modeSwitchEl.querySelectorAll(".mode-btn").forEach(b => b.setAttribute("aria-pressed", b.dataset.mode === mode));
   controlsEl.classList.toggle("study-mode", studying);
   controlsEl.classList.toggle("patients-mode", patientsMode);
-  listEl.hidden = studying || patientsMode || missingMode;
-  footerEl.hidden = studying || patientsMode || missingMode;
+  controlsEl.classList.toggle("protocols-mode", protocolsMode);
+  listEl.hidden = studying || patientsMode || missingMode || protocolsMode;
+  footerEl.hidden = studying || patientsMode || missingMode || protocolsMode;
   studyEl.hidden = !studying;
   patientsEl.hidden = !patientsMode;
   missingEl.hidden = !missingMode;
+  protocolsEl.hidden = !protocolsMode;
   if (studying){ study = null; renderStudy(); window.scrollTo(0, 0); }
   if (patientsMode){ renderPatients(); window.scrollTo(0, 0); }
   if (missingMode){ renderMissing(); window.scrollTo(0, 0); }
+  if (protocolsMode){ activeProtocolId = null; renderProtocolsTab(); window.scrollTo(0, 0); }
   if (typeof measureControls === "function") measureControls();
 }
 modeSwitchEl.addEventListener("click", function(e){
@@ -14438,7 +14555,7 @@ document.addEventListener("keydown", function(e){
 render();
 {
   const savedMode = lsGetRaw("ndg-mode");
-  if (savedMode === "study" || savedMode === "patients" || savedMode === "missing") setMode(savedMode);
+  if (savedMode === "study" || savedMode === "patients" || savedMode === "missing" || savedMode === "protocols") setMode(savedMode);
 }
 handleShareImport();
 
