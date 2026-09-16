@@ -12268,7 +12268,16 @@ searchEl.addEventListener("focus", () => {
   if (query) renderSuggestions();
 });
 searchEl.addEventListener("blur", () => {
-  setTimeout(() => { hideSuggestions(); document.body.classList.remove("search-focused"); }, 150);
+  setTimeout(() => {
+    hideSuggestions();
+    document.body.classList.remove("search-focused");
+    /* The list was hidden (display:none) while focused, and scroll tracking was frozen (see the
+       search-focused early-return in syncControls below) - resync both now that it's visible again,
+       or the first scroll afterward computes its hide/collapse delta against a stale position and the
+       sticky card offset (--card-sticky-top) is left stale too, leaving a gap under the controls bar. */
+    lastScrollY = window.scrollY;
+    measureControls();
+  }, 150);
 });
 searchEl.addEventListener("keydown", e => {
   if (searchSuggestEl.hidden) return;
