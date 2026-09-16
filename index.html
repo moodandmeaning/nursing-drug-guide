@@ -190,6 +190,26 @@
   }
   #search:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
   #search::placeholder{color:var(--muted)}
+  .search-suggest{
+    position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:30;
+    background:var(--surface);border:2px solid var(--line);border-radius:10px;
+    box-shadow:var(--shadow);overflow-y:auto;max-height:60vh;
+  }
+  .search-suggest[hidden]{display:none}
+  .suggest-item{
+    display:flex;align-items:center;gap:10px;width:100%;
+    padding:10px 14px;font:inherit;text-align:left;
+    background:none;border:none;border-bottom:1px solid var(--line);
+    cursor:pointer;color:var(--ink);
+  }
+  .suggest-item:last-child{border-bottom:none}
+  .suggest-item:hover,.suggest-item.active{background:var(--accent-soft)}
+  .suggest-item .suggest-tag{
+    flex:0 0 auto;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:2px 8px;
+  }
+  .suggest-item .suggest-en{font-weight:700}
+  .suggest-item .suggest-he{direction:rtl;color:var(--muted);margin-inline-start:auto;font-weight:500}
   /* Category dropdown and result count stay put; only the theme button tucks away on scroll */
   .cat-row{
     display:flex;flex-wrap:wrap;align-items:center;gap:9px 12px;
@@ -245,6 +265,13 @@
   .line-heading:first-child{margin-top:0}
   .line-heading .he{direction:rtl;font-weight:700}
   .line-heading + .class-heading{margin-top:6px}
+  .dx-sub-heading{
+    display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;
+    font-size:.78rem;font-weight:700;color:var(--muted);
+    margin:14px 0 4px;
+  }
+  .dx-sub-heading .he{direction:rtl;font-weight:500}
+  .dx-sub-heading + .class-heading{margin-top:0}
   .card{
     background:var(--surface);
     border:2px solid var(--line);
@@ -869,7 +896,8 @@
     </div>
     <div class="search-row">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
-      <input id="search" type="search" autocomplete="off" placeholder="Search any medication — name, brand, or class · חיפוש תרופה, שם מסחרי או קבוצה">
+      <input id="search" type="text" inputmode="search" enterkeyhint="search" autocomplete="off" placeholder="Search any medication — name, brand, or class · חיפוש תרופה, שם מסחרי או קבוצה">
+      <div class="search-suggest" id="searchSuggest" hidden></div>
     </div>
     <div class="cat-row" id="catRow">
       <div class="lang-switch" id="langSwitch" role="group" aria-label="Display language / שפת תצוגה">
@@ -11979,6 +12007,7 @@ const listEl = document.getElementById("list");
 const countEl = document.getElementById("count");
 const catSelectEl = document.getElementById("catSelect");
 const searchEl = document.getElementById("search");
+const searchSuggestEl = document.getElementById("searchSuggest");
 const controlsEl = document.getElementById("controls");
 
 const catCount = id => id === "all" ? MEDS.length : MEDS.reduce((n, m) => n + (m.cat === id), 0);
@@ -12174,7 +12203,73 @@ function classHeadingRank(specificClass){
   return g ? CLASS_GROUP_ORDER.indexOf(g[0]) : CLASS_GROUP_ORDER.length;
 }
 
-searchEl.addEventListener("input", () => { query = searchEl.value.trim().toLowerCase(); render(); });
+/* Live typeahead dropdown: as the user types, suggest matching diagnoses (first) and medications
+   (name/brand/class, same fields matches() checks) to tap and jump straight to - separate from the
+   full Browse grid below, which keeps re-filtering live via matches()/render() on every keystroke. */
+function buildSuggestions(q){
+  const needle = q.toLowerCase().trim();
+  if (!needle) return [];
+  const out = [];
+  DIAGNOSES.forEach(([id, en, he]) => {
+    if (out.length >= 8) return;
+    if (en.toLowerCase().includes(needle) || he.includes(q)) out.push({ type:"dx", en, he });
+  });
+  const seen = new Set();
+  MEDS.forEach(m => {
+    if (out.length >= 8) return;
+    if (seen.has(m.genericEn)) return;
+    const hay = [m.genericEn,m.genericHe,m.brandEn,m.brandHe,m.classEn,m.classHe].join(" ").toLowerCase();
+    if (needle.split(/\s+/).every(t => hay.includes(t))){
+      seen.add(m.genericEn);
+      out.push({ type:"med", en:m.genericEn, he:m.genericHe });
+    }
+  });
+  return out.slice(0, 8);
+}
+let suggestItems = [];
+let suggestActive = -1;
+function updateSuggestActive(){
+  Array.from(searchSuggestEl.children).forEach((el, i) => el.classList.toggle("active", i === suggestActive));
+}
+function renderSuggestions(){
+  suggestItems = buildSuggestions(query);
+  suggestActive = -1;
+  if (!suggestItems.length){ searchSuggestEl.hidden = true; searchSuggestEl.innerHTML = ""; return; }
+  searchSuggestEl.innerHTML = suggestItems.map((s, i) =>
+    '<button type="button" class="suggest-item" data-i="' + i + '">' +
+      '<span class="suggest-tag">' + (s.type === "dx" ? "Dx" : "Rx") + '</span>' +
+      '<span class="suggest-en">' + esc(s.en) + '</span>' +
+      '<span class="suggest-he" dir="rtl">' + esc(s.he) + '</span>' +
+    '</button>'
+  ).join("");
+  searchSuggestEl.hidden = false;
+}
+function hideSuggestions(){ searchSuggestEl.hidden = true; searchSuggestEl.innerHTML = ""; suggestItems = []; suggestActive = -1; }
+function pickSuggestion(i){
+  const s = suggestItems[i];
+  if (!s) return;
+  searchEl.value = s.en;
+  query = s.en.trim().toLowerCase();
+  render();
+  hideSuggestions();
+  searchEl.blur();
+}
+searchEl.addEventListener("input", () => { query = searchEl.value.trim().toLowerCase(); render(); renderSuggestions(); });
+searchEl.addEventListener("focus", () => { if (query) renderSuggestions(); });
+searchEl.addEventListener("blur", () => { setTimeout(hideSuggestions, 150); });
+searchEl.addEventListener("keydown", e => {
+  if (searchSuggestEl.hidden) return;
+  if (e.key === "ArrowDown"){ e.preventDefault(); suggestActive = Math.min(suggestActive + 1, suggestItems.length - 1); updateSuggestActive(); }
+  else if (e.key === "ArrowUp"){ e.preventDefault(); suggestActive = Math.max(suggestActive - 1, 0); updateSuggestActive(); }
+  else if (e.key === "Enter"){ if (suggestActive >= 0){ e.preventDefault(); pickSuggestion(suggestActive); } }
+  else if (e.key === "Escape"){ hideSuggestions(); }
+});
+searchSuggestEl.addEventListener("mousedown", e => {
+  const btn = e.target.closest(".suggest-item");
+  if (!btn) return;
+  e.preventDefault();
+  pickSuggestion(Number(btn.dataset.i));
+});
 document.addEventListener("keydown", e => {
   if (e.key === "/" && document.activeElement !== searchEl) { e.preventDefault(); searchEl.focus(); }
 });
@@ -12262,6 +12357,16 @@ function matches(m){
   const hay = [m.genericEn,m.genericHe,m.brandEn,m.brandHe,m.classEn,m.classHe].join(" ").toLowerCase();
   if (query.split(/\s+/).every(t => hay.includes(t))) return true;
   return !!(activeDiagnosisCats && activeDiagnosisCats.has(m.cat));
+}
+
+/* True when a drug's own indication text names the matched diagnosis (e.g. Epinephrine's indEn says
+   "Anaphylaxis (first-line, IM)..."), used to separate drugs actually indicated for the condition from
+   ones that only share its (much broader) DIAGNOSIS_CATS category - see render() below. */
+function mentionsDiagnosis(m, label){
+  if (!label) return false;
+  const en = (m.indEn || "").toLowerCase();
+  const he = m.indHe || "";
+  return en.includes(label.en.toLowerCase()) || (!!label.he && he.includes(label.he));
 }
 
 function inoDirHTML(dir){
@@ -12394,9 +12499,23 @@ function render(){
   const lineKeys = Array.from(lineGroups.keys()).sort((a, b) => a - b);
   listEl.innerHTML = lineKeys.map(line => {
     const lbl = TREATMENT_LINE_LABELS[line] || TREATMENT_LINE_LABELS[4];
+    const groupRows = lineGroups.get(line);
+    const direct = groupRows.filter(m => mentionsDiagnosis(m, dxMatch.label));
+    const rest = groupRows.filter(m => !mentionsDiagnosis(m, dxMatch.label));
+    const bothPresent = direct.length && rest.length;
+    const directHTML = direct.length ? (
+      (bothPresent ? '<p class="dx-sub-heading"><span class="en">Specifically indicated for this condition</span>' +
+        '<span class="he" dir="rtl">מיועד באופן ספציפי למצב זה</span></p>' : "") +
+      classHeadingsHTML(direct)
+    ) : "";
+    const restHTML = rest.length ? (
+      (bothPresent ? '<p class="dx-sub-heading"><span class="en">Other medications in this category</span>' +
+        '<span class="he" dir="rtl">תרופות נוספות בקטגוריה זו</span></p>' : "") +
+      classHeadingsHTML(rest)
+    ) : "";
     return '<h2 class="line-heading"><span class="en">' + esc(lbl[0]) + '</span>' +
       '<span class="he" dir="rtl">' + esc(lbl[1]) + '</span></h2>' +
-      classHeadingsHTML(lineGroups.get(line));
+      directHTML + restHTML;
   }).join("");
 }
 
