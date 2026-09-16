@@ -1808,6 +1808,204 @@ const DIAGNOSIS_PROTOCOL = {
             { generic:"Rivaroxaban", noteEn:"Oral anticoagulant alternative.", noteHe:"חלופת נוגד קרישה פומי." }
           ] }
       ] }
+  ],
+  uti: [
+    { stepEn:"Uncomplicated cystitis — oral antibiotic", stepHe:"דלקת שלפוחית לא מסובכת — אנטיביוטיקה פומית",
+      drugs:[
+        { roleEn:"Oral antibiotic", roleHe:"אנטיביוטיקה פומית",
+          options:[
+            { generic:"Nitrofurantoin", noteEn:"First-line for uncomplicated cystitis; avoid if pyelonephritis is suspected (doesn't reach adequate tissue levels).", noteHe:"קו ראשון לדלקת שלפוחית לא מסובכת; להימנע בחשד לפיאלונפריטיס (אינו מגיע לרמות רקמה מספיקות)." },
+            { generic:"Trimethoprim / sulfamethoxazole", noteEn:"Alternative first-line where local resistance is low.", noteHe:"חלופת קו ראשון כאשר עמידות מקומית נמוכה." },
+            { generic:"Pivmecillinam", noteEn:"Alternative first-line oral option.", noteHe:"חלופת קו ראשון פומית נוספת." }
+          ] }
+      ] },
+    { stepEn:"Complicated UTI / pyelonephritis — IV antibiotic", stepHe:"זיהום מסובך / פיאלונפריטיס — אנטיביוטיקה תוך-ורידית",
+      drugs:[
+        { roleEn:"IV antibiotic", roleHe:"אנטיביוטיקה תוך-ורידית",
+          options:[
+            { generic:"Ceftriaxone", noteEn:"Broad empiric choice for pyelonephritis or systemic symptoms.", noteHe:"בחירה אמפירית רחבה לפיאלונפריטיס או תסמינים מערכתיים." },
+            { generic:"Piperacillin / tazobactam", noteEn:"Broader alternative if risk factors for resistant organisms.", noteHe:"חלופה רחבה יותר בגורמי סיכון לחיידקים עמידים." }
+          ] }
+      ] },
+    { stepEn:"Symptom relief", stepHe:"הקלה בתסמינים",
+      drugs:[{ options:[{ generic:"Phenazopyridine", noteEn:"Urinary analgesic for dysuria; short course only (2 days) — stains urine/tears orange, warn the patient.", noteHe:"משכך כאבי שתן לצריבה; קורס קצר בלבד (יומיים) — מכתים שתן/דמעות בכתום, יש להזהיר את המטופל." }] }] }
+  ],
+  kidneystones: [
+    { stepEn:"Pain control", stepHe:"שליטה בכאב",
+      drugs:[
+        { roleEn:"Analgesic", roleHe:"משכך כאבים",
+          options:[
+            { generic:"Ketorolac", noteEn:"IV NSAID — guideline first-line for renal colic, as effective as opioids with fewer side effects.", noteHe:"NSAID תוך-ורידי — קו ראשון לפי הנחיות לקוליק כלייתי, יעיל כמו אופיואידים עם פחות תופעות לוואי." },
+            { generic:"Morphine", noteEn:"Alternative/adjunct if the NSAID is insufficient or contraindicated.", noteHe:"חלופה/תוספת אם ה-NSAID אינו מספיק או קיימת התווית נגד." }
+          ] }
+      ] },
+    { stepEn:"Nausea/vomiting", stepHe:"בחילה/הקאות",
+      drugs:[{ options:[{ generic:"Ondansetron", noteEn:"Common alongside renal colic.", noteHe:"נפוץ לצד קוליק כלייתי." }] }] },
+    { stepEn:"Medical expulsive therapy", stepHe:"טיפול תרופתי לסיוע במעבר האבן",
+      drugs:[{ options:[{ generic:"Tamsulosin", noteEn:"Relaxes ureteral smooth muscle to help a stone pass, for stones likely to pass spontaneously.", noteHe:"מרפה שריר חלק בשופכן לסיוע במעבר האבן, לאבנים שסביר שיעברו באופן ספונטני." }] }] }
+  ],
+  appendicitis: [
+    { stepEn:"Analgesia", stepHe:"שיכוך כאב",
+      drugs:[
+        { roleEn:"Analgesic", roleHe:"משכך כאבים",
+          options:[
+            { generic:"Morphine", noteEn:"IV opioid — does not delay diagnosis or mask peritoneal signs (a historical myth).", noteHe:"אופיואיד תוך-ורידי — אינו מעכב אבחנה או מסווה סימני צפק (מיתוס היסטורי)." },
+            { generic:"Ketorolac", noteEn:"NSAID alternative.", noteHe:"חלופת NSAID." }
+          ] }
+      ] },
+    { stepEn:"Nausea/vomiting", stepHe:"בחילה/הקאות",
+      drugs:[{ options:[{ generic:"Ondansetron", noteEn:"Antiemetic.", noteHe:"נוגד הקאות." }] }] },
+    { stepEn:"Pre-operative prophylactic/empiric antibiotic", stepHe:"אנטיביוטיקה מונעת/אמפירית טרום-ניתוחית",
+      drugs:[
+        { roleEn:"Antibiotic", roleHe:"אנטיביוטיקה",
+          options:[
+            { generic:"Piperacillin / tazobactam", noteEn:"Broad coverage, especially if perforation is suspected.", noteHe:"כיסוי רחב, בעיקר בחשד לניקוב." },
+            { generic:"Cefazolin", noteEn:"Narrower option for uncomplicated, non-perforated appendicitis prophylaxis.", noteHe:"אפשרות צרה יותר למניעה בתוספתן לא מסובך, ללא ניקוב." }
+          ] }
+      ] }
+  ],
+  pancreatitis: [
+    { stepEn:"Aggressive IV fluid resuscitation", stepHe:"החייאת נוזלים תוך-ורידית אגרסיבית",
+      drugs:[{ options:[{ generic:"Lactated Ringer's (Hartmann's)", noteEn:"Preferred over normal saline for early resuscitation in pancreatitis.", noteHe:"מועדף על פני סליין רגיל להחייאה מוקדמת בדלקת לבלב." }] }] },
+    { stepEn:"Analgesia", stepHe:"שיכוך כאב",
+      drugs:[
+        { roleEn:"Analgesic", roleHe:"משכך כאבים",
+          options:[
+            { generic:"Hydromorphone", noteEn:"IV opioid, commonly used for pancreatitis pain.", noteHe:"אופיואיד תוך-ורידי, נפוץ לכאב בדלקת לבלב." },
+            { generic:"Morphine", noteEn:"Alternative opioid — modern evidence doesn't support avoiding it (the sphincter-of-Oddi concern is largely historical).", noteHe:"אופיואיד חלופי — הראיות המודרניות אינן תומכות בהימנעות ממנו (החשש מסוגר אודי הוא בעיקר היסטורי)." }
+          ] }
+      ] },
+    { stepEn:"Nausea/vomiting", stepHe:"בחילה/הקאות",
+      drugs:[{ options:[{ generic:"Ondansetron", noteEn:"Antiemetic.", noteHe:"נוגד הקאות." }] }] }
+  ],
+  migraine: [
+    { stepEn:"Abortive therapy", stepHe:"טיפול מפסיק התקף",
+      drugs:[
+        { roleEn:"Abortive agent", roleHe:"תרופה מפסיקת התקף",
+          options:[
+            { generic:"Metoclopramide", noteEn:"IV dopamine antagonist — ED first-line, also treats nausea.", noteHe:"אנטגוניסט דופמין תוך-ורידי — קו ראשון במיון, מטפל גם בבחילה." },
+            { generic:"Sumatriptan", noteEn:"Alternative for early/outpatient treatment — avoid with vascular risk factors (CAD, uncontrolled hypertension, stroke history).", noteHe:"חלופה לטיפול מוקדם/אמבולטורי — להימנע בגורמי סיכון וסקולריים (מחלת לב כלילית, יתר לחץ דם לא מאוזן, היסטוריה של שבץ)." }
+          ] }
+      ] },
+    { stepEn:"NSAID adjunct", stepHe:"תוספת NSAID",
+      drugs:[{ options:[{ generic:"Ketorolac", noteEn:"IV NSAID adjunct.", noteHe:"תוספת NSAID תוך-ורידית." }] }] },
+    { stepEn:"Prevent extrapyramidal side effects", stepHe:"מניעת תופעות לוואי חוץ-פירמידליות",
+      drugs:[{ options:[{ generic:"Diphenhydramine", noteEn:"Prevents/treats akathisia or dystonia from the dopamine antagonist.", noteHe:"מונע/מטפל באקתיזיה או דיסטוניה מהאנטגוניסט הדופמינרגי." }] }] }
+  ],
+  gout: [
+    { stepEn:"First-line therapy", stepHe:"טיפול קו ראשון",
+      drugs:[
+        { roleEn:"First-line agent", roleHe:"תרופת קו ראשון",
+          options:[
+            { generic:"Naproxen", noteEn:"NSAID, first-line if no contraindication.", noteHe:"NSAID, קו ראשון בהיעדר התווית נגד." },
+            { generic:"Colchicine", noteEn:"Alternative, most effective within 36h of flare onset.", noteHe:"חלופה, יעילה ביותר תוך 36 שעות מתחילת ההתקף." },
+            { generic:"Prednisone", noteEn:"Alternative when NSAIDs and colchicine are contraindicated (e.g. renal impairment).", noteHe:"חלופה כאשר NSAIDs וקולכיצין אסורים (למשל אי-ספיקת כליות)." }
+          ] }
+      ] }
+  ],
+  cellulitis: [
+    { stepEn:"Mild-moderate, non-purulent (likely strep)", stepHe:"קל-בינוני, לא מוגלתי (סביר סטרפטוקוק)",
+      drugs:[
+        { roleEn:"Oral antibiotic", roleHe:"אנטיביוטיקה פומית",
+          options:[
+            { generic:"Cephalexin", noteEn:"Oral first-line for non-purulent cellulitis.", noteHe:"קו ראשון פומי לצלוליטיס לא מוגלתי." },
+            { generic:"Clindamycin", noteEn:"Alternative with MRSA and strep coverage, e.g. for penicillin allergy.", noteHe:"חלופה עם כיסוי MRSA וסטרפטוקוק, למשל באלרגיה לפניצילין." }
+          ] }
+      ] },
+    { stepEn:"Purulent / MRSA risk", stepHe:"מוגלתי / סיכון ל-MRSA",
+      drugs:[
+        { roleEn:"Antibiotic with MRSA coverage", roleHe:"אנטיביוטיקה עם כיסוי MRSA",
+          options:[
+            { generic:"Trimethoprim / sulfamethoxazole", noteEn:"Oral MRSA coverage for purulent/abscess-associated cellulitis.", noteHe:"כיסוי MRSA פומי לצלוליטיס מוגלתי/הקשור לאבצס." },
+            { generic:"Vancomycin", noteEn:"IV option for severe or systemic infection.", noteHe:"אפשרות תוך-ורידית לזיהום חמור או מערכתי." }
+          ] }
+      ] }
+  ],
+  ectopic: [
+    { stepEn:"Stable, early, meets criteria — medical management", stepHe:"יציב, מוקדם, עומד בקריטריונים — טיפול תרופתי",
+      drugs:[{ options:[{ generic:"Methotrexate (low dose)", noteEn:"For a hemodynamically stable, early ectopic meeting size/hCG criteria — decided with obstetrics, not a same-visit ED-only decision.", noteHe:"להריון חוץ-רחמי יציב המודינמית, מוקדם, העומד בקריטריוני גודל/hCG — מוחלט יחד עם מיילדות, לא החלטה של המיון בלבד." }] }] },
+    { stepEn:"Unstable / ruptured", stepHe:"לא יציב / קרע",
+      drugs:[{ options:[{ generic:"0.9% Sodium chloride (normal saline)", noteEn:"Resuscitation fluid while preparing for emergency surgery.", noteHe:"נוזל החייאה בזמן הכנה לניתוח דחוף." }] }] },
+    { stepEn:"Rh-negative patients", stepHe:"מטופלות עם Rh שלילי",
+      drugs:[{ options:[{ generic:"Rho(D) immune globulin", noteEn:"Given regardless of management approach (medical or surgical).", noteHe:"ניתן ללא תלות בגישת הטיפול (תרופתית או ניתוחית)." }] }] }
+  ],
+  hypoglycemia: [
+    { stepEn:"IV route", stepHe:"נתיב תוך-ורידי",
+      drugs:[{ options:[{ generic:"Dextrose 5% in water (D5W)", noteEn:"A concentrated dextrose bolus (D50) is standard where available — this entry covers the infused form used when that's not on hand.", noteHe:"בולוס דקסטרוז מרוכז (D50) הוא הסטנדרט כשזמין — ערך זה מכסה את צורת העירוי המשמשת כשאינו זמין." }] }] },
+    { stepEn:"No IV access", stepHe:"אין גישה תוך-ורידית",
+      drugs:[{ options:[{ generic:"Glucagon", noteEn:"IM when there's no IV access.", noteHe:"תוך-שרירי כאשר אין גישה תוך-ורידית." }] }] }
+  ],
+  thyroidstorm: [
+    { stepEn:"Adrenergic symptom control", stepHe:"שליטה בתסמינים אדרנרגיים",
+      drugs:[{ options:[{ generic:"Propranolol", noteEn:"Beta-blocker for tachycardia/tremor — also blocks peripheral T4-to-T3 conversion.", noteHe:"חוסם בטא לטכיקרדיה/רעד — חוסם גם המרה היקפית של T4 ל-T3." }] }] },
+    { stepEn:"Block new hormone synthesis", stepHe:"חסימת ייצור הורמון חדש",
+      drugs:[{ options:[{ generic:"Propylthiouracil (PTU)", noteEn:"Antithyroid drug — give before iodine.", noteHe:"תרופה נגד-תירואידית — יש לתת לפני יוד." }] }] },
+    { stepEn:"Adjunct", stepHe:"תוספת",
+      drugs:[{ options:[{ generic:"Hydrocortisone", noteEn:"Blocks peripheral T4-to-T3 conversion and covers relative adrenal insufficiency.", noteHe:"חוסם המרה היקפית של T4 ל-T3 ומכסה אי-ספיקת יותרת כליה יחסית." }] }] }
+  ],
+  afib: [
+    { stepEn:"Rate control", stepHe:"שליטה בקצב",
+      drugs:[
+        { roleEn:"Rate-controlling agent", roleHe:"תרופה לשליטה בקצב",
+          options:[
+            { generic:"Diltiazem", noteEn:"IV calcium channel blocker, first-line rate control.", noteHe:"חוסם תעלות סידן תוך-ורידי, קו ראשון לשליטה בקצב." },
+            { generic:"Metoprolol", noteEn:"Alternative IV beta-blocker for rate control.", noteHe:"חוסם בטא תוך-ורידי חלופי לשליטה בקצב." }
+          ] }
+      ] },
+    { stepEn:"Rhythm control / chemical cardioversion", stepHe:"שליטה בקצב / היפוך כימי",
+      drugs:[{ options:[{ generic:"Amiodarone", noteEn:"For rhythm control or chemical cardioversion.", noteHe:"לשליטה בקצב או היפוך כימי." }] }] },
+    { stepEn:"Anticoagulation if indicated", stepHe:"נוגד קרישה אם מיועד",
+      drugs:[
+        { roleEn:"Oral anticoagulant", roleHe:"נוגד קרישה פומי",
+          options:[
+            { generic:"Apixaban", noteEn:"For stroke prevention based on risk score.", noteHe:"למניעת שבץ לפי ציון סיכון." },
+            { generic:"Warfarin", noteEn:"Alternative, needed for a mechanical valve or severe mitral stenosis.", noteHe:"חלופה, נדרשת עם מסתם מכני או היצרות מיטרלית חמורה." }
+          ] }
+      ] }
+  ],
+  brady: [
+    { stepEn:"First-line", stepHe:"קו ראשון",
+      drugs:[{ options:[{ generic:"Atropine", noteEn:"First-line.", noteHe:"קו ראשון." }] }] },
+    { stepEn:"Refractory to atropine", stepHe:"עמיד לאטרופין",
+      drugs:[
+        { roleEn:"Chronotropic infusion", roleHe:"עירוי כרונוטרופי",
+          options:[
+            { generic:"Dopamine", noteEn:"Infusion, alternative to pacing.", noteHe:"עירוי, חלופה לקוצב." },
+            { generic:"Epinephrine (adrenaline)", noteEn:"Alternative infusion.", noteHe:"עירוי חלופי." }
+          ] }
+      ] }
+  ],
+  pneumonia: [
+    { stepEn:"Outpatient — oral", stepHe:"אמבולטורי — פומי",
+      drugs:[
+        { roleEn:"Oral antibiotic", roleHe:"אנטיביוטיקה פומית",
+          options:[
+            { generic:"Azithromycin", noteEn:"Common outpatient choice for typical/atypical coverage.", noteHe:"בחירה אמבולטורית נפוצה לכיסוי אופייני/אטיפי." },
+            { generic:"Doxycycline", noteEn:"Alternative oral option.", noteHe:"אפשרות פומית חלופית." },
+            { generic:"Amoxicillin / clavulanate", noteEn:"Alternative with more typical coverage, e.g. for comorbidities.", noteHe:"חלופה עם כיסוי אופייני יותר, למשל בתחלואה נלווית." }
+          ] }
+      ] },
+    { stepEn:"Inpatient — IV", stepHe:"אשפוז — תוך-ורידי",
+      drugs:[
+        { roleEn:"IV antibiotic", roleHe:"אנטיביוטיקה תוך-ורידית",
+          options:[
+            { generic:"Ceftriaxone", noteEn:"Common inpatient empiric choice, often paired with a macrolide.", noteHe:"בחירה אמפירית נפוצה באשפוז, לרוב בשילוב עם מקרוליד." },
+            { generic:"Piperacillin / tazobactam", noteEn:"Broader coverage for risk factors (e.g. aspiration, Pseudomonas risk).", noteHe:"כיסוי רחב יותר בגורמי סיכון (למשל שאיפה, סיכון לפסאודומונס)." }
+          ] }
+      ] }
+  ],
+  etohwithdrawal: [
+    { stepEn:"First-line", stepHe:"קו ראשון",
+      drugs:[
+        { roleEn:"Benzodiazepine", roleHe:"בנזודיאזפין",
+          options:[
+            { generic:"Lorazepam", noteEn:"IV, symptom-triggered or fixed-schedule dosing (CIWA-Ar protocol).", noteHe:"תוך-ורידי, מינון מונחה-תסמינים או בלוח קבוע (פרוטוקול CIWA-Ar)." },
+            { generic:"Diazepam", noteEn:"Alternative, longer-acting.", noteHe:"חלופה, ארוכת-פעולה יותר." },
+            { generic:"Chlordiazepoxide", noteEn:"Oral alternative for milder withdrawal.", noteHe:"חלופה פומית לגמילה מתונה יותר." }
+          ] }
+      ] },
+    { stepEn:"Always give before any glucose", stepHe:"תמיד לתת לפני מתן גלוקוז",
+      drugs:[{ options:[{ generic:"Thiamine", noteEn:"Prevents precipitating Wernicke encephalopathy.", noteHe:"מונע הפעלת אנצפלופתיית ורניקה." }] }] }
   ]
 };
 
