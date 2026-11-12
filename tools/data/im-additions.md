@@ -44,7 +44,7 @@ Leflunomide, Belimumab, Anakinra, Secukinumab, Baricitinib, Upadacitinib, Everol
 Solifenacin, Tolterodine, Trospium, Alfuzosin, Silodosin, Dutasteride, Sildenafil, Zinc sulfate,
 Ascorbic acid
 
-## Batch 7 - common Israeli combination products and extras [ ]
+## Batch 7 - common Israeli combination products and extras [x] (merged 2026-11-13; 11 registry-confirmed products)
 Amlodipine/valsartan, Perindopril/indapamide, Valsartan/hydrochlorothiazide, Ezetimibe/rosuvastatin,
 Sitagliptin/metformin, Empagliflozin/metformin, Dapagliflozin/metformin, Bisoprolol/amlodipine,
 Somatostatin, L-ornithine L-aspartate, Pentoxifylline, Lidocaine/prilocaine cream, Povidone-iodine,

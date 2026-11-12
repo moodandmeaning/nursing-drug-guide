@@ -66,3 +66,11 @@ Cosentyx; Olumiant; Rinvoq; Certican, Afinitor, Everolimus Teva/Taro; Rapamune; 
 Teva/Trima; Tolterodine E.R. Teva; Trospas, Trosmolyt; Alfuzosin ER Teva; Avodart, Dutastamed,
 Dutasteride Teva/Taro, Armonia Plus; Sildenafil Teva/Actavis.
 Left out (not in registry mirror): megestrol, silodosin, zinc sulfate, ascorbic acid.
+
+## Batch 7 and the user's original Missing list
+Confirmed: Exforge; Co-Diovan; Caduet; Inegy; Rozet Teva, Rosetemib S.K.; Sitamet-Avenir, Sitagmet S.K.,
+Sitamin Teva, Sitaformin Teva, Sitar Plus; Synjardy; Xigduo XR; Emla; Betadine; Voltaren Emulgel.
+Original list: Eltroxin, Euthyrox (Hebrew corrected to יוטירוקס); Lyrica; Seroquel, Seroquel XR (Hebrew
+corrected to סרוקואל); Hexakapron; Lercapress; Agiserc; Apidra.
+Not found: Janumet (originator - generics listed instead), perindopril/indapamide, Combivent,
+pentoxifylline, lormetazepam, rifabutin, oral ketoprofen, parenteral nutrition bags, Hepa-Merz.
