@@ -38,7 +38,7 @@ Perphenazine, Melatonin (prolonged-release), Fluvoxamine, Clomipramine, Desvenla
 Brivaracetam, Clobazam, Fosphenytoin, Oxycodone/naloxone, Etodolac, Paracetamol/codeine,
 Buprenorphine transdermal, Tapentadol, Lidocaine 5% patch, Medical cannabis, Galcanezumab, Tiapride
 
-## Batch 6 - hematology, oncology support, immunology, urology, misc [ ]
+## Batch 6 - hematology, oncology support, immunology, urology, misc [x] (merged 2026-11-13; 21 drugs - dropped megestrol, silodosin, zinc sulfate, ascorbic acid: no single-ingredient product in registry mirror)
 Hydroxyurea, Eltrombopag, Romiplostim, Pegfilgrastim, Granisetron, Palonosetron, Mesna, Megestrol,
 Leflunomide, Belimumab, Anakinra, Secukinumab, Baricitinib, Upadacitinib, Everolimus, Sirolimus,
 Solifenacin, Tolterodine, Trospium, Alfuzosin, Silodosin, Dutasteride, Sildenafil, Zinc sulfate,

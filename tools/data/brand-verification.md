@@ -58,3 +58,11 @@ Butrans; Palexia; Versatis; Emgality.
 Not found (kept, please verify): Lexotan (bromazepam), Etumine (clotiapine).
 Medical cannabis: licensed by the MoH medical cannabis unit (IMCA), not in the drug registry.
 Left out (not in registry mirror): agomelatine, fosphenytoin, tiapride.
+
+## Batch 6
+Confirmed: Hydroxyurea Medac; Revolade; Nplate; Pegil, Fulphila, Stimopeg, Pegfilgrastim Kamada;
+Granisetron Teva; Paloxi, Palonosetron Teva/S.K./Seacross; Mesna-Cell; Arava; Benlysta; Kineret;
+Cosentyx; Olumiant; Rinvoq; Certican, Afinitor, Everolimus Teva/Taro; Rapamune; Vesicare, Solifenacin
+Teva/Trima; Tolterodine E.R. Teva; Trospas, Trosmolyt; Alfuzosin ER Teva; Avodart, Dutastamed,
+Dutasteride Teva/Taro, Armonia Plus; Sildenafil Teva/Actavis.
+Left out (not in registry mirror): megestrol, silodosin, zinc sulfate, ascorbic acid.
