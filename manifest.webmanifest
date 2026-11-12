@@ -1,15 +1,15 @@
 {
   "name": "Bilingual Nursing Drug Guide",
   "short_name": "Drug Guide",
-  "description": "Searchable English/Hebrew medication reference for nursing students - 431 drugs.",
+  "description": "Searchable English/Hebrew medication reference for nursing students - 450 drugs.",
   "lang": "en",
   "dir": "auto",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#f2f3f6",
-  "theme_color": "#3550e0",
+  "background_color": "#fbf8f6",
+  "theme_color": "#1f7acc",
   "categories": ["medical", "education", "reference"],
   "icons": [
     { "src": "icons/icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },

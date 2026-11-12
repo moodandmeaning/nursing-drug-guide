@@ -19,7 +19,7 @@ in **English and Hebrew** side by side. Installable as an app on iOS and Android
 browser, or host it anywhere that serves static files. `manifest.webmanifest` and
 `sw.js` make it an installable, offline-capable Progressive Web App.
 
-- **447 medications** across 21 drug classes (cardiovascular, emergency/vasoactive,
+- **450 medications** across 21 drug classes (cardiovascular, emergency/vasoactive,
   diuretics, anticoagulants, endocrine/diabetes, respiratory, GI, pain & nervous
   system, psychiatric, antibiotics, antivirals/antifungals, immunosuppressants,
   chemotherapy, hematology, musculoskeletal, genitourinary, eye/skin/topical,
@@ -35,6 +35,12 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   state their **Gram coverage** (Gram-positive / Gram-negative / broad spectrum, with
   standard qualifiers like MRSA or Pseudomonas where relevant).
 - Search bar (matches name, brand, or class in either language; press `/` to focus it).
+  Search forgives spelling: common misspellings and old names are stored as aliases, and
+  when nothing matches exactly it shows the closest drug names ("did you mean").
+- **G6PD deficiency (favism):** drugs that can trigger hemolysis carry a red (avoid) or amber
+  (caution) G6PD line on their card. Searching `G6PD`, `favism` or `פאביזם` lists them all
+  under a bilingual G6PD reference card (what it is, what to avoid, signs of hemolysis,
+  nursing actions, patient teaching).
   It also recognizes **diagnoses** (the same ~156-entry curated list used in Patients
   mode, abbreviation-aware) — typing "SVT" or "congestive heart failure" surfaces
   medications relevant to that diagnosis (by category) alongside any literal name match,
@@ -101,7 +107,7 @@ browser, or host it anywhere that serves static files. `manifest.webmanifest` an
   as plain text to paste elsewhere.
 - Light/dark theme toggle and the display-language switch. Hebrew renders
   right-to-left throughout.
-- Fonts (Frank Ruhl Libre + Assistant) load from Google Fonts when online; everything
+- Fonts (Rubik + Assistant) load from Google Fonts when online; everything
   else is embedded in the single file.
 
 ## Disclaimer
@@ -127,4 +133,6 @@ commonality tier, 1 = very common/first-line, 3 = less common/specialized, no en
 tier 2 — drives the ordering of Browse mode, the diagnosis dropdowns, and the Patients-mode
 medication search; it's a judgment call, not real prescribing data), and `GRAM_COVERAGE`
 (generic name → [English, Hebrew] Gram-coverage text, antibiotics only — objective
-microbiology, not a judgment call).
+microbiology, not a judgment call), `G6PD_RISK` (generic name → [English, Hebrew, "avoid" | "caution"]
+for drugs that can cause hemolysis in G6PD deficiency), and `SEARCH_ALIASES` (generic name → extra
+search words: old names, abbreviations, misspellings).

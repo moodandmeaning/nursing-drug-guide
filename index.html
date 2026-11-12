@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Bilingual Nursing Drug Guide</title>
-<meta name="description" content="Searchable English/Hebrew medication reference for nursing students - 251 drugs.">
-<meta name="theme-color" content="#f2f3f6" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#14161b" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Searchable English/Hebrew medication reference for nursing students - 450 drugs.">
+<meta name="theme-color" content="#fbf8f6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#171b24" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -17,97 +17,102 @@
 <style>*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{margin:0;touch-action:manipulation}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Frank+Ruhl+Libre:wght@500;700;900&family=Assistant:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Assistant:wght@400;500;600;700;800&display=swap">
 <style>
+  /* Palette taken from a flat pill-bottle illustration: white ground, sky-blue / leaf-green / tomato-red
+     bottles, beige blister pack, dark-brown caps. Soft warm lines instead of black outlines. */
   :root{
-    --bg:#f2f3f6;
+    --bg:#fbf8f6;
     --surface:#ffffff;
-    --surface-2:#e3e8fd;
-    --ink:#0b0f14;
-    --muted:#5b6472;
-    --line:#0b0f14;
-    --accent:#3550e0;
-    --accent-soft:#e3e8fd;
+    --surface-2:#f5eeeb;
+    --ink:#3a2c2a;
+    --muted:#7a6a66;
+    --line:#ebe1dd;
+    --accent:#1f7acc;
+    --accent-soft:#e3f0fb;
     --on-accent:#ffffff;
-    --danger:#dc2626;
-    --danger-soft:#fde8e8;
-    --caution:#d97706;
-    --caution-soft:#fef3e2;
-    --monitor:#059669;
-    --monitor-soft:#d7f3e6;
-    --lyte:#6d28d9;
-    --lyte-soft:#ece3fb;
-    --antidote:#2563eb;
-    --antidote-soft:#dde6fd;
-    --teach:#0891b2;
-    --teach-soft:#d7f0f5;
-    --mem:#be185d;
-    --mem-soft:#fbdce9;
-    --gram-positive:#7c3aed;
-    --gram-negative:#db2777;
-    --gram-broad:#0d9488;
-    --shadow:6px 6px 0 rgba(11,15,20,.9);
+    --danger:#d23b2d;
+    --danger-soft:#fde9e6;
+    --caution:#a86a00;
+    --caution-soft:#fdf1d8;
+    --monitor:#45801a;
+    --monitor-soft:#ecf5e0;
+    --lyte:#7b4fc4;
+    --lyte-soft:#f0e9fb;
+    --antidote:#2f6db5;
+    --antidote-soft:#e5eefa;
+    --teach:#0f7f8c;
+    --teach-soft:#def2f3;
+    --mem:#c2406e;
+    --mem-soft:#fce6ee;
+    --gram-positive:#7b4fc4;
+    --gram-negative:#c2406e;
+    --gram-broad:#0f7f8c;
+    --pill-blue:#4aa8ef;
+    --pill-green:#8cc43f;
+    --pill-red:#f2584a;
+    --shadow:0 4px 0 #ebe1dd, 0 12px 28px rgba(58,44,42,.06);
     --card-sticky-top:132px; /* set from JS to the live height of the controls bar */
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#14161b;
-      --surface:#1c1f26;
-      --surface-2:#242a44;
-      --ink:#eef0f4;
-      --muted:#9aa3b2;
-      --line:#eef0f4;
-      --accent:#8b98f7;
-      --accent-soft:#242a44;
-      --on-accent:#0b0f14;
-      --danger:#f87171;
-      --danger-soft:#3a2020;
-      --caution:#fbbf24;
-      --caution-soft:#3a2e12;
-      --monitor:#34d399;
-      --monitor-soft:#123423;
-      --lyte:#c4b5fd;
-      --lyte-soft:#29224a;
-      --antidote:#60a5fa;
-      --antidote-soft:#172540;
-      --teach:#22d3ee;
-      --teach-soft:#123138;
-      --mem:#f472b6;
-      --mem-soft:#3a1f2c;
-      --gram-positive:#a78bfa;
-      --gram-negative:#f472b6;
-      --gram-broad:#2dd4bf;
-      --shadow:6px 6px 0 rgba(0,0,0,.7);
+      --bg:#171b24;
+      --surface:#20252f;
+      --surface-2:#2a303c;
+      --ink:#f3ece9;
+      --muted:#a99d99;
+      --line:#353c49;
+      --accent:#6cb4f2;
+      --accent-soft:#1d3247;
+      --on-accent:#10151c;
+      --danger:#ff8a7a;
+      --danger-soft:#3b2222;
+      --caution:#f2b950;
+      --caution-soft:#3a2f17;
+      --monitor:#9ad16a;
+      --monitor-soft:#22331a;
+      --lyte:#c3a6f5;
+      --lyte-soft:#2c2443;
+      --antidote:#8ab8f0;
+      --antidote-soft:#1c2a40;
+      --teach:#5fd0da;
+      --teach-soft:#15333a;
+      --mem:#f28fb3;
+      --mem-soft:#3b2130;
+      --gram-positive:#c3a6f5;
+      --gram-negative:#f28fb3;
+      --gram-broad:#5fd0da;
+      --shadow:0 4px 0 #11141a, 0 12px 28px rgba(0,0,0,.35);
     }
   }
   :root[data-theme="dark"]{
-    --bg:#14161b;
-    --surface:#1c1f26;
-    --surface-2:#242a44;
-    --ink:#eef0f4;
-    --muted:#9aa3b2;
-    --line:#eef0f4;
-    --accent:#8b98f7;
-    --accent-soft:#242a44;
-    --on-accent:#0b0f14;
-    --danger:#f87171;
-    --danger-soft:#3a2020;
-    --caution:#fbbf24;
-    --caution-soft:#3a2e12;
-    --monitor:#34d399;
-    --monitor-soft:#123423;
-    --lyte:#c4b5fd;
-    --lyte-soft:#29224a;
-    --antidote:#60a5fa;
-    --antidote-soft:#172540;
-    --teach:#22d3ee;
-    --teach-soft:#123138;
-    --mem:#f472b6;
-    --mem-soft:#3a1f2c;
-    --gram-positive:#a78bfa;
-    --gram-negative:#f472b6;
-    --gram-broad:#2dd4bf;
-    --shadow:6px 6px 0 rgba(0,0,0,.7);
+    --bg:#171b24;
+    --surface:#20252f;
+    --surface-2:#2a303c;
+    --ink:#f3ece9;
+    --muted:#a99d99;
+    --line:#353c49;
+    --accent:#6cb4f2;
+    --accent-soft:#1d3247;
+    --on-accent:#10151c;
+    --danger:#ff8a7a;
+    --danger-soft:#3b2222;
+    --caution:#f2b950;
+    --caution-soft:#3a2f17;
+    --monitor:#9ad16a;
+    --monitor-soft:#22331a;
+    --lyte:#c3a6f5;
+    --lyte-soft:#2c2443;
+    --antidote:#8ab8f0;
+    --antidote-soft:#1c2a40;
+    --teach:#5fd0da;
+    --teach-soft:#15333a;
+    --mem:#f28fb3;
+    --mem-soft:#3b2130;
+    --gram-positive:#c3a6f5;
+    --gram-negative:#f28fb3;
+    --gram-broad:#5fd0da;
+    --shadow:0 4px 0 #11141a, 0 12px 28px rgba(0,0,0,.35);
   }
 
   *{box-sizing:border-box}
@@ -132,7 +137,7 @@
     border-bottom:1px solid var(--line);
   }
   .eyebrow{
-    font-family:"IBM Plex Mono",ui-monospace,monospace;
+    font-family:"Rubik","Assistant",system-ui,sans-serif;
     font-size:.72rem;
     letter-spacing:.16em;
     text-transform:uppercase;
@@ -140,7 +145,7 @@
     margin:0 0 10px;
   }
   h1{
-    font-family:"Space Grotesk",sans-serif;
+    font-family:"Rubik","Assistant",system-ui,sans-serif;
     font-weight:700;
     font-size:clamp(1.9rem,4vw,2.6rem);
     line-height:1.12;
@@ -154,7 +159,7 @@
     padding:12px 16px;
     background:var(--caution-soft);
     border:1px solid color-mix(in srgb,var(--caution) 35%,transparent);
-    border-radius:8px;
+    border-radius:14px;
     font-size:.86rem;
     color:var(--ink);
   }
@@ -168,7 +173,7 @@
     background:color-mix(in srgb,var(--bg) 88%,transparent);
     backdrop-filter:blur(8px);
     -webkit-backdrop-filter:blur(8px);
-    border-bottom:2px solid var(--line);
+    border-bottom:1.5px solid var(--line);
     padding:14px 0;
     padding-top:max(14px,env(safe-area-inset-top));
     transition:box-shadow .22s ease,transform .22s ease;
@@ -184,15 +189,15 @@
     font-size:1rem;
     color:var(--ink);
     background:var(--surface);
-    border:2px solid var(--line);
-    border-radius:6px;
+    border:1.5px solid var(--line);
+    border-radius:14px;
     outline:none;
   }
   #search:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
   #search::placeholder{color:var(--muted)}
   .search-suggest{
     position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:30;
-    background:var(--surface);border:2px solid var(--line);border-radius:10px;
+    background:var(--surface);border:1.5px solid var(--line);border-radius:16px;
     box-shadow:var(--shadow);overflow-y:auto;max-height:60vh;
   }
   .search-suggest[hidden]{display:none}
@@ -226,7 +231,7 @@
     flex:1 1 220px;min-width:0;
     font:inherit;font-size:.9rem;font-weight:700;
     color:var(--ink);background-color:var(--surface);
-    border:2px solid var(--line);border-radius:6px;
+    border:1.5px solid var(--line);border-radius:12px;
     padding:10px 36px 10px 12px;cursor:pointer;
     -webkit-appearance:none;appearance:none;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%238a97a6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
@@ -242,8 +247,8 @@
   .theme-toggle{
     flex:0 0 auto;
     font:inherit;font-size:.8rem;font-weight:700;
-    background:none;border:2px solid var(--line);color:var(--ink);
-    padding:6px 11px;border-radius:6px;cursor:pointer;
+    background:none;border:1.5px solid var(--line);color:var(--ink);
+    padding:6px 11px;border-radius:999px;cursor:pointer;
   }
   .theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
 
@@ -251,16 +256,16 @@
   main{padding:8px 0 80px}
   .class-heading{
     display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;
-    font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.78rem;font-weight:600;
+    font-family:"Rubik","Assistant",system-ui,sans-serif;font-size:.78rem;font-weight:600;
     letter-spacing:.08em;text-transform:uppercase;color:var(--accent);
-    margin:28px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--line);
+    margin:28px 0 12px;padding-bottom:8px;border-bottom:1.5px solid var(--line);
   }
   .class-heading:first-child{margin-top:0}
   .class-heading .he{direction:rtl;color:var(--muted);text-transform:none;letter-spacing:normal;font-weight:500}
   .line-heading{
     display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;
     font-size:1.02rem;font-weight:800;color:var(--accent);
-    margin:36px 0 6px;padding:10px 14px;border-radius:10px;background:var(--accent-soft);
+    margin:36px 0 6px;padding:10px 14px;border-radius:14px;background:var(--accent-soft);
   }
   .line-heading:first-child{margin-top:0}
   .line-heading .he{direction:rtl;font-weight:700}
@@ -284,7 +289,7 @@
     position:absolute;left:0;top:0;width:32px;height:32px;border-radius:50%;
     display:flex;align-items:center;justify-content:center;
     background:var(--accent);color:var(--on-accent);font-weight:800;font-size:.95rem;
-    border:2px solid var(--line);
+    border:1.5px solid var(--line);
   }
   .protocol-step-head{
     display:flex;flex-wrap:wrap;align-items:center;gap:8px;min-height:32px;margin-bottom:12px;
@@ -307,7 +312,7 @@
   .protocol-alt-pills{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
   .protocol-alt-pill{
     font:inherit;font-size:.82rem;font-weight:700;
-    background:var(--surface-2);border:2px solid var(--line);color:var(--ink);
+    background:var(--surface-2);border:1.5px solid var(--line);color:var(--ink);
     padding:6px 14px;border-radius:999px;cursor:pointer;
   }
   .protocol-alt-pill:hover{border-color:var(--accent);color:var(--accent)}
@@ -316,8 +321,8 @@
   .protocol-alt-card[hidden]{display:none}
   .card{
     background:var(--surface);
-    border:2px solid var(--line);
-    border-radius:8px;
+    border:1.5px solid var(--line);
+    border-radius:20px;
     box-shadow:var(--shadow);
     margin-bottom:22px;
     overflow:hidden;
@@ -333,13 +338,13 @@
   }
   .card-head{padding:16px 22px 16px;border-bottom:1px solid var(--line)}
   .card-class{
-    font-family:"IBM Plex Mono",ui-monospace,monospace;
+    font-family:"Rubik","Assistant",system-ui,sans-serif;
     font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
     color:var(--accent);margin:0 0 8px;
   }
   .card-names{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px}
   .generic-en{
-    font-family:"Space Grotesk",sans-serif;
+    font-family:"Rubik","Assistant",system-ui,sans-serif;
     font-weight:700;font-size:1.55rem;line-height:1.15;margin:0;
   }
   .generic-he{
@@ -353,10 +358,10 @@
     display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;
   }
   .route-tag{
-    font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.62rem;
+    font-family:"Rubik","Assistant",system-ui,sans-serif;font-size:.62rem;
     letter-spacing:.1em;text-transform:uppercase;color:var(--accent);
     border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
-    border-radius:5px;padding:1px 6px;
+    border-radius:999px;padding:1px 6px;
   }
   .route-line .he{direction:rtl;color:var(--muted)}
   .dose-line,.cardio-line,.mem-line,.gram-line{
@@ -390,7 +395,7 @@
   .brand{
     font-size:.8rem;font-weight:600;
     background:var(--surface-2);border:1px solid var(--line);
-    color:var(--muted);padding:3px 9px;border-radius:6px;
+    color:var(--muted);padding:3px 9px;border-radius:999px;
   }
   .brand.he{direction:rtl}
 
@@ -447,14 +452,14 @@
   /* ---- Browse/Study mode switch ---- */
   .mode-switch{
     display:flex;gap:3px;padding:3px;margin-bottom:11px;
-    background:var(--surface-2);border:2px solid var(--line);border-radius:6px;
+    background:var(--surface-2);border:1.5px solid var(--line);border-radius:999px;
     width:100%;
   }
   .mode-btn{
     flex:1 1 0;min-width:0;
     font:inherit;font-size:.82rem;font-weight:700;
     border:none;background:none;color:var(--ink);cursor:pointer;
-    padding:6px 4px;border-radius:3px;line-height:1.1;
+    padding:6px 4px;border-radius:999px;line-height:1.1;
     display:flex;flex-direction:column;align-items:center;gap:1px;
   }
   .mode-btn .he{font-size:.68rem;font-weight:600}
@@ -478,7 +483,7 @@
   .protocol-list-item{
     display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;
     text-align:left;font:inherit;
-    background:var(--surface);border:2px solid var(--line);border-radius:10px;
+    background:var(--surface);border:1.5px solid var(--line);border-radius:16px;
     padding:14px 16px;cursor:pointer;box-shadow:var(--shadow);
   }
   .protocol-list-item:hover{border-color:var(--accent)}
@@ -585,7 +590,7 @@
   /* ---- Study mode ---- */
   #study{padding-top:14px;padding-bottom:90px}
   .study-setup h2{
-    font-family:"Frank Ruhl Libre",Georgia,serif;font-weight:700;
+    font-family:"Rubik","Assistant",system-ui,sans-serif;font-weight:700;
     font-size:1.5rem;margin:4px 0 14px;
   }
   .study-setup h2 .he{font-weight:500;color:var(--muted);margin-inline-start:8px;font-size:.8em}
@@ -629,7 +634,7 @@
     background:var(--surface-2);border:1px solid var(--line);border-radius:10px;
     padding:8px 12px;font-size:.8rem;color:var(--muted);flex:1 1 auto;text-align:center;
   }
-  .stat-pill b{display:block;font-size:1.3rem;color:var(--ink);font-variant-numeric:tabular-nums;font-family:"Frank Ruhl Libre",serif}
+  .stat-pill b{display:block;font-size:1.3rem;color:var(--ink);font-variant-numeric:tabular-nums;font-family:"Rubik","Assistant",system-ui,sans-serif}
   .box-bars{display:flex;flex-direction:column;gap:6px;margin:12px 0}
   .box-bar{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted)}
   .box-bar .bb-label{width:3.2rem;flex:0 0 auto}
@@ -651,12 +656,12 @@
   .study-counter{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums;flex:0 0 auto}
 
   .study-card{
-    background:var(--surface);border:2px solid var(--line);border-radius:8px;
+    background:var(--surface);border:1.5px solid var(--line);border-radius:20px;
     box-shadow:var(--shadow);padding:22px;min-height:180px;
   }
   .sc-name{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin-bottom:6px}
-  .sc-name-en{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.5rem;line-height:1.15}
-  .sc-name-he{font-family:"Frank Ruhl Libre",Georgia,serif;font-weight:700;font-size:1.2rem;color:var(--muted);direction:rtl}
+  .sc-name-en{font-family:"Rubik","Assistant",system-ui,sans-serif;font-weight:700;font-size:1.5rem;line-height:1.15}
+  .sc-name-he{font-family:"Rubik","Assistant",system-ui,sans-serif;font-weight:700;font-size:1.2rem;color:var(--muted);direction:rtl}
   .sc-prompt{
     display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;
     font-size:.95rem;font-weight:600;color:var(--accent);margin-top:8px;
@@ -664,7 +669,7 @@
   .sc-prompt .he{direction:rtl;font-weight:500}
   .sc-q{text-align:center;padding:14px 0}
   .sc-big{
-    font-family:"Frank Ruhl Libre",Georgia,serif;font-weight:700;font-size:1.8rem;
+    font-family:"Rubik","Assistant",system-ui,sans-serif;font-weight:700;font-size:1.8rem;
     line-height:1.2;display:block;text-wrap:balance;
   }
   .sc-big.he{direction:rtl;font-size:1.5rem;color:var(--muted)}
@@ -701,7 +706,7 @@
 
   .mc-question{
     display:flex;flex-direction:column;gap:3px;
-    font-family:"Frank Ruhl Libre",Georgia,serif;font-weight:700;
+    font-family:"Rubik","Assistant",system-ui,sans-serif;font-weight:700;
     font-size:1.15rem;line-height:1.3;text-wrap:balance;
   }
   .mc-question .he{direction:rtl;font-weight:500;font-size:.95rem;color:var(--muted)}
@@ -741,7 +746,7 @@
   .grade-btn.is-default{box-shadow:0 0 0 3px var(--accent-soft)}
 
   .study-done{text-align:center;padding:40px 10px}
-  .study-done h2{font-family:"Frank Ruhl Libre",serif;font-weight:700;font-size:1.6rem;margin:0 0 12px}
+  .study-done h2{font-family:"Rubik","Assistant",system-ui,sans-serif;font-weight:700;font-size:1.6rem;margin:0 0 12px}
   .study-done p{color:var(--muted);margin:6px 0}
   .study-done .done-figure{font-size:1.1rem;color:var(--ink);font-weight:600}
   .study-done .grade-row,.study-done .done-actions{margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
@@ -945,6 +950,60 @@
     cursor:pointer;padding:2px 6px;border-radius:999px;
   }
   .missing-row-remove:hover{color:var(--danger)}
+  /* ---- Pill-bottle style touches ---- */
+  h1,.generic-en,.generic-he,.sc-name-en,.sc-name-he,.study-setup h2,.study-done h2,
+  .protocol-detail-heading,.line-heading{font-family:"Rubik","Assistant",system-ui,sans-serif}
+  h1{font-weight:800;letter-spacing:-.01em}
+  .generic-en{font-weight:700}
+  .generic-he{font-weight:600}
+  .eyebrow,.card-class,.class-heading,.route-tag{letter-spacing:.06em}
+  .pill-row{display:inline-flex;gap:5px;align-items:center;margin-inline-end:10px;vertical-align:middle}
+  .pill-row i{display:block;width:22px;height:11px;border-radius:999px;position:relative;overflow:hidden}
+  .pill-row i::after{content:"";position:absolute;inset:0 50% 0 0;background:rgba(255,255,255,.55)}
+  .pill-row i:nth-child(1){background:var(--pill-blue)}
+  .pill-row i:nth-child(2){background:var(--pill-green)}
+  .pill-row i:nth-child(3){background:var(--pill-red)}
+  .mode-switch{background:var(--surface);box-shadow:0 3px 0 var(--line)}
+  .mode-btn[aria-pressed="true"]{box-shadow:0 2px 0 color-mix(in srgb,var(--accent) 60%,#000)}
+  .class-heading{color:var(--ink);border-bottom-color:var(--line)}
+  .class-heading::before{
+    content:"";flex:0 0 auto;width:12px;height:12px;border-radius:50%;align-self:center;
+    background:var(--pill-blue);box-shadow:inset -3px -3px 0 rgba(0,0,0,.12);
+  }
+  .card-sticky{border-bottom-color:var(--line)}
+  .brand{border-color:transparent}
+  .field--danger{box-shadow:inset 4px 0 0 var(--danger)}
+  .field--caution{box-shadow:inset 4px 0 0 var(--caution)}
+  .field--monitor{box-shadow:inset 4px 0 0 var(--monitor)}
+  .field--lyte{box-shadow:inset 4px 0 0 var(--lyte)}
+  .field--antidote{box-shadow:inset 4px 0 0 var(--antidote)}
+  .field--teach{box-shadow:inset 4px 0 0 var(--teach)}
+  .field--mem{box-shadow:inset 4px 0 0 var(--mem)}
+  .start-btn,.flip-btn,.continue-btn,.add-row button,.add-missing-btn,.done-actions button.primary{
+    border-radius:999px;box-shadow:0 3px 0 color-mix(in srgb,var(--accent) 60%,#000);
+  }
+  .protocol-badge{border-color:transparent;box-shadow:0 3px 0 color-mix(in srgb,var(--accent) 60%,#000)}
+  .stat-pill,.mc-opt,.match-item,.study-select,.study-num,.fill-input{border-radius:14px}
+
+  /* ---- G6PD warning line + reference card ---- */
+  .g6pd-line{
+    margin-top:9px;font-size:.82rem;line-height:1.45;font-weight:600;color:var(--danger);
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;
+  }
+  .g6pd-line .he{direction:rtl}
+  .g6pd-line .gram-dot{background:var(--danger)}
+  .g6pd-line .route-tag{color:#fff;background:var(--danger);border-color:var(--danger)}
+  .g6pd-caution{color:var(--caution)}
+  .g6pd-caution .gram-dot{background:var(--caution)}
+  .g6pd-caution .route-tag{background:var(--caution);border-color:var(--caution)}
+  [data-lang="en"] .g6pd-line .he,[data-lang="en"] .g6pd-line .mid,
+  [data-lang="he"] .g6pd-line .en,[data-lang="he"] .g6pd-line .mid,
+  [data-lang="he"] .g6pd-line .route-tag.en{display:none}
+  [data-lang="he"] .g6pd-line .route-tag-he{display:inline}
+  .info-card{border-color:color-mix(in srgb,var(--danger) 45%,var(--line))}
+  .info-card .card-head{background:var(--danger-soft)}
+  .info-card .card-class{color:var(--danger)}
+
   @media (max-width:640px){
     .field-body{grid-template-columns:1fr;gap:10px}
     .field-body .en{border-inline-end:none;padding-inline-end:0;border-bottom:1px solid var(--line);padding-bottom:10px}
@@ -956,7 +1015,7 @@
 
 <header class="masthead">
   <div class="wrap">
-    <p class="eyebrow">Nursing Pharmacology Reference</p>
+    <p class="eyebrow"><span class="pill-row" aria-hidden="true"><i></i><i></i><i></i></span>Nursing Pharmacology Reference</p>
     <h1>Bilingual Nursing Drug Guide<span class="he">מדריך תרופות דו-לשוני לסטודנטים לסיעוד</span></h1>
     <p class="lede">Generic and brand names, drug class, mechanism of action, indications, contraindications, electrolyte changes, side effects, nursing monitoring, and the antidote where one exists &mdash; every entry in English and Hebrew.</p>
     <div class="disclaimer">
@@ -2257,6 +2316,117 @@ const GRAM_COVERAGE = {
   "Ofloxacin": ["Broad spectrum (Gram-negative predominant, plus atypicals)", "ספקטרום רחב (בעיקר גראם שלילי, וגם פתוגנים אטיפיים)", "broad"]
 };
 
+/* Drugs that can trigger hemolysis in G6PD deficiency (favism - common in Israel). Shown as a red card meta
+   line, and searching "G6PD" / "favism" / "פאביזם" lists exactly these plus the G6PD info card.
+   [en, he, level] - level "avoid" (contraindicated / high risk) or "caution" (lower risk, dose-related). */
+const G6PD_RISK = {
+  "Rasburicase": ["Contraindicated - severe hemolysis and methemoglobinemia", "התוויית נגד - המוליזה חמורה ומתהמוגלובינמיה", "avoid"],
+  "Methylene blue": ["Contraindicated - ineffective and causes hemolysis", "התוויית נגד - לא יעיל וגורם להמוליזה", "avoid"],
+  "Nitrofurantoin": ["Avoid - risk of hemolytic anemia", "להימנע - סיכון לאנמיה המוליטית", "avoid"],
+  "Phenazopyridine": ["Avoid - risk of hemolysis and methemoglobinemia", "להימנע - סיכון להמוליזה ומתהמוגלובינמיה", "avoid"],
+  "Trimethoprim / sulfamethoxazole": ["Avoid - the sulfonamide can trigger hemolysis", "להימנע - הסולפונאמיד עלול לגרום להמוליזה", "avoid"],
+  "Sulfasalazine": ["Avoid - sulfonamide, risk of hemolysis", "להימנע - סולפונאמיד, סיכון להמוליזה", "avoid"],
+  "Dipyrone (metamizole)": ["Avoid - risk of hemolysis", "להימנע - סיכון להמוליזה", "avoid"],
+  "Silver sulfadiazine": ["Caution on large burns - absorbed sulfonamide can cause hemolysis", "זהירות בכוויות נרחבות - הסולפונאמיד הנספג עלול לגרום להמוליזה", "caution"],
+  "Hydroxychloroquine": ["Caution - rare hemolysis; monitor CBC", "זהירות - המוליזה נדירה; לעקוב אחר ספירת דם", "caution"],
+  "Probenecid": ["Caution - possible hemolysis", "זהירות - המוליזה אפשרית", "caution"],
+  "Glyburide (glibenclamide)": ["Caution - sulfonylurea, possible hemolysis", "זהירות - סולפונילאוריאה, המוליזה אפשרית", "caution"],
+  "Ciprofloxacin": ["Caution - quinolones have been linked to hemolysis", "זהירות - קינולונים נקשרו להמוליזה", "caution"]
+};
+const G6PD_QUERY_TERMS = ["g6pd", "g-6-pd", "favism", "פאביזם", "פוליות"];
+function isG6pdQuery(q){
+  const n = (q || "").toLowerCase().replace(/\s+/g, "");
+  return n.length >= 3 && G6PD_QUERY_TERMS.some(t => t.indexOf(n) === 0 || n.indexOf(t) !== -1);
+}
+
+/* Extra search words per drug (generic name -> space-separated terms, any language): old/common names,
+   abbreviations, and misspellings people actually type. Included in every medication search. */
+const SEARCH_ALIASES = {
+  "Levothyroxine": "thyroxine thyroxin l-thyroxine t4 תירוקסין אלטרוקסין",
+  "Quetiapine": "seroquel setequel seroqel סרוקל",
+  "Tranexamic acid": "txa hexakapron hexacapron היקסקפרון הקסקפרון",
+  "Lercanidipine": "lercsnidipine lercandipine לרקנידיפין",
+  "Betahistine": "bethistine bethhistine serc בטהיסטין",
+  "Insulin glulisine": "apidra glulisin",
+  "Pregabalin": "lyrica lirica ליריקה",
+  "Acetaminophen": "paracetamol apap tylenol",
+  "Hydrocodone / acetaminophen": "paracetamol"
+};
+function searchHay(m){
+  return [m.genericEn, m.genericHe, m.brandEn, m.brandHe, m.classEn, m.classHe, SEARCH_ALIASES[m.genericEn] || ""]
+    .join(" ").toLowerCase();
+}
+
+/* Typo-tolerant fallback, used only when a search finds nothing: compares each typed word (4+ letters) with
+   every word of a drug's names / brands / aliases and keeps drugs within a small edit distance. */
+function editDistance(a, b, max){
+  if (Math.abs(a.length - b.length) > max) return max + 1;
+  let prev = [];
+  for (let j = 0; j <= b.length; j++) prev[j] = j;
+  for (let i = 1; i <= a.length; i++){
+    const cur = [i];
+    let rowMin = i;
+    for (let j = 1; j <= b.length; j++){
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      if (cur[j] < rowMin) rowMin = cur[j];
+    }
+    if (rowMin > max) return max + 1;
+    prev = cur;
+  }
+  return prev[b.length];
+}
+function fuzzyMeds(q, limit){
+  const words = (q || "").toLowerCase().split(/[\s,\/()]+/).filter(w => w.length >= 4);
+  if (!words.length) return [];
+  const scored = [];
+  MEDS.forEach(m => {
+    const names = [m.genericEn, m.genericHe, m.brandEn, m.brandHe, SEARCH_ALIASES[m.genericEn] || ""]
+      .join(" ").toLowerCase().split(/[\s,\/()\-]+/).filter(Boolean);
+    let total = 0;
+    for (const w of words){
+      const max = w.length >= 7 ? 3 : w.length >= 5 ? 2 : 1;
+      let best = max + 1;
+      for (const n of names){
+        const d = editDistance(w, n.length > w.length + max ? n.slice(0, w.length + 1) : n, max);
+        if (d < best) best = d;
+        if (best === 0) break;
+      }
+      if (best > max) return;
+      total += best;
+    }
+    scored.push({ m: m, d: total });
+  });
+  return scored.sort((a, b) => (a.d - b.d) || byCommonality(a.m, b.m)).slice(0, limit || 6).map(s => s.m);
+}
+
+function g6pdInfoHTML(){
+  const row = (en, he) => '<div class="field-body"><p class="en" lang="en">' + en + '</p><p class="he" dir="rtl" lang="he">' + he + '</p></div>';
+  const field = (mod, en, he, bodyEn, bodyHe) =>
+    '<div class="field' + (mod ? " field--" + mod : "") + '"><div class="field-label"><span class="dot"></span><span class="en">' + en +
+    '</span><span class="he" dir="rtl">' + he + '</span></div>' + row(bodyEn, bodyHe) + '</div>';
+  return '<article class="card info-card">' +
+    '<div class="card-head">' +
+      '<p class="card-class"><span class="en">Patient safety reference</span><span class="mid">&nbsp;&middot;&nbsp;</span><span class="he" dir="rtl">מידע לבטיחות המטופל</span></p>' +
+      '<div class="card-names"><h2 class="generic-en">G6PD deficiency (favism)</h2><span class="generic-he" dir="rtl">חסר G6PD (פאביזם)</span></div>' +
+    '</div><div class="fields">' +
+    field("", "What it is", "מה זה",
+      "An inherited (X-linked) lack of the enzyme G6PD, which protects red blood cells from oxidative stress. Certain drugs, infections, and fava beans can then break red cells apart (hemolysis). Common in Israel - especially among Jews of Kurdish, Iraqi, Persian and other Middle Eastern origin, and in men.",
+      "חסר תורשתי (בתאחיזה לכרומוזום X) באנזים G6PD, המגן על כדוריות הדם האדומות מעקה חמצוני. תרופות מסוימות, זיהומים ופול עלולים לגרום לפירוק כדוריות אדומות (המוליזה). שכיח בישראל - במיוחד ביוצאי כורדיסטן, עיראק, פרס ומדינות המזרח התיכון, ובגברים.") +
+    field("danger", "Avoid", "להימנע",
+      "Fava beans (ful) and their pollen, naphthalene mothballs, and high-risk drugs: rasburicase, methylene blue, dapsone, primaquine, nitrofurantoin, sulfonamides (TMP-SMX, sulfasalazine), phenazopyridine, and dipyrone (Optalgin). Lower-risk drugs (e.g. quinolones, hydroxychloroquine, glyburide) only with caution. Every listed drug below carries a G6PD line.",
+      "פול ואבקת פרחי הפול, נפטלין, ותרופות בסיכון גבוה: רסבוריקאז, מתילן בלו, דפסון, פרימקווין, ניטרופורנטואין, סולפונאמידים (TMP-SMX, סולפסלזין), פנאזופירידין ודיפירון (אופטלגין). תרופות בסיכון נמוך יותר (כגון קינולונים, הידרוקסיכלורוקין, גליבנקלמיד) רק בזהירות. לכל תרופה ברשימה למטה יש שורת G6PD.") +
+    field("caution", "Signs of hemolysis", "סימני המוליזה",
+      "Usually 1-3 days after exposure: dark (tea- or cola-colored) urine, jaundice, pallor, fatigue, tachycardia, shortness of breath, back or abdominal pain, and fever. Labs: falling hemoglobin, high reticulocytes, indirect bilirubin and LDH, low haptoglobin.",
+      "בדרך כלל 1-3 ימים לאחר החשיפה: שתן כהה (בצבע תה או קולה), צהבת, חיוורון, עייפות, טכיקרדיה, קוצר נשימה, כאבי גב או בטן, וחום. מעבדה: ירידה בהמוגלובין, רטיקולוציטים גבוהים, בילירובין עקיף ו-LDH גבוהים, הפטוגלובין נמוך.") +
+    field("monitor", "Nursing actions", "פעולות סיעודיות",
+      "Ask about G6PD status / favism before giving a listed drug and check the chart; flag it as an allergy-style alert. If hemolysis is suspected: stop the trigger, notify the physician, send CBC, reticulocytes, bilirubin, LDH and urinalysis, keep the patient hydrated, monitor urine output and vital signs, and prepare for transfusion if anemia is severe.",
+      "יש לשאול על חסר G6PD / פאביזם לפני מתן תרופה מהרשימה ולבדוק ברשומה; לסמן כהתראה בדומה לאלרגיה. בחשד להמוליזה: להפסיק את הגורם, לדווח לרופא, לשלוח ספירת דם, רטיקולוציטים, בילירובין, LDH ובדיקת שתן, לשמור על הידרציה, לעקוב אחר תפוקת שתן וסימנים חיוניים, ולהיערך לעירוי דם באנמיה קשה.") +
+    field("teach", "Patient teaching", "הדרכת המטופל",
+      "Tell every doctor, pharmacist and dentist that you have G6PD deficiency, carry the list of drugs to avoid, never eat fava beans, and seek care right away for dark urine or yellow eyes.",
+      "יש לספר לכל רופא, רוקח ורופא שיניים על חסר G6PD, לשאת את רשימת התרופות שיש להימנע מהן, לעולם לא לאכול פול, ולפנות מיד לטיפול במקרה של שתן כהה או הצהבה בעיניים.") +
+    '</div></article>';
+}
+
 const MEDS = [
 {
   cat:"cardiovascular",
@@ -2383,6 +2553,32 @@ const MEDS = [
   teachEn:"Swelling of the ankles and feet is a common side effect - report it if it bothers you. Rise slowly, keep up dental hygiene (it can cause gum overgrowth), and do not stop it on your own even if you feel well.", teachHe:"נפיחות בקרסוליים ובכפות הרגליים היא תופעת לוואי שכיחה - יש לדווח אם מפריעה. יש לקום לאט, להקפיד על היגיינת הפה (עלול לגרום לשגשוג חניכיים), ואין להפסיק לבד גם בהרגשה טובה.",
   antidoteEn:"IV calcium, high-dose insulin-euglycemia therapy, and vasopressors (norepinephrine); the vasodilatory hypotension can be profound and prolonged given the long half-life. Lipid emulsion and methylene blue for refractory vasoplegia.",
   antidoteHe:"סידן תוך-ורידי, טיפול אינסולין-אאוגליקמיה במינון גבוה, ומכווצי כלי דם (נוראפינפרין); תת לחץ הדם מהרחבת כלי הדם עלול להיות עמוק וממושך בשל זמן מחצית החיים הארוך. תחליב שומנים ומתילן בלו לוזופלגיה עמידה."
+},
+{
+  cat:"cardiovascular",
+  classEn:"Dihydropyridine calcium channel blocker (third generation)", classHe:"חוסם תעלות סידן מסוג דיהידרופירידין (דור שלישי)",
+  classFamilyEn:"Dihydropyridine calcium channel blocker", classFamilyHe:"חוסם תעלות סידן דיהידרופירידיני",
+  genericEn:"Lercanidipine", genericHe:"לרקנידיפין",
+  brandEn:"Lercapress, Zanidip", brandHe:"לרקפרס",
+  routeEn:"PO", routeHe:"פומי",
+  doseEn:"Adult: 10 mg PO once daily at least 15 min before a meal, increased after 2 weeks to 20 mg once daily if needed (max 20 mg/day). Use caution in older adults and mild-moderate renal or hepatic impairment; not recommended with CrCl under 30.", doseHe:"מבוגר: 10 מ\"ג פומי פעם ביום לפחות 15 דקות לפני ארוחה, ניתן להעלות לאחר שבועיים ל-20 מ\"ג פעם ביום לפי הצורך (מקסימום 20 מ\"ג ליום). זהירות בקשישים ובאי-ספיקת כליות או כבד קלה-בינונית; לא מומלץ ב-CrCl מתחת ל-30.",
+  inoDir:"neutral/neutral",
+  inoEn:"Minimal direct cardiac effect - highly vascular-selective. Its slow, gradual onset means reflex tachycardia is uncommon.", inoHe:"השפעה לבבית ישירה מזערית - סלקטיבי מאוד לכלי הדם. בשל תחילת פעולה איטית והדרגתית, טכיקרדיה רפלקסית אינה שכיחה.",
+  moaEn:"Blocks L-type calcium channels in arterial smooth muscle, relaxing the arteries and lowering peripheral resistance and blood pressure. It is highly lipophilic, so it acts for 24 hours despite a short plasma half-life.",
+  moaHe:"חוסם תעלות סידן מסוג L בשריר החלק של העורקים, מרפה את העורקים ומוריד תנגודת היקפית ולחץ דם. בעל מסיסות גבוהה בשומן, ולכן פועל 24 שעות למרות זמן מחצית חיים קצר בדם.",
+  indEn:"Mild to moderate essential hypertension.",
+  indHe:"יתר לחץ דם ראשוני קל עד בינוני.",
+  ciEn:"Left ventricular outflow obstruction (including severe aortic stenosis), uncompensated heart failure, unstable angina or myocardial infarction within the last month, severe renal (CrCl under 30) or hepatic impairment, pregnancy and breastfeeding, and co-use with strong CYP3A4 inhibitors, cyclosporine, or grapefruit juice.",
+  ciHe:"חסימה במוצא חדר שמאל (כולל היצרות אבי העורקים חמורה), אי-ספיקת לב לא מאוזנת, תעוקת חזה לא יציבה או אוטם שריר הלב בחודש האחרון, אי-ספיקת כליות חמורה (CrCl מתחת ל-30) או כבד חמורה, הריון והנקה, ושילוב עם מעכבי CYP3A4 חזקים, ציקלוספורין או מיץ אשכוליות.",
+  lyteEn:"No significant electrolyte effects.",
+  lyteHe:"אין השפעות אלקטרוליטיות משמעותיות.",
+  seEn:"Headache, flushing, dizziness, palpitations, and peripheral (ankle) edema - generally less ankle swelling than amlodipine; rarely hypotension and gum overgrowth.",
+  seHe:"כאב ראש, סומק, סחרחורת, דפיקות לב, ובצקת היקפית (קרסוליים) - בדרך כלל פחות נפיחות בקרסוליים מאשר באמלודיפין; לעיתים נדירות תת לחץ דם ושגשוג חניכיים.",
+  monEn:"Blood pressure and heart rate, ankle edema, and orthostatic dizziness; check the medication list for CYP3A4 interactions; confirm it is given before a meal.",
+  monHe:"לחץ דם וקצב לב, בצקת בקרסוליים, וסחרחורת אורתוסטטית; יש לבדוק ברשימת התרופות אינטראקציות עם CYP3A4; לוודא שניתנת לפני ארוחה.",
+  teachEn:"Take once a day at least 15 minutes before a meal (preferably the morning). Do not drink grapefruit juice, rise slowly, and report ankle swelling, a pounding heartbeat, or dizziness. Do not stop it on your own.", teachHe:"יש ליטול פעם ביום לפחות 15 דקות לפני ארוחה (רצוי בבוקר). אין לשתות מיץ אשכוליות, יש לקום לאט, ולדווח על נפיחות בקרסוליים, דפיקות לב או סחרחורת. אין להפסיק לבד.",
+  antidoteEn:"No specific antidote: treat overdose like other calcium channel blockers - IV fluids, IV calcium, vasopressors, and high-dose insulin-euglycemia therapy for refractory shock.",
+  antidoteHe:"אין נוגדן ספציפי: מנת יתר מטופלת כמו בחוסמי תעלות סידן אחרים - נוזלים תוך-ורידיים, סידן תוך-ורידי, מכווצי כלי דם, וטיפול אינסולין-אאוגליקמיה במינון גבוה בהלם עמיד."
 },
 {
   cat:"cardiovascular",
@@ -2745,6 +2941,31 @@ const MEDS = [
   teachEn:"This rapid-acting insulin works within 15 minutes - inject just before eating and make sure the meal is in front of you. Treat low sugar promptly with 15 g of fast carbohydrate, and rotate injection sites.", teachHe:"אינסולין מהיר-פעולה זה פועל תוך 15 דקות - יש להזריק בדיוק לפני האכילה ולוודא שהארוחה מוכנה. יש לטפל בסוכר נמוך מיד עם 15 גרם פחמימה מהירה, ולהחליף אתרי הזרקה.",
   antidoteEn:"Fast-acting oral carbohydrate if alert, IV dextrose if not, glucagon without IV access; because aspart is rapid- and short-acting, hypoglycemia is usually briefer than with basal insulins.",
   antidoteHe:"פחמימה פומית מהירה אם ער, דקסטרוז תוך-ורידי אם לא, גלוקגון ללא גישה ורידית; מכיוון שאספרט הוא מהיר וקצר טווח, ההיפוגליקמיה בדרך כלל קצרה יותר מאשר עם אינסולינים בזאליים."
+},
+{
+  cat:"endocrine",
+  classEn:"Rapid-acting insulin", classHe:"אינסולין מהיר טווח",
+  classFamilyEn:"Insulin", classFamilyHe:"אינסולין",
+  genericEn:"Insulin glulisine", genericHe:"אינסולין גלוליזין",
+  brandEn:"Apidra", brandHe:"אפידרה",
+  routeEn:"SC / IV", routeHe:"תת-עורי / תוך-ורידי",
+  doseEn:"Adult: SC within 15 min before a meal or within 20 min after starting it, dosed to carbohydrate intake and correction scale; always used with a basal insulin in type 1 diabetes. Also used in insulin pumps; IV only under close glucose and potassium monitoring.", doseHe:"מבוגר: תת-עורי תוך 15 דקות לפני ארוחה או תוך 20 דקות מתחילתה, במינון לפי צריכת פחמימות וסולם תיקון; בסוכרת מסוג 1 תמיד בשילוב אינסולין בזאלי. משמש גם במשאבות אינסולין; תוך-ורידי רק בניטור צמוד של סוכר ואשלגן.",
+  memHookEn:"Apidra = rapid-ra: injected right at the meal, works in about 15 minutes.", memHookHe:"אפידרה = \"רפיד\"-רה: מזריקים צמוד לארוחה, פועל תוך כרבע שעה.",
+  moaEn:"A rapid-acting insulin analogue that binds insulin receptors, driving glucose and potassium into muscle and fat cells and suppressing hepatic glucose output; its structure lets it absorb faster than regular insulin to cover a meal.",
+  moaHe:"אנלוג אינסולין מהיר-פעולה הנקשר לקולטני אינסולין, מכניס סוכר ואשלגן לתאי שריר ושומן ומדכא ייצור סוכר בכבד; המבנה שלו מאפשר ספיגה מהירה יותר מאינסולין רגולר לכיסוי ארוחה.",
+  indEn:"Mealtime (bolus) glucose control in type 1 and type 2 diabetes in adults and children, and continuous SC insulin pumps.",
+  indHe:"איזון סוכר סביב הארוחות (בולוס) בסוכרת מסוג 1 ומסוג 2 במבוגרים ובילדים, ומשאבות אינסולין תת-עוריות.",
+  ciEn:"Hypoglycemia and hypersensitivity to insulin glulisine.",
+  ciHe:"היפוגליקמיה ורגישות יתר לאינסולין גלוליזין.",
+  lyteEn:"Hypokalemia - insulin shifts potassium into cells, especially with IV use or large doses.",
+  lyteHe:"היפוקלמיה - האינסולין מעביר אשלגן לתוך התאים, במיוחד במתן תוך-ורידי או במינונים גבוהים.",
+  seEn:"Hypoglycemia (rapid onset), hypokalemia, weight gain, injection-site reactions and lipodystrophy, and rarely allergic reactions.",
+  seHe:"היפוגליקמיה (תחילת פעולה מהירה), היפוקלמיה, עלייה במשקל, תגובות באתר ההזרקה וליפודיסטרופיה, ולעיתים נדירות תגובות אלרגיות.",
+  monEn:"Blood glucose before meals and at bedtime, HbA1c, and potassium; give only when food is available and the meal will be eaten; onset about 15 minutes, peak 1-1.5 hours, duration 3-5 hours. Never mix in a syringe with any insulin except NPH.",
+  monHe:"רמת סוכר לפני ארוחות ולפני שינה, HbA1c, ואשלגן; יש לתת רק כשיש מזון והארוחה תיאכל; תחילת פעולה כ-15 דקות, שיא 1-1.5 שעות, משך 3-5 שעות. אין לערבב במזרק עם אינסולין אחר מלבד NPH.",
+  teachEn:"Inject within 15 minutes before eating (or within 20 minutes after starting the meal) - never skip the meal after injecting. Carry fast sugar for lows (shakiness, sweating, confusion), rotate injection sites, and keep unopened pens in the fridge; an opened pen lasts 28 days at room temperature.", teachHe:"יש להזריק עד 15 דקות לפני האכילה (או עד 20 דקות מתחילת הארוחה) - לעולם אין לוותר על הארוחה לאחר ההזרקה. יש לשאת סוכר מהיר למקרה של היפוגליקמיה (רעד, הזעה, בלבול), להחליף אתרי הזרקה, ולשמור עטים סגורים במקרר; עט פתוח תקף 28 ימים בטמפרטורת החדר.",
+  antidoteEn:"Fast-acting oral carbohydrate if alert, IV dextrose if not, glucagon IM/SC without IV access; glulisine is short-acting, so hypoglycemia is usually brief, but recheck glucose after 15 minutes.",
+  antidoteHe:"פחמימה פומית מהירה אם ער, דקסטרוז תוך-ורידי אם לא, גלוקגון תוך-שרירי או תת-עורי ללא גישה ורידית; גלוליזין קצר טווח ולכן ההיפוגליקמיה בדרך כלל קצרה, אך יש לבדוק סוכר שוב לאחר 15 דקות."
 },
 {
   cat:"endocrine",
@@ -7341,7 +7562,7 @@ const MEDS = [
   classEn:"Antifibrinolytic", classHe:"נוגד פירוק פיברין",
   classFamilyEn:"Antifibrinolytic", classFamilyHe:"אנטי-פיברינוליטי",
   genericEn:"Tranexamic acid", genericHe:"חומצה טרנקסמית",
-  brandEn:"Lysteda, Cyklokapron", brandHe:"היקסקפרון",
+  brandEn:"Hexakapron, Cyklokapron, Lysteda", brandHe:"הקסקפרון",
   routeEn:"PO / IV / topical", routeHe:"פומי / תוך-ורידי / מקומי",
   doseEn:"Adult: heavy menstrual bleeding 1300 mg PO three times daily for up to 5 days per cycle; trauma with hemorrhage 1 g IV over 10 min then 1 g over 8 h, given within 3 h of injury; postpartum hemorrhage 1 g IV, may repeat once; dental procedures in hemophilia 10 mg/kg before then a mouthwash. Reduce for renal impairment; give IV slowly.", doseHe:"מבוגר: דימום וסתי כבד 1300 מ\"ג פומי שלוש פעמים ביום עד 5 ימים במחזור; טראומה עם דימום 1 גרם תוך-ורידי על פני 10 דקות אחר כך 1 גרם על פני 8 שעות, תוך 3 שעות מהפציעה; דימום לאחר לידה 1 גרם תוך-ורידי, ניתן לחזור פעם אחת; פרוצדורות שיניים בהמופיליה 10 מ\"ג/ק\"ג לפני ואחר כך מי פה. יש להפחית באי-ספיקת כליות; לתת תוך-ורידי לאט.",
   moaEn:"Blocks the binding of plasminogen to fibrin, preventing clot breakdown and stabilizing formed clots.",
@@ -9334,6 +9555,29 @@ const MEDS = [
   monEn:"Sedation and fall risk (especially in older adults), symptom relief, and anticholinergic effects; take 1 hour before travel for motion sickness.",
   monHe:"טשטוש וסיכון לנפילות (בעיקר במבוגרים), הקלה בתסמינים, והשפעות אנטיכולינרגיות; יש ליטול שעה לפני נסיעה למניעת מחלת תנועה.",
   teachEn:"Take 1 hour before travel for motion sickness; it causes drowsiness and dry mouth, so do not drive or drink alcohol until you know its effect. It is generally avoided in older adults.", teachHe:"יש ליטול שעה לפני נסיעה למחלת תנועה; גורם לנמנום ויובש בפה, לכן אין לנהוג או לשתות אלכוהול עד שברורה ההשפעה. בדרך כלל נמנעים ממנו בקשישים."
+},
+{
+  cat:"painneuro",
+  classEn:"Antivertigo agent (histamine analogue)", classHe:"תרופה נגד סחרחורת (אנלוג היסטמין)",
+  classFamilyEn:"Antivertigo agent", classFamilyHe:"תרופה נגד סחרחורת",
+  genericEn:"Betahistine", genericHe:"בטהיסטין",
+  brandEn:"Agiserc, Betaserc", brandHe:"אגיסרק, בטאסרק",
+  routeEn:"PO", routeHe:"פומי",
+  doseEn:"Adult: 24-48 mg/day PO in divided doses (e.g. 16 mg three times daily or 24 mg twice daily), with food. Benefit can take several weeks; not for children under 18.", doseHe:"מבוגר: 24-48 מ\"ג ליום פומי במנות מחולקות (למשל 16 מ\"ג שלוש פעמים ביום או 24 מ\"ג פעמיים ביום), עם אוכל. ההשפעה עשויה להופיע רק לאחר מספר שבועות; לא לילדים מתחת לגיל 18.",
+  memHookEn:"Beta-HISTAMINE look-alike: it opens the inner-ear blood vessels - so watch asthma and ulcers, just like histamine would.", memHookHe:"בטה-היסטין דומה להיסטמין: מרחיב כלי דם באוזן הפנימית - ולכן זהירות באסתמה ובכיב, בדיוק כמו היסטמין.",
+  moaEn:"A histamine analogue: weak H1 agonist and strong H3 antagonist. It improves blood flow in the inner ear (stria vascularis), which may lower endolymph pressure, and dampens vestibular nerve firing.",
+  moaHe:"אנלוג של היסטמין: אגוניסט חלש ל-H1 ואנטגוניסט חזק ל-H3. משפר את זרימת הדם באוזן הפנימית (stria vascularis), מה שעשוי להפחית את לחץ האנדולימפה, ומפחית ירי של עצב שיווי המשקל.",
+  indEn:"Ménière's disease - vertigo, tinnitus, and hearing loss - and vestibular vertigo.",
+  indHe:"מחלת מנייר - סחרחורת, טנטון וירידה בשמיעה - וסחרחורת וסטיבולרית.",
+  ciEn:"Pheochromocytoma and hypersensitivity; use caution in asthma, active or past peptic ulcer, and with antihistamines (which cancel its effect).",
+  ciHe:"פאוכרומוציטומה ורגישות יתר; יש לנקוט זהירות באסתמה, בכיב פפטי פעיל או בעבר, ובשילוב עם אנטיהיסטמינים (המבטלים את השפעתו).",
+  lyteEn:"No electrolyte effects.",
+  lyteHe:"אין השפעות אלקטרוליטיות.",
+  seEn:"Nausea, dyspepsia and bloating, headache, and rarely rash, itching, or bronchospasm in asthma. It does not cause sedation.",
+  seHe:"בחילה, צרבת ונפיחות, כאב ראש, ולעיתים נדירות פריחה, גירוד או היצרות סימפונות באסתמה. אינו גורם לישנוניות.",
+  monEn:"Frequency and severity of vertigo attacks, fall risk during attacks, GI symptoms, and breathing in patients with asthma; check that no antihistamine is co-prescribed.",
+  monHe:"תדירות וחומרת התקפי הסחרחורת, סיכון לנפילות בזמן התקף, תסמיני עיכול, ונשימה במטופלים עם אסתמה; יש לוודא שלא נרשם במקביל אנטיהיסטמין.",
+  teachEn:"Take with food to reduce stomach upset; it may take weeks to work, so keep taking it. During a vertigo attack sit or lie down right away. Avoid antihistamine allergy pills unless your clinician approves, and report wheezing or black stools.", teachHe:"יש ליטול עם אוכל כדי להפחית אי-נוחות בקיבה; ההשפעה עשויה לקחת שבועות, ולכן יש להמשיך ליטול. בזמן התקף סחרחורת יש לשבת או לשכב מיד. יש להימנע מכדורי אנטיהיסטמין לאלרגיה ללא אישור רופא, ולדווח על צפצופים בנשימה או צואה שחורה."
 },
 {
   cat:"gi",
@@ -12705,6 +12949,7 @@ const CLASS_GROUPS = {
   "Benzodiazepine":["Neuro & psychiatric agents","תרופות נוירולוגיות ופסיכיאטריות"],
   "Dementia agent":["Neuro & psychiatric agents","תרופות נוירולוגיות ופסיכיאטריות"],
   "Gabapentinoid":["Neuro & psychiatric agents","תרופות נוירולוגיות ופסיכיאטריות"],
+  "Antivertigo agent":["Neuro & psychiatric agents","תרופות נוירולוגיות ופסיכיאטריות"],
   "MAO inhibitor":["Neuro & psychiatric agents","תרופות נוירולוגיות ופסיכיאטריות"],
   "Mood stabilizer":["Neuro & psychiatric agents","תרופות נוירולוגיות ופסיכיאטריות"],
   "Non-benzodiazepine hypnotic":["Neuro & psychiatric agents","תרופות נוירולוגיות ופסיכיאטריות"],
@@ -12795,12 +13040,13 @@ function buildSuggestions(q){
   MEDS.forEach(m => {
     if (out.length >= 8) return;
     if (seen.has(m.genericEn)) return;
-    const hay = [m.genericEn,m.genericHe,m.brandEn,m.brandHe,m.classEn,m.classHe].join(" ").toLowerCase();
+    const hay = searchHay(m);
     if (needle.split(/\s+/).every(t => hay.includes(t))){
       seen.add(m.genericEn);
       out.push({ type:"med", en:m.genericEn, he:m.genericHe });
     }
   });
+  if (!out.length && !isG6pdQuery(needle)) fuzzyMeds(needle, 5).forEach(m => out.push({ type:"med", en:m.genericEn, he:m.genericHe }));
   return out.slice(0, 8);
 }
 let suggestItems = [];
@@ -12951,7 +13197,8 @@ function matches(m){
   else if (activeCat === "review"){ if (!isReviewLater(m.genericEn)) return false; }
   else if (activeCat !== "all" && m.cat !== activeCat) return false;
   if (!query) return true;
-  const hay = [m.genericEn,m.genericHe,m.brandEn,m.brandHe,m.classEn,m.classHe].join(" ").toLowerCase();
+  if (isG6pdQuery(query)) return !!G6PD_RISK[m.genericEn];
+  const hay = searchHay(m);
   if (query.split(/\s+/).every(t => hay.includes(t))) return true;
   return !!(activeDiagnosisCats && activeDiagnosisCats.has(m.cat));
 }
@@ -13012,6 +13259,12 @@ function cardHTML(m){
         '<span class="en">' + esc(GRAM_COVERAGE[m.genericEn][0]) + '</span>' +
         '<span class="mid">·</span>' +
         '<span class="he" dir="rtl">' + esc(GRAM_COVERAGE[m.genericEn][1]) + "</span></div>" : "") +
+      (G6PD_RISK[m.genericEn] ? '<div class="g6pd-line g6pd-' + G6PD_RISK[m.genericEn][2] + '">' +
+        '<span class="gram-dot"></span>' +
+        '<span class="route-tag en">G6PD</span><span class="route-tag route-tag-he" dir="rtl">G6PD</span> ' +
+        '<span class="en">' + esc(G6PD_RISK[m.genericEn][0]) + '</span>' +
+        '<span class="mid">·</span>' +
+        '<span class="he" dir="rtl">' + esc(G6PD_RISK[m.genericEn][1]) + "</span></div>" : "") +
       (m.doseEn ? '<div class="dose-line">' +
         '<span class="route-tag en">Common dose</span><span class="route-tag route-tag-he" dir="rtl">מינון מקובל</span> ' +
         '<span class="en">' + esc(m.doseEn) + '</span>' +
@@ -13144,6 +13397,16 @@ document.body.addEventListener("click", function(e){
 });
 
 function render(){
+  if (query && isG6pdQuery(query)){
+    activeDiagnosisCats = null;
+    activeDiagnosisLines = null;
+    const g6Rows = MEDS.filter(matches).sort((a, b) =>
+      ((G6PD_RISK[a.genericEn][2] === "avoid" ? 0 : 1) - (G6PD_RISK[b.genericEn][2] === "avoid" ? 0 : 1)) || byCommonality(a, b));
+    countEl.innerHTML = '<span class="en">G6PD deficiency: ' + g6Rows.length + ' medications that can cause hemolysis</span>' +
+      '<span class="he" dir="rtl">&nbsp; חסר G6PD: ' + g6Rows.length + ' תרופות שעלולות לגרום להמוליזה</span>';
+    listEl.innerHTML = g6pdInfoHTML() + classHeadingsHTML(g6Rows);
+    return;
+  }
   const dxMatch = query ? diagnosisCatsForQuery(query) : null;
   activeDiagnosisCats = dxMatch ? dxMatch.cats : null;
   activeDiagnosisLines = dxMatch ? dxMatch.catLines : null;
@@ -13159,6 +13422,15 @@ function render(){
     '<span class="he" dir="rtl">&nbsp; מציג ' + rows.length + " מתוך " + MEDS.length + " תרופות</span>" +
     (dxMatch ? '<span class="dx-match-note"><span class="en">Also showing medications for &ldquo;' + esc(dxMatch.label.en) + '&rdquo;</span>' +
       '<span class="he" dir="rtl">גם תרופות עבור &ldquo;' + esc(dxMatch.label.he) + '&rdquo;</span></span>' : "");
+  if (!rows.length && query && !dxMatch){
+    const near = fuzzyMeds(query, 6).filter(m => activeCat === "all" || m.cat === activeCat);
+    if (near.length){
+      countEl.innerHTML = '<span class="en">No exact match for &ldquo;' + esc(query) + '&rdquo; - did you mean:</span>' +
+        '<span class="he" dir="rtl">&nbsp; אין התאמה מדויקת ל&ldquo;' + esc(query) + '&rdquo; - האם התכוונת ל:</span>';
+      listEl.innerHTML = classHeadingsHTML(near);
+      return;
+    }
+  }
   if (!rows.length){
     const msg = (activeCat === "starred" && !query)
       ? 'No starred medications yet. Tap the ☆ on any card to add one.<span class="he" dir="rtl">עדיין אין תרופות נבחרות. הקש/י על ☆ בכרטיס כדי להוסיף.</span>'
@@ -13449,11 +13721,13 @@ function importPatientFromShare(data){
 }
 
 function searchMedsForPicker(q){
-  const needle = q.toLowerCase();
-  return MEDS.filter(m =>
+  const needle = q.toLowerCase().trim();
+  const direct = MEDS.filter(m =>
     m.genericEn.toLowerCase().includes(needle) || m.genericHe.includes(q) ||
-    (m.brandEn && m.brandEn.toLowerCase().includes(needle)) || (m.brandHe && m.brandHe.includes(q))
+    (m.brandEn && m.brandEn.toLowerCase().includes(needle)) || (m.brandHe && m.brandHe.includes(q)) ||
+    (SEARCH_ALIASES[m.genericEn] || "").includes(needle)
   ).sort(byCommonality).slice(0, 8);
+  return direct.length ? direct : fuzzyMeds(needle, 6);
 }
 function searchDiagnosesForPicker(q){
   const needle = q.toLowerCase().trim();
