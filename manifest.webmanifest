@@ -1,7 +1,7 @@
 {
   "name": "Bilingual Nursing Drug Guide",
   "short_name": "Drug Guide",
-  "description": "Searchable English/Hebrew medication reference for nursing students - 541 drugs.",
+  "description": "Searchable English/Hebrew medication reference for nursing students - 563 drugs.",
   "lang": "en",
   "dir": "auto",
   "start_url": "./index.html",

@@ -32,7 +32,7 @@ Anidulafungin, Entecavir, Tenofovir disoproxil, Tenofovir alafenamide, Sofosbuvi
 Glecaprevir/pibrentasvir, Foscarnet, Letermovir, Primaquine, Atovaquone, Pentamidine, Dapsone,
 Chlorhexidine
 
-## Batch 5 - neuro, psychiatry, pain [ ]
+## Batch 5 - neuro, psychiatry, pain [x] (merged 2026-11-13; 22 drugs - dropped agomelatine, fosphenytoin, tiapride: not in registry mirror)
 Brotizolam, Zopiclone, Oxazepam, Bromazepam, Levomepromazine, Clotiapine, Zuclopenthixol,
 Perphenazine, Melatonin (prolonged-release), Fluvoxamine, Clomipramine, Desvenlafaxine, Agomelatine,
 Brivaracetam, Clobazam, Fosphenytoin, Oxycodone/naloxone, Etodolac, Paracetamol/codeine,

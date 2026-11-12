@@ -49,3 +49,12 @@ Teva/S.K./Inovamed, Enteavenir; Tenofovir Teva, Tenovamed; Vemlidy; Epclusa; Mav
 Livtencity; Chloraprep, Alcoxidine Teva, Alcosept, Hexidyl, Tarodent, Solodent.
 Left out (not in registry mirror): cefiderocol, polymyxin B IV, dalbavancin, foscarnet, primaquine,
 atovaquone, pentamidine, oral dapsone.
+
+## Batch 5
+Confirmed: Bondormin, Brotizolam Teva; Nocturno, Nocturno Forte, Zopiclone Grindeks; Vaben; Nozinan;
+Clopixol (tablets, drops, Acuphase, Depot); Perphenan; Circadin; Fluvoxamine Teva; Anafranil, Anafranil
+SR; Pristiq; Briviact; Frisium; Targin; Etopan, Etopan XL, Etodolac Teva; Rokacet, Rokacet Plus;
+Butrans; Palexia; Versatis; Emgality.
+Not found (kept, please verify): Lexotan (bromazepam), Etumine (clotiapine).
+Medical cannabis: licensed by the MoH medical cannabis unit (IMCA), not in the drug registry.
+Left out (not in registry mirror): agomelatine, fosphenytoin, tiapride.
