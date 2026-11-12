@@ -32,3 +32,12 @@ Teva/Trima/Taro; Aclasta, Zoledronic Teva/Dexcel/Medison; Ibandronic Acid Inovam
 Risedronate Teva/S.K.; Calcimore, Calcium Source, Rennie; Lokelma; Plasma-Lyte 148/A; Aranesp; Alpha D3.
 Not found (kept, please verify): Diamicron MR (gliclazide), Parlodel (bromocriptine), Samsca/Jinarc
 (tolvaptan), Glycophos (IV phosphate), Cytomel/Triostat (liothyronine - likely import only).
+
+## Batch 3
+Confirmed: Symbicort Turbuhaler/Rapihaler; Seretide Diskus; Relvar Ellipta; Foster; Trelegy Ellipta;
+Anoro Ellipta; Ultibro Breezhaler; Nucala; Fasenra; Dupixent; Ofev, Nintedanib S.K.; Esbriet, Piron,
+Pirfenidone Teva/Inovamed/Sandoz; Aminophylline (Fresenius); Resolor; Citrafleet; Terlipressin
+Altan / Ever Pharma; Entyvio IV/SC; Stelara, Ustekinumab Kamada, Imuldosa, Wezlana; Dexilant;
+Gaviscon; Maalox.
+Not found (kept, please verify): Daxas (roflumilast), Buscopan (hyoscine butylbromide), Debridat
+(trimebutine), Disflatyl / Espumisan / Simicol (simethicone).

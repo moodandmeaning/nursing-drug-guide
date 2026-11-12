@@ -18,7 +18,7 @@ Zoledronic acid, Ibandronate, Risedronate, Calcium carbonate, Magnesium oxide, P
 Tolvaptan, Sodium zirconium cyclosilicate, Hypertonic saline 3%, Dextrose 50%, Plasma-Lyte, Potassium
 citrate, Darbepoetin alfa, Ferric derisomaltose, Alfacalcidol
 
-## Batch 3 - respiratory and GI [ ]
+## Batch 3 - respiratory and GI [x] (merged 2026-11-13)
 Budesonide/formoterol, Fluticasone/salmeterol, Fluticasone furoate/vilanterol, Beclomethasone/formoterol,
 Fluticasone furoate/umeclidinium/vilanterol, Umeclidinium/vilanterol, Indacaterol/glycopyrronium,
 Roflumilast, Mepolizumab, Benralizumab, Dupilumab, Nintedanib, Pirfenidone, Aminophylline,
