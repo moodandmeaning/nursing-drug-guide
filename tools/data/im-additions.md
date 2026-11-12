@@ -11,7 +11,7 @@ Methyldopa, Nadolol, Amiloride, Finerenone, Vericiguat, Bezafibrate, Pravastatin
 Alirocumab, Inclisiran, Prothrombin complex concentrate, Bivalirudin, Eptifibatide, Tirofiban,
 Tenecteplase, Dalteparin, Nimodipine
 
-## Batch 2 - diabetes, endocrine, kidney, electrolytes [ ]
+## Batch 2 - diabetes, endocrine, kidney, electrolytes [x] (merged 2026-11-13; dropped ferric derisomaltose and potassium citrate - not found in Israeli registry)
 Gliclazide, Vildagliptin, Saxagliptin, Fast-acting insulin aspart (Fiasp), Biphasic insulin aspart
 (NovoMix 30), Insulin lispro mix (Humalog Mix), Liothyronine, Cabergoline, Bromocriptine, Cinacalcet,
 Zoledronic acid, Ibandronate, Risedronate, Calcium carbonate, Magnesium oxide, Phosphate replacement,
