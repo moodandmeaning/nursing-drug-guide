@@ -41,3 +41,11 @@ Altan / Ever Pharma; Entyvio IV/SC; Stelara, Ustekinumab Kamada, Imuldosa, Wezla
 Gaviscon; Maalox.
 Not found (kept, please verify): Daxas (roflumilast), Buscopan (hyoscine butylbromide), Debridat
 (trimebutine), Disflatyl / Espumisan / Simicol (simethicone).
+
+## Batch 4
+Confirmed: Unasyn, Ampisulvenir; Kefotam, Cefotaxime Medo; Zinforo; Zavicefta; Zerbaxa; Dificlir; Rulid;
+Noxafil, Posaconazole Inovamed / Ofek Pharma; Cresemba; Anidulafungin Teva/S.K./Ropharm; Entecavir
+Teva/S.K./Inovamed, Enteavenir; Tenofovir Teva, Tenovamed; Vemlidy; Epclusa; Maviret; Prevymis;
+Livtencity; Chloraprep, Alcoxidine Teva, Alcosept, Hexidyl, Tarodent, Solodent.
+Left out (not in registry mirror): cefiderocol, polymyxin B IV, dalbavancin, foscarnet, primaquine,
+atovaquone, pentamidine, oral dapsone.

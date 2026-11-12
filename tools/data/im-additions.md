@@ -25,7 +25,7 @@ Roflumilast, Mepolizumab, Benralizumab, Dupilumab, Nintedanib, Pirfenidone, Amin
 Hyoscine butylbromide, Trimebutine, Prucalopride, Sodium picosulfate/magnesium citrate, Terlipressin,
 Vedolizumab, Ustekinumab, Simethicone, Dexlansoprazole, Alginate (Gaviscon), Aluminum/magnesium antacid
 
-## Batch 4 - infections [ ]
+## Batch 4 - infections [x] (merged 2026-11-13; 18 drugs - dropped cefiderocol, polymyxin B, dalbavancin, foscarnet, primaquine, atovaquone, pentamidine, dapsone: not in Israeli registry mirror; added maribavir)
 Ampicillin/sulbactam, Cefotaxime, Ceftaroline, Ceftazidime/avibactam, Ceftolozane/tazobactam,
 Cefiderocol, Polymyxin B, Dalbavancin, Fidaxomicin, Roxithromycin, Posaconazole, Isavuconazole,
 Anidulafungin, Entecavir, Tenofovir disoproxil, Tenofovir alafenamide, Sofosbuvir/velpatasvir,
