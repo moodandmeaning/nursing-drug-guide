@@ -176,8 +176,9 @@
     border-bottom:1.5px solid var(--line);
     padding:14px 0;
     padding-top:max(14px,env(safe-area-inset-top));
-    transition:box-shadow .22s ease,transform .22s ease;
+    transition:box-shadow .22s ease,transform .22s ease,margin-bottom .22s ease;
   }
+  .controls.no-anim,.controls.no-anim *{transition:none!important}
   .controls.hide-bar{transform:translateY(-100%)}
   .search-row{position:relative;display:flex;align-items:center}
   .search-row svg{position:absolute;left:14px;width:18px;height:18px;color:var(--muted);pointer-events:none}
@@ -331,6 +332,7 @@
   .card-sticky{
     position:sticky;
     top:var(--card-sticky-top,132px);
+    transition:top .22s ease;
     z-index:5;
     background:var(--surface);
     padding:16px 22px 12px;
@@ -16277,13 +16279,41 @@ document.addEventListener("keydown", e => {
    each card's own sticky name+class stays visible while browsing the list. */
 let collapseTicking = false;
 let lastCollapsed = null;
-let lastHide = null;
 let lastScrollY = 0;
 function measureControls(){
   /* Pin each card's name just below the live height of the sticky controls bar - or right at the top
      when the bar is hidden off-screen (transform doesn't change offsetHeight, so this can't be measured). */
   const hidden = controlsEl.classList.contains("hide-bar");
   document.documentElement.style.setProperty("--card-sticky-top", hidden ? "0px" : controlsEl.offsetHeight + "px");
+}
+/* Track the bar's height continuously (collapse animation, font load, wrapping) so the card headers never
+   sit below a stale offset and leave an empty strip under the bar. */
+if (window.ResizeObserver) new ResizeObserver(measureControls).observe(controlsEl);
+/* Scroll position at which the bar reaches the top of the screen and starts sticking (it sits below the
+   masthead until then). Measured from the masthead, since the bar's own offsetTop is its stuck position. */
+function stickY(){
+  const m = document.querySelector(".masthead");
+  return m ? m.offsetTop + m.offsetHeight : 0;
+}
+/* Collapsing hides the theme button, which shrinks the bar. The bar is in the page flow, so on its own that
+   would pull everything below it up (the jump). Add back the lost height as bottom margin - animated in step
+   with the collapse - so the content underneath stays exactly where it is. */
+function setCollapsed(c){
+  if (c === lastCollapsed) return;
+  lastCollapsed = c;
+  const before = controlsEl.offsetHeight;
+  controlsEl.classList.add("no-anim");
+  controlsEl.classList.toggle("collapsed", c);
+  const after = controlsEl.offsetHeight;
+  controlsEl.classList.toggle("collapsed", !c);
+  void controlsEl.offsetHeight;
+  controlsEl.classList.remove("no-anim");
+  void controlsEl.offsetHeight;
+  controlsEl.classList.toggle("collapsed", c);
+  controlsEl.style.marginBottom = c ? Math.max(0, before - after) + "px" : "";
+  /* Move the card headers to the bar's final height now; their own top transition matches the bar's. */
+  if (!controlsEl.classList.contains("hide-bar"))
+    document.documentElement.style.setProperty("--card-sticky-top", after + "px");
 }
 function syncControls(){
   collapseTicking = false;
@@ -16292,20 +16322,19 @@ function syncControls(){
     return;
   }
   const y = window.scrollY;
-  const c = y > 6;
-  controlsEl.classList.toggle("collapsed", c);
-  const hide = y > 64 && y > lastScrollY + 4 ? true
-             : y < lastScrollY - 4 || y < 40 ? false
-             : controlsEl.classList.contains("hide-bar");
+  const top = stickY();
+  /* Only collapse / slide the bar away once it is actually pinned to the top; doing it while it still sits
+     under the masthead shifts the page and leaves an empty hole where the bar was. */
+  setCollapsed(y > top + 6);
+  const prevHide = controlsEl.classList.contains("hide-bar");
+  const hide = y > top + controlsEl.offsetHeight && y > lastScrollY + 4 ? true
+             : y < lastScrollY - 4 || y <= top + 40 ? false
+             : prevHide;
   controlsEl.classList.toggle("hide-bar", hide);
   lastScrollY = y;
-  if (c !== lastCollapsed || hide !== lastHide){
-    lastCollapsed = c;
-    lastHide = hide;
-    measureControls();
-    setTimeout(measureControls, 260); /* re-measure once the collapse/hide transition settles */
-  }
+  if (hide !== prevHide) measureControls();
 }
+controlsEl.addEventListener("transitionend", e => { if (e.target === controlsEl || e.target.id === "themeToggle") measureControls(); });
 window.addEventListener("scroll", () => {
   if (!collapseTicking){ collapseTicking = true; window.requestAnimationFrame(syncControls); }
 }, {passive:true});
