@@ -617,174 +617,255 @@
   }
 
   /* ---- Study mode ---- */
-  #study{padding-top:14px;padding-bottom:90px}
-  .study-setup h2{
-    font-family:"Rubik","Assistant",system-ui,sans-serif;font-weight:700;
-    font-size:1.5rem;margin:4px 0 14px;
-  }
-  .study-setup h2 .he{font-weight:500;color:var(--muted);margin-inline-start:8px;font-size:.8em}
-  .study-field{display:block;margin:14px 0}
-  .study-field > span{
-    display:block;font-size:.74rem;font-weight:700;letter-spacing:.06em;
-    text-transform:uppercase;color:var(--muted);margin-bottom:6px;
-  }
-  .study-select,.study-num{
-    width:100%;font:inherit;font-size:.95rem;font-weight:600;color:var(--ink);
-    background:var(--surface);border:1.5px solid var(--line);border-radius:10px;
-    padding:10px 12px;
-  }
-  .study-num{width:5.5rem}
-  .seg{display:flex;flex-wrap:wrap;gap:6px}
-  .seg button{
-    flex:1 1 30%;font:inherit;font-size:.85rem;font-weight:600;
-    padding:9px 8px;border-radius:9px;border:1.5px solid var(--line);
-    background:var(--surface);color:var(--muted);cursor:pointer;line-height:1.15;
-  }
-  .seg button .he{display:block;font-size:.72rem;font-weight:500}
-  .seg button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--ink)}
-  .fmt-note{font-size:.78rem;color:var(--muted);margin:8px 0 0}
-  .type-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px}
-  .type-grid label{
-    display:flex;align-items:flex-start;gap:7px;font-size:.86rem;
-    padding:5px 0;cursor:pointer;
-  }
-  .type-grid input{margin-top:2px;accent-color:var(--accent)}
-  .type-grid .he{color:var(--muted);font-size:.78rem}
-  .start-btn{
-    width:100%;font:inherit;font-size:1rem;font-weight:700;
-    background:var(--accent);color:var(--on-accent);border:none;border-radius:12px;
-    padding:15px;cursor:pointer;margin-top:16px;
-  }
-  .start-btn:disabled{opacity:.5;cursor:not-allowed}
-  .study-stats{
-    display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px;
-  }
-  .stat-pill{
-    background:var(--surface-2);border:1px solid var(--line);border-radius:10px;
-    padding:8px 12px;font-size:.8rem;color:var(--muted);flex:1 1 auto;text-align:center;
-  }
-  .stat-pill b{display:block;font-size:1.3rem;color:var(--ink);font-variant-numeric:tabular-nums;font-family:"Rubik","Assistant",system-ui,sans-serif}
-  .box-bars{display:flex;flex-direction:column;gap:6px;margin:12px 0}
-  .box-bar{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted)}
-  .box-bar .bb-label{width:3.2rem;flex:0 0 auto}
-  .box-bar .bb-track{flex:1;height:10px;background:var(--surface-2);border-radius:5px;overflow:hidden}
-  .box-bar .bb-fill{height:100%;background:var(--accent);border-radius:5px}
-  .box-bar .bb-n{width:2.5rem;text-align:right;flex:0 0 auto;font-variant-numeric:tabular-nums}
-  details.study-more{margin-top:18px;border-top:1px solid var(--line);padding-top:10px}
-  details.study-more summary{cursor:pointer;font-size:.85rem;font-weight:600;color:var(--muted)}
-  .reset-btn{
-    font:inherit;font-size:.8rem;font-weight:600;color:var(--danger);
-    background:none;border:1.5px solid color-mix(in srgb,var(--danger) 35%,transparent);
-    border-radius:8px;padding:7px 12px;cursor:pointer;margin:8px 8px 0 0;
-  }
+  #study{padding-top:12px;padding-bottom:90px}
+  #study .he{display:block;direction:rtl;color:var(--muted);font-size:.9em;font-weight:inherit}
+  [data-lang="en"] #study .he{display:none}
+  [data-lang="he"] #study .en{display:none}
+  [data-lang="he"] #study .he{color:inherit;font-size:1em}
+  .sx-nm{display:block;font-weight:700}
+  .sx-nm-he{direction:rtl;font-weight:600;color:var(--muted);font-size:.92em}
+  .sx-title{font-family:"Rubik","Assistant",system-ui,sans-serif;font-weight:800;font-size:1.5rem;margin:0;line-height:1.1}
+  .sx-title .he{font-size:.7em}
 
-  .study-topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-  .link-btn{font:inherit;font-size:.85rem;font-weight:600;color:var(--accent);background:none;border:none;cursor:pointer;padding:4px 0;flex:0 0 auto}
-  .study-progress{flex:1;height:6px;background:var(--surface-2);border-radius:3px;overflow:hidden}
-  .study-progress-bar{height:100%;background:var(--accent);border-radius:3px;transition:width .25s ease}
-  .study-counter{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums;flex:0 0 auto}
+  /* home */
+  .sx-hero{
+    background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 16%,var(--surface)),var(--surface));
+    border:1.5px solid var(--line);border-radius:22px;padding:16px 16px 14px;box-shadow:var(--shadow);
+  }
+  .sx-hero-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .sx-level{font-size:.76rem;font-weight:800;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:5px 10px;text-align:center}
+  .sx-level .he{font-size:.95em}
+  .sx-xpbar{height:9px;background:var(--surface-2);border-radius:999px;overflow:hidden;margin-top:12px}
+  .sx-xpbar span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--pill-blue),var(--pill-green));transition:width .4s ease}
+  .sx-xpnote{font-size:.74rem;color:var(--muted);margin-top:5px;font-weight:600}
+  #study .sx-xpnote .en,#study .sx-xpnote .he{display:inline}
+  .sx-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin-top:12px}
+  .sx-stat{
+    position:relative;background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:9px 6px;text-align:center;font-size:.72rem;color:var(--muted);font-weight:600;
+  }
+  .sx-stat b{display:block;font-family:"Rubik","Assistant",system-ui,sans-serif;font-size:1.15rem;color:var(--ink);font-variant-numeric:tabular-nums}
+  .sx-stat-goal{padding-top:6px}
+  .sx-ring{width:30px;height:30px;display:block;margin:0 auto 2px;transform:rotate(-90deg)}
+  .sx-ring circle{fill:none;stroke-width:4}
+  .sx-ring-bg{stroke:var(--surface-2)}
+  .sx-ring-fg{stroke:var(--pill-green);stroke-linecap:round;transition:stroke-dasharray .4s ease}
+  .sx-topic{display:flex;align-items:center;gap:10px;margin:14px 0 10px;font-size:.8rem;font-weight:700;color:var(--muted)}
+  .sx-topic select{
+    flex:1;min-width:0;font:inherit;font-size:.85rem;font-weight:700;color:var(--ink);
+    background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:9px 10px;
+  }
+  .sx-tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .sx-tile{
+    position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:start;
+    font:inherit;color:var(--ink);cursor:pointer;min-height:112px;
+    background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:12px;
+    box-shadow:0 3px 0 var(--line);transition:transform .12s ease,box-shadow .12s ease;
+  }
+  .sx-tile:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line)}
+  .sx-tile:disabled{opacity:.45;cursor:default}
+  .sx-tile-daily{grid-column:1 / -1;min-height:0;background:linear-gradient(120deg,color-mix(in srgb,var(--pill-blue) 22%,var(--surface)),var(--surface))}
+  .sx-tile-flash{background:color-mix(in srgb,var(--pill-green) 12%,var(--surface))}
+  .sx-tile-scen{background:color-mix(in srgb,var(--pill-red) 10%,var(--surface))}
+  .sx-tile-speed{background:color-mix(in srgb,var(--caution) 12%,var(--surface))}
+  .sx-tile-ic{font-size:1.6rem;line-height:1}
+  .sx-tile-t{font-family:"Rubik","Assistant",system-ui,sans-serif;font-weight:700;font-size:.98rem;line-height:1.15}
+  .sx-tile-t .he{font-size:.82em}
+  .sx-tile-s{font-size:.74rem;color:var(--muted);font-weight:600;line-height:1.2}
+  .sx-badge{
+    position:absolute;top:10px;inset-inline-end:10px;min-width:22px;height:22px;padding:0 6px;
+    display:grid;place-items:center;border-radius:999px;background:var(--pill-red);color:#fff;font-size:.72rem;font-weight:800;
+  }
+  .sx-sheet{margin-top:10px;background:var(--surface);border:1.5px solid var(--accent);border-radius:16px;padding:12px;text-align:center}
+  .sx-sheet p{margin:0 0 8px;font-weight:700}
+  .sx-len{display:flex;gap:8px}
+  .sx-len button{flex:1;font:inherit;font-size:1.1rem;font-weight:800;padding:12px;border-radius:12px;border:none;background:var(--accent);color:var(--on-accent);cursor:pointer}
+  .sx-sec{margin-top:14px;background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:10px 14px}
+  .sx-sec summary{cursor:pointer;font-weight:700;font-size:.9rem}
+  #study .sx-sec summary .en,#study .sx-sec summary .he{display:inline}
+  #study .sx-sec summary .he{margin-left:8px}
+  [data-lang="en"] #study .sx-sec summary .he,[data-lang="he"] #study .sx-sec summary .en{display:none}
+  .sx-note{font-size:.76rem;color:var(--muted);margin:8px 0}
+  .sx-mastery{display:flex;flex-direction:column;gap:6px}
+  .sx-mrow{display:grid;grid-template-columns:minmax(0,1.3fr) 1fr 2.6rem;align-items:center;gap:8px;font:inherit;font-size:.78rem;background:none;border:none;padding:3px 0;cursor:pointer;color:var(--ink);text-align:start}
+  .sx-mname .he{font-size:.9em}
+  .sx-mtrack{height:9px;background:var(--surface-2);border-radius:999px;overflow:hidden}
+  .sx-mtrack span{display:block;height:100%;background:var(--pill-green);border-radius:999px}
+  .sx-mpct{font-weight:700;text-align:end;font-variant-numeric:tabular-nums}
+  .sx-ach{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-top:10px}
+  .sx-a{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;font-size:.7rem;font-weight:600;color:var(--muted);
+    background:var(--surface-2);border-radius:14px;padding:8px 6px;filter:grayscale(1);opacity:.55}
+  .sx-a span:first-child{font-size:1.4rem}
+  .sx-a.on{filter:none;opacity:1;color:var(--ink);background:color-mix(in srgb,var(--caution) 14%,var(--surface))}
+  .sx-hist{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+  .sx-hist li{display:flex;align-items:center;gap:8px;font-size:.8rem}
+  .sx-hist li .en,.sx-hist li .he{flex:1}
+  .sx-h-r{font-weight:700;font-variant-numeric:tabular-nums}
+  .sx-h-d{color:var(--muted);font-size:.72rem}
+  .sx-empty{color:var(--muted)}
+  .sx-reset{margin-top:18px;font:inherit;font-size:.76rem;font-weight:600;color:var(--danger);background:none;border:none;cursor:pointer;padding:4px 0}
 
-  .study-card{
-    background:var(--surface);border:1.5px solid var(--line);border-radius:20px;
-    box-shadow:var(--shadow);padding:22px;min-height:180px;
+  /* session */
+  .sx-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .sx-x{font:inherit;font-size:1rem;width:34px;height:34px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;flex:0 0 auto}
+  .sx-back{font:inherit;font-size:.8rem;font-weight:700;color:var(--accent);background:none;border:none;cursor:pointer;padding:4px 2px;flex:0 0 auto;display:flex;gap:4px}
+  .sx-back .he{display:none!important}
+  [data-lang="he"] .sx-back .he{display:inline!important}
+  [data-lang="he"] .sx-back .en{display:none}
+  .sx-prog{flex:1;height:10px;background:var(--surface-2);border-radius:999px;overflow:hidden}
+  .sx-prog span{display:block;height:100%;background:linear-gradient(90deg,var(--pill-blue),var(--pill-green));border-radius:999px;transition:width .3s ease}
+  .sx-count,.sx-xp{font-size:.8rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;flex:0 0 auto}
+  .sx-xp{color:var(--caution)}
+  .sx-card{background:var(--surface);border:1.5px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:18px 16px}
+  .sx-tag{display:inline-flex;gap:6px;font-size:.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:4px 10px;margin-bottom:10px}
+  #study .sx-tag .en,#study .sx-tag .he{display:inline;font-size:1em;color:inherit}
+  [data-lang="en"] #study .sx-tag .he,[data-lang="he"] #study .sx-tag .en{display:none}
+  .sx-q{font-family:"Rubik","Assistant",system-ui,sans-serif;font-weight:600;font-size:1.12rem;line-height:1.35}
+  .sx-q .he{margin-top:4px}
+  .sx-q b{color:var(--accent)}
+  .sx-blank{display:inline-block;min-width:3.2em;border-bottom:2.5px dashed var(--accent);text-align:center;color:var(--accent)}
+  .sx-hint{font-size:.76rem;color:var(--muted);font-weight:600;margin-top:6px}
+  .sx-opts{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+  .sx-opt{
+    display:flex;align-items:center;gap:12px;width:100%;font:inherit;font-size:.95rem;text-align:start;color:var(--ink);
+    background:var(--surface-2);border:2px solid var(--line);border-radius:16px;padding:11px 12px;cursor:pointer;
+    transition:border-color .12s ease,background .12s ease,transform .08s ease;
   }
-  .sc-name{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin-bottom:6px}
-  .sc-name-en{font-family:"Rubik","Assistant",system-ui,sans-serif;font-weight:700;font-size:1.5rem;line-height:1.15}
-  .sc-name-he{font-family:"Rubik","Assistant",system-ui,sans-serif;font-weight:700;font-size:1.2rem;color:var(--muted);direction:rtl}
-  .sc-prompt{
-    display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;
-    font-size:.95rem;font-weight:600;color:var(--accent);margin-top:8px;
+  .sx-opt:active{transform:scale(.985)}
+  .sx-key{flex:0 0 auto;width:26px;height:26px;display:grid;place-items:center;border-radius:999px;background:var(--surface);border:1.5px solid var(--line);font-size:.78rem;font-weight:800;color:var(--muted)}
+  .sx-key small{font-size:.7em;color:var(--monitor)}
+  .sx-otxt{flex:1;min-width:0}
+  .sx-opts-tf{flex-direction:row}
+  .sx-opts-tf .sx-opt{justify-content:center;font-weight:700}
+  .sx-opts-tf .sx-key{display:none}
+  .sx-opt.picked{border-color:var(--accent);background:var(--accent-soft)}
+  .sx-opt.picked .sx-key{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+  .sx-opt.correct{border-color:var(--monitor);background:var(--monitor-soft)}
+  .sx-opt.correct .sx-key{background:var(--monitor);border-color:var(--monitor);color:#fff}
+  .sx-opt.wrong{border-color:var(--danger);background:var(--danger-soft);animation:sx-shake .35s ease}
+  .sx-opt.wrong .sx-key{background:var(--danger);border-color:var(--danger);color:#fff}
+  .sx-opt.missed{border-color:var(--monitor);border-style:dashed}
+  .sx-opt.dim{opacity:.55}
+  @keyframes sx-shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  .sx-check{margin-top:12px;width:100%}
+  .sx-fb{margin-top:14px;border-radius:16px;padding:12px 14px;animation:sx-pop .25s ease}
+  .sx-fb.ok{background:var(--monitor-soft);border:1.5px solid color-mix(in srgb,var(--monitor) 45%,transparent)}
+  .sx-fb.no{background:var(--danger-soft);border:1.5px solid color-mix(in srgb,var(--danger) 40%,transparent)}
+  .sx-fb-h{font-weight:800;font-size:1rem}
+  .sx-fb.ok .sx-fb-h{color:var(--monitor)}
+  .sx-fb.no .sx-fb-h{color:var(--danger)}
+  .sx-fb-h .he{color:inherit}
+  .sx-why{font-size:.86rem;line-height:1.45;margin-top:6px}
+  .sx-why .he{margin-top:4px}
+  .sx-mem{display:block;margin-top:4px;color:var(--muted)}
+  .sx-fb-actions,.sx-actions{display:flex;gap:8px;margin-top:12px}
+  .sx-fb-actions .sx-primary{flex:1}
+  @keyframes sx-pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .sx-btn{
+    font:inherit;font-size:.9rem;font-weight:700;padding:12px 14px;border-radius:14px;cursor:pointer;
+    border:1.5px solid var(--line);background:var(--surface);color:var(--ink);display:inline-flex;gap:6px;align-items:center;justify-content:center;
   }
-  .sc-prompt .he{direction:rtl;font-weight:500}
-  .sc-q{text-align:center;padding:14px 0}
-  .sc-big{
-    font-family:"Rubik","Assistant",system-ui,sans-serif;font-weight:700;font-size:1.8rem;
-    line-height:1.2;display:block;text-wrap:balance;
-  }
-  .sc-big.he{direction:rtl;font-size:1.5rem;color:var(--muted)}
-  .sc-sub{font-size:.85rem;color:var(--muted);margin-top:8px}
-  .sc-back{margin-top:16px;border-top:1px solid var(--line);padding-top:8px}
-  .sc-back .fields{padding:0}
-  .sc-back .field:first-child{border-top:none}
-  .sc-answer{text-align:center;padding:12px 0;display:flex;flex-direction:column;gap:4px}
+  .sx-btn .he{display:none!important}
+  [data-lang="he"] .sx-btn .he{display:inline!important;color:inherit;font-size:1em}
+  [data-lang="he"] .sx-btn .en{display:none}
+  .sx-btn:disabled{opacity:.45;cursor:default}
+  .sx-primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+  .sx-wide{width:100%;margin-top:10px}
+  .sx-reviewing{opacity:.95}
+  .sx-reviewing .sx-opts{pointer-events:none}
+  .sx-revnote{font-size:.74rem;font-weight:700;color:var(--muted);margin-bottom:8px}
 
-  /* fill-in-the-blank */
-  .fill-input{
-    width:100%;font:inherit;font-size:1.05rem;font-weight:600;color:var(--ink);
-    background:var(--surface-2);border:1.5px solid var(--line);border-radius:10px;
-    padding:12px 14px;margin-top:16px;text-align:center;
+  /* flash card */
+  .sx-fc{
+    background:var(--surface);border:1.5px solid var(--line);border-radius:24px;box-shadow:var(--shadow);
+    padding:20px 18px;min-height:260px;cursor:pointer;display:flex;flex-direction:column;
+    animation:sx-flip .35s ease;
   }
-  .fill-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-  .fill-input.correct{border-color:var(--monitor);background:var(--monitor-soft)}
-  .fill-input.wrong{border-color:var(--danger);background:var(--danger-soft)}
+  .sx-fc.flipped{cursor:default;min-height:0}
+  @keyframes sx-flip{from{transform:perspective(800px) rotateY(-12deg);opacity:.4}to{transform:none;opacity:1}}
+  .sx-fc-front{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px}
+  .sx-fc-name .sx-nm{font-family:"Rubik","Assistant",system-ui,sans-serif;font-size:1.8rem;line-height:1.15}
+  .sx-fc-name .sx-nm-he{font-size:1.35rem}
+  .sx-fc-brand{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;font-size:.8rem;color:var(--muted)}
+  .sx-fc-brand .sx-nm{display:inline;background:var(--surface-2);border-radius:999px;padding:2px 9px;font-size:inherit}
+  .sx-fc-tap{font-size:.78rem;color:var(--muted);margin-top:14px;font-weight:600}
+  .sx-fc.flipped .sx-fc-front{flex:0;padding-bottom:12px;border-bottom:1px solid var(--line)}
+  .sx-fc-back{display:flex;flex-direction:column;gap:10px;padding-top:12px}
+  .sx-fc-row{font-size:.88rem;line-height:1.4}
+  .sx-fc-l{font-size:.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
+  #study .sx-fc-l .en,#study .sx-fc-l .he{display:inline;color:inherit;font-size:1em}
+  #study .sx-fc-l .he{margin-left:8px}
+  [data-lang="en"] #study .sx-fc-l .he,[data-lang="he"] #study .sx-fc-l .en{display:none}
+  .sx-fc-anti .sx-fc-l{color:var(--antidote)}
+  .sx-fc-mem .sx-fc-l{color:var(--pill-red)}
+  .sx-rate{margin-top:14px;text-align:center}
+  .sx-rate p{margin:0 0 8px;font-weight:700;font-size:.9rem}
+  #study .sx-rate p .en,#study .sx-rate p .he{display:inline}
+  #study .sx-rate p .he,#study .sx-xpnote .he,#study .sx-lvline .he,#study .sx-best .he{margin-left:8px}
+  #study .sx-tag .he{margin-left:2px}
+  [data-lang="en"] #study .sx-xpnote .he,[data-lang="en"] #study .sx-rate p .he,[data-lang="en"] #study .sx-lvline .he,[data-lang="en"] #study .sx-best .he{display:none}
+  [data-lang="he"] #study .sx-xpnote .en,[data-lang="he"] #study .sx-rate p .en,[data-lang="he"] #study .sx-lvline .en,[data-lang="he"] #study .sx-best .en{display:none}
+  .sx-rate-row{display:flex;gap:8px}
+  .sx-rbtn{flex:1;font:inherit;font-size:.92rem;font-weight:800;padding:14px 6px;border-radius:16px;cursor:pointer;border:2px solid var(--line);background:var(--surface);color:var(--ink)}
+  .sx-rbtn .he{font-size:.78em}
+  .sx-rbtn.again{border-color:color-mix(in srgb,var(--danger) 50%,transparent)}
+  .sx-rbtn.hard{border-color:color-mix(in srgb,var(--caution) 55%,transparent)}
+  .sx-rbtn.good{border-color:color-mix(in srgb,var(--monitor) 55%,transparent);background:var(--monitor-soft)}
 
-  /* matching */
-  .match-board{display:flex;gap:10px;margin-top:6px}
-  .match-col{flex:1;display:flex;flex-direction:column;gap:8px}
-  .match-item{
-    font:inherit;font-size:.9rem;font-weight:600;line-height:1.25;
-    background:var(--surface);border:1.5px solid var(--line);border-radius:10px;
-    padding:11px 10px;cursor:pointer;color:var(--ink);text-align:center;min-height:44px;
-  }
-  .match-item.he{direction:rtl}
-  .match-item.sel{border-color:var(--accent);background:var(--accent-soft)}
-  .match-item.solved{border-color:var(--monitor);background:var(--monitor-soft);color:var(--monitor);cursor:default;opacity:.85}
-  .match-item.bad{border-color:var(--danger);background:var(--danger-soft);color:var(--danger)}
-  .match-result{text-align:center;font-size:.9rem;color:var(--muted);margin-top:14px}
-  .match-result b{color:var(--ink)}
+  /* speed round */
+  .sx-clock-wrap{flex:1;height:30px;border-radius:999px;background:linear-gradient(90deg,var(--caution) var(--p,100%),var(--surface-2) var(--p,100%));display:grid;place-items:center}
+  .sx-clock{font-weight:800;font-size:.9rem;color:var(--ink);font-variant-numeric:tabular-nums}
+  .sx-speed .sx-opt{padding:13px 12px}
 
-  .mc-question{
-    display:flex;flex-direction:column;gap:3px;
-    font-family:"Rubik","Assistant",system-ui,sans-serif;font-weight:700;
-    font-size:1.15rem;line-height:1.3;text-wrap:balance;
+  /* match-up */
+  .sx-mboard{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+  .sx-mcol{display:flex;flex-direction:column;gap:8px}
+  .sx-mi{
+    font:inherit;font-size:.84rem;line-height:1.25;min-height:58px;padding:8px;border-radius:14px;cursor:pointer;
+    border:2px solid var(--line);background:var(--surface-2);color:var(--ink);text-align:center;
+    display:flex;flex-direction:column;justify-content:center;
   }
-  .mc-question .he{direction:rtl;font-weight:500;font-size:.95rem;color:var(--muted)}
-  .mc-feedback{text-align:center;font-weight:700;font-size:.95rem;margin-bottom:12px}
-  .mc-feedback.ok{color:var(--monitor)}
-  .mc-feedback.no{color:var(--danger)}
+  .sx-mi .he{font-size:.85em}
+  .sx-mi.sel{border-color:var(--accent);background:var(--accent-soft)}
+  .sx-mi.solved{border-color:var(--monitor);background:var(--monitor-soft);opacity:.55;cursor:default}
+  .sx-mi.bad{border-color:var(--danger);background:var(--danger-soft);animation:sx-shake .35s ease}
+  .sx-mnote{font-size:.76rem;color:var(--muted);text-align:center;margin-top:10px;font-weight:600}
 
-  .mc-options{display:flex;flex-direction:column;gap:8px;margin-top:16px}
-  .mc-opt.he{direction:rtl}
-  .mc-opt{
-    font:inherit;font-size:.92rem;text-align:start;
-    background:var(--surface-2);border:1.5px solid var(--line);border-radius:10px;
-    padding:12px 14px;cursor:pointer;color:var(--ink);
-  }
-  .mc-opt:hover{border-color:var(--accent)}
-  .mc-opt.correct{background:var(--monitor-soft);border-color:var(--monitor);color:var(--monitor)}
-  .mc-opt.wrong{background:var(--danger-soft);border-color:var(--danger);color:var(--danger)}
-  .mc-opt:disabled{cursor:default}
+  /* done */
+  .sx-done{text-align:center;padding-top:10px}
+  .sx-done-emoji{font-size:3rem;animation:sx-pop .4s ease}
+  .sx-big{font-family:"Rubik","Assistant",system-ui,sans-serif;font-weight:800;font-size:2.6rem;color:var(--accent);margin:4px 0}
+  .sx-best{font-weight:800;color:var(--caution);margin-bottom:6px}
+  #study .sx-best .en,#study .sx-best .he{display:inline;color:inherit}
+  .sx-lvline{margin:14px auto 0;max-width:320px;font-size:.8rem;font-weight:700;color:var(--muted)}
+  #study .sx-lvline .en,#study .sx-lvline .he{display:inline}
+  .sx-newach{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+  .sx-newach .sx-a{min-width:110px;animation:sx-pop .4s ease}
+  .sx-missed{text-align:start}
+  .sx-missed ul{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+  .sx-missed li{border-top:1px solid var(--line);padding-top:8px;font-size:.84rem}
+  .sx-mq{font-weight:600}
+  .sx-ma{color:var(--monitor);margin-top:4px;font-weight:600}
+  .sx-ma .sx-nm{display:inline}
+  .sx-link{font:inherit;font-size:.78rem;font-weight:700;color:var(--accent);background:none;border:none;cursor:pointer;padding:4px 0}
+  .sx-link .he{display:none!important}
+  .sx-done-actions{display:flex;flex-direction:column;gap:8px;margin-top:18px}
 
-  .study-actions{margin-top:16px}
-  .flip-btn,.continue-btn{
-    width:100%;font:inherit;font-size:.95rem;font-weight:700;
-    background:var(--accent);color:var(--on-accent);border:none;border-radius:12px;
-    padding:14px;cursor:pointer;
+  /* toast + drug-card sheet */
+  .sx-toast{
+    position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:60;
+    background:var(--ink);color:var(--bg);font-weight:700;font-size:.9rem;padding:10px 16px;border-radius:999px;
+    box-shadow:var(--shadow);animation:sx-pop .25s ease;transition:opacity .4s ease;max-width:calc(100% - 32px);text-align:center;
   }
-  .grade-row{display:flex;gap:8px}
-  .grade-btn{
-    flex:1;font:inherit;font-size:.9rem;font-weight:700;
-    border:1.5px solid var(--line);border-radius:12px;padding:12px 6px;cursor:pointer;
-    background:var(--surface);color:var(--ink);
-    display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.1;
+  .sx-toast.out{opacity:0}
+  .sx-modal{position:fixed;inset:0;z-index:50;background:rgba(10,14,20,.45);display:flex;align-items:flex-end;justify-content:center}
+  .sx-modal-sheet{
+    position:relative;width:min(760px,100%);max-height:88vh;overflow-y:auto;background:var(--bg);
+    border-radius:22px 22px 0 0;padding:44px 12px 20px;animation:sx-pop .25s ease;
   }
-  .grade-btn .gb-he{font-size:.72rem;font-weight:500;color:var(--muted)}
-  .grade-again{border-color:color-mix(in srgb,var(--danger) 45%,transparent)}
-  .grade-good{border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
-  .grade-easy{border-color:color-mix(in srgb,var(--monitor) 45%,transparent)}
-  .grade-btn.is-default{box-shadow:0 0 0 3px var(--accent-soft)}
-
-  .study-done{text-align:center;padding:40px 10px}
-  .study-done h2{font-family:"Rubik","Assistant",system-ui,sans-serif;font-weight:700;font-size:1.6rem;margin:0 0 12px}
-  .study-done p{color:var(--muted);margin:6px 0}
-  .study-done .done-figure{font-size:1.1rem;color:var(--ink);font-weight:600}
-  .study-done .grade-row,.study-done .done-actions{margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-  .done-actions button{
-    font:inherit;font-size:.92rem;font-weight:700;padding:12px 18px;border-radius:12px;cursor:pointer;
-    border:1.5px solid var(--line);background:var(--surface);color:var(--ink);
-  }
-  .done-actions button.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
-  .study-empty{text-align:center;color:var(--muted);padding:40px 10px}
+  .sx-modal-x{position:absolute;top:8px;inset-inline-end:12px;width:34px;height:34px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;cursor:pointer}
+  .sx-modal .card{margin-bottom:0}
+  .sx-modal .card-sticky{position:relative;top:auto}
 
   /* ---- Patients mode ---- */
   #patients{padding-top:14px;padding-bottom:90px}
@@ -17407,87 +17488,611 @@ document.getElementById("copyMissingBtn").addEventListener("click", function(){
 
 /* ============================================================
    Study mode
+   A home screen (streak, XP + level, daily goal, accuracy), eight study modes, tap-only question formats
+   (multiple choice, reverse "which drug?", select-all-that-apply, odd one out, true/false, choose-the-word,
+   ordering, match-up boards, flash cards), spaced repetition per item, a mistakes list, history,
+   per-topic mastery and achievements. No free typing anywhere.
+   Auto questions use only short structured facts (class family, trade name, Hebrew name, curated
+   antidote pairs, inotropy/chronotropy, Gram coverage, G6PD risk). Clinical judgement questions come
+   from the hand-written SCENARIOS bank (tools/data/scenarios*.js, merged between the markers below).
    ============================================================ */
 const studyEl = document.getElementById("study");
 const modeSwitchEl = document.getElementById("modeSwitch");
 const footerEl = document.getElementById("siteFooter");
 
-const CARD_TYPES = [
-  ["class",    "Class &amp; mechanism",  "קבוצה ומנגנון"],
-  ["route",    "Route of administration","דרך מתן"],
-  ["ind",      "Indications",            "התוויות"],
-  ["contra",   "Contraindications",      "התוויות נגד"],
-  ["lytes",    "Electrolyte changes",    "שינויים באלקטרוליטים"],
-  ["monitor",  "What to monitor",        "מה לנטר"],
-  ["teach",    "Patient teaching",       "הדרכת מטופל"],
-  ["antidote", "Antidote / reversal",    "נוגדן / היפוך"],
-  ["brand2gen","Brand → generic",   "מסחרי → גנרי"],
-  ["gen2brand","Generic → brand",   "גנרי → מסחרי"],
-  ["name_he",  "English → Hebrew",  "אנגלית → עברית"],
-  ["name_en",  "Hebrew → English",  "עברית → אנגלית"]
+/* SCENARIOS-START */
+const SCENARIOS = [
+{id:"s1-01", drugs:["Metoprolol"], type:"mc",
+ qEn:"Before the morning dose of PO metoprolol, the patient's apical pulse is 52/min and BP 104/68. What do you do?",
+ qHe:"לפני מנת הבוקר של מטופרולול פומי, הדופק האפיקלי 52 לדקה ול״ד 104/68. מה עושים?",
+ opts:[["Give the dose as ordered","לתת את המנה כפי שנרשמה",0],
+       ["Hold the dose and notify the physician","לעכב את המנה ולדווח לרופא",1],
+       ["Give half the dose","לתת חצי מנה",0],
+       ["Give it with food to slow absorption","לתת עם אוכל כדי להאט ספיגה",0]],
+ whyEn:"Beta blockers slow the heart further. Usual hold parameters are HR below 60 or SBP below 100 (or as ordered) - hold, document and notify; never change the dose on your own.",
+ whyHe:"חוסמי בטא מאטים עוד את הלב. פרמטרים מקובלים לעיכוב: דופק מתחת ל-60 או ל״ד סיסטולי מתחת ל-100 (או לפי ההוראה) - מעכבים, מתעדים ומדווחים; לא משנים מינון על דעת עצמנו."},
+{id:"s1-02", drugs:["Digoxin"], type:"mc",
+ qEn:"Before giving digoxin, which assessment is essential?",
+ qHe:"מהי ההערכה ההכרחית לפני מתן דיגוקסין?",
+ opts:[["Apical pulse for a full minute","דופק אפיקלי במשך דקה שלמה",1],
+       ["Blood glucose","רמת סוכר בדם",0],
+       ["Temperature","חום",0],
+       ["Pupil size","גודל אישונים",0]],
+ whyEn:"Digoxin slows AV conduction. Count the apical pulse for 60 seconds; hold and notify if it is below 60 (adults) and check the latest potassium.",
+ whyHe:"דיגוקסין מאט את ההולכה בצומת AV. סופרים דופק אפיקלי 60 שניות; מעכבים ומדווחים אם מתחת ל-60 (מבוגרים) ובודקים את האשלגן האחרון."},
+{id:"s1-03", drugs:["Digoxin"], type:"sata",
+ qEn:"Which findings suggest digoxin toxicity? Select all that apply.",
+ qHe:"אילו ממצאים מרמזים על הרעלת דיגוקסין? יש לבחור את כל התשובות הנכונות.",
+ opts:[["Nausea, vomiting and loss of appetite","בחילה, הקאות ואובדן תיאבון",1],
+       ["Yellow-green halos or blurred vision","הילות צהובות-ירוקות או טשטוש ראייה",1],
+       ["New bradycardia or irregular rhythm","ברדיקרדיה חדשה או קצב לא סדיר",1],
+       ["Rising blood pressure","עלייה בלחץ הדם",0],
+       ["Increased appetite","תיאבון מוגבר",0]],
+ whyEn:"Early digoxin toxicity is GI (anorexia, nausea), visual (yellow-green halos) and cardiac (bradycardia, new arrhythmias). Low potassium makes toxicity more likely.",
+ whyHe:"הרעלת דיגוקסין מתחילה בסימני מערכת עיכול (חוסר תיאבון, בחילה), ראייה (הילות צהובות-ירוקות) ולב (ברדיקרדיה, הפרעות קצב חדשות). אשלגן נמוך מגביר את הסיכון."},
+{id:"s1-04", drugs:["Furosemide","Digoxin"], type:"mc",
+ qEn:"A patient on furosemide and digoxin has a potassium of 3.1 mEq/L. What is the main concern?",
+ qHe:"מטופל הנוטל פורוסמיד ודיגוקסין, אשלגן 3.1 מאק״ו/ל. מה החשש העיקרי?",
+ opts:[["Digoxin toxicity and arrhythmias","הרעלת דיגוקסין והפרעות קצב",1],
+       ["Hyperglycemia","היפרגליקמיה",0],
+       ["Fluid overload","עומס נוזלים",0],
+       ["Hypertensive crisis","משבר יתר לחץ דם",0]],
+ whyEn:"Loop diuretics waste potassium, and hypokalemia increases digoxin binding to the heart - raising the risk of toxicity and dangerous arrhythmias. Notify for potassium replacement.",
+ whyHe:"משתני לולאה מאבדים אשלגן, והיפוקלמיה מגבירה את קישור הדיגוקסין ללב - סיכון להרעלה ולהפרעות קצב מסוכנות. מדווחים לצורך תיקון אשלגן."},
+{id:"s1-05", drugs:["Lisinopril"], type:"mc",
+ qEn:"A patient on lisinopril has a potassium of 5.9 mEq/L. What do you do with the next dose?",
+ qHe:"מטופל הנוטל ליזינופריל, אשלגן 5.9 מאק״ו/ל. מה עושים עם המנה הבאה?",
+ opts:[["Hold it and notify the physician","לעכב ולדווח לרופא",1],
+       ["Give it with a potassium supplement","לתת יחד עם תוסף אשלגן",0],
+       ["Give it - potassium does not matter with ACE inhibitors","לתת - לאשלגן אין משמעות עם מעכבי ACE",0],
+       ["Double the dose","להכפיל את המנה",0]],
+ whyEn:"ACE inhibitors lower aldosterone, so potassium rises. Hyperkalemia can cause fatal arrhythmias - hold and report.",
+ whyHe:"מעכבי ACE מורידים אלדוסטרון ולכן האשלגן עולה. היפרקלמיה עלולה לגרום להפרעות קצב קטלניות - מעכבים ומדווחים."},
+{id:"s1-06", drugs:["Lisinopril","Enalapril"], type:"mc",
+ qEn:"Two days after starting an ACE inhibitor, the patient's lips and tongue are swelling. What is the priority?",
+ qHe:"יומיים אחרי התחלת מעכב ACE, השפתיים והלשון של המטופל מתנפחות. מה העדיפות?",
+ opts:[["Protect the airway: stop the drug and call for urgent help","שמירה על נתיב אוויר: הפסקת התרופה וקריאה לעזרה דחופה",1],
+       ["Give the next dose with an antihistamine","לתת את המנה הבאה עם אנטיהיסטמין",0],
+       ["Apply ice and reassess in 4 hours","לשים קרח ולהעריך שוב בעוד 4 שעות",0],
+       ["Switch to the evening dose","להעביר את המנה לערב",0]],
+ whyEn:"Angioedema from ACE inhibitors can close the airway at any time during therapy. Stop the drug permanently and treat as an emergency.",
+ whyHe:"אנגיואדמה ממעכבי ACE עלולה לחסום את נתיב האוויר בכל שלב של הטיפול. מפסיקים את התרופה לצמיתות ומטפלים כמצב חירום."},
+{id:"s1-07", drugs:["Warfarin"], type:"mc",
+ qEn:"A patient on warfarin for atrial fibrillation has an INR of 4.8 and no bleeding. What is the best action?",
+ qHe:"מטופל הנוטל וורפרין בגלל פרפור פרוזדורים, INR 4.8 וללא דימום. מה הפעולה הנכונה?",
+ opts:[["Hold the dose and notify the physician","לעכב את המנה ולדווח לרופא",1],
+       ["Give the dose - INR above 4 is the target","לתת את המנה - INR מעל 4 הוא היעד",0],
+       ["Give protamine sulfate","לתת פרוטמין סולפט",0],
+       ["Give an extra dose","לתת מנה נוספת",0]],
+ whyEn:"The usual target INR is 2-3. Above range means bleeding risk: hold and report - vitamin K may be ordered. Protamine reverses heparin, not warfarin.",
+ whyHe:"יעד ה-INR המקובל הוא 2-3. מעל הטווח יש סיכון לדימום: מעכבים ומדווחים - ייתכן שיירשם ויטמין K. פרוטמין מנטרל הפרין, לא וורפרין."},
+{id:"s1-08", drugs:["Warfarin"], type:"tf", answer:true,
+ qEn:"A patient on warfarin should keep vitamin K intake (green leafy vegetables) consistent rather than avoid it completely.",
+ qHe:"מטופל הנוטל וורפרין צריך לשמור על צריכה קבועה של ויטמין K (ירקות עליים ירוקים) ולא להימנע ממנו לחלוטין.",
+ whyEn:"True. Sudden changes in vitamin K intake swing the INR. Consistency - not avoidance - is the teaching point.",
+ whyHe:"נכון. שינויים פתאומיים בצריכת ויטמין K משנים את ה-INR. ההדרכה היא עקביות - לא הימנעות."},
+{id:"s1-09", drugs:["Heparin"], type:"mc",
+ qEn:"On day 7 of heparin, the platelet count has dropped from 240,000 to 95,000. What do you suspect and do?",
+ qHe:"ביום 7 לטיפול בהפרין, ספירת הטסיות ירדה מ-240,000 ל-95,000. מה החשד ומה עושים?",
+ opts:[["HIT: stop all heparin (including flushes) and notify","HIT: הפסקת כל ההפרין (כולל שטיפות) ודיווח",1],
+       ["Normal drop - continue","ירידה רגילה - ממשיכים",0],
+       ["Switch to enoxaparin","מעבר לאנוקספרין",0],
+       ["Give a platelet transfusion and continue heparin","מתן טסיות והמשך הפרין",0]],
+ whyEn:"A fall of more than 50% after 5-10 days suggests heparin-induced thrombocytopenia - a clotting (not bleeding) danger. All heparin stops, including LMWH and flushes; a non-heparin anticoagulant is usually started.",
+ whyHe:"ירידה של יותר מ-50% אחרי 5-10 ימים מעוררת חשד ל-HIT - סכנת קרישה (לא דימום). מפסיקים כל הפרין, כולל הפרין במשקל מולקולרי נמוך ושטיפות; בדרך כלל מתחילים נוגד קרישה שאינו הפרין."},
+{id:"s1-10", drugs:["Heparin"], type:"mc",
+ qEn:"A patient on a heparin infusion has a very high aPTT and is bleeding from the gums. Which antidote do you expect?",
+ qHe:"מטופל בעירוי הפרין עם aPTT גבוה מאוד ודימום מהחניכיים. איזה נוגדן צפוי?",
+ opts:[["Protamine sulfate","פרוטמין סולפט",1],
+       ["Vitamin K","ויטמין K",0],
+       ["Naloxone","נלוקסון",0],
+       ["Flumazenil","פלומזניל",0]],
+ whyEn:"Stop the infusion and notify. Protamine sulfate neutralizes heparin (about 1 mg per 100 units given recently). Vitamin K is for warfarin.",
+ whyHe:"עוצרים את העירוי ומדווחים. פרוטמין סולפט מנטרל הפרין (כ-1 מ״ג לכל 100 יחידות שניתנו לאחרונה). ויטמין K מיועד לוורפרין."},
+{id:"s1-11", drugs:["Enoxaparin"], type:"sata",
+ qEn:"Correct technique for a subcutaneous enoxaparin injection? Select all that apply.",
+ qHe:"מהי הטכניקה הנכונה להזרקת אנוקספרין תת-עורית? יש לבחור את כל התשובות הנכונות.",
+ opts:[["Inject into the abdomen, at least 5 cm from the navel","הזרקה בבטן, לפחות 5 ס״מ מהטבור",1],
+       ["Leave the air bubble in the prefilled syringe","להשאיר את בועת האוויר במזרק המוכן",1],
+       ["Do not rub the site afterwards","לא לשפשף את מקום ההזרקה",1],
+       ["Aspirate before injecting","לשאוב לפני ההזרקה",0],
+       ["Massage the site to speed absorption","לעסות את המקום כדי לזרז ספיגה",0]],
+ whyEn:"The air bubble keeps all the drug in the tissue; aspirating and rubbing both increase bruising and hematoma.",
+ whyHe:"בועת האוויר מבטיחה שכל התרופה תישאר ברקמה; שאיבה ושפשוף מגבירים שטפי דם והמטומה."},
+{id:"s1-12", drugs:["Insulin regular"], type:"mc",
+ qEn:"A patient on insulin is alert, shaky and sweaty; blood glucose is 58 mg/dL. What do you do first?",
+ qHe:"מטופל המקבל אינסולין ער, רועד ומזיע; סוכר 58 מ״ג/ד״ל. מה עושים קודם?",
+ opts:[["Give 15 g of fast-acting carbohydrate and recheck in 15 minutes","לתת 15 גרם פחמימה מהירה ולבדוק שוב בעוד 15 דקות",1],
+       ["Give the next insulin dose","לתת את מנת האינסולין הבאה",0],
+       ["Give IV glucagon","לתת גלוקגון לווריד",0],
+       ["Wait for the next meal","לחכות לארוחה הבאה",0]],
+ whyEn:"The rule of 15: an alert patient who can swallow gets 15 g fast sugar (juice, glucose tablets), recheck in 15 minutes and repeat if still low. IV dextrose or glucagon is for a patient who cannot swallow.",
+ whyHe:"כלל ה-15: מטופל ער שמסוגל לבלוע מקבל 15 גרם סוכר מהיר (מיץ, טבליות גלוקוז), בדיקה חוזרת אחרי 15 דקות וחזרה אם עדיין נמוך. דקסטרוז לווריד או גלוקגון מיועדים למי שאינו יכול לבלוע."},
+{id:"s1-13", drugs:["Insulin regular","Insulin glargine"], type:"mc",
+ qEn:"Which insulin can be given as a continuous IV infusion?",
+ qHe:"איזה אינסולין אפשר לתת בעירוי תוך-ורידי רציף?",
+ opts:[["Regular insulin","אינסולין רגולר",1],
+       ["Insulin glargine","אינסולין גלרגין",0],
+       ["Insulin NPH","אינסולין NPH",0],
+       ["Insulin degludec","אינסולין דגלודק",0]],
+ whyEn:"Regular (short-acting) insulin is the standard IV insulin. Long-acting and NPH insulins are for subcutaneous use only.",
+ whyHe:"אינסולין רגולר (קצר טווח) הוא האינסולין הסטנדרטי לווריד. אינסולינים ארוכי טווח ו-NPH מיועדים לתת-עורי בלבד."},
+{id:"s1-14", drugs:["Insulin glargine"], type:"tf", answer:true,
+ qEn:"Insulin glargine must not be mixed in the same syringe with other insulins.",
+ qHe:"אסור לערבב אינסולין גלרגין באותו מזרק עם אינסולינים אחרים.",
+ whyEn:"True. Glargine works because of its acidic pH; mixing changes its profile. Give it as a separate injection.",
+ whyHe:"נכון. גלרגין פועל בזכות החומציות שלו; ערבוב משנה את פרופיל הפעולה. נותנים בהזרקה נפרדת."},
+{id:"s1-15", drugs:["Morphine"], type:"mc",
+ qEn:"Two hours after IV morphine, the patient is hard to rouse with a respiratory rate of 7/min. What is the priority?",
+ qHe:"שעתיים אחרי מורפין לווריד, קשה להעיר את המטופל וקצב הנשימה 7 לדקה. מה העדיפות?",
+ opts:[["Stimulate, support breathing and give naloxone as ordered","לעורר, לתמוך בנשימה ולתת נלוקסון לפי הוראה",1],
+       ["Let the patient sleep - pain is controlled","לתת למטופל לישון - הכאב בשליטה",0],
+       ["Give flumazenil","לתת פלומזניל",0],
+       ["Recheck in one hour","לבדוק שוב בעוד שעה",0]],
+ whyEn:"Opioid respiratory depression is an emergency. Naloxone reverses it - titrate to breathing, and watch closely because naloxone can wear off before the opioid does.",
+ whyHe:"דיכוי נשימתי מאופיואידים הוא מצב חירום. נלוקסון מנטרל אותו - מטטרים לפי הנשימה ועוקבים מקרוב, כי פעולת הנלוקסון עלולה להסתיים לפני פעולת האופיואיד."},
+{id:"s1-16", drugs:["Potassium chloride"], type:"mc",
+ qEn:"Which potassium chloride order should you question?",
+ qHe:"על איזו הוראת אשלגן כלורי יש לערער?",
+ opts:[["KCl 20 mEq IV push","אשלגן כלורי 20 מאק״ו בדחיפה לווריד",1],
+       ["KCl 10 mEq in 100 mL over 1 hour via pump","אשלגן כלורי 10 מאק״ו ב-100 מ״ל במשך שעה במשאבה",0],
+       ["KCl 20 mEq PO twice daily","אשלגן כלורי 20 מאק״ו פומי פעמיים ביום",0],
+       ["KCl 20 mEq/L added to maintenance fluids","אשלגן כלורי 20 מאק״ו/ל בנוזלי תחזוקה",0]],
+ whyEn:"IV potassium is NEVER pushed - a bolus can stop the heart. It is always diluted and given by pump (typically up to 10 mEq/h peripherally).",
+ whyHe:"אשלגן לווריד לעולם אינו ניתן בדחיפה - בולוס עלול לעצור את הלב. תמיד מדולל וניתן במשאבה (בדרך כלל עד 10 מאק״ו לשעה בווריד פריפרי)."},
+{id:"s1-17", drugs:["Vancomycin"], type:"mc",
+ qEn:"During a vancomycin infusion the patient develops flushing and an itchy rash on the face and neck. What do you do?",
+ qHe:"במהלך עירוי ונקומיצין מופיעים אצל המטופל סומק ופריחה מגרדת בפנים ובצוואר. מה עושים?",
+ opts:[["Stop or slow the infusion and notify","לעצור או להאט את העירוי ולדווח",1],
+       ["Speed up the infusion to finish sooner","להאיץ את העירוי כדי לסיים מהר",0],
+       ["Ignore it - it is expected","להתעלם - זה צפוי",0],
+       ["Give the rest IM","לתת את השארית לשריר",0]],
+ whyEn:"This is a vancomycin infusion reaction (red man syndrome) from infusing too fast. Slow the rate (at least 60 minutes per gram); an antihistamine may be ordered.",
+ whyHe:"זו תגובת עירוי לוונקומיצין (תסמונת האדם האדום) מעירוי מהיר מדי. מאטים את הקצב (לפחות 60 דקות לכל גרם); ייתכן שיירשם אנטיהיסטמין."},
+{id:"s1-18", drugs:["Gentamicin"], type:"sata",
+ qEn:"What should you monitor with gentamicin? Select all that apply.",
+ qHe:"מה יש לנטר בטיפול בגנטמיצין? יש לבחור את כל התשובות הנכונות.",
+ opts:[["Serum creatinine and urine output","קריאטינין בדם ותפוקת שתן",1],
+       ["Hearing, tinnitus and balance","שמיעה, טנטון ושיווי משקל",1],
+       ["Drug levels (trough)","רמות תרופה (שפל)",1],
+       ["Blood glucose","רמת סוכר בדם",0],
+       ["Hair loss","נשירת שיער",0]],
+ whyEn:"Aminoglycosides are nephrotoxic and ototoxic. Levels guide dosing; report reduced urine output, rising creatinine, ringing in the ears or dizziness.",
+ whyHe:"אמינוגליקוזידים פוגעים בכליות ובשמיעה. רמות התרופה מכוונות את המינון; מדווחים על ירידה בתפוקת השתן, עליית קריאטינין, צלצולים באוזניים או סחרחורת."},
+{id:"s1-19", drugs:["Ceftriaxone"], type:"mc",
+ qEn:"Ceftriaxone is ordered for a patient whose chart says \"penicillin - anaphylaxis\". What do you do?",
+ qHe:"נרשם צפטריאקסון למטופל שברשומה שלו כתוב \"פניצילין - אנפילקסיס\". מה עושים?",
+ opts:[["Clarify with the prescriber before giving it","לברר עם הרופא לפני המתן",1],
+       ["Give it - cephalosporins are unrelated","לתת - צפלוספורינים אינם קשורים",0],
+       ["Give half the dose first","לתת קודם חצי מנה",0],
+       ["Give it IM instead of IV","לתת לשריר במקום לווריד",0]],
+ whyEn:"Cross-reactivity is low but real; a history of anaphylaxis to penicillin must be raised with the prescriber before the first dose, with emergency equipment ready.",
+ whyHe:"התגובה הצולבת נמוכה אך קיימת; היסטוריה של אנפילקסיס לפניצילין מחייבת בירור עם הרופא לפני המנה הראשונה, עם ציוד החייאה זמין."},
+{id:"s1-20", drugs:["Amiodarone"], type:"sata",
+ qEn:"Long-term amiodarone requires monitoring of which systems? Select all that apply.",
+ qHe:"טיפול ממושך באמיודרון מחייב ניטור של אילו מערכות? יש לבחור את כל התשובות הנכונות.",
+ opts:[["Thyroid function","תפקודי בלוטת התריס",1],
+       ["Liver function","תפקודי כבד",1],
+       ["Lungs (new cough or breathlessness)","ריאות (שיעול או קוצר נשימה חדשים)",1],
+       ["Eyes (vision changes)","עיניים (שינויי ראייה)",1],
+       ["Hearing","שמיעה",0]],
+ whyEn:"Amiodarone contains iodine and builds up in tissues: it can cause thyroid disease, hepatotoxicity, pulmonary fibrosis and corneal deposits, plus bradycardia and QT prolongation.",
+ whyHe:"אמיודרון מכיל יוד ומצטבר ברקמות: עלול לגרום למחלות בלוטת התריס, פגיעה בכבד, פיברוזיס ריאתי ומשקעים בקרנית, וגם לברדיקרדיה ולהארכת QT."},
+{id:"s1-21", drugs:["Spironolactone"], type:"mc",
+ qEn:"A patient takes spironolactone and lisinopril. Which new order should you question?",
+ qHe:"מטופל נוטל ספירונולקטון וליזינופריל. על איזו הוראה חדשה יש לערער?",
+ opts:[["Potassium chloride supplement","תוסף אשלגן כלורי",1],
+       ["Paracetamol for pain","פרצטמול לכאב",0],
+       ["Daily weight","שקילה יומית",0],
+       ["Low-salt diet","דיאטה דלת מלח",0]],
+ whyEn:"Both drugs raise potassium. Adding a potassium supplement (or salt substitutes containing potassium) risks dangerous hyperkalemia.",
+ whyHe:"שתי התרופות מעלות אשלגן. הוספת תוסף אשלגן (או תחליפי מלח המכילים אשלגן) מסכנת בהיפרקלמיה מסוכנת."},
+{id:"s1-22", drugs:["Nitroglycerin"], type:"mc",
+ qEn:"Before giving sublingual nitroglycerin for chest pain, which question is most important?",
+ qHe:"לפני מתן ניטרוגליצרין מתחת ללשון בגלל כאב בחזה, איזו שאלה הכי חשובה?",
+ opts:[["Have you taken sildenafil or tadalafil recently?","האם נטלת לאחרונה סילדנפיל או טדלפיל?",1],
+       ["When did you last eat?","מתי אכלת לאחרונה?",0],
+       ["Are you allergic to latex?","האם יש לך אלרגיה ללטקס?",0],
+       ["Do you smoke?","האם את/ה מעשן/ת?",0]],
+ whyEn:"PDE-5 inhibitors with nitrates can cause severe, refractory hypotension. Also check BP first - hold if the systolic is below about 90.",
+ whyHe:"מעכבי PDE-5 יחד עם ניטרטים עלולים לגרום לתת לחץ דם חמור. בודקים גם ל״ד לפני המתן - מעכבים אם הסיסטולי מתחת לכ-90."},
+{id:"s1-23", drugs:["Metformin"], type:"mc",
+ qEn:"A patient on metformin is scheduled for a CT with IV contrast. What do you expect?",
+ qHe:"מטופל הנוטל מטפורמין מתוכנן ל-CT עם חומר ניגוד לווריד. מה צפוי?",
+ opts:[["Metformin is held around the scan and restarted when kidney function is confirmed","מטפורמין מופסק סביב הבדיקה ומחודש אחרי אישור תפקוד הכליות",1],
+       ["Double the metformin dose before the scan","להכפיל את מנת המטפורמין לפני הבדיקה",0],
+       ["Switch to IV metformin","מעבר למטפורמין לווריד",0],
+       ["Nothing - contrast does not interact","כלום - אין אינטראקציה עם חומר ניגוד",0]],
+ whyEn:"If contrast injures the kidneys, metformin can accumulate and cause lactic acidosis. Follow the local protocol - usually hold and restart after 48 h with stable creatinine.",
+ whyHe:"אם חומר הניגוד פוגע בכליות, מטפורמין עלול להצטבר ולגרום לחמצת לקטית. פועלים לפי נוהל המחלקה - בדרך כלל מעכבים ומחדשים אחרי 48 שעות עם קריאטינין יציב."},
+{id:"s1-24", drugs:["Levothyroxine"], type:"mc",
+ qEn:"What is the correct teaching for levothyroxine?",
+ qHe:"מהי ההדרכה הנכונה ללבותירוקסין?",
+ opts:[["Take it on an empty stomach, 30-60 minutes before breakfast","ליטול על קיבה ריקה, 30-60 דקות לפני ארוחת הבוקר",1],
+       ["Take it with calcium or iron to protect the stomach","ליטול עם סידן או ברזל כדי להגן על הקיבה",0],
+       ["Stop it once you feel better","להפסיק כשמרגישים טוב יותר",0],
+       ["Take it only at bedtime with a snack","ליטול רק לפני השינה עם חטיף",0]],
+ whyEn:"Food, calcium, iron and antacids reduce absorption. Same time daily, empty stomach, lifelong; report palpitations or chest pain (too much).",
+ whyHe:"אוכל, סידן, ברזל ונוגדי חומצה מפחיתים ספיגה. באותה שעה כל יום, על קיבה ריקה, לכל החיים; מדווחים על דפיקות לב או כאב בחזה (מינון יתר)."},
+{id:"s1-25", drugs:["Lithium carbonate"], type:"mc",
+ qEn:"Which teaching helps prevent lithium toxicity?",
+ qHe:"איזו הדרכה עוזרת למנוע הרעלת ליתיום?",
+ opts:[["Keep salt and fluid intake steady; report vomiting or diarrhea","לשמור על צריכת מלח ונוזלים קבועה; לדווח על הקאות או שלשולים",1],
+       ["Cut salt to a minimum","להפחית מלח למינימום",0],
+       ["Drink as little as possible","לשתות כמה שפחות",0],
+       ["Take ibuprofen for headaches","ליטול איבופרופן לכאבי ראש",0]],
+ whyEn:"Low sodium or dehydration makes the kidneys hold on to lithium, and NSAIDs raise levels too. Early toxicity: tremor, diarrhea, vomiting, drowsiness.",
+ whyHe:"נתרן נמוך או התייבשות גורמים לכליות לאגור ליתיום, וגם נוגדי דלקת לא סטרואידיים מעלים את רמתו. הרעלה מוקדמת: רעד, שלשול, הקאות, ישנוניות."},
+{id:"s1-26", drugs:["Acetaminophen"], type:"mc",
+ qEn:"A patient receives oxycodone/paracetamol tablets and also has PRN paracetamol ordered. What is the main risk?",
+ qHe:"מטופל מקבל טבליות אוקסיקודון/פרצטמול וגם פרצטמול לפי הצורך. מה הסיכון העיקרי?",
+ opts:[["Exceeding the daily paracetamol limit (liver toxicity)","חריגה מהמנה היומית המרבית של פרצטמול (פגיעה בכבד)",1],
+       ["Kidney stones","אבנים בכליות",0],
+       ["Hypoglycemia","היפוגליקמיה",0],
+       ["Hyperkalemia","היפרקלמיה",0]],
+ whyEn:"Count paracetamol from ALL sources. The usual adult maximum is 4 g/day - lower (about 2-3 g) in liver disease, alcohol use or low body weight. The antidote is acetylcysteine.",
+ whyHe:"סופרים פרצטמול מכל המקורות. המקסימום המקובל במבוגרים 4 גרם ליום - פחות (כ-2-3 גרם) במחלת כבד, שימוש באלכוהול או משקל נמוך. הנוגדן הוא אצטילציסטאין."},
+{id:"s1-27", drugs:["Ondansetron"], type:"tf", answer:true,
+ qEn:"Ondansetron can prolong the QT interval, especially with low potassium or magnesium.",
+ qHe:"אונדנסטרון עלול להאריך את מקטע ה-QT, במיוחד עם אשלגן או מגנזיום נמוכים.",
+ whyEn:"True. Check electrolytes and ECG in at-risk patients and avoid combining several QT-prolonging drugs.",
+ whyHe:"נכון. בודקים אלקטרוליטים ואק״ג במטופלים בסיכון ונמנעים משילוב כמה תרופות המאריכות QT."},
+{id:"s1-28", drugs:["Lorazepam","Midazolam"], type:"mc",
+ qEn:"After IV midazolam for a procedure, the patient is oversedated with shallow breathing. Which reversal agent may be ordered?",
+ qHe:"אחרי מידזולם לווריד לפעולה, המטופל מסוטט יתר על המידה עם נשימה שטחית. איזה נוגדן עשוי להירשם?",
+ opts:[["Flumazenil","פלומזניל",1],
+       ["Naloxone","נלוקסון",0],
+       ["Protamine sulfate","פרוטמין סולפט",0],
+       ["Atropine","אטרופין",0]],
+ whyEn:"Flumazenil reverses benzodiazepines. Support the airway first; use caution in long-term benzodiazepine users - it can trigger seizures.",
+ whyHe:"פלומזניל מנטרל בנזודיאזפינים. קודם תומכים בנתיב האוויר; בזהירות במטופלים הנוטלים בנזודיאזפינים לאורך זמן - עלול לעורר פרכוסים."},
+{id:"s1-29", drugs:["Magnesium sulfate"], type:"mc",
+ qEn:"During a magnesium sulfate infusion, deep tendon reflexes disappear and the respiratory rate is 10/min. What do you do?",
+ qHe:"במהלך עירוי מגנזיום סולפט, החזרים הגידיים נעלמים וקצב הנשימה 10 לדקה. מה עושים?",
+ opts:[["Stop the infusion, notify and prepare calcium gluconate","לעצור את העירוי, לדווח ולהכין סידן גלוקונט",1],
+       ["Increase the infusion rate","להגביר את קצב העירוי",0],
+       ["Give naloxone","לתת נלוקסון",0],
+       ["Continue and recheck in 4 hours","להמשיך ולבדוק שוב בעוד 4 שעות",0]],
+ whyEn:"Lost reflexes come before respiratory depression and cardiac arrest in magnesium toxicity. IV calcium gluconate is the antidote.",
+ whyHe:"היעלמות החזרים מקדימה דיכוי נשימתי ודום לב בהרעלת מגנזיום. סידן גלוקונט לווריד הוא הנוגדן."},
+{id:"s1-30", drugs:["Alteplase (tPA)"], type:"mc",
+ qEn:"During an alteplase infusion for stroke, the patient suddenly has a severe headache and becomes confused. What do you do?",
+ qHe:"במהלך עירוי אלטפלאז לשבץ, למטופל כאב ראש חזק פתאומי והוא מבולבל. מה עושים?",
+ opts:[["Stop the infusion and notify immediately","לעצור את העירוי ולדווח מיד",1],
+       ["Give paracetamol and continue","לתת פרצטמול ולהמשיך",0],
+       ["Speed up the infusion","להאיץ את העירוי",0],
+       ["Recheck neuro signs at the end of the infusion","לבדוק מצב נוירולוגי בסוף העירוי",0]],
+ whyEn:"Sudden headache, vomiting, rising BP or neuro decline suggests intracranial bleeding - stop the thrombolytic and get urgent help (CT, reversal).",
+ whyHe:"כאב ראש פתאומי, הקאות, עליית ל״ד או הידרדרות נוירולוגית מרמזים על דימום תוך-גולגולתי - עוצרים את התרופה הממיסה ומזעיקים עזרה (CT, היפוך)."},
+{id:"s1-31", drugs:["Prednisone"], type:"tf", answer:false,
+ qEn:"A patient who has taken prednisone daily for 3 months can stop it suddenly once symptoms improve.",
+ qHe:"מטופל שנוטל פרדניזון יומיומית במשך 3 חודשים יכול להפסיק אותו בבת אחת כשהתסמינים משתפרים.",
+ whyEn:"False. Long-term steroids suppress the adrenal glands; stopping suddenly can cause adrenal crisis. The dose is tapered as ordered.",
+ whyHe:"לא נכון. סטרואידים ממושכים מדכאים את בלוטות יותרת הכליה; הפסקה פתאומית עלולה לגרום למשבר אדרנלי. מורידים מינון בהדרגה לפי הוראה."},
+{id:"s1-32", drugs:["Digoxin"], type:"order",
+ qEn:"Put the steps before giving digoxin in the correct order.",
+ qHe:"יש לסדר את השלבים לפני מתן דיגוקסין לפי הסדר הנכון.",
+ opts:[["Count the apical pulse for a full minute","לספור דופק אפיקלי דקה שלמה"],
+       ["Check the latest potassium (and digoxin level if available)","לבדוק את האשלגן האחרון (ורמת דיגוקסין אם יש)"],
+       ["Compare with the hold parameters","להשוות לפרמטרים לעיכוב"],
+       ["Give the dose and document","לתת את המנה ולתעד"]],
+ whyEn:"Assess (pulse, labs), decide against the hold parameters, then give and document - or hold and notify.",
+ whyHe:"מעריכים (דופק, בדיקות), מחליטים לפי פרמטרי העיכוב, ואז נותנים ומתעדים - או מעכבים ומדווחים."}
 ];
-const DEFAULT_TYPES = ["class","route","contra","lytes","teach","antidote","brand2gen","name_he"];
-/* matching only for types whose answers are unique per drug (name pairs) */
-const MATCH_TYPES = ["brand2gen","gen2brand","name_he","name_en"];
-/* fragment types: the answer is one short item pulled from a longer field */
-const FRAG_TYPES = ["ind","contra","lytes","monitor","teach"];
-const FRAG_FIELD = { ind:"indEn", contra:"ciEn", lytes:"lyteEn", monitor:"monEn", teach:"teachEn" };
-const FORMATS = [
-  ["mc",    "Multiple choice", "רב-ברירה"],
-  ["match", "Matching (names)", "התאמה"]
-];
-const INTERVALS = [0, 1, 2, 4, 8, 15]; /* days, indexed by box 1..5 */
+/* SCENARIOS-END */
+
 const BRAND_BAD = /\b(many|often|various|e\.g\.|with )/i;
-
 function firstBrand(s){ return String(s).split(/[,(]/)[0].trim(); }
-function firstClause(s){ return String(s).split(/ - |; |\(|\. /)[0].trim(); }
-function fmtOk(fmt, t){
-  if (fmt === "match") return MATCH_TYPES.indexOf(t) !== -1;
-  return true; /* mc handles every card type */
+
+const SX_GOAL = 20;                         /* questions per day for the daily-goal ring */
+const SX_INTERVALS = [0, 1, 2, 4, 8, 16];   /* days until next review, by box 1..5 */
+const SX_LEVELS = [
+  [0,    "Student nurse",       "סטודנט/ית לסיעוד"],
+  [200,  "New graduate",        "בוגר/ת טרי/ה"],
+  [600,  "Staff nurse",         "אח/ות במחלקה"],
+  [1200, "Senior nurse",        "אח/ות בכיר/ה"],
+  [2500, "Charge nurse",        "אח/ות אחראי/ת"],
+  [5000, "Clinical expert",     "מומחה/ית קליני/ת"],
+  [9000, "Pharmacology legend", "אגדת פרמקולוגיה"]
+];
+/* Curated drug -> antidote(s) pairs; every listed antidote is a valid answer, so distractors avoid all. */
+const SX_ANTI_RAW = {
+  "Warfarin": ["Phytonadione (vitamin K1)"],
+  "Heparin": ["Protamine sulfate"],
+  "Enoxaparin": ["Protamine sulfate"],
+  "Morphine": ["Naloxone"], "Oxycodone": ["Naloxone"], "Fentanyl": ["Naloxone"], "Tramadol": ["Naloxone"],
+  "Lorazepam": ["Flumazenil"], "Diazepam": ["Flumazenil"], "Midazolam": ["Flumazenil"],
+  "Digoxin": ["Digoxin immune Fab"],
+  "Acetaminophen": ["Acetylcysteine"],
+  "Dabigatran": ["Idarucizumab"],
+  "Apixaban": ["Andexanet alfa"], "Rivaroxaban": ["Andexanet alfa"],
+  "Metoprolol": ["Glucagon", "Calcium gluconate"], "Propranolol": ["Glucagon", "Calcium gluconate"],
+  "Carvedilol": ["Glucagon", "Calcium gluconate"],
+  "Insulin regular": ["Dextrose 10% / 50% (hypertonic glucose)", "Glucagon"],
+  "Insulin glargine": ["Dextrose 10% / 50% (hypertonic glucose)", "Glucagon"],
+  "Insulin aspart": ["Dextrose 10% / 50% (hypertonic glucose)", "Glucagon"],
+  "Insulin lispro": ["Dextrose 10% / 50% (hypertonic glucose)", "Glucagon"],
+  "Magnesium sulfate": ["Calcium gluconate"],
+  "Diltiazem": ["Calcium gluconate"], "Verapamil": ["Calcium gluconate"], "Amlodipine": ["Calcium gluconate"],
+  "Methotrexate (low dose)": ["Leucovorin (folinic acid)"],
+  "Iron sucrose": ["Deferoxamine"],
+  "Rocuronium": ["Sugammadex", "Neostigmine"], "Vecuronium": ["Sugammadex", "Neostigmine"],
+  "Atropine": ["Physostigmine"]
+};
+
+const SX_MED = new Map(MEDS.map(m => [m.genericEn, m]));
+const SX_SCEN = new Map(SCENARIOS.map(s => [s.id, s]));
+const SX_ANTI = {};
+Object.keys(SX_ANTI_RAW).forEach(k => {
+  const list = SX_ANTI_RAW[k].filter(a => SX_MED.has(a));
+  if (SX_MED.has(k) && list.length) SX_ANTI[k] = list;
+});
+const SX_ANTIDOTES = Array.from(new Set([].concat.apply([], Object.values(SX_ANTI))));
+const SX_FAM = new Map();       /* classFamilyEn -> meds */
+const SX_FAM_HE = {};
+MEDS.forEach(m => {
+  if (!SX_FAM.has(m.classFamilyEn)) SX_FAM.set(m.classFamilyEn, []);
+  SX_FAM.get(m.classFamilyEn).push(m);
+  if (m.classFamilyHe) SX_FAM_HE[m.classFamilyEn] = m.classFamilyHe;
+});
+
+/* ---------- small helpers ---------- */
+const sxPick = a => a[Math.floor(Math.random() * a.length)];
+function sxBi(en, he){ return '<span class="en">' + en + '</span><span class="he" dir="rtl">' + he + "</span>"; }
+function sxNm(m){ return '<span class="sx-nm">' + esc(m.genericEn) + '</span><span class="sx-nm sx-nm-he" dir="rtl">' + esc(m.genericHe) + "</span>"; }
+function sxFamH(f){ return sxBi(esc(f), esc(SX_FAM_HE[f] || f)); }
+function sxBrand(m){
+  if (!m.brandEn || BRAND_BAD.test(m.brandEn)) return null;
+  const en = firstBrand(m.brandEn);
+  let he = m.brandHe ? String(m.brandHe).split(/[,،(]/)[0].trim() : "";
+  if (he && m.genericHe && (he === m.genericHe || m.genericHe.indexOf(he) === 0)) he = ""; /* Hebrew list sometimes starts with the generic */
+  return en ? { en: en, he: he } : null;
 }
-function fragments(text){
-  return String(text)
-    .replace(/\([^)]*\)/g, " ")
-    .split(/[,;]| and (?=[a-z(])| including | such as /i)
-    .map(s => s.replace(/^\s*(and|or|also)\s+/i, "").replace(/[.\s]+$/, "").trim())
-    .filter(s => s.length >= 4 && s.length <= 52 && /[a-z]/i.test(s));
+function sxBrandH(b){ return '<span class="sx-nm">' + esc(b.en) + "</span>" + (b.he ? '<span class="sx-nm sx-nm-he" dir="rtl">' + esc(b.he) + "</span>" : ""); }
+const sxB = s => "<b>" + esc(s) + "</b>";
+function sxOpt(h, ok){ return { h: h, ok: !!ok }; }
+/* other meds, same category first (more plausible distractors) */
+function sxOthers(m, okFn){
+  const same = [], other = [];
+  MEDS.forEach(x => { if (x !== m && okFn(x)) (x.cat === m.cat ? same : other).push(x); });
+  return shuffle(same).concat(shuffle(other));
 }
-function fragCache(m, field){
-  m._frag = m._frag || {};
-  if (!m._frag[field]) m._frag[field] = fragments(m[field]);
-  return m._frag[field];
+function sxDistinct(list, keyFn, n, avoid){
+  const out = [], seen = new Set(avoid || []);
+  for (const x of list){
+    const k = keyFn(x);
+    if (!k || seen.has(k)) continue;
+    seen.add(k); out.push(x);
+    if (out.length === n) break;
+  }
+  return out;
 }
-function normAns(s){
-  return String(s).toLowerCase().normalize("NFKD")
-    .replace(/[\u0300-\u036f\u0591-\u05c7]/g, "")
-    .replace(/[^0-9a-z\u05d0-\u05ea]+/g, "");
+function sxWhyBase(m){
+  return {
+    en: sxB(m.genericEn) + " - " + esc(m.classEn) + (m.memHookEn ? '<span class="sx-mem">💡 ' + esc(m.memHookEn) + "</span>" : ""),
+    he: sxB(m.genericHe) + " - " + esc(m.classHe) + (m.memHookHe ? '<span class="sx-mem">💡 ' + esc(m.memHookHe) + "</span>" : "")
+  };
+}
+function sxQ(fmt, tag, qEn, qHe, opts, why, extra){
+  const q = { fmt: fmt, tag: tag, qEn: qEn, qHe: qHe, opts: opts, whyEn: why.en, whyHe: why.he };
+  return Object.assign(q, extra || {});
+}
+const SX_TF = ans => [sxOpt(sxBi("True", "נכון"), ans), sxOpt(sxBi("False", "לא נכון"), !ans)];
+
+/* ---------- auto question generators (quick = only fast formats, for the speed round) ---------- */
+function gFamily(m, quick){
+  const fam = m.classFamilyEn;
+  const mates = SX_FAM.get(fam).filter(x => x !== m);
+  const v = sxPick(quick ? ["mc", "rev", "tf"] : (mates.length >= 2 ? ["mc", "rev", "tf", "odd", "sata"] : ["mc", "rev", "tf"]));
+  const tag = ["Drug class", "קבוצה תרופתית"];
+  const why = sxWhyBase(m);
+  const otherFam = sxDistinct(sxOthers(m, x => x.classFamilyEn !== fam), x => x.classFamilyEn, 5);
+  if (v === "mc"){
+    if (otherFam.length < 3) return null;
+    return sxQ("mc", tag, "Which drug class does " + sxB(m.genericEn) + " belong to?",
+      "לאיזו קבוצה תרופתית שייכת " + sxB(m.genericHe) + "?",
+      shuffle([sxOpt(sxFamH(fam), 1)].concat(otherFam.slice(0, 3).map(x => sxOpt(sxFamH(x.classFamilyEn), 0)))), why);
+  }
+  if (v === "rev"){
+    const ds = sxOthers(m, x => x.classFamilyEn !== fam).slice(0, 3);
+    if (ds.length < 3) return null;
+    return sxQ("mc", tag, "Which of these drugs belongs to the class " + sxB(fam) + "?",
+      "איזו מהתרופות הבאות שייכת לקבוצה " + sxB(SX_FAM_HE[fam] || fam) + "?",
+      shuffle([sxOpt(sxNm(m), 1)].concat(ds.map(x => sxOpt(sxNm(x), 0)))), why);
+  }
+  if (v === "tf"){
+    const truth = Math.random() < 0.5 || !otherFam.length;
+    const f = truth ? fam : otherFam[0].classFamilyEn;
+    return sxQ("tf", tag, sxB(m.genericEn) + " belongs to the class " + sxB(f) + ".",
+      sxB(m.genericHe) + " שייכת לקבוצה " + sxB(SX_FAM_HE[f] || f) + ".", SX_TF(truth), why);
+  }
+  if (v === "odd"){
+    const pair = shuffle(mates.slice()).slice(0, 2);
+    const out = sxOthers(m, x => x.classFamilyEn !== fam)[0];
+    if (!out) return null;
+    const trio = [m].concat(pair);
+    return sxQ("odd", ["Odd one out", "יוצא דופן"], "Which drug does NOT belong with the others?",
+      "איזו תרופה אינה שייכת לקבוצה של האחרות?",
+      shuffle(trio.map(x => sxOpt(sxNm(x), 0)).concat([sxOpt(sxNm(out), 1)])),
+      { en: trio.map(x => esc(x.genericEn)).join(", ") + " belong to " + sxB(fam) + "; " + sxB(out.genericEn) + " belongs to " + esc(out.classFamilyEn) + ".",
+        he: trio.map(x => esc(x.genericHe)).join(", ") + " שייכות לקבוצה " + sxB(SX_FAM_HE[fam] || fam) + "; " + sxB(out.genericHe) + " שייכת לקבוצה " + esc(out.classFamilyHe) + "." });
+  }
+  /* sata: 2-4 members of the family among 6 */
+  const k = Math.min(mates.length + 1, 2 + Math.floor(Math.random() * 3));
+  const yes = [m].concat(shuffle(mates.slice()).slice(0, k - 1));
+  const no = sxDistinct(sxOthers(m, x => x.classFamilyEn !== fam), x => x.genericEn, 6 - k);
+  if (no.length < 6 - k) return null;
+  return sxQ("sata", tag, "Select ALL the drugs in the class " + sxB(fam) + ".",
+    "יש לבחור את כל התרופות מהקבוצה " + sxB(SX_FAM_HE[fam] || fam) + ".",
+    shuffle(yes.map(x => sxOpt(sxNm(x), 1)).concat(no.map(x => sxOpt(sxNm(x), 0)))),
+    { en: yes.map(x => esc(x.genericEn)).join(", ") + " belong to " + sxB(fam) + ".",
+      he: yes.map(x => esc(x.genericHe)).join(", ") + " שייכות לקבוצה " + sxB(SX_FAM_HE[fam] || fam) + "." });
 }
 
-function typeApplies(t, m){
-  if (t === "antidote") return !!m.antidoteEn;
-  if (t === "brand2gen" || t === "gen2brand") return !!m.brandEn && !BRAND_BAD.test(m.brandEn);
-  if (FRAG_TYPES.indexOf(t) !== -1) return fragCache(m, FRAG_FIELD[t]).length >= 1;
-  return true;
+function gBrand(m){
+  const b = sxBrand(m);
+  if (!b) return null;
+  const tag = ["Trade name", "שם מסחרי"];
+  const why = { en: sxB(m.genericEn) + " - trade names: " + esc(m.brandEn), he: sxB(m.genericHe) + " - שמות מסחריים: " + esc(m.brandHe || m.brandEn) };
+  const lowMine = String(m.brandEn).toLowerCase();
+  const v = sxPick(["b2g", "g2b", "tf"]);
+  if (v === "b2g"){
+    const ds = sxDistinct(sxOthers(m, x => { const xb = sxBrand(x); return !xb || xb.en !== b.en; }), x => x.genericEn, 3);
+    if (ds.length < 3) return null;
+    return sxQ("mc", tag, sxB(b.en) + " is the trade name of which drug?",
+      "של איזו תרופה השם המסחרי " + sxB(b.he || b.en) + "?",
+      shuffle([sxOpt(sxNm(m), 1)].concat(ds.map(x => sxOpt(sxNm(x), 0)))), why);
+  }
+  const others = sxDistinct(sxOthers(m, x => !!sxBrand(x)).map(x => sxBrand(x)),
+    x => (lowMine.indexOf(x.en.toLowerCase()) === -1 ? x.en : null), 3, [b.en]);
+  if (v === "g2b"){
+    if (others.length < 3) return null;
+    return sxQ("mc", tag, "Which is a trade name of " + sxB(m.genericEn) + "?", "מהו שם מסחרי של " + sxB(m.genericHe) + "?",
+      shuffle([sxOpt(sxBrandH(b), 1)].concat(others.map(x => sxOpt(sxBrandH(x), 0)))), why);
+  }
+  const truth = Math.random() < 0.5 || !others.length;
+  const shown = truth ? b : others[0];
+  return sxQ("tf", tag, sxB(shown.en) + " is a trade name of " + sxB(m.genericEn) + ".",
+    sxB(shown.he || shown.en) + " הוא שם מסחרי של " + sxB(m.genericHe) + ".", SX_TF(truth), why);
 }
 
-function getCfg(){
-  const c = lsGet("ndg-study-cfg", null);
-  if (!c) return { deck:"all", format:"mc", types:DEFAULT_TYPES.slice(), newPerDay:15 };
-  if (c.format === "mixed" || c.format === "flip" || c.format === "fill") c.format = "mc";
-  return c;
+function gName(m){
+  const ds = sxDistinct(sxOthers(m, () => true), x => x.genericHe, 3, [m.genericHe]);
+  if (ds.length < 3) return null;
+  const tag = ["Hebrew / English", "עברית / אנגלית"];
+  const why = { en: sxB(m.genericEn) + " = " + '<span dir="rtl">' + esc(m.genericHe) + "</span>", he: sxB(m.genericHe) + " = " + esc(m.genericEn) };
+  if (Math.random() < 0.5)
+    return sxQ("mc", tag, "What is the Hebrew name of " + sxB(m.genericEn) + "?", "מהו השם בעברית של " + sxB(m.genericEn) + "?",
+      shuffle([m].concat(ds).map(x => sxOpt('<span class="sx-nm sx-nm-he" dir="rtl">' + esc(x.genericHe) + "</span>", x === m))), why);
+  return sxQ("mc", tag, "What is " + '<b dir="rtl">' + esc(m.genericHe) + "</b> in English?", "מהו השם באנגלית של " + sxB(m.genericHe) + "?",
+    shuffle([m].concat(ds).map(x => sxOpt('<span class="sx-nm">' + esc(x.genericEn) + "</span>", x === m))), why);
 }
-function setCfg(c){ lsSet("ndg-study-cfg", c); }
-function getSRS(){ return lsGet("ndg-srs", {}); }
-function setSRS(s){ lsSet("ndg-srs", s); }
+
+function gAnti(m, quick){
+  const set = SX_ANTI[m.genericEn];
+  if (!set) return null;
+  const ant = SX_MED.get(set[0]);
+  const tag = ["Antidote", "נוגדן"];
+  const why = { en: sxB(m.genericEn) + ": " + esc(m.antidoteEn || ant.genericEn), he: sxB(m.genericHe) + ": " + esc(m.antidoteHe || ant.genericHe) };
+  const wrongAnts = shuffle(SX_ANTIDOTES.filter(a => set.indexOf(a) === -1)).slice(0, 3).map(a => SX_MED.get(a));
+  const v = sxPick(quick ? ["mc", "gap"] : ["mc", "gap", "rev"]);
+  if (v === "rev"){
+    const ds = shuffle(Object.keys(SX_ANTI).filter(k => SX_ANTI[k].indexOf(ant.genericEn) === -1)).slice(0, 3).map(k => SX_MED.get(k));
+    if (ds.length < 3) return null;
+    return sxQ("mc", tag, sxB(ant.genericEn) + " is the antidote / reversal agent for which drug?",
+      sxB(ant.genericHe) + " הוא נוגדן לאיזו תרופה?", shuffle([sxOpt(sxNm(m), 1)].concat(ds.map(x => sxOpt(sxNm(x), 0)))), why);
+  }
+  if (wrongAnts.length < 3) return null;
+  const opts = shuffle([sxOpt(sxNm(ant), 1)].concat(wrongAnts.map(x => sxOpt(sxNm(x), 0))));
+  if (v === "gap")
+    return sxQ("gap", ["Choose the word", "השלמה מתוך אפשרויות"],
+      "An overdose / effect of " + sxB(m.genericEn) + ' is reversed with <span class="sx-blank">?</span>',
+      "את ההשפעה של " + sxB(m.genericHe) + ' מנטרלים בעזרת <span class="sx-blank">?</span>', opts, why);
+  return sxQ("mc", tag, "Which is the antidote / reversal agent for " + sxB(m.genericEn) + "?",
+    "מהו הנוגדן של " + sxB(m.genericHe) + "?", opts, why);
+}
+
+function gCardio(m){
+  const p = String(m.inoDir || "").split("/");
+  const aspects = [];
+  if (/^(up|down|neutral)$/.test(p[0])) aspects.push(["ino", p[0]]);
+  if (/^(up|down|neutral)$/.test(p[1])) aspects.push(["chrono", p[1]]);
+  if (!aspects.length) return null;
+  const a = sxPick(aspects);
+  const tag = ["Heart effects", "השפעה על הלב"];
+  const why = { en: sxB(m.genericEn) + ": " + esc(m.inoEn || ""), he: sxB(m.genericHe) + ": " + esc(m.inoHe || "") };
+  const qEn = a[0] === "ino" ? "What does " + sxB(m.genericEn) + " do to the force of contraction (inotropy)?"
+                             : "What does " + sxB(m.genericEn) + " do to the heart rate (chronotropy)?";
+  const qHe = a[0] === "ino" ? "מה עושה " + sxB(m.genericHe) + " לכוח ההתכווצות של הלב (אינוטרופיה)?"
+                             : "מה עושה " + sxB(m.genericHe) + " לקצב הלב (כרונוטרופיה)?";
+  return sxQ("mc", tag, qEn, qHe, [
+    sxOpt(sxBi("⬆ Increases", "⬆ מגביר/ה"), a[1] === "up"),
+    sxOpt(sxBi("⬇ Decreases", "⬇ מוריד/ה"), a[1] === "down"),
+    sxOpt(sxBi("➖ No major effect", "➖ ללא השפעה משמעותית"), a[1] === "neutral")], why);
+}
+
+function gGram(m){
+  const g = GRAM_COVERAGE[m.genericEn];
+  if (!g) return null;
+  const ds = sxDistinct(shuffle(Object.values(GRAM_COVERAGE).filter(x => x[2] !== g[2])), x => x[0], 3, [g[0]]);
+  if (ds.length < 2) return null;
+  return sxQ("mc", ["Antibiotic coverage", "כיסוי אנטיביוטי"],
+    "Which best describes the coverage of " + sxB(m.genericEn) + "?", "מה מתאר הכי טוב את הכיסוי של " + sxB(m.genericHe) + "?",
+    shuffle([sxOpt(sxBi(esc(g[0]), esc(g[1])), 1)].concat(ds.map(x => sxOpt(sxBi(esc(x[0]), esc(x[1])), 0)))),
+    { en: sxB(m.genericEn) + ": " + esc(g[0]), he: sxB(m.genericHe) + ": " + esc(g[1]) });
+}
+
+const SX_G6_SAFE_BAD = /sulf|glib|glic|glim|chlor|quin|dapson|nitrofur|methylene|rasbur|primaq|aspirin|vitamin k|phytonad|ascorb|probenecid|sulfa/i;
+function gG6pd(m){
+  const g = G6PD_RISK[m.genericEn];
+  if (!g) return null;
+  const safe = shuffle(MEDS.filter(x => !G6PD_RISK[x.genericEn] && ["cardiovascular", "respiratory", "psych", "musculoskeletal"].indexOf(x.cat) !== -1 && !SX_G6_SAFE_BAD.test(x.genericEn))).slice(0, 3);
+  if (safe.length < 3) return null;
+  return sxQ("mc", ["G6PD deficiency", "חסר G6PD"],
+    "Which of these drugs can trigger hemolysis in G6PD deficiency?", "איזו מהתרופות הבאות עלולה לגרום להמוליזה בחסר G6PD?",
+    shuffle([sxOpt(sxNm(m), 1)].concat(safe.map(x => sxOpt(sxNm(x), 0)))),
+    { en: sxB(m.genericEn) + ": " + esc(g[0]), he: sxB(m.genericHe) + ": " + esc(g[1]) });
+}
+
+const SX_GEN = { family: gFamily, brand: gBrand, name: gName, anti: gAnti, cardio: gCardio, gram: gGram, g6pd: gG6pd };
+function sxFacts(m){
+  const f = ["family", "name"];
+  if (sxBrand(m)) f.push("brand");
+  if (SX_ANTI[m.genericEn]) f.push("anti");
+  if (m.inoDir && /(up|down)/.test(m.inoDir)) f.push("cardio");
+  if (GRAM_COVERAGE[m.genericEn]) f.push("gram");
+  if (G6PD_RISK[m.genericEn]) f.push("g6pd");
+  return f;
+}
+
+/* scenario bank item -> question */
+function sxScenQ(s){
+  const tag = ["Clinical scenario", "תרחיש קליני"];
+  const why = { en: esc(s.whyEn), he: esc(s.whyHe) };
+  if (s.type === "tf") return sxQ("tf", tag, esc(s.qEn), esc(s.qHe), SX_TF(!!s.answer), why);
+  if (s.type === "order")
+    return sxQ("order", tag, esc(s.qEn), esc(s.qHe), shuffle(s.opts.map((o, i) => ({ h: sxBi(esc(o[0]), esc(o[1])), rank: i }))), why);
+  return sxQ(s.type === "sata" ? "sata" : "mc", tag, esc(s.qEn), esc(s.qHe),
+    shuffle(s.opts.map(o => sxOpt(sxBi(esc(o[0]), esc(o[1])), o[2]))), why);
+}
+
+/* item id -> fresh question.  "f|<generic>|<fact>" auto fact, "s|<id>" scenario */
+function sxQuestion(id, quick){
+  const p = id.split("|");
+  if (p[0] === "s"){
+    const s = SX_SCEN.get(p[1]);
+    if (!s) return null;
+    const q = sxScenQ(s);
+    q.id = id; q.med = SX_MED.get(s.drugs[0]) || null;
+    return q;
+  }
+  const m = SX_MED.get(p[1]), g = SX_GEN[p[2]];
+  if (!m || !g) return null;
+  for (let t = 0; t < 4; t++){
+    const q = g(m, quick);
+    if (q){ q.id = id; q.med = m; return q; }
+  }
+  return null;
+}
+
+/* ---------- storage ---------- */
+(function sxMigrate(){
+  if (lsGetRaw("ndg-study2-init")) return;
+  try { ["ndg-srs", "ndg-study-cfg", "ndg-new-today"].forEach(k => localStorage.removeItem(k)); } catch(e){}
+  lsSetRaw("ndg-study2-init", "1");
+})();
+function sxSrs(){ return lsGet("ndg-study2-srs", {}); }
+function sxStats(){
+  const s = lsGet("ndg-study2-stats", null) || {};
+  const d = { xp:0, answered:0, correct:0, sessions:0, perfect:0, speedBest:0, matchBest:0, flawless:0, scen:0, goals:0,
+              mastered:0, ach:{}, today:{ d:"", n:0 }, hist:[], mist:{} };
+  return Object.assign(d, s);
+}
+function sxSaveStats(s){ lsSet("ndg-study2-stats", s); }
 function getStreak(){ return lsGet("ndg-streak", { last:"", count:0 }); }
-function newDoneToday(){
-  const n = lsGet("ndg-new-today", { date:"", count:0 });
-  return n.date === todayStr() ? n.count : 0;
-}
-function bumpNewToday(){
-  const t = todayStr();
-  const n = lsGet("ndg-new-today", { date:"", count:0 });
-  lsSet("ndg-new-today", { date:t, count:(n.date === t ? n.count : 0) + 1 });
+function sxStreakNow(){
+  const s = getStreak(), t = todayStr();
+  return (s.last === t || s.last === addDaysStr(t, -1)) ? s.count : 0;
 }
 function markStudiedToday(){
   const t = todayStr();
@@ -17497,488 +18102,716 @@ function markStudiedToday(){
   s.last = t;
   lsSet("ndg-streak", s);
 }
-
-function deckMeds(deck){
-  if (deck === "starred"){ const s = getStarred(); return MEDS.filter(m => s.indexOf(m.genericEn) !== -1); }
-  if (deck.indexOf("cat:") === 0){ const c = deck.slice(4); return MEDS.filter(m => m.cat === c); }
-  return MEDS.slice();
+function sxLevel(xp){
+  let i = 0;
+  while (i + 1 < SX_LEVELS.length && xp >= SX_LEVELS[i + 1][0]) i++;
+  const next = SX_LEVELS[i + 1];
+  return { n: i + 1, en: SX_LEVELS[i][1], he: SX_LEVELS[i][2], from: SX_LEVELS[i][0], to: next ? next[0] : null };
 }
-function deckCards(deck, types){
-  const out = [];
-  deckMeds(deck).forEach(m => {
-    types.forEach(t => { if (typeApplies(t, m)) out.push({ med:m, type:t, key: m.genericEn + "::" + t }); });
-  });
-  return out;
-}
+function sxTodayN(s){ return s.today.d === todayStr() ? s.today.n : 0; }
 
-let study = null; /* active session state */
-
-function schedule(prev, grade){
-  let box = prev ? prev.box : 1;
-  if (grade === "again") box = 1;
-  else if (grade === "good") box = Math.min(5, box + 1);
-  else box = Math.min(5, box + 2);
-  return {
-    box: box,
-    due: addDaysStr(todayStr(), INTERVALS[box]),
-    reps: (prev ? prev.reps : 0) + 1,
-    lapses: (prev ? prev.lapses : 0) + (grade === "again" ? 1 : 0)
-  };
-}
-
-/* ---- card content renderers ---- */
-function fieldBlock(labelEn, labelHe, en, he, mod){
-  const cls = mod ? " field--" + mod : "";
-  return '<div class="field' + cls + '">' +
-    '<div class="field-label"><span class="dot"></span><span>' + esc(labelEn) + "</span>" +
-    '<span class="he" dir="rtl">' + esc(labelHe) + "</span></div>" +
-    '<div class="field-body">' +
-      '<p class="en" lang="en">' + esc(en) + "</p>" +
-      '<p class="he" dir="rtl" lang="he">' + esc(he) + "</p>" +
-    "</div></div>";
-}
-function backHTML(card){
-  const m = card.med, t = card.type;
-  if (t === "brand2gen" || t === "name_en")
-    return '<div class="sc-answer"><span class="sc-big">' + esc(m.genericEn) + "</span>" +
-           '<span class="sc-big he" dir="rtl">' + esc(m.genericHe) + "</span></div>";
-  if (t === "gen2brand")
-    return '<div class="sc-answer"><span class="sc-big">' + esc(m.brandEn) + "</span>" +
-           (m.brandHe ? '<span class="sc-big he" dir="rtl">' + esc(m.brandHe) + "</span>" : "") + "</div>";
-  if (t === "name_he")
-    return '<div class="sc-answer"><span class="sc-big he" dir="rtl">' + esc(m.genericHe) + "</span></div>";
-  if (t === "class")
-    return '<div class="fields">' +
-      fieldBlock("Drug class", "קבוצה תרופתית", m.classEn, m.classHe, "") +
-      fieldBlock("Mechanism of action", "מנגנון פעולה", m.moaEn, m.moaHe, "") + "</div>";
-  if (t === "route")
-    return '<div class="fields">' +
-      fieldBlock("Route of administration", "דרך מתן", m.routeEn, m.routeHe, "") + "</div>";
-  const M = {
-    ind:     ["Indications", "התוויות", m.indEn, m.indHe, ""],
-    contra:  ["Contraindications", "התוויות נגד", m.ciEn, m.ciHe, "danger"],
-    lytes:   ["Electrolyte changes", "שינויים באלקטרוליטים", m.lyteEn, m.lyteHe, "lyte"],
-    monitor: ["What to monitor", "מה לנטר", m.monEn, m.monHe, "monitor"],
-    teach:   ["Patient teaching", "הדרכת מטופל", m.teachEn, m.teachHe, "teach"],
-    antidote:["Antidote / reversal", "נוגדן / היפוך פעולה", m.antidoteEn, m.antidoteHe, "antidote"]
-  };
-  const a = M[t];
-  return '<div class="fields">' + fieldBlock(a[0], a[1], a[2], a[3], a[4]) + "</div>";
-}
-
-/* ---- multiple choice: works for every card type ---- */
-/* whole-answer types: correct answer + distractor pool come from one drug property */
-function mcWhole(m, t){
-  switch (t){
-    case "class": return m.classEn;
-    case "route": return m.routeEn;
-    case "brand2gen": case "name_en": return m.genericEn;
-    case "gen2brand": return m.brandEn ? firstBrand(m.brandEn) : null;
-    case "name_he": return m.genericHe;
-    case "antidote": return m.antidoteEn ? firstClause(m.antidoteEn) : null;
+/* Record one answer: spaced-repetition box, totals, daily goal, mistakes list. grade: "again" | "hard" | "good" */
+function sxRecord(id, grade, xp){
+  const srs = sxSrs();
+  const prev = srs[id];
+  let box = prev ? prev.box : 0;
+  box = grade === "again" ? 1 : grade === "hard" ? Math.max(1, box) : Math.min(5, box + 1);
+  srs[id] = { box: box, due: addDaysStr(todayStr(), grade === "again" ? 0 : SX_INTERVALS[box]),
+              n: (prev ? prev.n : 0) + 1, w: (prev ? prev.w : 0) + (grade === "again" ? 1 : 0) };
+  lsSet("ndg-study2-srs", srs);
+  const s = sxStats();
+  const ok = grade !== "again";
+  s.answered++; if (ok) s.correct++;
+  s.xp += xp;
+  if (id[0] === "s") s.scen++;
+  const t = todayStr();
+  if (s.today.d !== t) s.today = { d: t, n: 0 };
+  s.today.n++;
+  if (s.today.n === SX_GOAL){ s.goals++; sxToast("🎯 Daily goal reached! · היעד היומי הושג!"); }
+  if (id[0] !== "c"){
+    if (!ok) s.mist[id] = 2;
+    else if (s.mist[id]){ s.mist[id]--; if (!s.mist[id]) delete s.mist[id]; }
   }
-  return null;
-}
-function mcQ(card){
-  const m = card.med, en = esc(m.genericEn), he = esc(m.genericHe), br = esc(firstBrand(m.brandEn || ""));
-  switch (card.type){
-    case "class":     return ["Which class does " + en + " belong to?", "לאיזו קבוצה שייכת " + he + "?"];
-    case "route":     return ["By which route is " + en + " given?", "באיזו דרך ניתנת " + he + "?"];
-    case "antidote":  return ["What is the antidote / reversal for " + en + "?", "מהו הנוגדן של " + he + "?"];
-    case "brand2gen": return ["What is the generic name for " + br + "?", "מהו השם הגנרי של " + br + "?"];
-    case "gen2brand": return ["Which is a brand name for " + en + "?", "מהו שם מסחרי של " + he + "?"];
-    case "name_he":   return ["What is " + en + " in Hebrew?", "איך אומרים " + en + " בעברית?"];
-    case "name_en":   return ["What is " + he + " in English?", "מהו " + he + " באנגלית?"];
-    case "ind":       return ["Which is an approved use of " + en + "?", "מהו שימוש מאושר של " + he + "?"];
-    case "contra":    return ["Which is a contraindication to " + en + "?", "מהי התווית נגד ל" + he + "?"];
-    case "lytes":     return ["Which change is " + en + " most associated with?", "איזה שינוי קשור ל" + he + "?"];
-    case "monitor":   return ["Which should you monitor with " + en + "?", "מה יש לנטר עם " + he + "?"];
-    case "teach":     return ["Which is a key teaching point for a patient on " + en + "?", "מהי נקודת הדרכה חשובה למטופל הנוטל " + he + "?"];
-  }
-  return ["", ""];
-}
-function capFirst(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
-function mcBuild(card){
-  const q = mcQ(card);
-  let correct, pool = [];
-  if (FRAG_TYPES.indexOf(card.type) === -1){
-    correct = mcWhole(card.med, card.type);
-    const same = [], other = [];
-    MEDS.forEach(m => {
-      if (m === card.med) return;
-      const v = mcWhole(m, card.type);
-      if (!v || v === correct) return;
-      (m.cat === card.med.cat ? same : other).push(v);
-    });
-    pool = Array.from(new Set(shuffle(same).concat(shuffle(other))));
-  } else {
-    const field = FRAG_FIELD[card.type];
-    const mine = fragCache(card.med, field);
-    if (!mine.length) return null;
-    correct = capFirst(mine[Math.floor(Math.random() * mine.length)]);
-    const myText = normAns(card.med[field] + " " + card.med.seEn);
-    const seen = {};
-    seen[normAns(correct)] = 1;
-    const same = [], other = [];
-    MEDS.forEach(m => {
-      if (m === card.med) return;
-      fragCache(m, field).forEach(f => {
-        const n = normAns(f);
-        if (n.length < 4 || seen[n] || myText.indexOf(n) !== -1) return;
-        seen[n] = 1;
-        (m.cat === card.med.cat ? same : other).push(capFirst(f));
-      });
-    });
-    /* prefer cross-category distractors - same-class drugs often share these items */
-    pool = shuffle(other).concat(shuffle(same));
-  }
-  const opts = [correct];
-  for (let k = 0; k < pool.length && opts.length < 4; k++)
-    if (opts.indexOf(pool[k]) === -1) opts.push(pool[k]);
-  if (opts.length < 2) return null;
-  return { questionEn: q[0], questionHe: q[1], correct: correct, opts: shuffle(opts) };
+  sxSaveStats(s);
+  markStudiedToday();
 }
 
-/* ---- session engine ---- */
-function sessionCards(cfg){
-  let all = deckCards(cfg.deck, cfg.types);
-  if (cfg.format === "match") all = all.filter(c => fmtOk("match", c.type));
-  return all;
+/* ---------- topics and item pools ---------- */
+function sxTopic(){ return lsGetRaw("ndg-study2-topic") || "all"; }
+function sxTopicMeds(t){
+  if (t === "starred"){ const st = getStarred(); return MEDS.filter(m => st.indexOf(m.genericEn) !== -1); }
+  if (t === "review"){ const rv = getReviewLater(); return MEDS.filter(m => rv.indexOf(m.genericEn) !== -1); }
+  if (t.indexOf("cat:") === 0){ const c = t.slice(4); return MEDS.filter(m => m.cat === c); }
+  return MEDS;
 }
-function startSession(){
-  const cfg = getCfg();
-  const all = sessionCards(cfg);
-  const srs = getSRS();
-  const today = todayStr();
-  const due = all.filter(c => srs[c.key] && srs[c.key].due <= today);
-  due.sort((a, b) => srs[a.key].due.localeCompare(srs[b.key].due));
-  shuffle(due);
-  const cap = Math.max(0, (cfg.newPerDay | 0) - newDoneToday());
-  const fresh = shuffle(all.filter(c => !srs[c.key])).slice(0, cap);
-  const queue = due.slice();
-  if (fresh.length){
-    const gap = Math.max(1, Math.floor(queue.length / fresh.length));
-    let pos = gap;
-    fresh.forEach(c => { queue.splice(Math.min(pos, queue.length), 0, c); pos += gap + 1; });
+function sxPool(t, opt){
+  opt = opt || {};
+  const meds = sxTopicMeds(t);
+  const ids = [];
+  /* EN<->HE name questions are kept to about a third of drugs so class / trade name / antidote dominate */
+  const nameOk = m => opt.facts || (m.genericEn.length + m.genericEn.charCodeAt(0)) % 3 === 0;
+  if (!opt.noFacts) meds.forEach(m => sxFacts(m).forEach(f => {
+    if (opt.facts && opt.facts.indexOf(f) === -1) return;
+    if (f === "name" && !nameOk(m)) return;
+    ids.push("f|" + m.genericEn + "|" + f);
+  }));
+  if (!opt.noScen){
+    const set = new Set(meds.map(m => m.genericEn));
+    SCENARIOS.forEach(s => { if (t === "all" || s.drugs.some(d => set.has(d))) ids.push("s|" + s.id); });
   }
-  if (cfg.format === "match") queue.sort((a, b) => a.type.localeCompare(b.type)); /* group same-type for boards */
-  study = { queue: queue, idx: 0, reviewed: 0, correct: 0, format: cfg.format, answered: false };
+  return ids;
+}
+/* due first, then new (about a third scenarios), then anything */
+function sxPlan(pool, n){
+  const srs = sxSrs(), today = todayStr();
+  const due = shuffle(pool.filter(id => srs[id] && srs[id].due <= today));
+  const out = due.slice(0, Math.ceil(n * 0.6));
+  const fresh = shuffle(pool.filter(id => !srs[id]));
+  const sc = fresh.filter(id => id[0] === "s"), fa = fresh.filter(id => id[0] !== "s");
+  while (out.length < n && (sc.length || fa.length)){
+    const useSc = sc.length && (!fa.length || Math.random() < 0.3);
+    out.push((useSc ? sc : fa).pop());
+  }
+  if (out.length < n){
+    const used = new Set(out);
+    shuffle(pool.filter(id => !used.has(id))).slice(0, n - out.length).forEach(id => out.push(id));
+  }
+  return shuffle(out);
+}
+function sxDueCount(t){
+  const srs = sxSrs(), today = todayStr();
+  return sxPool(t).filter(id => srs[id] && srs[id].due <= today).length;
+}
+
+/* ---------- session state ---------- */
+let study = null;
+let sxTimer = null;
+const SX_MODE_INFO = {
+  daily:  ["☀️", "Daily mix", "תרגול יומי"],
+  flash:  ["🃏", "Flash cards", "כרטיסיות"],
+  quiz:   ["📝", "Quiz", "בוחן"],
+  scen:   ["🩺", "Clinical scenarios", "תרחישים קליניים"],
+  speed:  ["⚡", "Speed round", "סבב מהיר"],
+  match:  ["🧩", "Match-up", "התאמה"],
+  mist:   ["🔁", "My mistakes", "הטעויות שלי"],
+  marked: ["⭐", "Starred & review later", "מסומנות ולעיון"]
+};
+function sxStopTimer(){ if (sxTimer){ clearInterval(sxTimer); sxTimer = null; } }
+function sxNewSession(mode, ids, extra){
+  sxStopTimer();
+  study = Object.assign({ mode: mode, ids: ids, idx: 0, qs: [], log: [], review: -1, correct: 0, answered: 0,
+    xp: 0, combo: 0, bestCombo: 0, missed: [], t0: Date.now(), answeredNow: false }, extra || {});
   renderStudy();
+  window.scrollTo(0, 0);
+}
+function sxStart(mode, arg){
+  const t = sxTopic();
+  if (mode === "daily") return sxNewSession(mode, sxPlan(sxPool(t), 15));
+  if (mode === "quiz") return sxNewSession(mode, sxPlan(sxPool(t), arg || 10));
+  if (mode === "scen") return sxNewSession(mode, sxPlan(sxPool(t, { noFacts: true }), 10));
+  if (mode === "mist") return sxNewSession(mode, shuffle(Object.keys(sxStats().mist)).slice(0, 20));
+  if (mode === "marked"){
+    const st = new Set(getStarred().concat(getReviewLater()));
+    const ids = [];
+    MEDS.forEach(m => { if (st.has(m.genericEn)) sxFacts(m).forEach(f => ids.push("f|" + m.genericEn + "|" + f)); });
+    SCENARIOS.forEach(s => { if (s.drugs.some(d => st.has(d))) ids.push("s|" + s.id); });
+    return sxNewSession("marked", sxPlan(ids, 15));
+  }
+  if (mode === "flash"){
+    const srs = sxSrs(), today = todayStr();
+    const meds = sxTopicMeds(t).map(m => "c|" + m.genericEn);
+    const due = shuffle(meds.filter(id => srs[id] && srs[id].due <= today));
+    const fresh = shuffle(meds.filter(id => !srs[id]));
+    return sxNewSession("flash", due.concat(fresh).slice(0, 20), { flipped: false, grades: { again: 0, hard: 0, good: 0 }, requeued: {} });
+  }
+  if (mode === "speed"){
+    const pool = sxPool(t, { noScen: true, facts: ["family", "brand", "name", "anti"] });
+    return sxNewSession("speed", pool, { end: Date.now() + 60000 });
+  }
+  if (mode === "match") return sxNewSession("match", [], { board: 0, boards: [], mistakes: 0, pairsDone: 0 });
 }
 
-function gradeCard(card, grade){
-  const srs = getSRS();
-  const isNew = !srs[card.key];
-  srs[card.key] = schedule(srs[card.key], grade);
-  setSRS(srs);
-  if (isNew) bumpNewToday();
-  if (study.reviewed === 0) markStudiedToday();
-  study.reviewed++;
-  if (grade !== "again") study.correct++;
-  else study.queue.push({ med: card.med, type: card.type, key: card.key });
-}
-function gradeCurrent(grade){
-  gradeCard(study.queue[study.idx], grade);
-  study.idx++;
-  study.answered = false;
-  renderStudy();
-}
-function gradeBatch(cards, grades){
-  cards.forEach((c, i) => gradeCard(c, grades[i]));
-  study.idx += cards.length;
-  study.answered = false;
-  renderStudy();
-}
-
-/* ---- rendering ---- */
+/* ---------- rendering: router ---------- */
 function renderStudy(){
-  if (!study){ renderSetup(); return; }
-  if (study.idx >= study.queue.length){ renderDone(); return; }
-  renderSessionCard();
+  if (!study){ sxStopTimer(); sxHome(); return; }
+  if (study.mode === "flash") return sxFlash();
+  if (study.mode === "speed") return sxSpeed();
+  if (study.mode === "match") return sxMatch();
+  sxRun();
 }
 
-function renderSetup(){
-  const cfg = getCfg();
-  const srs = getSRS();
-  const today = todayStr();
-  const starN = getStarred().length;
-
-  const deckOpts = ['<option value="all"' + (cfg.deck === "all" ? " selected" : "") + ">All " + MEDS.length + " · הכל</option>",
-    '<option value="starred"' + (cfg.deck === "starred" ? " selected" : "") + ">★ Starred (" + starN + ")</option>",
-    '<optgroup label="By category / לפי קבוצה">'];
+/* ---------- home ---------- */
+function sxTopicOptions(t){
+  const opt = (v, label) => '<option value="' + v + '"' + (t === v ? " selected" : "") + ">" + label + "</option>";
+  const parts = [opt("all", "All " + MEDS.length + " drugs · כל התרופות"),
+    opt("starred", "★ Starred (" + getStarred().length + ") · מסומנות בכוכב"),
+    opt("review", "🕑 Review later (" + getReviewLater().length + ") · לעיון מאוחר"),
+    '<optgroup label="Category · קטגוריה">'];
   CATS.forEach(c => {
     if (c[0] === "all") return;
     const n = MEDS.filter(m => m.cat === c[0]).length;
-    if (!n) return;
-    const v = "cat:" + c[0];
-    deckOpts.push('<option value="' + v + '"' + (cfg.deck === v ? " selected" : "") + ">" + esc(c[1]) + " · " + esc(c[2]) + " (" + n + ")</option>");
+    if (n) parts.push(opt("cat:" + c[0], esc(c[1]) + " · " + esc(c[2]) + " (" + n + ")"));
   });
-  deckOpts.push("</optgroup>");
-
-  const fmtBtns = FORMATS.map(([v, en, he]) =>
-    '<button type="button" data-fmt="' + v + '" aria-pressed="' + (cfg.format === v) + '">' + en + '<span class="he" dir="rtl">' + he + "</span></button>").join("");
-
-  const typeRows = CARD_TYPES.map(([id, en, he]) =>
-    '<label><input type="checkbox" data-type="' + id + '"' + (cfg.types.indexOf(id) !== -1 ? " checked" : "") + ">" +
-    "<span>" + en + ' <span class="he" dir="rtl">' + he + "</span></span></label>").join("");
-
-  /* live counts for the chosen deck + types + format */
-  const cards = sessionCards(cfg);
-  const fmtNote = cfg.format === "match"
-    ? '<p class="fmt-note">Matching uses name cards only (brand ↔ generic, English ↔ Hebrew).</p>'
-    : "";
-  let dueN = 0, seenN = 0;
-  cards.forEach(c => { const s = srs[c.key]; if (s){ seenN++; if (s.due <= today) dueN++; } });
-  const newLeft = Math.max(0, (cfg.newPerDay | 0) - newDoneToday());
-  const newN = Math.min(newLeft, cards.filter(c => !srs[c.key]).length);
-  const streak = getStreak().count;
+  return parts.join("") + "</optgroup>";
+}
+function sxMastery(){
+  const srs = sxSrs();
+  return CATS.filter(c => c[0] !== "all").map(c => {
+    let total = 0, good = 0;
+    MEDS.forEach(m => {
+      if (m.cat !== c[0]) return;
+      sxFacts(m).forEach(f => { total++; const r = srs["f|" + m.genericEn + "|" + f]; if (r && r.box >= 3) good++; });
+    });
+    return { id: c[0], en: c[1], he: c[2], total: total, pct: total ? Math.round(good / total * 100) : 0 };
+  }).filter(x => x.total);
+}
+const SX_ACH = [
+  ["first",   "🌱", "First session",          "מפגש ראשון",            s => s.sessions >= 1],
+  ["goal",    "🎯", "Daily goal reached",     "יעד יומי הושג",          s => s.goals >= 1],
+  ["c50",     "✅", "50 correct answers",     "50 תשובות נכונות",       s => s.correct >= 50],
+  ["c250",    "🏅", "250 correct answers",    "250 תשובות נכונות",      s => s.correct >= 250],
+  ["c1000",   "🏆", "1,000 correct answers",  "1,000 תשובות נכונות",    s => s.correct >= 1000],
+  ["st3",     "🔥", "3-day streak",           "רצף של 3 ימים",          () => sxStreakNow() >= 3],
+  ["st7",     "🔥", "7-day streak",           "רצף של 7 ימים",          () => sxStreakNow() >= 7],
+  ["st30",    "🌟", "30-day streak",          "רצף של 30 ימים",         () => sxStreakNow() >= 30],
+  ["perfect", "💯", "Perfect session (10+)",  "מפגש מושלם (10+)",       s => s.perfect >= 1],
+  ["speed15", "⚡", "15 in a speed round",    "15 בסבב מהיר",           s => s.speedBest >= 15],
+  ["flaw",    "🧩", "Flawless match-up",      "התאמה ללא טעויות",       s => s.flawless >= 1],
+  ["scen25",  "🩺", "25 clinical scenarios",  "25 תרחישים קליניים",     s => s.scen >= 25],
+  ["master",  "🎓", "Master a topic (80%)",   "שליטה בנושא (80%)",      s => s.mastered >= 1]
+];
+/* unlock any newly earned achievements; returns the new ones */
+function sxCheckAch(){
+  const s = sxStats();
+  s.mastered = sxMastery().filter(x => x.pct >= 80).length;
+  const fresh = [];
+  SX_ACH.forEach(a => { if (!s.ach[a[0]] && a[4](s)){ s.ach[a[0]] = todayStr(); fresh.push(a); } });
+  sxSaveStats(s);
+  return fresh;
+}
+function sxRing(n, goal){
+  const p = Math.min(1, n / goal), r = 15, c = 2 * Math.PI * r;
+  return '<svg class="sx-ring" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="' + r + '" class="sx-ring-bg"/>' +
+    '<circle cx="18" cy="18" r="' + r + '" class="sx-ring-fg" stroke-dasharray="' + (c * p).toFixed(1) + " " + c.toFixed(1) + '"/></svg>';
+}
+function sxHome(){
+  sxCheckAch();
+  const s = sxStats(), t = sxTopic();
+  const lv = sxLevel(s.xp);
+  const lvPct = lv.to ? Math.round((s.xp - lv.from) / (lv.to - lv.from) * 100) : 100;
+  const todayN = sxTodayN(s);
+  const acc = s.answered ? Math.round(s.correct / s.answered * 100) + "%" : "-";
+  const due = sxDueCount(t);
+  const mistN = Object.keys(s.mist).length;
+  const markN = getStarred().length + getReviewLater().length;
+  const scenN = sxPool(t, { noFacts: true }).length;
+  const tile = (mode, sub, opts) => {
+    const i = SX_MODE_INFO[mode];
+    return '<button type="button" class="sx-tile sx-tile-' + mode + '" data-sx-mode="' + mode + '"' + (opts && opts.disabled ? " disabled" : "") + ">" +
+      '<span class="sx-tile-ic" aria-hidden="true">' + i[0] + "</span>" +
+      '<span class="sx-tile-t">' + sxBi(i[1], i[2]) + "</span>" +
+      '<span class="sx-tile-s">' + sub + "</span>" +
+      (opts && opts.badge ? '<span class="sx-badge">' + opts.badge + "</span>" : "") + "</button>";
+  };
+  const mastery = sxMastery();
+  const hist = s.hist.slice(0, 8).map(h => {
+    const i = SX_MODE_INFO[h.mode] || ["", h.mode, h.mode];
+    return '<li><span class="sx-h-ic">' + i[0] + "</span>" + sxBi(i[1], i[2]) +
+      '<span class="sx-h-r">' + esc(h.res) + '</span><span class="sx-h-d">' + esc(h.d.slice(5)) + "</span></li>";
+  }).join("") || '<li class="sx-empty">' + sxBi("No sessions yet - start with the daily mix!", "עדיין אין מפגשים - מתחילים בתרגול היומי!") + "</li>";
+  const achN = Object.keys(s.ach).length;
 
   studyEl.innerHTML =
-    '<div class="study-setup">' +
-      "<h2>Study<span class=\"he\" dir=\"rtl\">תרגול</span></h2>" +
-      '<div class="study-stats">' +
-        '<div class="stat-pill"><b>' + dueN + "</b>due today · להיום</div>" +
-        '<div class="stat-pill"><b>' + newN + "</b>new · חדשות</div>" +
-        '<div class="stat-pill"><b>' + streak + "</b>day streak · רצף</div>" +
+    '<div class="sx-home">' +
+      '<section class="sx-hero">' +
+        '<div class="sx-hero-row">' +
+          '<h2 class="sx-title">' + sxBi("Study", "תרגול") + "</h2>" +
+          '<span class="sx-level">Lv ' + lv.n + " · " + sxBi(lv.en, lv.he) + "</span>" +
+        "</div>" +
+        '<div class="sx-xpbar" title="' + s.xp + ' XP"><span style="width:' + lvPct + '%"></span></div>' +
+        '<div class="sx-xpnote">⭐ ' + s.xp + " XP" + (lv.to ? " · " + (lv.to - s.xp) + " " + sxBi("to next level", "לרמה הבאה") : "") + "</div>" +
+        '<div class="sx-stats">' +
+          '<div class="sx-stat"><b>🔥 ' + sxStreakNow() + "</b>" + sxBi("day streak", "ימי רצף") + "</div>" +
+          '<div class="sx-stat sx-stat-goal">' + sxRing(todayN, SX_GOAL) + "<b>" + todayN + "/" + SX_GOAL + "</b>" + sxBi("today's goal", "יעד היום") + "</div>" +
+          '<div class="sx-stat"><b>✅ ' + acc + "</b>" + sxBi("accuracy", "דיוק") + "</div>" +
+        "</div>" +
+      "</section>" +
+      '<label class="sx-topic"><span>' + sxBi("Topic", "נושא") + '</span><select id="sxTopic">' + sxTopicOptions(t) + "</select></label>" +
+      '<div class="sx-tiles">' +
+        tile("daily", sxBi(due + " due · 15 questions", due + " לחזרה · 15 שאלות"), { badge: due ? due : "" }) +
+        tile("flash", sxBi("Flip, rate, repeat", "הופכים, מדרגים, חוזרים")) +
+        tile("quiz", sxBi("10 / 20 / 30 questions", "10 / 20 / 30 שאלות")) +
+        tile("scen", sxBi(scenN + " ward situations", scenN + " מצבים מהמחלקה"), { disabled: !scenN }) +
+        tile("speed", sxBi("60 seconds · best " + s.speedBest, "60 שניות · שיא " + s.speedBest)) +
+        tile("match", sxBi("3 boards" + (s.matchBest ? " · best " + s.matchBest + "s" : ""), "3 לוחות" + (s.matchBest ? " · שיא " + s.matchBest + " ש׳" : ""))) +
+        tile("mist", sxBi(mistN + " to fix", mistN + " לתיקון"), { disabled: !mistN, badge: mistN ? mistN : "" }) +
+        tile("marked", sxBi(markN + " drugs marked", markN + " תרופות מסומנות"), { disabled: !markN }) +
       "</div>" +
-      '<label class="study-field"><span>Deck &middot; חפיסה</span>' +
-        '<select class="study-select" id="deckSelect">' + deckOpts.join("") + "</select></label>" +
-      '<div class="study-field"><span>Format &middot; פורמט</span>' +
-        '<div class="seg" id="fmtSeg">' + fmtBtns + "</div>" + fmtNote + "</div>" +
-      '<div class="study-field"><span>Card types &middot; סוגי כרטיסים</span>' +
-        '<div class="type-grid" id="typeGrid">' + typeRows + "</div></div>" +
-      '<label class="study-field"><span>New cards per day &middot; כרטיסים חדשים ליום</span>' +
-        '<input class="study-num" type="number" id="newPerDay" min="0" max="200" value="' + (cfg.newPerDay | 0) + '"></label>' +
-      '<button class="start-btn" id="startBtn"' + (cards.length ? "" : " disabled") + ">Start &middot; התחלה</button>" +
-      '<details class="study-more"><summary>Progress &amp; reset &middot; התקדמות ואיפוס</summary>' +
-        renderBoxBars(cards, srs) +
-        '<button class="reset-btn" id="resetDeckBtn">Reset this deck</button>' +
-        '<button class="reset-btn" id="resetAllBtn">Reset everything</button>' +
+      '<div id="sxQuizSheet"></div>' +
+      '<details class="sx-sec"><summary>' + sxBi("Progress by topic", "התקדמות לפי נושא") + "</summary>" +
+        '<p class="sx-note">' + sxBi("Share of facts you know well. Tap a topic to quiz it.", "אחוז העובדות שאת/ה שולט/ת בהן. הקשה על נושא פותחת בוחן.") + "</p>" +
+        '<div class="sx-mastery">' + mastery.map(x =>
+          '<button type="button" class="sx-mrow" data-sx-cat="' + x.id + '"><span class="sx-mname">' + sxBi(esc(x.en), esc(x.he)) + "</span>" +
+          '<span class="sx-mtrack"><span style="width:' + x.pct + '%"></span></span><span class="sx-mpct">' + x.pct + "%</span></button>").join("") + "</div>" +
       "</details>" +
+      '<details class="sx-sec"><summary>' + sxBi("Achievements", "הישגים") + " (" + achN + "/" + SX_ACH.length + ")</summary>" +
+        '<div class="sx-ach">' + SX_ACH.map(a => '<div class="sx-a' + (s.ach[a[0]] ? " on" : "") + '"><span>' + a[1] + "</span>" + sxBi(a[2], a[3]) + "</div>").join("") + "</div>" +
+      "</details>" +
+      '<details class="sx-sec"><summary>' + sxBi("Recent sessions", "מפגשים אחרונים") + '</summary><ul class="sx-hist">' + hist + "</ul></details>" +
+      '<button type="button" class="sx-reset" id="sxReset">' + sxBi("Reset study progress", "איפוס התקדמות") + "</button>" +
     "</div>";
 
-  document.getElementById("deckSelect").addEventListener("change", saveSetup);
-  document.getElementById("newPerDay").addEventListener("change", saveSetup);
-  document.getElementById("fmtSeg").addEventListener("click", function(e){
-    const b = e.target.closest("button[data-fmt]");
+  document.getElementById("sxTopic").addEventListener("change", e => { lsSetRaw("ndg-study2-topic", e.target.value); sxHome(); });
+  studyEl.querySelector(".sx-tiles").addEventListener("click", e => {
+    const b = e.target.closest("[data-sx-mode]");
+    if (!b || b.disabled) return;
+    if (b.dataset.sxMode === "quiz") return sxQuizSheet();
+    sxStart(b.dataset.sxMode);
+  });
+  studyEl.querySelector(".sx-mastery").addEventListener("click", e => {
+    const b = e.target.closest("[data-sx-cat]");
     if (!b) return;
-    const c = getCfg(); c.format = b.dataset.fmt; setCfg(c); renderSetup();
+    lsSetRaw("ndg-study2-topic", "cat:" + b.dataset.sxCat);
+    sxStart("quiz", 10);
   });
-  document.getElementById("typeGrid").addEventListener("change", function(e){
-    const cb = e.target.closest("input[data-type]");
-    if (!cb) return;
-    const c = getCfg();
-    const id = cb.dataset.type;
-    const i = c.types.indexOf(id);
-    if (cb.checked && i === -1) c.types.push(id);
-    if (!cb.checked && i !== -1) c.types.splice(i, 1);
-    if (!c.types.length){ c.types.push(id); cb.checked = true; }
-    setCfg(c); renderSetup();
-  });
-  document.getElementById("startBtn").addEventListener("click", function(){
-    saveSetup(); startSession();
-  });
-  document.getElementById("resetDeckBtn").addEventListener("click", function(){
-    if (!confirm("Reset progress for this deck?")) return;
-    const c = getCfg(); const keys = deckCards(c.deck, CARD_TYPES.map(x => x[0])).map(x => x.key);
-    const srs2 = getSRS(); keys.forEach(k => delete srs2[k]); setSRS(srs2); renderSetup();
-  });
-  document.getElementById("resetAllBtn").addEventListener("click", function(){
-    if (!confirm("Erase ALL study progress and stars?")) return;
-    setSRS({}); lsSet("ndg-starred", []); lsSet("ndg-streak", { last:"", count:0 });
-    lsSet("ndg-new-today", { date:"", count:0 }); renderSetup();
+  document.getElementById("sxReset").addEventListener("click", () => {
+    if (!confirm("Reset all study progress (XP, scores, history, achievements)? Your stars stay.\nלאפס את כל התקדמות התרגול?")) return;
+    try { ["ndg-study2-srs", "ndg-study2-stats", "ndg-streak"].forEach(k => localStorage.removeItem(k)); } catch(e){}
+    sxHome();
   });
 }
-function saveSetup(){
-  const c = getCfg();
-  const d = document.getElementById("deckSelect");
-  const n = document.getElementById("newPerDay");
-  if (d) c.deck = d.value;
-  if (n) c.newPerDay = Math.max(0, Math.min(200, parseInt(n.value, 10) || 0));
-  setCfg(c);
-}
-function renderBoxBars(cards, srs){
-  const boxes = [0,0,0,0,0];
-  let seen = 0;
-  cards.forEach(c => { const s = srs[c.key]; if (s){ seen++; boxes[s.box - 1]++; } });
-  const max = Math.max(1, seen, cards.length);
-  const labels = ["New", "Box 1", "Box 2", "Box 3", "Box 4", "Box 5"];
-  const counts = [cards.length - seen].concat(boxes);
-  return '<div class="box-bars">' + counts.map((n, i) =>
-    '<div class="box-bar"><span class="bb-label">' + labels[i] + "</span>" +
-    '<span class="bb-track"><span class="bb-fill" style="width:' + Math.round(n / max * 100) + '%"></span></span>' +
-    '<span class="bb-n">' + n + "</span></div>").join("") + "</div>";
+function sxQuizSheet(){
+  const el = document.getElementById("sxQuizSheet");
+  el.innerHTML = '<div class="sx-sheet"><p>' + sxBi("How many questions?", "כמה שאלות?") + "</p>" +
+    '<div class="sx-len">' + [10, 20, 30].map(n => '<button type="button" data-sx-len="' + n + '">' + n + "</button>").join("") + "</div></div>";
+  el.querySelector(".sx-len").addEventListener("click", e => {
+    const b = e.target.closest("[data-sx-len]");
+    if (b) sxStart("quiz", parseInt(b.dataset.sxLen, 10));
+  });
+  el.scrollIntoView({ block: "nearest", behavior: "smooth" });
 }
 
-function studyTop(){
-  const total = study.queue.length;
-  const pct = Math.round(study.idx / Math.max(1, total) * 100);
-  return '<div class="study-topbar">' +
-    '<button class="link-btn" id="endBtn" type="button">End &middot; סיום</button>' +
-    '<span class="study-progress"><span class="study-progress-bar" style="width:' + pct + '%"></span></span>' +
-    '<span class="study-counter">' + Math.min(study.idx + 1, total) + " / " + total + "</span></div>";
+/* ---------- shared session chrome ---------- */
+function sxTopbar(cur, total, extra){
+  const pct = total ? Math.round(cur / total * 100) : 0;
+  return '<div class="sx-top">' +
+    '<button type="button" class="sx-x" id="sxExit" aria-label="Exit / יציאה">✕</button>' +
+    (study.log && study.log.length && study.review < 0 && study.mode !== "speed" ? '<button type="button" class="sx-back" id="sxBack">‹ ' + sxBi("Back", "הקודם") + "</button>" : "") +
+    '<span class="sx-prog"><span style="width:' + pct + '%"></span></span>' +
+    '<span class="sx-count">' + (extra || (Math.min(cur + 1, total) + "/" + total)) + "</span>" +
+    '<span class="sx-xp">⭐ ' + study.xp + "</span></div>";
 }
-function bindEnd(){
-  document.getElementById("endBtn").addEventListener("click", function(){
-    study.idx = study.queue.length; renderStudy();
+function sxBindTop(){
+  const x = document.getElementById("sxExit");
+  if (x) x.addEventListener("click", () => {
+    if (study.answered || study.pairsDone) sxDone();
+    else { study = null; renderStudy(); }
   });
+  const b = document.getElementById("sxBack");
+  if (b) b.addEventListener("click", () => { study.review = study.log.length - 1; renderStudy(); });
 }
+function sxToast(msg){
+  const t = document.createElement("div");
+  t.className = "sx-toast";
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.classList.add("out"), 1900);
+  setTimeout(() => t.remove(), 2400);
+}
+function sxOpenCard(gen){
+  const m = SX_MED.get(gen);
+  if (!m) return;
+  cardOpenAll = true;
+  const html = cardHTML(m);
+  cardOpenAll = false;
+  const ov = document.createElement("div");
+  ov.className = "sx-modal";
+  ov.innerHTML = '<div class="sx-modal-sheet"><button type="button" class="sx-modal-x" aria-label="Close / סגירה">✕</button>' + html + "</div>";
+  ov.addEventListener("click", e => { if (e.target === ov || e.target.closest(".sx-modal-x")) ov.remove(); });
+  document.body.appendChild(ov);
+}
+document.body.addEventListener("click", e => {
+  const b = e.target.closest("[data-sx-card]");
+  if (b) sxOpenCard(b.dataset.sxCard);
+});
 
-function renderSessionCard(){
-  const card = study.queue[study.idx];
-
-  if (study.format === "match"){
-    const batch = [card];
-    for (let k = study.idx + 1; k < study.queue.length && batch.length < 5; k++){
-      if (study.queue[k].type === card.type) batch.push(study.queue[k]); else break;
-    }
-    if (batch.length >= 2){ renderMatch(batch); return; }
-    /* lone leftover name card -> just multiple-choice it */
+/* ---------- question runner (daily, quiz, scenarios, mistakes, marked) ---------- */
+function sxCurrent(){
+  while (study.idx < study.ids.length){
+    if (!study.qs[study.idx]) study.qs[study.idx] = sxQuestion(study.ids[study.idx]);
+    if (study.qs[study.idx]) return study.qs[study.idx];
+    study.ids.splice(study.idx, 1);
   }
-  renderMc(card);
+  return null;
 }
-
-/* ---- multiple choice card ---- */
-function renderMc(card){
-  const mc = mcBuild(card);
-  if (!mc){ study.idx++; renderStudy(); return; }   /* card can't be built - skip it */
-  study.mc = mc;
-  study.answered = false;
-  const optHe = (card.type === "name_he");
-  studyEl.innerHTML = '<div class="study-session">' + studyTop() +
-    '<div class="study-card">' +
-      '<div class="mc-question"><span>' + mc.questionEn + "</span>" +
-        '<span class="he" dir="rtl">' + mc.questionHe + "</span></div>" +
-      '<div class="mc-options" id="mcOptions">' +
-        mc.opts.map(o => '<button class="mc-opt' + (optHe ? " he" : "") +
-          '" type="button" data-val="' + escAttr(o) + '">' + esc(o) + "</button>").join("") +
-      "</div>" +
-    "</div>" +
-    '<div class="study-actions" id="studyActions"></div></div>';
-  bindEnd();
-  document.getElementById("mcOptions").addEventListener("click", onMcPick);
-}
-function onMcPick(e){
-  const btn = e.target.closest(".mc-opt");
-  if (!btn || study.answered) return;
-  study.answered = true;
-  const correct = study.mc.correct;
-  const right = btn.dataset.val === correct;
-  document.getElementById("mcOptions").querySelectorAll(".mc-opt").forEach(o => {
-    o.disabled = true;
-    if (o.dataset.val === correct) o.classList.add("correct");
-    else if (o === btn) o.classList.add("wrong");
-  });
-  document.getElementById("studyActions").innerHTML =
-    '<div class="mc-feedback ' + (right ? "ok" : "no") + '">' +
-      (right ? "Correct ✓ &middot; נכון" : "Not quite &middot; לא מדויק") + "</div>" +
-    '<button class="continue-btn" id="mcNext" type="button">Next &middot; הבא</button>';
-  document.getElementById("mcNext").addEventListener("click", function(){
-    gradeCurrent(right ? "good" : "again");
-  });
-}
-
-/* ---- matching (name pairs) ---- */
-const MATCH_LABEL = {
-  brand2gen: ["Match each brand to its generic", "התאמת שם מסחרי לגנרי"],
-  gen2brand: ["Match each generic to its brand", "התאמת שם גנרי למסחרי"],
-  name_he:   ["Match English to Hebrew", "התאמת אנגלית לעברית"],
-  name_en:   ["Match Hebrew to English", "התאמת עברית לאנגלית"]
+const SX_FMT_HINT = {
+  sata:  ["Select all that apply, then tap Check", "יש לבחור את כל התשובות הנכונות ואז לבדוק"],
+  order: ["Tap the steps in the right order", "יש להקיש על השלבים לפי הסדר הנכון"],
+  odd:   ["Find the drug from a different class", "מצאו את התרופה מקבוצה אחרת"]
 };
-function matchLeft(c){
-  const m = c.med;
-  if (c.type === "brand2gen") return firstBrand(m.brandEn);
-  if (c.type === "name_en") return m.genericHe;
-  return m.genericEn;
+function sxQHTML(q){
+  const hint = SX_FMT_HINT[q.fmt];
+  return '<div class="sx-tag">' + sxBi(q.tag[0], q.tag[1]) + "</div>" +
+    '<div class="sx-q">' + sxBi(q.qEn, q.qHe) + "</div>" +
+    (hint ? '<div class="sx-hint">' + sxBi(hint[0], hint[1]) + "</div>" : "") +
+    '<div class="sx-opts sx-opts-' + q.fmt + '" id="sxOpts">' + q.opts.map((o, i) =>
+      '<button type="button" class="sx-opt" data-i="' + i + '"><span class="sx-key">' + (q.fmt === "order" ? "" : i + 1) + "</span><span class=\"sx-otxt\">" + o.h + "</span></button>").join("") +
+    "</div>";
 }
-function matchRight(c){
-  const m = c.med;
-  if (c.type === "gen2brand") return firstBrand(m.brandEn);
-  if (c.type === "name_he") return m.genericHe;
-  return m.genericEn; /* brand2gen, name_en */
-}
-function renderMatch(batch){
-  study.match = { cards: batch, solved: [], wrongs: batch.map(() => 0), sel: null };
-  const t = batch[0].type;
-  const leftHe = t === "name_en";
-  const rightHe = t === "name_he";
-  const left = batch.map((c, i) =>
-    '<button class="match-item' + (leftHe ? " he" : "") + '" type="button" data-side="L" data-i="' + i + '">' + esc(matchLeft(c)) + "</button>");
-  const right = shuffle(batch.map((_, i) => i)).map(i =>
-    '<button class="match-item' + (rightHe ? " he" : "") + '" type="button" data-side="R" data-i="' + i + '">' + esc(matchRight(batch[i])) + "</button>");
-  const lbl = MATCH_LABEL[t];
-  studyEl.innerHTML = '<div class="study-session">' + studyTop() +
-    '<div class="study-card">' +
-      '<div class="sc-prompt" style="justify-content:center;text-align:center"><span>' + lbl[0] + "</span>" +
-        '<span class="he" dir="rtl">' + lbl[1] + "</span></div>" +
-      '<div class="match-board" id="matchBoard">' +
-        '<div class="match-col">' + left.join("") + "</div>" +
-        '<div class="match-col">' + right.join("") + "</div>" +
-      "</div></div>" +
-    '<div class="study-actions" id="studyActions"></div></div>';
-  bindEnd();
-  document.getElementById("matchBoard").addEventListener("click", onMatchPick);
-}
-function onMatchPick(e){
-  const btn = e.target.closest(".match-item");
-  if (!btn || btn.classList.contains("solved")) return;
-  const mm = study.match;
-  const side = btn.dataset.side, i = parseInt(btn.dataset.i, 10);
-  if (mm.sel){
-    if (mm.sel.el === btn){ btn.classList.remove("sel"); mm.sel = null; return; }
-    if (mm.sel.side === side){ mm.sel.el.classList.remove("sel"); mm.sel = { side: side, i: i, el: btn }; btn.classList.add("sel"); return; }
-    const leftI  = mm.sel.side === "L" ? mm.sel.i : i;
-    const rightI = mm.sel.side === "R" ? mm.sel.i : i;
-    const other = mm.sel.el;
-    mm.sel = null;
-    other.classList.remove("sel");
-    if (leftI === rightI){
-      other.classList.add("solved"); btn.classList.add("solved");
-      mm.solved.push(leftI);
-      if (mm.solved.length === mm.cards.length) finishMatch();
-    } else {
-      mm.wrongs[leftI]++;
-      other.classList.add("bad"); btn.classList.add("bad");
-      setTimeout(function(){ other.classList.remove("bad"); btn.classList.remove("bad"); }, 450);
-    }
+function sxRun(){
+  if (study.review >= 0){
+    const entry = study.log[study.review];
+    studyEl.innerHTML = sxTopbar(study.idx, study.ids.length) +
+      '<div class="sx-card sx-reviewing"><div class="sx-revnote">' + sxBi("Reviewing an earlier question", "צפייה בשאלה קודמת") + "</div>" + entry + "</div>" +
+      '<div class="sx-actions">' +
+        (study.review > 0 ? '<button type="button" class="sx-btn" id="sxPrev">‹ ' + sxBi("Earlier", "קודמת") + "</button>" : "") +
+        '<button type="button" class="sx-btn sx-primary" id="sxResume">' + sxBi("Back to my question", "חזרה לשאלה") + " ›</button></div>";
+    sxBindTop();
+    const p = document.getElementById("sxPrev");
+    if (p) p.addEventListener("click", () => { study.review--; renderStudy(); });
+    document.getElementById("sxResume").addEventListener("click", () => { study.review = -1; renderStudy(); });
     return;
   }
-  mm.sel = { side: side, i: i, el: btn };
-  btn.classList.add("sel");
+  const q = sxCurrent();
+  if (!q) return sxDone();
+  studyEl.innerHTML = sxTopbar(study.idx, study.ids.length) +
+    '<div class="sx-card" id="sxCard">' + sxQHTML(q) +
+      (q.fmt === "sata" || q.fmt === "order" ? '<button type="button" class="sx-btn sx-primary sx-check" id="sxCheck" disabled>' + sxBi("Check", "בדיקה") + "</button>" : "") +
+      '<div id="sxFb"></div></div>';
+  sxBindTop();
+  const optsEl = document.getElementById("sxOpts");
+  const btns = Array.from(optsEl.querySelectorAll(".sx-opt"));
+  const check = document.getElementById("sxCheck");
+  if (q.fmt === "sata"){
+    optsEl.addEventListener("click", e => {
+      const b = e.target.closest(".sx-opt");
+      if (!b || study.answeredNow) return;
+      b.classList.toggle("picked");
+      check.disabled = !optsEl.querySelector(".picked");
+    });
+    check.addEventListener("click", () => {
+      let ok = true;
+      btns.forEach((b, i) => {
+        const picked = b.classList.contains("picked"), right = q.opts[i].ok;
+        if (picked !== right) ok = false;
+        b.classList.add(right ? (picked ? "correct" : "missed") : (picked ? "wrong" : "dim"));
+      });
+      check.remove();
+      sxAnswered(q, ok);
+    });
+  } else if (q.fmt === "order"){
+    const seq = [];
+    optsEl.addEventListener("click", e => {
+      const b = e.target.closest(".sx-opt");
+      if (!b || study.answeredNow) return;
+      const i = parseInt(b.dataset.i, 10);
+      const at = seq.indexOf(i);
+      if (at === -1) seq.push(i); else seq.splice(at);
+      btns.forEach((x, j) => { const k = seq.indexOf(j); x.querySelector(".sx-key").textContent = k === -1 ? "" : k + 1; x.classList.toggle("picked", k !== -1); });
+      check.disabled = seq.length !== btns.length;
+    });
+    check.addEventListener("click", () => {
+      const ok = seq.every((i, k) => q.opts[i].rank === k);
+      btns.forEach((b, i) => {
+        b.classList.add(seq.indexOf(i) === q.opts[i].rank ? "correct" : "wrong");
+        if (seq.indexOf(i) !== q.opts[i].rank) b.querySelector(".sx-key").innerHTML = seq.indexOf(i) + 1 + '<small>→' + (q.opts[i].rank + 1) + "</small>";
+      });
+      check.remove();
+      sxAnswered(q, ok);
+    });
+  } else {
+    optsEl.addEventListener("click", e => {
+      const b = e.target.closest(".sx-opt");
+      if (!b || study.answeredNow) return;
+      const i = parseInt(b.dataset.i, 10);
+      const ok = q.opts[i].ok;
+      btns.forEach((x, j) => { if (q.opts[j].ok) x.classList.add("correct"); else if (j === i) x.classList.add("wrong"); else x.classList.add("dim"); });
+      sxAnswered(q, ok);
+    });
+  }
 }
-function finishMatch(){
-  const mm = study.match;
-  const first = mm.wrongs.filter(w => w === 0).length;
-  document.getElementById("studyActions").innerHTML =
-    '<div class="match-result"><b>' + first + " / " + mm.cards.length + "</b> matched on the first try</div>" +
-    '<button class="continue-btn" id="matchContinue" type="button">Continue &middot; המשך</button>';
-  document.getElementById("matchContinue").addEventListener("click", function(){
-    gradeBatch(mm.cards, mm.wrongs.map(w => w === 0 ? "good" : "again"));
+function sxAnswered(q, ok){
+  study.answeredNow = true;
+  study.answered++;
+  let xp = 0, comboMsg = "";
+  if (ok){
+    study.correct++; study.combo++;
+    study.bestCombo = Math.max(study.bestCombo, study.combo);
+    xp = 10 + (study.combo >= 3 ? 5 : 0);
+    if (study.combo === 3 || study.combo === 5 || study.combo % 10 === 0) comboMsg = " 🔥 x" + study.combo;
+  } else {
+    study.combo = 0;
+    study.missed.push(q.id);
+  }
+  study.xp += xp;
+  sxRecord(q.id, ok ? "good" : "again", xp);
+  const fb = document.getElementById("sxFb");
+  fb.innerHTML = '<div class="sx-fb ' + (ok ? "ok" : "no") + '">' +
+    '<div class="sx-fb-h">' + (ok ? sxBi("✓ Correct! +" + xp + " XP" + comboMsg, "✓ נכון! +" + xp + " XP" + comboMsg) : sxBi("✗ Not quite", "✗ לא בדיוק")) + "</div>" +
+    '<div class="sx-why">' + sxBi(q.whyEn, q.whyHe) + "</div>" +
+    '<div class="sx-fb-actions">' +
+      (q.med ? '<button type="button" class="sx-btn" data-sx-card="' + escAttr(q.med.genericEn) + '">📖 ' + sxBi("Drug card", "כרטיס תרופה") + "</button>" : "") +
+      '<button type="button" class="sx-btn sx-primary" id="sxNext">' + sxBi("Next", "הבא") + " ›</button></div></div>";
+  /* keep a read-only copy for the Back button */
+  const card = document.getElementById("sxCard").cloneNode(true);
+  card.querySelectorAll(".sx-fb-actions").forEach(n => n.remove());
+  study.log.push(card.innerHTML);
+  const top = studyEl.querySelector(".sx-xp");
+  if (top) top.textContent = "⭐ " + study.xp;
+  document.getElementById("sxNext").addEventListener("click", () => { study.idx++; study.answeredNow = false; renderStudy(); window.scrollTo(0, 0); });
+  fb.scrollIntoView({ block: "nearest", behavior: "smooth" });
+}
+
+/* ---------- flash cards ---------- */
+function sxFlashBack(m){
+  const row = (en, he, a, b, mod) => '<div class="sx-fc-row' + (mod ? " " + mod : "") + '"><div class="sx-fc-l">' + sxBi(en, he) + "</div><div>" + sxBi(esc(a), esc(b || a)) + "</div></div>";
+  return row("Class", "קבוצה", m.classEn, m.classHe) +
+    row("Route", "דרך מתן", m.routeEn, m.routeHe) +
+    (m.antidoteEn ? row("Antidote", "נוגדן", m.antidoteEn.split(/ - |; |\. /)[0], (m.antidoteHe || "").split(/ - |; |\. /)[0], "sx-fc-anti") : "") +
+    (m.memHookEn ? row("Memory aid", "עזר זיכרון", m.memHookEn, m.memHookHe, "sx-fc-mem") : "") +
+    row("Monitor", "ניטור", m.monEn.split(/\. /)[0], (m.monHe || "").split(/\. /)[0]);
+}
+function sxFlash(){
+  if (study.idx >= study.ids.length) return sxDone();
+  const id = study.ids[study.idx];
+  const m = SX_MED.get(id.slice(2));
+  if (!m){ study.ids.splice(study.idx, 1); return sxFlash(); }
+  const b = sxBrand(m);
+  studyEl.innerHTML = sxTopbar(study.idx, study.ids.length) +
+    '<div class="sx-fc' + (study.flipped ? " flipped" : "") + '" id="sxFc" role="button" tabindex="0">' +
+      '<div class="sx-fc-front">' +
+        '<div class="sx-tag">' + sxBi("Flash card", "כרטיסייה") + "</div>" +
+        '<div class="sx-fc-name">' + sxNm(m) + "</div>" +
+        (b ? '<div class="sx-fc-brand">' + sxBrandH(b) + "</div>" : "") +
+        (study.flipped ? "" : '<div class="sx-fc-tap">' + sxBi("Think of the class, use and antidote - then tap to flip", "חשבו על הקבוצה, השימוש והנוגדן - ואז הקישו להפוך") + "</div>") +
+      "</div>" +
+      (study.flipped ? '<div class="sx-fc-back">' + sxFlashBack(m) + "</div>" : "") +
+    "</div>" +
+    (study.flipped ?
+      '<div class="sx-rate"><p>' + sxBi("How well did you know it?", "כמה טוב ידעת?") + "</p>" +
+        '<div class="sx-rate-row">' +
+          '<button type="button" class="sx-rbtn again" data-g="again">😕 ' + sxBi("Again", "שוב") + "</button>" +
+          '<button type="button" class="sx-rbtn hard" data-g="hard">🤔 ' + sxBi("Hard", "קשה") + "</button>" +
+          '<button type="button" class="sx-rbtn good" data-g="good">😎 ' + sxBi("Got it", "ידעתי") + "</button>" +
+        "</div>" +
+        '<button type="button" class="sx-btn sx-wide" data-sx-card="' + escAttr(m.genericEn) + '">📖 ' + sxBi("Full drug card", "כרטיס תרופה מלא") + "</button></div>" :
+      '<button type="button" class="sx-btn sx-primary sx-wide" id="sxFlip">' + sxBi("Flip card", "הפיכת הכרטיס") + "</button>");
+  sxBindTop();
+  const flip = () => { if (!study.flipped){ study.flipped = true; sxFlash(); } };
+  document.getElementById("sxFc").addEventListener("click", flip);
+  const fb = document.getElementById("sxFlip");
+  if (fb) fb.addEventListener("click", flip);
+  const rate = studyEl.querySelector(".sx-rate-row");
+  if (rate) rate.addEventListener("click", e => {
+    const r = e.target.closest("[data-g]");
+    if (!r) return;
+    const g = r.dataset.g;
+    const xp = g === "good" ? 5 : g === "hard" ? 3 : 1;
+    study.grades[g]++;
+    study.answered++;
+    if (g !== "again") study.correct++;
+    study.xp += xp;
+    sxRecord(id, g, xp);
+    if (g === "again" && !study.requeued[id]){ study.requeued[id] = 1; study.ids.push(id); }
+    study.idx++;
+    study.flipped = false;
+    sxFlash();
   });
 }
-function renderDone(){
-  const total = study.reviewed;
-  const pct = total ? Math.round(study.correct / total * 100) : 0;
-  const srs = getSRS();
-  const cfg = getCfg();
-  const tomorrow = addDaysStr(todayStr(), 1);
-  const dueTom = sessionCards(cfg).filter(c => srs[c.key] && srs[c.key].due <= tomorrow && srs[c.key].due > todayStr()).length;
-  const streak = getStreak().count;
+
+/* ---------- speed round ---------- */
+function sxSpeed(){
+  if (!sxTimer) sxTimer = setInterval(() => {
+    if (!study || study.mode !== "speed"){ sxStopTimer(); return; }
+    const left = Math.max(0, study.end - Date.now());
+    const el = document.getElementById("sxClock");
+    if (el){ el.textContent = Math.ceil(left / 1000) + "s"; el.parentNode.style.setProperty("--p", (left / 600) + "%"); }
+    if (!left){ sxStopTimer(); sxDone(); }
+  }, 200);
+  let q = null;
+  for (let t = 0; t < 8 && !q; t++){
+    q = sxQuestion(sxPick(study.ids), true);
+    if (q && (q.fmt === "sata" || q.fmt === "odd")) q = null;
+  }
+  if (!q) return sxDone();
+  study.qs.push(q);
+  const left = Math.max(0, study.end - Date.now());
   studyEl.innerHTML =
-    '<div class="study-done">' +
-      (total ? "<h2>Session complete 🎉</h2>" : "<h2>Nothing to review 👍</h2>") +
-      (total
-        ? '<p class="done-figure">' + total + " cards · " + pct + "% recalled</p>" +
-          "<p>" + dueTom + " due tomorrow · " + streak + "-day streak</p>"
-        : "<p>No cards are due in this deck right now. Add more new cards per day, pick another deck, or come back tomorrow.</p>") +
-      '<div class="done-actions">' +
-        (total ? '<button class="primary" id="againBtn">Study more</button>' : "") +
-        '<button id="backSetupBtn">Back to setup</button>' +
-      "</div>" +
-    "</div>";
-  const again = document.getElementById("againBtn");
-  if (again) again.addEventListener("click", function(){ startSession(); });
-  document.getElementById("backSetupBtn").addEventListener("click", function(){ study = null; renderStudy(); });
+    '<div class="sx-top"><button type="button" class="sx-x" id="sxExit" aria-label="Exit / יציאה">✕</button>' +
+      '<span class="sx-clock-wrap" style="--p:' + (left / 600) + '%"><span class="sx-clock" id="sxClock">' + Math.ceil(left / 1000) + "s</span></span>" +
+      '<span class="sx-count">✓ ' + study.correct + "</span><span class=\"sx-xp\">⭐ " + study.xp + "</span></div>" +
+    '<div class="sx-card sx-speed" id="sxCard">' + sxQHTML(q) + "</div>";
+  sxBindTop();
+  const optsEl = document.getElementById("sxOpts");
+  optsEl.addEventListener("click", e => {
+    const b = e.target.closest(".sx-opt");
+    if (!b || study.answeredNow) return;
+    study.answeredNow = true;
+    const i = parseInt(b.dataset.i, 10), ok = q.opts[i].ok;
+    Array.from(optsEl.children).forEach((x, j) => { if (q.opts[j].ok) x.classList.add("correct"); else if (j === i) x.classList.add("wrong"); });
+    study.answered++;
+    if (ok){ study.correct++; study.xp += 5; } else study.missed.push(q.id);
+    sxRecord(q.id, ok ? "good" : "again", ok ? 5 : 0);
+    setTimeout(() => { if (!study || study.mode !== "speed") return; study.answeredNow = false; if (Date.now() < study.end) sxSpeed(); }, ok ? 280 : 700);
+  });
+}
+
+/* ---------- match-up ---------- */
+const SX_MATCH_KINDS = {
+  brand:  ["Match each drug to its trade name", "התאימו כל תרופה לשם המסחרי שלה"],
+  family: ["Match each drug to its class", "התאימו כל תרופה לקבוצה שלה"],
+  anti:   ["Match each drug to its antidote", "התאימו כל תרופה לנוגדן שלה"],
+  name:   ["Match English to Hebrew", "התאימו אנגלית לעברית"]
+};
+function sxMatchBoard(){
+  let meds = sxTopicMeds(sxTopic());
+  if (meds.length < 8) meds = MEDS;
+  for (const k of shuffle(Object.keys(SX_MATCH_KINDS))){
+    const pairs = [], usedR = new Set();
+    for (const m of shuffle(meds.slice())){
+      let r = null;
+      if (k === "brand"){ const b = sxBrand(m); if (b && !pairs.some(p => String(p.m.brandEn).indexOf(b.en) !== -1 || String(m.brandEn).indexOf(p.key) !== -1)) r = { key: b.en, h: sxBrandH(b) }; }
+      if (k === "family") r = { key: m.classFamilyEn, h: sxFamH(m.classFamilyEn) };
+      if (k === "anti" && SX_ANTI[m.genericEn]){
+        const a = SX_MED.get(SX_ANTI[m.genericEn][0]);
+        if (!pairs.some(p => SX_ANTI[p.m.genericEn].indexOf(a.genericEn) !== -1 || SX_ANTI[m.genericEn].indexOf(p.key) !== -1)) r = { key: a.genericEn, h: sxNm(a) };
+      }
+      if (k === "name") r = { key: m.genericHe, h: '<span class="sx-nm sx-nm-he" dir="rtl">' + esc(m.genericHe) + "</span>" };
+      if (!r || usedR.has(r.key)) continue;
+      usedR.add(r.key);
+      pairs.push({ m: m, key: r.key, h: r.h });
+      if (pairs.length === 5) break;
+    }
+    if (pairs.length === 5) return { kind: k, pairs: pairs, right: shuffle(pairs.map((p, i) => i)), solved: new Set() };
+  }
+  return null;
+}
+function sxMatch(){
+  if (study.board >= 3) return sxDone();
+  if (!study.boards[study.board]) study.boards[study.board] = sxMatchBoard();
+  const bd = study.boards[study.board];
+  if (!bd) return sxDone();
+  const kind = SX_MATCH_KINDS[bd.kind];
+  const left = bd.pairs.map((p, i) => '<button type="button" class="sx-mi' + (bd.solved.has(i) ? " solved" : "") + '" data-l="' + i + '">' +
+    (bd.kind === "name" ? '<span class="sx-nm">' + esc(p.m.genericEn) + "</span>" : sxNm(p.m)) + "</button>").join("");
+  const right = bd.right.map(i => '<button type="button" class="sx-mi' + (bd.solved.has(i) ? " solved" : "") + '" data-r="' + i + '">' + bd.pairs[i].h + "</button>").join("");
+  studyEl.innerHTML = sxTopbar(study.board, 3, (study.board + 1) + "/3 · ⏱ <span id=\"sxClock\">" + Math.round((Date.now() - study.t0) / 1000) + "</span>s") +
+    '<div class="sx-card"><div class="sx-tag">' + sxBi("Match-up", "התאמה") + '</div><div class="sx-q">' + sxBi(kind[0], kind[1]) + "</div>" +
+    '<div class="sx-mboard"><div class="sx-mcol">' + left + '</div><div class="sx-mcol">' + right + "</div></div>" +
+    '<div class="sx-mnote">' + sxBi("Mistakes: " + study.mistakes, "טעויות: " + study.mistakes) + "</div></div>";
+  sxBindTop();
+  if (!sxTimer) sxTimer = setInterval(() => {
+    const el = document.getElementById("sxClock");
+    if (!study || study.mode !== "match" || !el){ sxStopTimer(); return; }
+    el.textContent = Math.round((Date.now() - study.t0) / 1000);
+  }, 1000);
+  let selL = null, selR = null, boardMistakes = 0;
+  const board = studyEl.querySelector(".sx-mboard");
+  board.addEventListener("click", e => {
+    const b = e.target.closest(".sx-mi");
+    if (!b || b.classList.contains("solved")) return;
+    if (b.dataset.l !== undefined){ board.querySelectorAll("[data-l]").forEach(x => x.classList.remove("sel")); selL = b; }
+    else { board.querySelectorAll("[data-r]").forEach(x => x.classList.remove("sel")); selR = b; }
+    b.classList.add("sel");
+    if (!selL || !selR) return;
+    const l = selL, r = selR;
+    selL = selR = null;
+    if (l.dataset.l === r.dataset.r){
+      bd.solved.add(parseInt(l.dataset.l, 10));
+      [l, r].forEach(x => { x.classList.remove("sel"); x.classList.add("solved"); });
+      study.pairsDone++;
+      study.xp += 2;
+      if (bd.solved.size === 5){
+        if (!boardMistakes){ study.xp += 10; const s = sxStats(); s.flawless++; sxSaveStats(s); sxToast("🧩 Flawless board! +10 XP"); }
+        study.board++;
+        setTimeout(() => { if (study && study.mode === "match") sxMatch(); }, 450);
+      }
+    } else {
+      study.mistakes++; boardMistakes++;
+      [l, r].forEach(x => { x.classList.remove("sel"); x.classList.add("bad"); });
+      setTimeout(() => [l, r].forEach(x => x.classList.remove("bad")), 500);
+      const n = studyEl.querySelector(".sx-mnote");
+      if (n) n.innerHTML = sxBi("Mistakes: " + study.mistakes, "טעויות: " + study.mistakes);
+    }
+  });
+}
+
+/* ---------- end of session ---------- */
+function sxDone(){
+  sxStopTimer();
+  const st = study;
+  const s = sxStats();
+  const secs = Math.round((Date.now() - st.t0) / 1000);
+  let res, big, extraHTML = "";
+  if (st.mode === "match"){
+    const finished = st.board >= 3;
+    big = finished ? secs + "s" : st.pairsDone + "/15";
+    res = finished ? secs + "s · " + st.mistakes + " ✗" : st.pairsDone + "/15";
+    if (finished && (!s.matchBest || secs < s.matchBest)){ s.matchBest = secs; extraHTML += '<div class="sx-best">🏆 ' + sxBi("New best time!", "שיא זמן חדש!") + "</div>"; }
+  } else if (st.mode === "speed"){
+    big = st.correct + "";
+    res = st.correct + " ✓";
+    if (st.correct > s.speedBest){ s.speedBest = st.correct; extraHTML += '<div class="sx-best">🏆 ' + sxBi("New personal best!", "שיא אישי חדש!") + "</div>"; }
+  } else if (st.mode === "flash"){
+    big = st.grades.good + "/" + st.answered;
+    res = st.grades.good + "/" + st.answered + " 😎";
+  } else {
+    big = st.correct + "/" + st.answered;
+    res = st.correct + "/" + st.answered;
+    if (st.answered >= 10 && st.correct === st.answered) s.perfect++;
+  }
+  if (st.mode === "match") s.xp += st.xp; /* match XP is not recorded per answer */
+  if (st.answered || st.pairsDone){
+    s.sessions++;
+    s.hist.unshift({ d: todayStr(), mode: st.mode, res: res });
+    s.hist = s.hist.slice(0, 30);
+    if (st.mode === "match") markStudiedToday();
+  }
+  sxSaveStats(s);
+  const fresh = sxCheckAch();
+  const pct = st.answered ? Math.round(st.correct / st.answered * 100) : 0;
+  const emoji = st.mode === "match" || st.mode === "speed" ? "🎉" : pct >= 90 ? "🌟" : pct >= 70 ? "🎉" : pct >= 50 ? "👍" : "💪";
+  const cheer = pct >= 90 ? ["Outstanding!", "מצוין!"] : pct >= 70 ? ["Great work!", "עבודה מעולה!"] : pct >= 50 ? ["Good progress!", "התקדמות יפה!"] : ["Keep going - every review counts!", "ממשיכים - כל חזרה נחשבת!"];
+  const lv = sxLevel(s.xp);
+  const lvPct = lv.to ? Math.round((s.xp - lv.from) / (lv.to - lv.from) * 100) : 100;
+  const missedUnique = Array.from(new Set(st.missed));
+  const missedHTML = missedUnique.length && st.qs ? '<details class="sx-sec sx-missed" open><summary>' + sxBi("Questions to review", "שאלות לחזרה") + " (" + missedUnique.length + ")</summary><ul>" +
+    missedUnique.map(id => {
+      const q = st.qs.find(x => x && x.id === id);
+      if (!q) return "";
+      const right = q.fmt === "order" ? q.opts.slice().sort((a, b) => a.rank - b.rank).map((o, i) => (i + 1) + ". " + o.h).join("<br>")
+                                      : q.opts.filter(o => o.ok).map(o => o.h).join(" · ");
+      return '<li><div class="sx-mq">' + sxBi(q.qEn, q.qHe) + '</div><div class="sx-ma">✓ ' + right + "</div>" +
+        (q.med ? '<button type="button" class="sx-link" data-sx-card="' + escAttr(q.med.genericEn) + '">📖 ' + sxBi("Drug card", "כרטיס תרופה") + "</button>" : "") + "</li>";
+    }).join("") + "</ul></details>" : "";
+  const stats = st.mode === "match"
+    ? '<div class="sx-stat"><b>⏱ ' + secs + "s</b>" + sxBi("time", "זמן") + '</div><div class="sx-stat"><b>✗ ' + st.mistakes + "</b>" + sxBi("mistakes", "טעויות") + "</div>"
+    : st.mode === "flash"
+    ? '<div class="sx-stat"><b>😎 ' + st.grades.good + "</b>" + sxBi("got it", "ידעתי") + '</div><div class="sx-stat"><b>🤔 ' + st.grades.hard + "</b>" + sxBi("hard", "קשה") + '</div><div class="sx-stat"><b>😕 ' + st.grades.again + "</b>" + sxBi("again", "שוב") + "</div>"
+    : '<div class="sx-stat"><b>' + pct + "%</b>" + sxBi("accuracy", "דיוק") + "</div>" +
+      (st.mode === "speed" ? '<div class="sx-stat"><b>🏆 ' + s.speedBest + "</b>" + sxBi("best", "שיא") + "</div>" : '<div class="sx-stat"><b>🔥 ' + st.bestCombo + "</b>" + sxBi("best combo", "רצף נכון") + "</div>");
+  studyEl.innerHTML =
+    '<div class="sx-done">' +
+      '<div class="sx-done-emoji">' + emoji + "</div>" +
+      '<h2 class="sx-title">' + (st.mode === "match" || st.mode === "speed" ? sxBi("Round complete!", "הסבב הסתיים!") : sxBi(cheer[0], cheer[1])) + "</h2>" +
+      '<div class="sx-big">' + big + "</div>" + extraHTML +
+      '<div class="sx-stats">' + stats + '<div class="sx-stat"><b>⭐ +' + st.xp + "</b>XP</div></div>" +
+      '<div class="sx-lvline">Lv ' + lv.n + " · " + sxBi(lv.en, lv.he) + '<div class="sx-xpbar"><span style="width:' + lvPct + '%"></span></div></div>' +
+      (fresh.length ? '<div class="sx-newach">' + fresh.map(a => '<span class="sx-a on"><span>' + a[1] + "</span>" + sxBi(a[2], a[3]) + "</span>").join("") + "</div>" : "") +
+      missedHTML +
+      '<div class="sx-done-actions">' +
+        (missedUnique.length && st.qs ? '<button type="button" class="sx-btn sx-primary" id="sxRetry">🔁 ' + sxBi("Study the missed ones again", "חזרה על השאלות שפספסתי") + "</button>" : "") +
+        '<button type="button" class="sx-btn" id="sxAgain">↻ ' + sxBi("Play again", "עוד סבב") + "</button>" +
+        '<button type="button" class="sx-btn" id="sxHome">🏠 ' + sxBi("Study home", "דף התרגול") + "</button>" +
+      "</div></div>";
+  const lastMode = st.mode, lastLen = st.ids.length;
+  study = null;
+  const retry = document.getElementById("sxRetry");
+  if (retry) retry.addEventListener("click", () => sxNewSession("mist", shuffle(missedUnique.slice())));
+  document.getElementById("sxAgain").addEventListener("click", () => sxStart(lastMode, lastMode === "quiz" ? lastLen : undefined));
+  document.getElementById("sxHome").addEventListener("click", () => renderStudy());
+  window.scrollTo(0, 0);
+  if (fresh.length) sxToast(fresh[0][1] + " " + fresh[0][2] + "!");
 }
 
 /* ---- mode switch ---- */
@@ -18009,17 +18842,18 @@ modeSwitchEl.addEventListener("click", function(e){
   if (b) setMode(b.dataset.mode);
 });
 
-/* keyboard shortcuts during a study session */
+/* keyboard shortcuts during a study session: 1-6 pick an option, Enter = Check / Next / Flip, 1-3 rate a flash card */
 document.addEventListener("keydown", function(e){
   if (studyEl.hidden || !study) return;
   const tag = document.activeElement && document.activeElement.tagName;
   if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
-  const next = document.getElementById("mcNext") || document.getElementById("matchContinue");
-  if ((e.key === "Enter" || e.key === " ") && next){ e.preventDefault(); next.click(); return; }
-  if (/^[1-4]$/.test(e.key)){
-    const opts = document.querySelectorAll("#mcOptions .mc-opt:not(:disabled)");
-    const o = opts[parseInt(e.key, 10) - 1];
-    if (o){ e.preventDefault(); o.click(); }
+  const next = document.getElementById("sxNext") || document.getElementById("sxCheck") || document.getElementById("sxFlip") || document.getElementById("sxResume");
+  if ((e.key === "Enter" || e.key === " ") && next && !next.disabled){ e.preventDefault(); next.click(); return; }
+  if (/^[1-6]$/.test(e.key)){
+    const n = parseInt(e.key, 10) - 1;
+    const rate = studyEl.querySelectorAll(".sx-rbtn");
+    const pool = rate.length ? rate : studyEl.querySelectorAll("#sxOpts .sx-opt");
+    if (pool[n]){ e.preventDefault(); pool[n].click(); }
   }
 });
 

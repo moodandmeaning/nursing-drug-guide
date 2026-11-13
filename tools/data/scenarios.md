@@ -1,0 +1,18 @@
+# Clinical scenario bank (Study mode)
+
+Hand-written, tap-to-answer ward questions with EN/HE explanations. Target ~150, in batches of ~30.
+Each batch is a JS array in `tools/data/scenariosN.js` (format documented at the top of `scenarios1.js`);
+merge all batches into `index.html` with:
+
+    python tools/merge-scenarios.py
+
+Rules: no free typing (mc / sata / tf / order only); every `drugs` entry must be an exact `genericEn`
+from MEDS; facts must agree with that drug's own card; Hebrew uses ״ (gershayim) in abbreviations.
+
+| Batch | Theme | Status |
+|---|---|---|
+| 1 | Hold/give parameters, high-alert drugs, antidotes, key monitoring | [x] 32 items |
+| 2 | Electrolytes & diuretics (K, Na, Mg, Ca; loop/thiazide/K-sparing) | [ ] |
+| 3 | Anticoagulation & bleeding (DOACs, LMWH, antiplatelets, procedures) | [ ] |
+| 4 | Antibiotics: allergies, levels, C. diff, infusion reactions, timing | [ ] |
+| 5 | Diabetes, steroids, thyroid; pain & sedation; psych drug safety | [ ] |
