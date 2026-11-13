@@ -20,3 +20,4 @@ from MEDS; facts must agree with that drug's own card; Hebrew uses ״ (gershayim
 | 7 | Respiratory: inhalers, asthma/COPD, steroids, theophylline, antihistamines, smoking cessation | [x] 31 items |
 | 8 | GI: PPIs, antiemetics, laxatives, bowel prep, liver (lactulose, rifaximin, terlipressin), IBD, tube meds | [x] 32 items |
 | 9 | Oncology, immunology & transplant: cytotoxic safety, vesicants, neutropenia, TLS, methotrexate, biologics, tacrolimus | [x] 32 items |
+| 10 | Anesthesia & toxicology: sedation/induction, NMBs and reversal, malignant hyperthermia, LAST, poisonings and antidotes | [x] 33 items |
