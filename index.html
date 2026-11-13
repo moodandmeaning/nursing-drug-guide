@@ -176,10 +176,33 @@
     border-bottom:1.5px solid var(--line);
     padding:14px 0;
     padding-top:max(14px,env(safe-area-inset-top));
-    transition:box-shadow .22s ease,transform .22s ease,margin-bottom .22s ease;
+    transition:box-shadow .25s ease,margin-bottom .25s ease,padding .25s ease;
   }
   .controls.no-anim,.controls.no-anim *{transition:none!important}
-  .controls.hide-bar{transform:translateY(-100%)}
+  /* Once the bar is pinned to the top it shrinks smoothly to a slim strip (search button + count/mode);
+     the full bar (modes, search, filters) folds away instead of disappearing. */
+  .ctl-full,.ctl-mini{display:grid;transition:grid-template-rows .25s ease,opacity .2s ease}
+  .ctl-full{grid-template-rows:1fr}
+  .ctl-mini{grid-template-rows:0fr;opacity:0;pointer-events:none}
+  .ctl-full>div,.ctl-mini>div{min-height:0;overflow:hidden}
+  body.search-focused .ctl-full>div{overflow:visible} /* let the suggestions dropdown spill out */
+  .controls.collapsed{padding-top:max(8px,env(safe-area-inset-top));padding-bottom:8px}
+  .controls.collapsed .ctl-full{grid-template-rows:0fr;opacity:0;pointer-events:none}
+  .controls.collapsed .ctl-mini{grid-template-rows:1fr;opacity:1;pointer-events:auto}
+  .mini-row{display:flex;align-items:center;gap:10px;cursor:pointer}
+  .mini-search,.mini-open{
+    flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;
+    font:inherit;font-size:.85rem;font-weight:700;color:var(--ink);
+    background:var(--surface);border:1.5px solid var(--line);border-radius:999px;
+    padding:7px 13px;cursor:pointer;
+  }
+  .mini-search svg{width:16px;height:16px;color:var(--accent)}
+  .mini-open{padding:7px 11px}
+  .mini-label{flex:1 1 auto;min-width:0;font-size:.82rem;font-weight:600;color:var(--muted);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mini-label .he{margin-inline-start:6px}
+  #controls.study-mode .mini-search,#controls.patients-mode .mini-search,
+  #controls.protocols-mode .mini-search{display:none}
   .search-row{position:relative;display:flex;align-items:center}
   .search-row svg{position:absolute;left:14px;width:18px;height:18px;color:var(--muted);pointer-events:none}
   #search{
@@ -221,13 +244,7 @@
     display:flex;flex-wrap:wrap;align-items:center;gap:9px 12px;
     margin-top:10px;
   }
-  .cat-row .theme-toggle{
-    transition:max-height .22s ease,opacity .18s ease,margin-top .22s ease;
-    max-height:40px;overflow:hidden;
-  }
   .controls.collapsed{box-shadow:0 4px 14px rgba(20,28,38,.07)}
-  .controls.collapsed .cat-row{margin-top:8px;row-gap:0}
-  .controls.collapsed .cat-row .theme-toggle{max-height:0;opacity:0;margin-top:0;pointer-events:none}
   .cat-select{
     flex:1 1 220px;min-width:0;
     font:inherit;font-size:.9rem;font-weight:700;
@@ -332,7 +349,7 @@
   .card-sticky{
     position:sticky;
     top:var(--card-sticky-top,132px);
-    transition:top .22s ease;
+    transition:top .25s ease;
     z-index:5;
     background:var(--surface);
     padding:16px 22px 12px;
@@ -1029,6 +1046,14 @@
 
 <div class="controls" id="controls">
   <div class="wrap">
+    <div class="ctl-mini" aria-hidden="true"><div>
+      <div class="mini-row" id="miniRow">
+        <button class="mini-search" id="miniSearch" type="button" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>Search<span class="he" dir="rtl">חיפוש</span></button>
+        <span class="mini-label" id="miniLabel"></span>
+        <button class="mini-open" id="miniOpen" type="button" tabindex="-1" aria-label="Show all controls / הצגת כל האפשרויות">&#9662;</button>
+      </div>
+    </div></div>
+    <div class="ctl-full"><div>
     <div class="mode-switch" id="modeSwitch">
       <button class="mode-btn" type="button" data-mode="browse" aria-pressed="true">Browse<span class="he" dir="rtl">עיון</span></button>
       <button class="mode-btn" type="button" data-mode="protocols" aria-pressed="false">Protocols<span class="he" dir="rtl">פרוטוקולים</span></button>
@@ -1051,6 +1076,7 @@
       <span class="count" id="count"></span>
       <button class="theme-toggle" id="themeToggle" type="button">Theme · ערכת צבע</button>
     </div>
+    </div></div>
   </div>
 </div>
 
@@ -16242,7 +16268,7 @@ function pickSuggestion(i){
 searchEl.addEventListener("input", () => { query = searchEl.value.trim().toLowerCase(); render(); renderSuggestions(); });
 searchEl.addEventListener("focus", () => {
   document.body.classList.add("search-focused");
-  controlsEl.classList.remove("hide-bar");
+  setCollapsed(false);
   if (query) renderSuggestions();
 });
 searchEl.addEventListener("blur", () => {
@@ -16253,7 +16279,8 @@ searchEl.addEventListener("blur", () => {
        search-focused early-return in syncControls below) - resync both now that it's visible again,
        or the first scroll afterward computes its hide/collapse delta against a stale position and the
        sticky card offset (--card-sticky-top) is left stale too, leaving a gap under the controls bar. */
-    lastScrollY = window.scrollY;
+    openedAtY = window.scrollY;
+    syncControls();
     measureControls();
   }, 150);
 });
@@ -16279,29 +16306,25 @@ document.addEventListener("keydown", e => {
    each card's own sticky name+class stays visible while browsing the list. */
 let collapseTicking = false;
 let lastCollapsed = null;
-let lastScrollY = 0;
+let openedAtY = null; /* scroll position where the user tapped the slim bar open; null = follow the scroll */
 function measureControls(){
-  /* Pin each card's name just below the live height of the sticky controls bar - or right at the top
-     when the bar is hidden off-screen (transform doesn't change offsetHeight, so this can't be measured). */
-  const hidden = controlsEl.classList.contains("hide-bar");
-  document.documentElement.style.setProperty("--card-sticky-top", hidden ? "0px" : controlsEl.offsetHeight + "px");
+  /* Pin each card's name just below the live height of the sticky controls bar. */
+  document.documentElement.style.setProperty("--card-sticky-top", controlsEl.offsetHeight + "px");
 }
-/* Track the bar's height continuously (collapse animation, font load, wrapping) so the card headers never
-   sit below a stale offset and leave an empty strip under the bar. */
 if (window.ResizeObserver) new ResizeObserver(measureControls).observe(controlsEl);
 /* Scroll position at which the bar reaches the top of the screen and starts sticking (it sits below the
-   masthead until then). Measured from the masthead, since the bar's own offsetTop is its stuck position. */
+   masthead until then). */
 function stickY(){
   const m = document.querySelector(".masthead");
   return m ? m.offsetTop + m.offsetHeight : 0;
 }
-/* Collapsing hides the theme button, which shrinks the bar. The bar is in the page flow, so on its own that
-   would pull everything below it up (the jump). Add back the lost height as bottom margin - animated in step
-   with the collapse - so the content underneath stays exactly where it is. */
+/* Shrinking the bar would pull the page up under it (the bar is in the page flow), so the lost height is
+   added back as bottom margin, animated in step, and the content underneath never moves. */
 function setCollapsed(c){
   if (c === lastCollapsed) return;
   lastCollapsed = c;
   const before = controlsEl.offsetHeight;
+  const oldMargin = parseFloat(controlsEl.style.marginBottom) || 0;
   controlsEl.classList.add("no-anim");
   controlsEl.classList.toggle("collapsed", c);
   const after = controlsEl.offsetHeight;
@@ -16310,31 +16333,37 @@ function setCollapsed(c){
   controlsEl.classList.remove("no-anim");
   void controlsEl.offsetHeight;
   controlsEl.classList.toggle("collapsed", c);
-  controlsEl.style.marginBottom = c ? Math.max(0, before - after) + "px" : "";
-  /* Move the card headers to the bar's final height now; their own top transition matches the bar's. */
-  if (!controlsEl.classList.contains("hide-bar"))
-    document.documentElement.style.setProperty("--card-sticky-top", after + "px");
+  controlsEl.style.marginBottom = c ? Math.max(0, before + oldMargin - after) + "px" : "";
+  document.documentElement.style.setProperty("--card-sticky-top", after + "px");
+  if (c) updateMiniLabel();
+}
+function updateMiniLabel(){
+  const mode = document.querySelector("#modeSwitch .mode-btn[aria-pressed='true']");
+  const browse = !mode || mode.dataset.mode === "browse";
+  let html;
+  if (!browse) html = mode.innerHTML;
+  else {
+    const m = countEl.textContent.match(/Showing (\d+) of/);
+    const en = countEl.querySelector(".en");
+    html = m ? m[1] + ' meds · <span class="he" dir="rtl">' + m[1] + ' תרופות</span>'
+             : esc(en ? en.textContent : countEl.textContent);
+  }
+  document.getElementById("miniLabel").innerHTML = html;
 }
 function syncControls(){
   collapseTicking = false;
-  if (document.body.classList.contains("search-focused")){
-    controlsEl.classList.remove("hide-bar");
-    return;
-  }
+  if (document.body.classList.contains("search-focused")) return;
   const y = window.scrollY;
-  const top = stickY();
-  /* Only collapse / slide the bar away once it is actually pinned to the top; doing it while it still sits
-     under the masthead shifts the page and leaves an empty hole where the bar was. */
-  setCollapsed(y > top + 6);
-  const prevHide = controlsEl.classList.contains("hide-bar");
-  const hide = y > top + controlsEl.offsetHeight && y > lastScrollY + 4 ? true
-             : y < lastScrollY - 4 || y <= top + 40 ? false
-             : prevHide;
-  controlsEl.classList.toggle("hide-bar", hide);
-  lastScrollY = y;
-  if (hide !== prevHide) measureControls();
+  if (openedAtY !== null && Math.abs(y - openedAtY) > 60) openedAtY = null;
+  /* Shrink as soon as the bar is pinned to the top; grow back when scrolled up to where it sits. */
+  setCollapsed(openedAtY === null && y > stickY() + 2);
 }
-controlsEl.addEventListener("transitionend", e => { if (e.target === controlsEl || e.target.id === "themeToggle") measureControls(); });
+function openControls(){ openedAtY = window.scrollY; setCollapsed(false); }
+document.getElementById("miniRow").addEventListener("click", e => {
+  if (e.target.closest("#miniSearch")){ openedAtY = window.scrollY; searchEl.focus(); }
+  else openControls();
+});
+new MutationObserver(() => { if (lastCollapsed) updateMiniLabel(); }).observe(countEl, {childList:true, subtree:true, characterData:true});
 window.addEventListener("scroll", () => {
   if (!collapseTicking){ collapseTicking = true; window.requestAnimationFrame(syncControls); }
 }, {passive:true});
@@ -18000,6 +18029,7 @@ function setMode(mode){
   if (missingMode){ renderMissing(); window.scrollTo(0, 0); }
   if (protocolsMode){ activeProtocolId = null; renderProtocolsTab(); window.scrollTo(0, 0); }
   if (typeof measureControls === "function") measureControls();
+  try { if (lastCollapsed) updateMiniLabel(); } catch (e) {}
 }
 modeSwitchEl.addEventListener("click", function(e){
   const b = e.target.closest(".mode-btn");
