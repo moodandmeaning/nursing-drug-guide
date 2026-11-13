@@ -29,3 +29,4 @@ from MEDS; facts must agree with that drug's own card; Hebrew uses ״ (gershayim
 | 16 | Endocrine remainder: insulin types and mixes, DPP-4, SGLT2, GLP-1/GIP, sulfonylureas, acarbose, steroids, hormones and contraception, thyroid, pituitary, calcium/bone (all 60 covered) | [x] 35 items |
 | 17 | Antibacterial remainder: macrolides, penicillins/cephalosporins, carbapenems, aztreonam, aminoglycosides, colistin, teicoplanin, tigecycline, TB, quinolones, fosfomycin, fusidic acid (all 60 covered) | [x] 30 items |
 | 18 | Antivirals, antifungals & antiparasitics remainder: HIV, hepatitis B/C, herpes/CMV, influenza, COVID-19, azoles, echinocandins, terbinafine, ivermectin, albendazole (all 33 covered) | [x] 27 items |
+| 19 | Final remainder: inhaler combos, respiratory biologics, antihistamines, GI agents, IV fluids/albumin, potassium binder, immunology biologics/JAK, leucovorin, pyridoxine, clobetasone - ALL 595 drugs now covered | [x] 34 items |
