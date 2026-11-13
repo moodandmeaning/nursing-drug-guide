@@ -14,5 +14,5 @@ from MEDS; facts must agree with that drug's own card; Hebrew uses ״ (gershayim
 | 1 | Hold/give parameters, high-alert drugs, antidotes, key monitoring | [x] 32 items |
 | 2 | Electrolytes, IV fluids & diuretics (K, Na, Mg, Ca; loop/thiazide/K-sparing) | [x] 32 items |
 | 3 | Anticoagulation & bleeding (DOACs, LMWH, antiplatelets, thrombolytics, iron, ESAs) | [x] 33 items |
-| 4 | Antibiotics: allergies, levels, C. diff, infusion reactions, timing | [ ] |
+| 4 | Antibiotics, antivirals & antifungals: allergy, sepsis timing, levels, C. diff, interactions | [x] 34 items |
 | 5 | Diabetes, steroids, thyroid; pain & sedation; psych drug safety | [ ] |
