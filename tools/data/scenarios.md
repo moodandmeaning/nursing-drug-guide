@@ -17,5 +17,5 @@ from MEDS; facts must agree with that drug's own card; Hebrew uses ״ (gershayim
 | 4 | Antibiotics, antivirals & antifungals: allergy, sepsis timing, levels, C. diff, interactions | [x] 34 items |
 | 5 | Diabetes, steroids, thyroid; pain & sedation; psych & neuro drug safety | [x] 34 items |
 | 6 | Cardiac & vasoactive: pressors, arrest/bradycardia, antiarrhythmics, hypertensive emergency, CV teaching | [x] 32 items |
-| 7 | Respiratory: inhalers, asthma/COPD, steroids, theophylline, antihistamines, smoking cessation | [ ] |
+| 7 | Respiratory: inhalers, asthma/COPD, steroids, theophylline, antihistamines, smoking cessation | [x] 31 items |
 | 8 | GI: PPIs, antiemetics, laxatives, bowel prep, liver (lactulose, rifaximin, terlipressin), IBD | [ ] |
