@@ -1,6 +1,6 @@
 # Clinical scenario bank (Study mode)
 
-Hand-written, tap-to-answer ward questions with EN/HE explanations. Target ~150, in batches of ~30.
+Hand-written, tap-to-answer ward questions with EN/HE explanations. Target ~150 (done: 165 in batches 1-5); extra batches 6-8 added on request.
 Each batch is a JS array in `tools/data/scenariosN.js` (format documented at the top of `scenarios1.js`);
 merge all batches into `index.html` with:
 
@@ -16,3 +16,6 @@ from MEDS; facts must agree with that drug's own card; Hebrew uses ״ (gershayim
 | 3 | Anticoagulation & bleeding (DOACs, LMWH, antiplatelets, thrombolytics, iron, ESAs) | [x] 33 items |
 | 4 | Antibiotics, antivirals & antifungals: allergy, sepsis timing, levels, C. diff, interactions | [x] 34 items |
 | 5 | Diabetes, steroids, thyroid; pain & sedation; psych & neuro drug safety | [x] 34 items |
+| 6 | Cardiac & vasoactive: pressors, arrest/bradycardia, antiarrhythmics, hypertensive emergency, CV teaching | [x] 32 items |
+| 7 | Respiratory: inhalers, asthma/COPD, steroids, theophylline, antihistamines, smoking cessation | [ ] |
+| 8 | GI: PPIs, antiemetics, laxatives, bowel prep, liver (lactulose, rifaximin, terlipressin), IBD | [ ] |
