@@ -24,3 +24,4 @@ from MEDS; facts must agree with that drug's own card; Hebrew uses ״ (gershayim
 | 11 | Obstetric, urologic & musculoskeletal: oxytocin, PPH uterotonics, tocolysis, Rh IG, bladder/prostate drugs, gout, osteoporosis | [x] 31 items |
 | 12 | Eye & skin, antiseptics, topical anaesthetics, vitamins (thiamine, B12, folate, vitamin D/K, refeeding) | [x] 31 items |
 | 13 | Psychiatric: antidepressants, antipsychotics & depots, tardive dyskinesia, anxiolytics, hypnotics, alcohol/opioid use disorder, ADHD (all 48 psych drugs now covered) | [x] 33 items |
+| 14 | Pain & neurology: NSAIDs, opioid combinations, buprenorphine, migraine, antiseizure drugs, muscle relaxants, dementia, Parkinson, myasthenia, ADHD, vertigo, cannabis (all 65 covered) | [x] 39 items |
