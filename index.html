@@ -133,7 +133,7 @@
 
   /* ---- Masthead ---- */
   header.masthead{
-    padding:44px 0 24px;
+    padding:max(14px,env(safe-area-inset-top)) 0 12px;
     border-bottom:1px solid var(--line);
   }
   .eyebrow{
@@ -147,22 +147,30 @@
   h1{
     font-family:"Rubik","Assistant",system-ui,sans-serif;
     font-weight:700;
-    font-size:clamp(1.9rem,4vw,2.6rem);
-    line-height:1.12;
+    font-size:clamp(1.2rem,3.4vw,1.6rem);
+    line-height:1.15;
     margin:0;
     text-wrap:balance;
   }
-  h1 .he{display:block;font-family:"Assistant","Segoe UI",system-ui,sans-serif;font-weight:700;font-size:.82em;color:var(--muted);margin-top:4px}
+  h1 .he{display:block;font-family:"Assistant","Segoe UI",system-ui,sans-serif;font-weight:700;font-size:.72em;color:var(--muted);margin-top:2px}
+  h1 .pill-row{margin-inline-end:8px;vertical-align:.12em}
+  h1 .pill-row i{width:16px;height:8px}
   .lede{color:var(--muted);max-width:60ch;margin:14px 0 0}
   .disclaimer{
-    margin-top:18px;
-    padding:12px 16px;
+    margin-top:10px;
+    padding:5px 12px;
     background:var(--caution-soft);
     border:1px solid color-mix(in srgb,var(--caution) 35%,transparent);
-    border-radius:14px;
-    font-size:.86rem;
+    border-radius:12px;
+    font-size:.74rem;
     color:var(--ink);
   }
+  .disclaimer summary{cursor:pointer;font-weight:700;list-style:none;padding:2px 0}
+  .disclaimer summary::-webkit-details-marker{display:none}
+  .disclaimer summary::after{content:" ▾";color:var(--muted)}
+  .disclaimer[open] summary::after{content:" ▴"}
+  .disclaimer summary .he{display:inline;color:var(--muted)}
+  .disclaimer p{margin:4px 0 4px}
   .disclaimer .he{display:block;color:var(--muted);margin-top:3px}
 
   /* ---- Controls ---- */
@@ -1049,13 +1057,12 @@
 
 <header class="masthead">
   <div class="wrap">
-    <p class="eyebrow"><span class="pill-row" aria-hidden="true"><i></i><i></i><i></i></span>Nursing Pharmacology Reference</p>
-    <h1>Bilingual Nursing Drug Guide<span class="he">מדריך תרופות דו-לשוני לסטודנטים לסיעוד</span></h1>
-    <p class="lede">Generic and brand names, drug class, mechanism of action, indications, contraindications, electrolyte changes, side effects, nursing monitoring, and the antidote where one exists &mdash; every entry in English and Hebrew.</p>
-    <div class="disclaimer">
-      Study aid only. Not a substitute for a current drug reference, facility protocol, or clinical judgment. Brand names and dosing vary by country &mdash; verify before administration.
-      <span class="he">כלי לימוד בלבד. אינו תחליף לספר תרופות עדכני, לנוהלי המחלקה או לשיקול דעת קליני. שמות מסחריים ומינונים משתנים בין מדינות &mdash; יש לוודא לפני מתן.</span>
-    </div>
+    <h1><span class="pill-row" aria-hidden="true"><i></i><i></i><i></i></span>Bilingual Nursing Drug Guide<span class="he">מדריך תרופות דו-לשוני לסטודנטים לסיעוד</span></h1>
+    <details class="disclaimer">
+      <summary>⚠ Study aid only - verify before giving · <span class="he" dir="rtl">כלי לימוד בלבד</span></summary>
+      <p>Not a substitute for a current drug reference, facility protocol, or clinical judgment. Brand names and dosing vary by country &mdash; verify before administration.
+      <span class="he" dir="rtl">אינו תחליף לספר תרופות עדכני, לנוהלי המחלקה או לשיקול דעת קליני. שמות מסחריים ומינונים משתנים בין מדינות &mdash; יש לוודא לפני מתן.</span></p>
+    </details>
   </div>
 </header>
 
