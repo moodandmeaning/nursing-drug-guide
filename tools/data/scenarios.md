@@ -26,3 +26,4 @@ from MEDS; facts must agree with that drug's own card; Hebrew uses ״ (gershayim
 | 13 | Psychiatric: antidepressants, antipsychotics & depots, tardive dyskinesia, anxiolytics, hypnotics, alcohol/opioid use disorder, ADHD (all 48 psych drugs now covered) | [x] 33 items |
 | 14 | Pain & neurology: NSAIDs, opioid combinations, buprenorphine, migraine, antiseizure drugs, muscle relaxants, dementia, Parkinson, myasthenia, ADHD, vertigo, cannabis (all 65 covered) | [x] 39 items |
 | 15 | Cardiovascular, vasoactive, diuretic, anticoagulant & hematology remainder: CCBs, antiarrhythmics, beta blockers, RAAS, nitrates, lipids, HF drugs, GP IIb/IIIa, TPO agonists, combos | [x] 45 items |
+| 16 | Endocrine remainder: insulin types and mixes, DPP-4, SGLT2, GLP-1/GIP, sulfonylureas, acarbose, steroids, hormones and contraception, thyroid, pituitary, calcium/bone (all 60 covered) | [x] 35 items |
